@@ -12,12 +12,18 @@ export function AdminIndex() {
 
     return (
         <section className="admin">
-            {isLoading && 'Loading...'}
+            <h2>Admin Dashboard</h2>
+            {isLoading && 'Loading users...'}
             {users && (
                 <ul>
                     {users.map(user => (
                         <li className='user' key={user._id}>
-                            <pre>{JSON.stringify(user, null, 2)}</pre>
+                            <div className="user-info">
+                                <h4>{user.fullname}</h4>
+                                <p>Email: {user.username}</p>
+                                <p>Role: {user.isAdmin ? 'Admin' : 'User'}</p>
+                                <p>Boards Created: {user.boardsCreated || 0}</p>
+                            </div>
                             <button
                                 onClick={() => {
                                     removeUser(user._id)
