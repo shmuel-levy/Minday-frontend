@@ -5,8 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "dev:local": "set VITE_LOCAL=true && vite",
-        "dev:local:mac": "export VITE_LOCAL=true && vite",
+        "dev:local": "cross-env VITE_LOCAL=true vite",
+        "dev:remote": "cross-env VITE_LOCAL=false vite",
         "build": "vite build",
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
@@ -25,6 +25,7 @@
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
         "@vitejs/plugin-react-swc": "^3.3.2",
+        "cross-env": "^7.0.3",
         "eslint": "^8.45.0",
         "eslint-plugin-react": "^7.32.2",
         "eslint-plugin-react-hooks": "^4.6.0",
