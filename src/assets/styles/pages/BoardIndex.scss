@@ -1,0 +1,74 @@
+.board-index {
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+        padding: $spacing-lg 0;
+
+        h2 {
+            margin: 0;
+            color: $darker-gray;
+            font-size: $font-size-xxl;
+            font-weight: 600;
+        }
+
+        button {
+            background-color: $primary-color;
+            color: $white;
+            padding: $spacing-md $spacing-lg;
+            font-size: $font-size-md;
+            font-weight: 600;
+            border-radius: $border-radius-md;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+
+    .board-filter {
+        background-color: $bg-primary;
+        padding: $spacing-lg;
+        border-radius: $border-radius-lg;
+        margin-bottom: $spacing-xl;
+        box-shadow: $shadow-sm;
+        border: 1px solid $border-light;
+    }
+
+    .list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: $spacing-lg;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            background-color: $bg-primary;
+            border-radius: $border-radius-lg;
+            box-shadow: $shadow-sm;
+            border: 1px solid $border-light;
+            transition: all 0.2s ease;
+            overflow: hidden;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: $shadow-md;
+            }
+
+            .actions {
+                padding: $spacing-md;
+                border-top: 1px solid $border-light;
+                display: flex;
+                gap: $spacing-sm;
+                background-color: $light-gray;
+
+                button {
+                    padding: $spacing-xs $spacing-sm;
+                    font-size: $font-size-sm;
+                }
+            }
+        }
+    }
+}
