@@ -17,8 +17,7 @@
 
 @import "pages/AboutUs";
 @import "pages/HomePage";
-@import "pages/CarIndex";
-@import "pages/ReviewIndex";
+@import "pages/BoardIndex";
 @import "pages/UserDetails";
 @import "pages/AdminIndex";
 @import "pages/TaskDetails";
@@ -27,16 +26,13 @@
 
 
 // Components
-@import "cmps/list";
-@import "cmps/preview";
+
 
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
 @import "cmps/UserMsg";
 
-@import "cmps/CarFilter";
-@import "cmps/ReviewEdit";
-@import "cmps/ReviewList";
-@import "cmps/ReviewPreview";
-// @import "cmps/CarList";
-// @import "cmps/CarPreview";
+@import "cmps/BoardFilter";
+
+@import "cmps/BoardList";
+@import "cmps/BoardPreview";
