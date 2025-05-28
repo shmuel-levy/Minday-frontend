@@ -56,3 +56,12 @@
         }
     }
   }
+
+  @mixin btn($color:rgb(50, 51, 56)) {
+  color: inherit;
+  border-radius:4px;
+
+  &:hover {
+    background-color:rgba(103, 104, 121, 0.1);
+  }
+}

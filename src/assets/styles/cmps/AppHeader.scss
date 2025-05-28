@@ -1,56 +1,94 @@
 .app-header {
-    min-height: 5rem;
-    background-color: $clr4;
-    nav {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        gap: 1em;
+  background-color: #ECEFF8;
+  padding: 0 rem(24px) 0 rem(4px);
+  grid-column: 1 / -1;
+  height: 48px;
+  cursor: pointer;
+  
+  .logo-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    line-height: 22.5px;
+    height: 40px;
 
-        font-size: 0.8em;
-
-        .active {
-            color: $clr1;
-        }
-
-        .logo {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-inline-end: 2em;
-        }
-
-        .login-link {
-            margin-inline-start: auto;
-        }
-
-        button {
-            margin-inline-end: 0;
-        }
+    .product-logo{
+      background-color: inherit;
+      height: 25px;   
+      width: 25px;
+      padding: 0;
+      margin: 0 10px 3px 16px;
     }
 
-    .user-info {
-        display: flex;
-        align-items: center;
-        margin-inline-start: auto;
-        color: $clr1;
+      .logo-main {
+        color: #323338;
+        line-height: 1;
+        margin-right: 4px;
+        font-weight: 700;
+        margin-inline-end: 6px;
+        font-family: PoppinsBold, RobotoBold, Noto Sans Hebrew, Noto Kufi Arabic, Noto Sans JP, sans-serif;
+      }
 
-        .score {
-            padding: 8px;
-            background-color: $clr2;
-            border-radius: 50%;
-            margin: 10px;
+      .logo-description {
+        color: #323338;
+        white-space: nowrap;
+        line-height: 1;
+        font-family: PoppinsLight, sans-serif;
+        font-weight: 300;
 
-            color: $clr6;
-        }
-
-        img {
-            width: 32px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-        }
-
-        .btn-link {
-            color: $clr2;
-        }
-    }
+      }
+    
+}  
 }
+
+
+.actions-container {
+  flex-grow: 1;
+  align-items: center;
+  justify-content: flex-end;
+
+  .btn {
+    width: rem(40px);
+    height: rem(40px);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: rem(20px);
+      height: rem(20px);
+    }
+  }
+
+  .divider {
+    background-color: #d0d4e4;
+    height: 22px;
+    margin: 0 4px;
+    width: 1px;
+  }
+
+  .production-switcher {
+    width: rem(20px);
+    height: rem(20px);
+    margin: 0 10px 0 5px;
+  }
+
+  .user-img-container {
+    width: rem(68px);
+    height: rem(32px);
+    gap: 4px;
+    cursor: pointer;
+    
+    .account-logo {
+      width: rem(24px);
+      height: rem(24px);
+      padding: 3px 0;
+    }
+
+    .user-img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+

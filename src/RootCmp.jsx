@@ -20,13 +20,13 @@ import { Signup } from './pages/Signup.jsx'
 
 export function RootCmp() {
     return (
-        <div className="main-container">
+        <div className="main-container main-layout">
             <AppHeader />
             <UserMsg />
 
             <main>
                 <Routes>
-                    <Route path="" element={<HomePage />} />
+                    <Route path="/" element={<HomePage />} />
                     <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
