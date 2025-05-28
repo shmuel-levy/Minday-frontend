@@ -6,11 +6,11 @@ export function AboutUs() {
     const [count, setCount] = useState(100)
 
     function onTellMeMore() {
-        console.log('Telling you more')
+        console.log('Telling you more about Monday Clone')
     }
     return (
         <section>
-            <h2>About Us</h2>
+            <h2>About Monday Clone</h2>
             <nav>
                 <NavLink to="team">Team</NavLink> |
                 <NavLink to="vision">Vision</NavLink>
@@ -22,18 +22,18 @@ export function AboutUs() {
 
             <SplitPane
                 left={
-                    <Contacts />
+                    <Features />
                 }
                 right={
-                    <Projects />
+                    <ProjectStats />
                 } />
 
             <FancyBox onClose={() => console.log('ok, closing')}>
-                <h3>{count.toLocaleString()} Followers</h3>
+                <h3>{count.toLocaleString()} Active Users</h3>
                 <button onClick={onTellMeMore}>Tell me More</button>
             </FancyBox>
 
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni aperiam quo veniam velit dolor reprehenderit, laudantium consequatur neque numquam labore quae. Accusamus libero perferendis ducimus? Alias unde hic quisquam doloremque.</p>
+            <p>Monday Clone is a comprehensive project management platform that helps teams organize, track, and manage their work in one centralized place. Built with modern React architecture and real-time collaboration features.</p>
         </section>
     )
 }
@@ -41,29 +41,29 @@ export function AboutUs() {
 export function AboutTeam() {
     return (
         <section>
-            <h2>Best Team</h2>
+            <h2>Development Team</h2>
             <ul>
-                <li>Popo Decaprio </li>
-                <li>Jini Baba</li>
+                <li>Lead Full Stack Developer</li>
+                <li>UI/UX Designer</li>
+                <li>Backend Architect</li>
             </ul>
         </section>
     )
 }
-
 
 export function AboutVision() {
     return (
         <section>
-            <h2>Vision</h2>
+            <h2>Our Vision</h2>
             <ul>
-                <li>Save the day</li>
-                <li>Spread some love</li>
-                <li>Take over the world</li>
+                <li>Streamline project management</li>
+                <li>Enhance team collaboration</li>
+                <li>Provide intuitive task tracking</li>
+                <li>Enable real-time productivity</li>
             </ul>
         </section>
     )
 }
-
 
 function FancyBox(props) {
     return <div className="fancy-box">
@@ -76,30 +76,35 @@ FancyBox.propTypes = {
     onClose: PropTypes.func.isRequired
 }
 
-function Contacts() {
-    return <section style={{ height: '50vh', backgroundColor: 'pink' }}>
-        <h2>Contacts</h2>
-        <p>Click me</p>
+function Features() {
+    return <section style={{ height: '50vh', backgroundColor: 'lightblue' }}>
+        <h2>Core Features</h2>
+        <ul>
+            <li>Dynamic Board System</li>
+            <li>Task Management</li>
+            <li>Real-time Collaboration</li>
+            <li>User Permissions</li>
+        </ul>
     </section>
 }
 
-function Projects() {
-    const [projs, setProjs] = useState(['Puki Proj', 'Muki Proj'])
-    const projList = projs.map((proj, idx) => (
-        <article className="proj-preview" key={proj} onClick={(ev) => {
+function ProjectStats() {
+    const [stats, setStats] = useState(['Boards Created: 150', 'Tasks Completed: 1,200'])
+    const statsList = stats.map((stat, idx) => (
+        <article className="stat-preview" key={stat} onClick={(ev) => {
             ev.stopPropagation()
-            setProjs(projs.filter(p => p !== proj))
+            setStats(stats.filter(s => s !== stat))
         }}>
-            {proj}
+            {stat}
         </article>
     ))
-    return <section style={{ minHeight: '50vh', backgroundColor: 'lightblue' }}>
-        <h2>Projects</h2>
-        {projList}
+    return <section style={{ minHeight: '50vh', backgroundColor: 'lightgreen' }}>
+        <h2>Project Statistics</h2>
+        {statsList}
         <button onClick={ev => {
             ev.stopPropagation()
-            setProjs([...projs, 'Babu Proj' + Date.now() % 100])
-        }}>Add</button>
+            setStats([...stats, 'New Milestone: ' + Date.now() % 100])
+        }}>Add Stat</button>
     </section>
 }
 
@@ -108,7 +113,7 @@ function SplitPane(props) {
     const [width, setWidth] = useState(30)
 
     if (false && width === 60) {
-        throw new Error('Projects cannot load')
+        throw new Error('Features cannot load')
     }
     return (
         <div className="split-pane" style={{
@@ -127,5 +132,3 @@ function SplitPane(props) {
         </div>
     )
 }
-
-
