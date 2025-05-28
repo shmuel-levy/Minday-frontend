@@ -1,17 +1,14 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
 
-import { carReducer } from './car.reducer'
+import { boardReducer } from './board.reducer'
 import { userReducer } from './user.reducer'
-import { reviewReducer } from './review.reducer'
 import { systemReducer } from './system.reducer'
 
 const rootReducer = combineReducers({
-    carModule: carReducer,
+    boardModule: boardReducer,
     userModule: userReducer,
-    systemModule: systemReducer,
-    reviewModule: reviewReducer,
+    systemModule: systemReducer
 })
-
 
 const middleware = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : undefined
 export const store = createStore(rootReducer, middleware)
@@ -22,6 +19,3 @@ export const store = createStore(rootReducer, middleware)
 //     console.log('storeState:\n', store.getState())
 //     console.log('*******************************')
 // })
-
-
-
