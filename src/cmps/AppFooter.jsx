@@ -6,8 +6,8 @@ export function AppFooter() {
     return (
         <footer className="app-footer main-container full">
             <section>
-                <p>Coffeerights &copy; 2024</p>
-                <p>Count: {count}</p>
+                <p>Monday Clone &copy; 2024</p>
+                <p>Active Boards: {count}</p>
             </section>
         </footer>
     )
