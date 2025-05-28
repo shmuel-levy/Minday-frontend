@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadBoard, addBoardActivity } from '../store/board.actions'
+import { BoardTable } from '../cmps/BoardTable'
 
 export function BoardDetails() {
 
@@ -22,24 +23,19 @@ export function BoardDetails() {
         } catch (err) {
             showErrorMsg('Cannot add board activity')
         }
-
     }
 
     return (
         <section className="board-details">
             <Link to="/board">Back to boards</Link>
-            <h1>Board Details</h1>
-            {board && <div>
-                <h3>{board.title}</h3>
-                <p>{board.description}</p>
-                <h4>Groups: {board.groups?.length || 0}</h4>
-                <h4>Total Tasks: {board.groups?.reduce((acc, group) => acc + group.tasks.length, 0) || 0}</h4>
-                <h4>Members: {board.members?.length || 0}</h4>
-                <pre> {JSON.stringify(board, null, 2)} </pre>
+            {board && <BoardTable board={board} />}
+            
+            {/* Keep this button for demo purposes */}
+            <div className="board-actions">
+                <button onClick={() => { onAddBoardActivity(board._id) }}>
+                    Add board activity
+                </button>
             </div>
-            }
-            <button onClick={() => { onAddBoardActivity(board._id) }}>Add board activity</button>
-
         </section>
     )
 }
