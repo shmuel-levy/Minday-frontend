@@ -1,0 +1,18 @@
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  background-color: #e0e0e0;
+  color: #444;
+  object-fit: cover;
+}
+
+.fallback-avatar {
+  background-color: #c5c5c5;
+}

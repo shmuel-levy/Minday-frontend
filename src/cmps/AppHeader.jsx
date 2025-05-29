@@ -1,41 +1,47 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/user.actions'
+import { UserMenu } from './UserMenu'
+
+import { BellIcon } from './svg/BellIcon'
+import { TrayIcon } from './svg/TrayIcon'
+import { UserAddIcon } from './svg/UserAddIcon'
+import { MarketplaceIcon } from './svg/MarketplaceIcon'
+import { SearchIcon } from './svg/SearchIcon'
+import { HelpIcon } from './svg/HelpIcon'
+import { ProductSwitcherIcon } from './svg/ProductSwitcherIcon'
+import { UserAvatar } from './UserAvatar'
 
 export function AppHeader() {
-    const user = useSelector(storeState => storeState.userModule.user)
-    const navigate = useNavigate()
+  const user = useSelector(storeState => storeState.userModule.user)
+  const navigate = useNavigate()
 
-    async function onLogout() {
-        try {
-            await logout()
-            navigate('/')
-            showSuccessMsg(`Bye now`)
-        } catch (err) {
-            showErrorMsg('Cannot logout')
-        }
+  async function onLogout() {
+    try {
+      await logout()
+      navigate('/')
+      showSuccessMsg(`Bye now`)
+    } catch (err) {
+      showErrorMsg('Cannot logout')
     }
+  }
 
-    function onSearchClick() {
-        // You can implement search functionality later
-        console.log('Search clicked')
-    }
+  function onSearchClick() {
+    console.log('Search clicked')
+  }
 
     function onNotificationsClick() {
-        // You can implement notifications later
         console.log('Notifications clicked')
     }
 
     function onHelpClick() {
-        // You can implement help later
         console.log('Help clicked')
     }
 
     return (
         <header className="app-header flex align-center justify-between">
-            {/* Logo section with navigation */}
             <Link to="/" className="logo-container">
                 <div className="logo flex align-center">
                     <button className="product-logo">
@@ -50,43 +56,37 @@ export function AppHeader() {
                 </div>
             </Link>
 
-            {/* Actions container with working functionality */}
             <div className="actions-container flex align-center">
                 <button className="btn" onClick={onNotificationsClick}>
                     <img src="src/assets/img/notifications.svg" alt="Notifications" />
                 </button>
 
-                <button className="btn">
-                    <img src="src/assets/img/update-feed.svg" alt="Update Feed" />
-                </button>
+        <button className="btn">
+          <TrayIcon className="tray-icon" />
+        </button>
 
-                <button className="btn">
-                    <img src="src/assets/img/invite-member.svg" alt="Invite Member" />
-                </button>
+        <button className="btn">
+          <UserAddIcon className="userAdd-icon" />
+        </button>
 
-                <button className="btn">
-                    <img src="src/assets/img/marketplace.svg" alt="Marketplace" />
-                </button>
+        <button className="btn">
+          <MarketplaceIcon className="marketplace-icon" />
+        </button>
 
-                <button className="btn" onClick={onSearchClick}>
-                    <img src="src/assets/img/search.svg" alt="Search" />
-                </button>
+        <button className="btn" onClick={onSearchClick}>
+          <SearchIcon className="search-icon" />
+        </button>
 
-                <button className="btn" onClick={onHelpClick}>
-                    <img src="src/assets/img/help.svg" alt="Help" />
-                </button>
+        <button className="btn" onClick={onHelpClick}>
+          <HelpIcon className="help-icon" />
+        </button>
 
-                <div className="divider"></div>
+        <div className="divider"></div>
 
-                <button className="btn">
-                    <img
-                        src="src/assets/img/production switcher.svg"
-                        alt="Production Switcher" 
-                        className="production-switcher"
-                    />
-                </button>
+        <button className="btn">
+          <ProductSwitcherIcon className="productSwitcher-icon" />
+        </button>
 
-                {/* User section with login/logout functionality */}
                 <div className="user-section">
                     {!user ? (
                         <Link to="/login" className="login-btn">
@@ -109,8 +109,7 @@ export function AppHeader() {
                                     )}
                                 </div>
                             </Link>
-                            
-                            {/* User dropdown menu (you can style this as a dropdown later) */}
+                        
                             <div className="user-menu">
                                 <span className="user-name">{user.fullname}</span>
                                 <button onClick={onLogout} className="logout-btn">Logout</button>
