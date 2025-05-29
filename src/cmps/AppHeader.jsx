@@ -42,7 +42,7 @@ export function AppHeader() {
                             alt="product-logo"
                         />
                     </button>
-                    <span className="logo-main">monday</span>
+                    <span className="logo-main">minday</span>
                     <span className="logo-description">work management</span>
                 </div>
             </Link>
