@@ -50,7 +50,7 @@ export function Sidebar() {
                                         className={`board-item ${location.pathname === `/board/${board._id}` ? 'active' : ''}`}
                                         onClick={() => navigate(`/board/${board._id}`)}
                                     >
-                                        <span className="icon">📋</span>
+                                      <img className='board-icon' src='src\assets\img\sideBar-b.svg'/>
                                         <span>{board.title}</span>
                                         {board.isStarred && <span className="star">⭐</span>}
                                     </div>

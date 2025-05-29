@@ -3,51 +3,45 @@
 .sidebar {
     width: var(--sidebar-width);
     height: calc(100vh - 48px);
-  background: linear-gradient(180deg, #fdfdfe 0%, #edf0f8 100%);
+    background: linear-gradient(180deg, #fdfdfe 0%, #edf0f8 100%);
     border-right: 1px solid #e1e1e1;
     position: fixed;
     left: 0;
     top: 48px;
-    transition: width 0.3s;
     margin-left: 12px;
     border-radius: 12px 0px 0 0;
-      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
 
 
-    &.collapsed { width: var(--sidebar-collapsed-width); }
+    &.collapsed {
+        width: var(--sidebar-collapsed-width); 
+    }
 
     .sidebar-toggle {
         position: absolute;
         right: -16px;
-        top: 20px;
         width: 32px;
         height: 32px;
-        background: white;
-        border: 1px solid #ddd;
+        background: #eceff8;
+        border: none;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        opacity: 0;
-        transition: all 0.2s;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         z-index: 102;
+        top: 12px;
 
         span {
             font-size: 14px;
             color: #676879;
-            transition: transform 0.3s;
             &.rotated { transform: rotate(180deg); }
         }
 
         &:hover {
-            background: #f5f6f8;
-            border-color: #0073ea;
+        transition:transform 24px ease;   
         }
     }
-
-    &:hover .sidebar-toggle { opacity: 1; }
 
     .sidebar-content {
         padding: 16px 0;
