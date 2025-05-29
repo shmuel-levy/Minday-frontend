@@ -15,7 +15,7 @@ const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
+const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:5173'
 export const socketService = createSocketService()
 // export const socketService = createDummySocketService()
 
@@ -28,10 +28,19 @@ socketService.setup()
 function createSocketService() {
     var socket = null
     const socketService = {
-        setup() {
-            socket = io(baseUrl)
-            const user = userService.getLoggedinUser()
-            if (user) this.login(user._id)
+       async setup() {
+            try {
+                //agam: Condition if the server is not working
+                const res = await fetch(`${baseUrl}/api/ping`)
+                if (!res.ok) throw new Error('Server not responding')
+                socket = io(baseUrl)
+                const user = userService.getLoggedinUser()
+                if (user) this.login(user._id)
+            } catch (err) {
+                console.warn('Socket server unavailable, using dummy service instead')
+                Object.assign(socketService, createDummySocketService())
+                socketService.setup()
+            }
         },
         on(eventName, cb) {
             socket.on(eventName, cb)

@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { logout } from '../store/user.actions'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { UserAvatar } from './UserAvatar'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router'
+import{UserAvatar } from './UserAvatar.jsx'
+import { Link } from 'react-router-dom'
 
-export function UserMenu({ user }) {
+export function UserMenu({ user, onLogout }) {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef()
   const navigate = useNavigate()
@@ -19,39 +18,36 @@ export function UserMenu({ user }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  async function onLogout() {
-    try {
-      await logout()
-      showSuccessMsg('Bye now')
-      navigate('/')
-    } catch (err) {
-      showErrorMsg('Cannot logout')
-    }
-  }
-
   return (
     <div className="user-menu-wrapper" ref={menuRef}>
-      <button className="user-menu-btn" onClick={() => setIsOpen(!isOpen)}>
-        <UserAvatar src={user?.imgUrl} fullname={user?.fullname || 'Guest'} />
-      </button>
+      <div className="user-btn-container" onClick={() => setIsOpen(!isOpen)}>
+        <div className="user-img-container flex align-center">
+          <img
+            className="account-logo"
+            src="https://cdn.monday.com/images/logos/monday_logo_icon.png"
+            alt="Logo"
+          />
+          <UserAvatar src={user?.imgUrl} fullname={user?.fullname || 'Guest'} />
+        </div>
+      </div>
 
       {isOpen && (
         <section className="user-dropdown">
           <ul>
             <li>
-              <Link to={`/user/${user?._id || 'guest'}`}>My Profile</Link>
+              <Link to={`/user/${user?._id || 'guest'}`}>👤 My Profile</Link>
             </li>
             <li>
-              <button className="link-like-btn">Switch Account</button>
+              <button className="link-like-btn">🔄 Switch Account</button>
             </li>
             <li>
-              <button className="link-like-btn">Trash</button>
+              <button className="link-like-btn">🗑️ Trash</button>
             </li>
             <li>
               {user ? (
-                <button className="link-like-btn logout" onClick={onLogout}>Logout</button>
+                <button className="link-like-btn logout" onClick={onLogout}>🚪 Logout</button>
               ) : (
-                <Link to="/login">Login</Link>
+                <Link to="/login" className="link-like-btn">🔐 Login</Link>
               )}
             </li>
           </ul>

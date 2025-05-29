@@ -5,7 +5,7 @@ import { loadBoards, addBoard, updateBoard, removeBoard, addBoardActivity } from
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { boardService } from '../services/board/'
-import { userService } from '../services/user'
+import { userService } from '../services/user/user.service.local.js'
 
 import { BoardList } from '../cmps/BoardList'
 import { BoardFilter } from '../cmps/BoardFilter'
