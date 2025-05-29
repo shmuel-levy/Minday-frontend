@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { userService } from '../services/user'
+import { userService } from '../services/user/user.service.local.js'
 
 export function HomePage() {
     const boards = useSelector(storeState => storeState.boardModule.boards) || []

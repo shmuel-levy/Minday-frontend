@@ -1,9 +1,8 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router'
 
-import { userService } from './services/user'
+import { userService } from './services/user/user.service.local.js'
 import { HomePage } from './pages/HomePage'
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { BoardIndex } from './pages/BoardIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
@@ -12,7 +11,6 @@ import { BoardDetails } from './pages/BoardDetails'
 import { UserDetails } from './pages/UserDetails'
 
 import { AppHeader } from './cmps/AppHeader'
-import { AppFooter } from './cmps/AppFooter'
 import { Sidebar } from './cmps/Sidebar'
 import { FloatingChatIcon } from './cmps/FloatingChatIcon'
 import { UserMsg } from './cmps/UserMsg.jsx'
@@ -31,10 +29,6 @@ export function RootCmp() {
                     <main>
                         <Routes>
                             <Route path="/" element={<HomePage />} />
-                            <Route path="about" element={<AboutUs />}>
-                                <Route path="team" element={<AboutTeam />} />
-                                <Route path="vision" element={<AboutVision />} />
-                            </Route>
                             <Route path="board" element={<BoardIndex />} />
                             <Route path="board/:boardId" element={<BoardDetails />} />
                             <Route path="user/:id" element={<UserDetails />} />
@@ -53,7 +47,6 @@ export function RootCmp() {
                 </div>
             </div>
             <FloatingChatIcon />
-            <AppFooter />
         </div>
     )
 }
