@@ -24,15 +24,18 @@ export function AppHeader() {
     }
 
     function onNotificationsClick() {
+        // You can implement notifications later
         console.log('Notifications clicked')
     }
 
     function onHelpClick() {
+        // You can implement help later
         console.log('Help clicked')
     }
 
     return (
         <header className="app-header flex align-center justify-between">
+            {/* Logo section with navigation */}
             <Link to="/" className="logo-container">
                 <div className="logo flex align-center">
                     <button className="product-logo">
@@ -47,6 +50,12 @@ export function AppHeader() {
                 </div>
             </Link>
 
+            <nav className="main-nav">
+                <NavLink to="/about" className="nav-link">About</NavLink>
+                {user?.isAdmin && <NavLink to="/admin" className="nav-link">Admin</NavLink>}
+            </nav>
+
+            {/* Actions container with working functionality */}
             <div className="actions-container flex align-center">
                 <button className="btn" onClick={onNotificationsClick}>
                     <img src="src/assets/img/notifications.svg" alt="Notifications" />
@@ -82,6 +91,7 @@ export function AppHeader() {
                     />
                 </button>
 
+                {/* User section with login/logout functionality */}
                 <div className="user-section">
                     {!user ? (
                         <Link to="/login" className="login-btn">
@@ -104,7 +114,8 @@ export function AppHeader() {
                                     )}
                                 </div>
                             </Link>
-                        
+                            
+                            {/* User dropdown menu (you can style this as a dropdown later) */}
                             <div className="user-menu">
                                 <span className="user-name">{user.fullname}</span>
                                 <button onClick={onLogout} className="logout-btn">Logout</button>
