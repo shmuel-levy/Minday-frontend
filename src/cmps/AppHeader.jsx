@@ -50,11 +50,6 @@ export function AppHeader() {
                 </div>
             </Link>
 
-            <nav className="main-nav">
-                <NavLink to="/about" className="nav-link">About</NavLink>
-                {user?.isAdmin && <NavLink to="/admin" className="nav-link">Admin</NavLink>}
-            </nav>
-
             {/* Actions container with working functionality */}
             <div className="actions-container flex align-center">
                 <button className="btn" onClick={onNotificationsClick}>
