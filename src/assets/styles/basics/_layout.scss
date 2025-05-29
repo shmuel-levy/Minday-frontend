@@ -1,7 +1,7 @@
-// CSS Variables for dynamic sidebar
+
 :root { --sidebar-width: 240px; }
 
-// Original grid layout for non-sidebar pages
+
 .main-container {
     display: grid;
     grid-template-columns: 3rem 1fr 3rem;
@@ -10,7 +10,7 @@
     > *.full { grid-column: 1 / -1; }
 }
 
-// Sidebar layout for main app
+
 .main-layout {
     display: flex;
     flex-direction: column;

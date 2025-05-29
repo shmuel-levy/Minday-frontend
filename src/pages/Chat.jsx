@@ -30,7 +30,6 @@ export function ChatApp() {
     }
 
     function sendBotResponse() {
-        // Handle case: send single bot response (debounce).
         botTimeoutRef.current && clearTimeout(botTimeoutRef.current)
         botTimeoutRef.current = setTimeout(() => {
             const responses = [
@@ -51,8 +50,7 @@ export function ChatApp() {
         const newMsg = { from, txt: msg.txt }
         socketService.emit(SOCKET_EMIT_SEND_MSG, newMsg)
         if (isBotMode) sendBotResponse()
-        // while dummy sockets - we add the msg ourself
-        // addMsg(newMsg)
+
         setMsg({ txt: '' })
     }
 
