@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 export function Sidebar() {
-    const [isCollapsed, setIsCollapsed] = useState(false)
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
+    const [isCollapsed, setIsCollapsed] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -13,7 +13,7 @@ export function Sidebar() {
     return (
         <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
             <div className="sidebar-toggle" onClick={() => setIsCollapsed(!isCollapsed)}>
-                <span className={isCollapsed ? 'rotated' : ''}>◀</span>
+                <span className={isCollapsed ? 'rotated' : ''}><img src='src/assets/img/arrowLeft.svg' /></span>
             </div>
 
             <div className="sidebar-content">

@@ -1,17 +1,18 @@
 @import '../setup/variables';
 
 .sidebar {
-    width: 240px;
+    width: var(--sidebar-width);
     height: calc(100vh - 48px);
-    background: white;
+    background: linear-gradient(135deg, #ffffff 5%, #eceff8 100%);
     border-right: 1px solid #e1e1e1;
     position: fixed;
     left: 0;
     top: 48px;
     transition: width 0.3s;
-    overflow: hidden;
+    margin-left: 12px;
+    border-radius: 12px 0px 0 0;
 
-    &.collapsed { width: 48px; }
+    &.collapsed { width: var(--sidebar-collapsed-width); }
 
     .sidebar-toggle {
         position: absolute;
