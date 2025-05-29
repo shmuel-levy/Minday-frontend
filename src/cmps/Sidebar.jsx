@@ -6,7 +6,6 @@ import { CreateBoardModal } from './CreateBoardModal'
 export function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
-    const [isCollapsed, setIsCollapsed] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
 
