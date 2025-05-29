@@ -1,0 +1,70 @@
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
+
+export function Sidebar() {
+    const [isCollapsed, setIsCollapsed] = useState(false)
+    const boards = useSelector(storeState => storeState.boardModule.boards) || []
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const isHomeActive = location.pathname === '/'
+
+    return (
+        <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+            <div className="sidebar-toggle" onClick={() => setIsCollapsed(!isCollapsed)}>
+                <span className={isCollapsed ? 'rotated' : ''}>◀</span>
+            </div>
+
+            <div className="sidebar-content">
+                <div 
+                    className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
+                    onClick={() => navigate('/')}
+                >
+                    <span className="icon">🏠</span>
+                    {!isCollapsed && <span>Home</span>}
+                </div>
+                <div className="sidebar-item" onClick={() => navigate('/my-work')}>
+                    <span className="icon">💼</span>
+                    {!isCollapsed && <span>My work</span>}
+                </div>
+
+                {!isCollapsed && (
+                    <>
+                        <div className="section-title">FAVORITES</div>
+                        <div className="empty-text">No favorite boards yet</div>
+                        <div className="section-title">WORKSPACES</div>
+                        <div className="workspace">
+                            <div className="workspace-header">
+                                <span className="workspace-icon">M</span>
+                                <div>
+                                    <div className="workspace-name">Main workspace</div>
+                                    <div className="workspace-type">work management</div>
+                                </div>
+                            </div>
+                            
+                            <div className="workspace-boards">
+                                {boards.map(board => (
+                                    <div 
+                                        key={board._id}
+                                        className={`board-item ${location.pathname === `/board/${board._id}` ? 'active' : ''}`}
+                                        onClick={() => navigate(`/board/${board._id}`)}
+                                    >
+                                        <span className="icon">📋</span>
+                                        <span>{board.title}</span>
+                                        {board.isStarred && <span className="star">⭐</span>}
+                                    </div>
+                                ))}
+                                
+                                <div className="board-item add-board" onClick={() => navigate('/board')}>
+                                    <span className="icon">+</span>
+                                    <span>Add board</span>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+        </aside>
+    )
+}
