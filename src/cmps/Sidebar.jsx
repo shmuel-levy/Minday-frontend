@@ -75,10 +75,10 @@ export function Sidebar() {
                 )}
             </div>
             
-            <CreateBoardModal 
+            {/* <CreateBoardModal 
                 isOpen={isCreateModalOpen}
                 onClose={() => setIsCreateModalOpen(false)}
-            />
+            /> */}
         </aside>
     )
 }
