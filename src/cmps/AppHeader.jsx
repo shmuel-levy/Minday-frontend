@@ -47,11 +47,6 @@ export function AppHeader() {
                 </div>
             </Link>
 
-            <nav className="main-nav">
-                <NavLink to="/about" className="nav-link">About</NavLink>
-                {user?.isAdmin && <NavLink to="/admin" className="nav-link">Admin</NavLink>}
-            </nav>
-
             <div className="actions-container flex align-center">
                 <button className="btn" onClick={onNotificationsClick}>
                     <img src="src/assets/img/notifications.svg" alt="Notifications" />
