@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/user.actions'
+import { UserMenu } from './UserMenu'
 
 import { BellIcon } from './svg/BellIcon'
 import { TrayIcon } from './svg/TrayIcon'
@@ -86,40 +87,9 @@ export function AppHeader() {
           <ProductSwitcherIcon className="productSwitcher-icon" />
         </button>
 
-        <div className="user-section">
-          {!user ? (
-            <Link to="/login" className="login-btn">
-              <div className="user-img-container flex align-center justify-center">
-                <img
-                  className="account-logo"
-                  src="https://cdn.monday.com/images/logos/monday_logo_icon.png"
-                  alt="Logo"
-                />
-                <UserAvatar fullname="Guest" />
-              </div>
-            </Link>
-          ) : (
-            <div className="user-info-container">
-              <Link to={`/user/${user._id}`} className="user-profile-link">
-                <div className="user-img-container flex align-center justify-center">
-                  <img
-                    className="account-logo"
-                    src="https://cdn.monday.com/images/logos/monday_logo_icon.png"
-                    alt="Logo"
-                  />
-                  <UserAvatar src={user.imgUrl} fullname={user.fullname} />
-                </div>
-              </Link>
-
-              <div className="user-menu">
-                <span className="user-name">{user.fullname}</span>
-                <button onClick={onLogout} className="logout-btn">
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+    <div className="user-section">
+  <UserMenu user={user} />
+</div>
       </div>
     </header>
   )
