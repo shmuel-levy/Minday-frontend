@@ -1,33 +1,33 @@
+// CSS Variables for dynamic sidebar
+:root { --sidebar-width: 240px; }
+
+// Original grid layout for non-sidebar pages
 .main-container {
     display: grid;
     grid-template-columns: 3rem 1fr 3rem;
     
-    > * {
-        grid-column: 2;
+    > * { grid-column: 2; }
+    > *.full { grid-column: 1 / -1; }
+}
 
-        &.full {
-            grid-column: 1 / -1;
-        }
+// Sidebar layout for main app
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .app-header { position: sticky; top: 0; z-index: 200; }
+    .app-body { display: flex; flex: 1; }
+    .main-content { 
+        flex: 1; 
+        margin-left: var(--sidebar-width); 
+        transition: margin-left 0.3s; 
     }
+    .app-footer { margin-left: var(--sidebar-width); transition: margin-left 0.3s; }
 
-    // @include for-narrow-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $mobile-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-normal-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $narrow-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-wide-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $normal-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
+    @media (max-width: 768px) {
+        .main-content, .app-footer { margin-left: 0; }
+    }
 }
 
 .card-grid {
@@ -35,4 +35,3 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 20px;
 }
-
