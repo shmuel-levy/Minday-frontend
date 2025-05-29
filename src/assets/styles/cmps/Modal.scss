@@ -1,0 +1,77 @@
+@import '../setup/variables';
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 0;
+            margin-bottom: 24px;
+
+            .modal-title {
+                font: 600 24px/1 sans-serif;
+                color: #323338;
+                margin: 0;
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 20px;
+                color: #676879;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: all 0.2s;
+
+                &:hover {
+                    background: #f5f6f8;
+                    color: #323338;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 0 24px 24px;
+        }
+    }
+
+    &.create-board-modal .modal-content {
+        max-width: 600px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 16px;
+        
+        .modal-content {
+            max-width: 100%;
+            
+            .modal-header, .modal-body {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+    }
+}

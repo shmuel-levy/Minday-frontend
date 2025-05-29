@@ -1,37 +1,32 @@
-export function TaskRow({ task, onTaskClick }) {
-
-    const demoTask = task || {
-        id: 't1',
-        title: 'Setup Database Schema',
-        status: 'Working on it',
-        priority: 'High',
-        assignee: 'John Doe',
-        dueDate: '2025-06-15',
-        avatar: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+export function TaskRow({ task }) {
+    function getStatusColor(status) {
+        if (status === 'Done') return '#00c875'
+        if (status === 'Working on it') return '#ffcb00'
+        if (status === 'Stuck') return '#e2445c'
+        return '#c4c4c4'
     }
 
     return (
-        <div className="task-row" onClick={() => onTaskClick && onTaskClick(demoTask)}>
-            <div className="task-title">
-                <span>{demoTask.title}</span>
+        <div className="task-row">
+            <div className="col-checkbox">
+                <input type="checkbox" />
             </div>
-            <div className="task-status">
-                <span className={`status-badge ${demoTask.status.toLowerCase().replace(' ', '-')}`}>
-                    {demoTask.status}
-                </span>
+            <div className="col-task">
+                <span>{task.title}</span>
+                <button className="task-chat">💬</button>
             </div>
-            <div className="task-assignee">
-                <img src={demoTask.avatar} alt={demoTask.assignee} />
-                <span>{demoTask.assignee}</span>
+            <div className="col-status">
+                <div 
+                    className="status-label" 
+                    style={{ backgroundColor: getStatusColor(task.status) }}
+                >
+                    {task.status}
+                </div>
             </div>
-            <div className="task-priority">
-                <span className={`priority-badge ${demoTask.priority.toLowerCase()}`}>
-                    {demoTask.priority}
-                </span>
+            <div className="col-owner">
+                <div className="owner-avatar">{task.assignee}</div>
             </div>
-            <div className="task-date">
-                <span>{demoTask.dueDate}</span>
-            </div>
+            <div className="col-date">{task.dueDate}</div>
         </div>
     )
 }

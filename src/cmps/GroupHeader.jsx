@@ -1,22 +1,11 @@
 export function GroupHeader({ group }) {
-
-    const demoGroup = group || {
-        id: 'g1',
-        title: 'Development Tasks',
-        tasksCount: 5,
-        color: '#0073ea'
-    }
-
     return (
-        <div className="group-header">
-            <div className="group-title">
-                <span className="group-color" style={{ backgroundColor: demoGroup.color }}></span>
-                <h3>{demoGroup.title}</h3>
-                <span className="tasks-count">({demoGroup.tasksCount} tasks)</span>
-            </div>
-            <div className="group-actions">
-                <button className="add-task-btn">+ Add Task</button>
-                <button className="group-menu-btn">⋯</button>
+        <div className="group-header" style={{ borderLeftColor: group.color }}>
+            <button className="collapse-btn">▼</button>
+            <div className="group-color" style={{ backgroundColor: group.color }}></div>
+            <h3 className="group-title">{group.title}</h3>
+            <div className="progress-indicator">
+                <div className="progress-bar"></div>
             </div>
         </div>
     )
