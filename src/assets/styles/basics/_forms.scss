@@ -6,6 +6,11 @@ button {
 	// padding: 5px 10px;
 	// margin: 5px;
 	// cursor: pointer;
+
+	&:hover {
+	background-color: rgba(103, 104, 121, 0.1);
+}
+
 }
 
 form > * {
@@ -14,12 +19,12 @@ form > * {
 	margin: 10px 0px;
 }
 
-.btn-link {
-	border: 0;
-	background-color: transparent;
-	// text-decoration: underline;
-	transition: 0.5s;
-}
-.btn-link:hover {
-	background-color: $clr1;
-}
+// .btn-link {
+// 	border: 0;
+// 	background-color: transparent;
+// 	// text-decoration: underline;
+// 	transition: 0.5s;
+// }
+// .btn-link:hover {
+// 	background-color: rgba(103, 104, 121, 0.1);
+// }
