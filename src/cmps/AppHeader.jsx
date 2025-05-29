@@ -58,7 +58,7 @@ export function AppHeader() {
 
             <div className="actions-container flex align-center">
                 <button className="btn" onClick={onNotificationsClick}>
-                    <img src="src/assets/img/notifications.svg" alt="Notifications" />
+          <TrBellIconayIcon className="bell-icon" />
                 </button>
 
         <button className="btn">
