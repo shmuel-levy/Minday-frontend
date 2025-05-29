@@ -3,7 +3,7 @@
 .sidebar {
     width: var(--sidebar-width);
     height: calc(100vh - 48px);
-  background: linear-gradient(180deg, #f6f7fb 0%, #eceff8 100%);
+  background: linear-gradient(180deg, #fdfdfe 0%, #edf0f8 100%);
     border-right: 1px solid #e1e1e1;
     position: fixed;
     left: 0;
@@ -11,7 +11,7 @@
     transition: width 0.3s;
     margin-left: 12px;
     border-radius: 12px 0px 0 0;
-    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
 
 
     &.collapsed { width: var(--sidebar-collapsed-width); }
