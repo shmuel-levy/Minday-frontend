@@ -1,30 +1,40 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import { StarToggle } from './svg/StarToggle'
+import { useState } from 'react'
+import { FavoriteToggleIcon } from './icons/FavoriteToggleIcon'
+import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon' 
 
-export function SidebarFavoriteBoards({ boards, onToggleStar }) {
-  const navigate = useNavigate()
-  const location = useLocation()
+export function SidebarFavoriteBoards({ boards }) {
+  const [isOpen, setIsOpen] = useState(true)
 
-  const favoriteBoards = boards.filter(board => board.isStarred)
-
-  if (!favoriteBoards.length) return <div className="empty-text">No favorite boards yet</div>
-
+  const favoriteBoards = [] 
   return (
-    <div className="favorite-boards">
-      {favoriteBoards.map(board => (
-        <div
-          key={board._id}
-          className={`board-item ${location.pathname === `/board/${board._id}` ? 'active' : ''}`}
-          onClick={() => navigate(`/board/${board._id}`)}
-        >
-          <img className="board-icon" src="src/assets/img/sideBar-b.svg" />
-          <span>{board.title}</span>
-          <StarToggle
-            isFilled={board.isStarred}
-            onToggle={(ev) => onToggleStar(ev, board)}
-          />
+    <section className="sidebar-favorites">
+      <div className={`section-header ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+        <FavoriteToggleIcon defaultIsFavorite={favoriteBoards.length > 0} />
+        <span className="title">Favorites</span>
+        <span className="chevron">
+<ArrowDownUpIcon direction={isOpen ? 'up' : 'down'} />
+
+        </span>
+      </div>
+
+      {isOpen && (
+        <div className="favorites-content">
+
+          {favoriteBoards.length === 0 ? (
+            <div className="empty-msg">
+              <p className="bold">Your favorites are empty</p>
+              <p>Add your boards, docs, or dashboards for a quick access.</p>
+            </div>
+          ) : (
+            <ul>
+              {favoriteBoards.map(board => (
+                <li key={board._id}>{board.title}</li>
+              ))}
+            </ul>
+          )}
         </div>
-      ))}
-    </div>
+      )}
+      <hr className="divider" />
+    </section>
   )
 }
