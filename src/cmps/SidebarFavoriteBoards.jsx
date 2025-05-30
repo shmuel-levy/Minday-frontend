@@ -1,25 +1,31 @@
 import { useState } from 'react'
 import { FavoriteToggleIcon } from './icons/FavoriteToggleIcon'
-import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon' 
+import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 
 export function SidebarFavoriteBoards({ boards }) {
   const [isOpen, setIsOpen] = useState(true)
+  const [isFavorite, setIsFavorite] = useState(true) 
 
-  const favoriteBoards = [] 
+  const favoriteBoards = []
+
+  function handleHeaderClick() {
+    const newIsOpen = !isOpen
+    setIsOpen(newIsOpen)
+    setIsFavorite(newIsOpen) 
+  }
+
   return (
     <section className="sidebar-favorites">
-      <div className={`section-header ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-        <FavoriteToggleIcon defaultIsFavorite={favoriteBoards.length > 0} />
+      <div className={`section-header ${isOpen ? 'open' : ''}`} onClick={handleHeaderClick}>
+        <FavoriteToggleIcon isFavorite={isFavorite} />
         <span className="title">Favorites</span>
         <span className="chevron">
-<ArrowDownUpIcon direction={isOpen ? 'up' : 'down'} />
-
+          <ArrowDownUpIcon direction={isOpen ? 'up' : 'down'} />
         </span>
       </div>
 
       {isOpen && (
         <div className="favorites-content">
-
           {favoriteBoards.length === 0 ? (
             <div className="empty-msg">
               <p className="bold">Your favorites are empty</p>

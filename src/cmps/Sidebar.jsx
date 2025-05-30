@@ -41,6 +41,7 @@ export function Sidebar() {
 
         {!isCollapsed && (
           <>
+            <hr className="divider" /> 
             <SidebarFavoriteBoards boards={boards} />
             <SidebarBoardsList boards={boards} />
           </>

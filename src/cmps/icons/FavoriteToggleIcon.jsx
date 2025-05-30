@@ -1,18 +1,10 @@
-import { useState } from 'react'
-
-export function FavoriteToggleIcon({ defaultIsFavorite = false }) {
-  const [isFavorite, setIsFavorite] = useState(defaultIsFavorite)
-
-  function toggleFavorite() {
-    setIsFavorite(prev => !prev)
-  }
-
+export function FavoriteToggleIcon({ isFavorite }) {
   return (
-    <button onClick={toggleFavorite} className="btn-favorite-icon" aria-label="Toggle Favorite">
+    <button className="btn-favorite-icon" aria-label="Toggle Favorite">
       <svg
         viewBox="0 0 24 24"
-        fill={isFavorite ? '#FFD700' : 'none'}    
-        stroke={isFavorite ? '#FFD700' : '#4B4B4B'} 
+        fill={isFavorite ? '#FFD700' : 'none'}
+        stroke={isFavorite ? '#FFD700' : '#4B4B4B'}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
