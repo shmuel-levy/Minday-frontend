@@ -1,12 +1,24 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { HomeIcon } from './svg/HomeIcon'
+import { CalendarIcon } from './svg/CalendarIcon '
+import { StarToggle } from './svg/StarToggle'
+import { updateBoard } from '../store/board.actions'
+
 
 export function Sidebar() {
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
     const [isCollapsed, setIsCollapsed] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
+    const dispatch = useDispatch()
+
+   function onToggleStar(ev, board) {
+    ev.stopPropagation()
+    const updatedBoard = { ...board, isStarred: !board.isStarred }
+    dispatch(updateBoard(updatedBoard))
+}
 
     const isHomeActive = location.pathname === '/'
 
@@ -21,11 +33,11 @@ export function Sidebar() {
                     className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
                     onClick={() => navigate('/')}
                 >
-                    <span className="icon">🏠</span>
+                    <HomeIcon />
                     {!isCollapsed && <span>Home</span>}
                 </div>
                 <div className="sidebar-item" onClick={() => navigate('/my-work')}>
-                    <span className="icon">💼</span>
+                    <CalendarIcon />
                     {!isCollapsed && <span>My work</span>}
                 </div>
 
