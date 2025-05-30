@@ -5,7 +5,8 @@ export const boardService = {
     getById,
     save,
     remove,
-    addBoardActivity
+    addBoardActivity,
+    toggleStar 
 }
 
 async function query(filterBy = { txt: '', maxMembers: 0 }) {
@@ -33,4 +34,8 @@ async function save(board) {
 async function addBoardActivity(boardId, txt) {
     const savedActivity = await httpService.post(`board/${boardId}/activity`, { txt })
     return savedActivity
+}
+
+async function toggleStar(boardId, isStarred) {
+    return httpService.put(`board/${boardId}/star`, { isStarred })
 }

@@ -5,6 +5,7 @@ export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const ADD_BOARD_ACTIVITY = 'ADD_BOARD_ACTIVITY'
 
+
 const initialState = {
     boards: [],
     board: null

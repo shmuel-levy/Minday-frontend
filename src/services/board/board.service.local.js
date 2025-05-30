@@ -9,7 +9,8 @@ export const boardService = {
     getById,
     save,
     remove,
-    addBoardActivity
+    addBoardActivity,
+    toggleStar
 }
 window.bs = boardService
 
@@ -74,6 +75,7 @@ async function save(board) {
             description: board.description,
             isStarred: false,
             archivedAt: null,
+            isStarred: false,
             createdAt: Date.now(),
             // Later, createdBy is set by the backend
             createdBy: userService.getLoggedinUser(),
@@ -99,10 +101,18 @@ async function addBoardActivity(boardId, txt) {
         id: makeId(),
         txt,
         createdAt: Date.now(),
-        byMember: userService.getLoggedinUser()
+        byMember: userService.getLoggedinUser(),
+        isStarred: false
+
     }
     board.activities.push(activity)
     await storageService.put(STORAGE_KEY, board)
 
     return activity
+}
+
+async function toggleStar(boardId, isStarred) {
+    const board = await getById(boardId)
+    board.isStarred = isStarred
+    return save(board)
 }
