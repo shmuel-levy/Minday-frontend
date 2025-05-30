@@ -1,12 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import { WorkspaceSidebar } from './svg/WorkspaceSidebar' 
 export function SidebarBoardsList({ boards }) {
   const navigate = useNavigate()
   const location = useLocation()
 
   return (
     <section className="sidebar-workspaces">
-      <div className="section-title">Workspaces</div>
+      <div className="section-title workspace-title">
+        <WorkspaceSidebar />
+        <span>Workspaces</span>
+      </div>
 
       <div className="workspace-header">
         <span className="workspace-icon">M</span>

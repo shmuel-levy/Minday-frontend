@@ -1,0 +1,47 @@
+.sidebar-favorites {
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    .btn-favorite-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      flex-grow: 1;
+      margin-inline-start: 8px;
+    }
+
+    .chevron {
+      margin-inline-start: auto;
+    }
+  }
+
+  .favorites-content {
+    padding-left: 16px;
+  }
+
+  .empty-msg {
+    font-size: 13px;
+    color: #a1a1aa;
+    padding: 0 16px 16px;
+
+    .bold {
+      font-weight: 600;
+      color: #323338;
+    }
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e1e1e1;
+    margin: 8px 0;
+  }
+}

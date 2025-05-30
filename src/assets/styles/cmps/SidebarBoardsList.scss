@@ -1,0 +1,83 @@
+.sidebar-workspaces {
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #676879;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px 16px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .app-icon {
+      width: 18px;
+      height: 18px;
+      color: #676879;
+    }
+  }
+
+  .workspace-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin-bottom: 4px;
+
+    .workspace-icon {
+      width: 32px;
+      height: 32px;
+      background: #ff5a59;
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    .workspace-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #323338;
+    }
+
+    .workspace-type {
+      font-size: 12px;
+      color: #676879;
+    }
+  }
+
+  .workspace-boards {
+    border-left: 1px solid #e1e1e1;
+    margin-left: 32px;
+    padding-left: 12px;
+
+    .board-item {
+      padding-left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      cursor: pointer;
+
+      &.add-board {
+        color: #676879;
+
+        &:hover {
+          color: #323338;
+        }
+      }
+
+      &.active {
+        background-color: #eaf4fd;
+        border-radius: 4px;
+      }
+
+      .board-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

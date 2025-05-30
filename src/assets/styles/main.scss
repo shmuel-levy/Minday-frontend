@@ -28,8 +28,12 @@
 @import "cmps/AppHeader";
 @import "cmps/UserMsg";
 @import "cmps/Sidebar";
-@import "cmps/BoardFilter";
+@import "cmps/SidebarFavoriteBoards";
+@import "cmps/SidebarBoardsList";
 
+
+//scss
+@import "cmps/BoardFilter";
 @import "cmps/BoardList";
 @import "cmps/BoardPreview";
 @import "cmps/UserAvatar";
