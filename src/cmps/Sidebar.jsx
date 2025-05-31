@@ -5,7 +5,6 @@ import { HomeIcon } from './svg/HomeIcon'
 import { CalendarIcon } from './svg/CalendarIcon'
 import { ArrowIcon } from './svg/ArrowIcon'
 
-
 import { SidebarBoardsList } from './SidebarBoardsList'
 import { SidebarFavoriteBoards } from './SidebarFavoriteBoards'
 
@@ -16,6 +15,13 @@ export function Sidebar() {
   const location = useLocation()
 
   const isHomeActive = location.pathname === '/'
+
+  useState(() => {
+    document.documentElement.style.setProperty(
+      '--sidebar-width', 
+      isCollapsed ? '48px' : '240px'
+    )
+  }, [isCollapsed])
 
   return (
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
@@ -41,7 +47,8 @@ export function Sidebar() {
 
         {!isCollapsed && (
           <>
-            <hr className="divider" /> 
+            <hr className="divider" />
+
             <SidebarFavoriteBoards boards={boards} />
             <SidebarBoardsList boards={boards} />
           </>

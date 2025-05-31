@@ -11,7 +11,6 @@ export function SidebarFavoriteBoards() {
     const navigate = useNavigate()
     const location = useLocation()
     
-    // Filter boards to show only starred ones
     const favoriteBoards = boards.filter(board => board.isStarred)
 
     function handleHeaderClick() {

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { loadBoards, toggleBoardStar } from '../store/board.actions.js'
-import { userService } from '../services/user'
+import { userService } from '../services/user/index.js'
 import { StarIcon } from '../cmps/svg/StarIcon.jsx'
 import { BoardIcon } from '../cmps/svg/BoardIcon.jsx'
 
@@ -26,16 +26,15 @@ export function BoardIndex() {
         toggleBoardStar(boardId)
     }
 
-    function getBoardPreview(board) {
-        const templates = [
-            '/src/assets/img/quick-search.svg',
-            '/src/assets/img/quick-search2.svg', 
-            '/src/assets/img/boardIndex.svg'
-        ]
-      
-        const templateIndex = board._id ? board._id.length % templates.length : 0
-        return templates[templateIndex]
-    }
+   function getBoardPreview(board) {
+    const templates = [
+        './quick-search.svg',
+        './quick-search2.svg', 
+        './boardIndex.svg'
+    ]
+    const templateIndex = board._id ? board._id.length % templates.length : 0
+    return templates[templateIndex]
+}
 
     return (
         <div className="board-index">

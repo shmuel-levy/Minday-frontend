@@ -2,7 +2,6 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router'
 
 import { userService } from './services/user/user.service.local.js'
-import { HomePage } from './pages/HomePage'
 import { BoardIndex } from './pages/BoardIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
@@ -28,7 +27,7 @@ export function RootCmp() {
                     <UserMsg />
                     <main>
                         <Routes>
-                            <Route path="/" element={<HomePage />} />
+                            <Route path="/" element={<BoardIndex />} />
                             <Route path="board" element={<BoardIndex />} />
                             <Route path="board/:boardId" element={<BoardDetails />} />
                             <Route path="user/:id" element={<UserDetails />} />

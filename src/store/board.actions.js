@@ -32,6 +32,24 @@ export async function removeBoard(boardId) {
     }
 }
 
+export async function toggleBoardStar(boardId) {
+    try {
+        const { boards } = store.getState().boardModule
+        const boardToUpdate = boards.find(board => board._id === boardId)
+        
+        if (!boardToUpdate) throw new Error('Board not found')
+
+        const updatedBoard = { ...boardToUpdate, isStarred: !boardToUpdate.isStarred }
+        await boardService.toggleStar(boardId, updatedBoard.isStarred)
+        store.dispatch(getCmdUpdateBoard(updatedBoard))
+        
+        return updatedBoard
+    } catch (err) {
+        console.log('Cannot toggle board star', err)
+        throw err
+    }
+}
+
 export async function addBoard(board) {
     try {
         const savedBoard = await boardService.save(board)
