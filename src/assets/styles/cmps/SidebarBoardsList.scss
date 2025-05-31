@@ -34,6 +34,11 @@
       justify-content: center;
       font-weight: 600;
       margin-right: 12px;
+      font-size: 16px;
+    }
+
+    > div {
+      flex: 1;
     }
 
     .workspace-name {
@@ -45,6 +50,32 @@
     .workspace-type {
       font-size: 12px;
       color: #676879;
+    }
+
+    // Plus button styles
+    .add-board-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: 1px solid #c4c4c4;
+      border-radius: 4px;
+      color: #676879;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: 12px;
+      flex-shrink: 0;
+
+      &:hover {
+        background: #0073ea;
+        border-color: #0073ea;
+        color: white;
+        transform: scale(1.05);
+      }
     }
   }
 
@@ -58,8 +89,9 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 0;
+      padding: 6px 0 6px 16px;
       cursor: pointer;
+      position: relative;
 
       &.add-board {
         color: #676879;
@@ -72,12 +104,96 @@
       &.active {
         background-color: #eaf4fd;
         border-radius: 4px;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: #0073ea;
+          border-radius: 0 2px 2px 0;
+        }
       }
 
       .board-icon {
         width: 16px;
         height: 16px;
       }
+
+      .board-title {
+        flex: 1;
+        font-size: 14px;
+        color: #323338;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .star {
+        margin-left: auto;
+        font-size: 12px;
+        opacity: 0.7;
+      }
+
+      &.active .board-title {
+        color: #0073ea;
+      }
     }
   }
+}
+// Sidebar Board Item Spacing - ADD TO YOUR SIDEBAR CSS FILES
+
+// Favorites and Workspace board items
+.board-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; // Space between icon and text
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &.active {
+        background-color: #e1f5fe;
+        color: #0073ea;
+    }
+
+    .board-icon-sidebar {
+        color: #676879;
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+    }
+
+    .board-title {
+        font: 400 14px/1.2 'Roboto', sans-serif;
+        color: inherit;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+// Favorites section specific
+.sidebar-favorites {
+    .board-item {
+        margin-bottom: 2px;
+    }
+}
+
+// Workspace section specific  
+.sidebar-workspaces {
+    .workspace-boards {
+        padding-left: 8px; // Indent boards under workspace
+        
+        .board-item {
+            margin-bottom: 2px;
+        }
+    }
 }

@@ -2,46 +2,64 @@
   .section-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 8px 16px;
     cursor: pointer;
+    gap: 8px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(245, 246, 248, 0.5);
+      border-radius: 6px;
+    }
 
     .btn-favorite-icon {
       background: none;
       border: none;
       cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .title {
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
+      color: #676879;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       flex-grow: 1;
-      margin-inline-start: 8px;
     }
 
     .chevron {
-      margin-inline-start: auto;
+      margin-left: auto;
+      transition: transform 0.2s;
     }
   }
 
   .favorites-content {
     padding-left: 16px;
+    padding-right: 16px;
   }
 
   .empty-msg {
     font-size: 13px;
     color: #a1a1aa;
-    padding: 0 16px 16px;
+    padding: 16px;
+    text-align: center;
 
     .bold {
       font-weight: 600;
       color: #323338;
+      margin-bottom: 4px;
+      display: block;
     }
   }
 
   .divider {
     border: none;
     border-top: 1px solid #e1e1e1;
-    margin: 8px 0;
+    margin: 12px 16px;
   }
 }
