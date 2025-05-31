@@ -1,8 +1,8 @@
 export function TaskRow({ task }) {
     function getStatusColor(status) {
         if (status === 'Done') return '#00c875'
-        if (status === 'Working on it') return '#ffcb00'
-        if (status === 'Stuck') return '#e2445c'
+        if (status === 'Working on it') return '#fdab3d'
+        if (status === 'Stuck') return '#df2f4a'
         return '#c4c4c4'
     }
 

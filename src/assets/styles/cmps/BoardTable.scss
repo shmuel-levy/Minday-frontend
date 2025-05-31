@@ -50,8 +50,7 @@
         align-items: center;
         gap: 10px;
         padding: 10px 20px;
-        background: #f9f9f9;
-        border-left: 4px solid;
+        
 
         .group-color { width: 12px; height: 12px; border-radius: 2px; }
     }
@@ -64,9 +63,9 @@
         border-bottom: 1px solid #f0f0f0;
         align-items: center;
 
-        &:hover { background: #f9f9f9; }
+        &:hover { background: #f5f6f8; }
 
-        .status-label { padding: 4px 8px; border-radius: 10px; color: white; font-size: 12px; text-align: center; }
+        .status-label { padding: 4px 8px; color: white; font-size: 14px; text-align: center; }
         .owner-avatar { width: 24px; height: 24px; border-radius: 50%; background: #ff9500; color: white; text-align: center; line-height: 24px; font-size: 12px; }
     }
 
@@ -76,8 +75,37 @@
         gap: 15px;
         padding: 8px 20px;
         color: #666;
-        cursor: pointer;
 
-        &:hover { color: #0073ea; }
+        &:hover { background: #f5f6f8; 
+        .input-add-task {
+            border: 1px solid #d0d4e4;
+        }
     }
+
+        
+        &:focus-within {
+        background-color: #cce5ff;
+        }
+    }
+    .input-add-task {
+       width: 13.5rem;
+       height: 1.5rem;
+       padding: 0.5em;
+       font-size: 15px;
+       border-radius: 3px;
+       border: none;
+       outline: none;
+       color: #555;
+
+       &::placeholder {
+        color: #999;
+        font-style: italic;
+   }
+       
+       &:focus {
+       border: solid 1px #0073ea;
+  }
+}
+ 
+    
 }
