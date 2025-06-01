@@ -1,0 +1,18 @@
+.text-column {
+  cursor: pointer;
+
+  .placeholder {
+    color: #999;
+    font-style: italic;
+  }
+}
+
+.text-column-input {
+  width: 100%;
+  border: 1px solid #0073ea;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  outline: none;
+  background: white;
+}

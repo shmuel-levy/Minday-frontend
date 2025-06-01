@@ -2,7 +2,8 @@
     margin-left: 0px;
     background: white;
     padding: 20px;
-
+ position: relative; // For dropdown positioning
+    overflow: visible;  
     .board-header {
         border-bottom: 1px solid #ddd;
         padding-bottom: 15px;

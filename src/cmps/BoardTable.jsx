@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GroupHeader } from './GroupHeader'
-import { TaskRow } from './TaskRow'
+import { TableHeader } from './table/TableHeader'
+import { DynamicTaskRow } from './table/DynamicTaskRow'
 
 export function BoardTable({ board }) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
     const [taskDraft, setTaskDraft] = useState('')
 
-    // Demo data matching Monday.com structure
     const [demoBoard, setDemoBoard] = useState(() =>
         currentBoard?.groups?.length ? currentBoard : {
             ...currentBoard,
@@ -60,6 +60,20 @@ export function BoardTable({ board }) {
         setTaskDraft('')
     }
 
+    function handleUpdateTask(groupId, updatedTask) {
+        const updatedGroups = demoBoard.groups.map(group =>
+            group.id === groupId
+                ? {
+                    ...group,
+                    tasks: group.tasks.map(task =>
+                        task.id === updatedTask.id ? updatedTask : task
+                    )
+                }
+                : group
+        )
+        setDemoBoard({ ...demoBoard, groups: updatedGroups })
+    }
+
     return (
         <div className="board-table">
             <div className="board-header">
@@ -96,17 +110,15 @@ export function BoardTable({ board }) {
                     <div key={group.id} className="group-section">
                         <GroupHeader group={group} />
 
-                        <div className="table-header">
-                            <div className="col-checkbox">☐</div>
-                            <div className="col-task">Task</div>
-                            <div className="col-status">Status</div>
-                            <div className="col-owner">Owner</div>
-                            <div className="col-date">Due date</div>
-                        </div>
+                        <TableHeader />
 
                         <div className="tasks-container">
                             {group.tasks?.map(task => (
-                                <TaskRow key={task.id} task={task} />
+                                <DynamicTaskRow 
+                                    key={task.id} 
+                                    task={task}
+                                    onUpdateTask={(updatedTask) => handleUpdateTask(group.id, updatedTask)}
+                                />
                             ))}
                             <div className="add-task-row">
                                 <div className="col-checkbox"></div>
