@@ -1,8 +1,8 @@
 @import '../setup/variables';
 
 .board-index {
-    padding: 32px 40px; background: #f6f7fb; min-height: calc(100vh - 48px); 
-    width: calc(100vw - var(--sidebar-width)); font-family: 'Roboto', sans-serif;
+    padding: 32px 40px; background: #f6f7fb; 
+    font-family: 'Roboto', sans-serif;
 
     // Header
     .welcome-section { margin-bottom: 40px; }

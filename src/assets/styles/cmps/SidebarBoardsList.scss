@@ -1,6 +1,8 @@
 
 .sidebar-workspaces{
-   padding: 4px 12px;
+  padding: 4px 12px;
+  overflow-y: auto; 
+  transition: max-height 0.3s ease;
 
     .section-title {
     font-size: 14px;
@@ -11,6 +13,12 @@
     gap: 8px;
     height: 32px;
   }
+
+   .title {
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      flex-grow: 1;
+    }
 
    .workspace-container{
      display: flex;

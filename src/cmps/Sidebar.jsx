@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect  } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { HomeIcon } from './svg/HomeIcon'
@@ -11,17 +11,29 @@ import { SidebarFavoriteBoards } from './SidebarFavoriteBoards'
 export function Sidebar() {
   const boards = useSelector(storeState => storeState.boardModule.boards) || []
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false)
+
+
   const navigate = useNavigate()
   const location = useLocation()
 
   const isHomeActive = location.pathname === '/'
 
-  useState(() => {
+  useEffect(() => {
     document.documentElement.style.setProperty(
       '--sidebar-width', 
       isCollapsed ? '30px' : '280px'
     )
   }, [isCollapsed])
+
+  useEffect(() => {
+    function handleCloseFavorites() {
+      setIsFavoritesOpen(false)
+    }
+
+    window.addEventListener('close-favorites', handleCloseFavorites)
+    return () => window.removeEventListener('close-favorites', handleCloseFavorites)
+  }, [])
 
   return (
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
@@ -51,11 +63,14 @@ export function Sidebar() {
           <>
             <hr className="divider" />
 
-            <SidebarFavoriteBoards boards={boards} />
-            
+            <SidebarFavoriteBoards
+              isOpen={isFavoritesOpen}
+              onToggle={() => setIsFavoritesOpen(prev => !prev)}
+            />
+
             <hr className="divider" />
 
-            <SidebarBoardsList boards={boards} />
+          <SidebarBoardsList boards={boards} favoritesOpen={isFavoritesOpen} />
           </>
         )}
       </div>
