@@ -1,81 +1,36 @@
+@import '../setup/variables';
+
 .sidebar {
-  width: var(--sidebar-width);
-  height: calc(100vh - 48px);
-  background: linear-gradient(180deg, #fdfdfe 0%, #edf0f8 100%);
-  border-right: 1px solid #e1e1e1;
-  position: fixed;
-  left: 0;
-  top: 48px;
-  margin-left: 12px;
-  border-radius: 12px 0px 0 0;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
-
-  &.collapsed {
-    width: var(--sidebar-collapsed-width);
-  }
-
-  .sidebar-toggle {
-    position: absolute;
-    right: -16px;
-    top: 12px;
-    width: 32px;
-    height: 32px;
-    background: #eceff8;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 102;
-
-    span {
-      font-size: 14px;
-      color: #676879;
-
-      &.rotated {
-        transform: rotate(180deg);
-      }
-    }
-
-    &:hover {
-      transition: transform 0.24s ease;
-    }
-  }
-
-  .sidebar-content {
-    padding: 16px 0;
-    height: 100%;
+    display: grid;
+    grid-column: 1;
+    width: var(--sidebar-width);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: linear-gradient(180deg, #fdfdfe 0%, #edf0f8 100%);
+    border-right: 1px solid #e1e1e1;
     overflow-y: auto;
-  }
-
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    margin: 0 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background: #f5f6f8;
+    overflow-x: hidden;
+    
+    &.collapsed { width: var(--sidebar-collapsed-width); }
+    
+    .sidebar-toggle {
+        position: absolute; right: -16px; top: 12px; width: 32px; height: 32px;
+        background: #eceff8; border: none; border-radius: 50%; cursor: pointer; z-index: 102;
+        span { &.rotated { transform: rotate(180deg); } }
     }
-
-    &.active {
-      background: #e8f4fd;
-      color: #0073ea;
+    
+    .sidebar-content { padding: 16px 0; }
+    
+    .sidebar-item {
+        display: flex; align-items: center; padding: 8px 16px; margin: 0 8px; border-radius: 6px; cursor: pointer;
+        &:hover { background: #f5f6f8; }
+        &.active { background: #e8f4fd; color: #0073ea; }
     }
-
-    .icon {
-      width: 20px;
-      margin-right: 12px;
-      text-align: center;
+    
+    .board-item {
+        display: flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: 4px; cursor: pointer;
+        &:hover { background: rgba(0,0,0,0.05); }
+        &.active { background: #e1f5fe; color: #0073ea; }
     }
-
-    .star {
-      margin-left: auto;
-      font-size: 12px;
-    }
-  }
 }
