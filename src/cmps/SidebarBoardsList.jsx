@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { WorkspaceSidebar } from './svg/WorkspaceSidebar'
 import { CreateBoardModal } from './CreateBoardModal'
 import { BoardIconSidebar } from './svg/BoardIconSidebar'
+import { AddBoard } from './svg/AddBoard'
+
+
 
 export function SidebarBoardsList({ boards }) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -15,22 +18,21 @@ export function SidebarBoardsList({ boards }) {
                 <WorkspaceSidebar />
                 <span>Workspaces</span>
             </div>
-
+            <div className="workspace-container">
             <div className="workspace-header">
                 <span className="workspace-icon">M</span>
                 <div>
                     <div className="workspace-name">Main workspace</div>
-                    <div className="workspace-type">work management</div>
                 </div>
+            </div>
                 <button 
                     className="add-board-btn"
                     onClick={() => setIsCreateModalOpen(true)}
                     title="Create board"
                 >
-                    +
+                  <AddBoard />
                 </button>
             </div>
-
             <div className="workspace-boards">
                 {boards.map(board => (
                     <div

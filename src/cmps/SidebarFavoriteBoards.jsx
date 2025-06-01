@@ -6,7 +6,7 @@ import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { BoardIconSidebar } from './svg/BoardIconSidebar'
 
 export function SidebarFavoriteBoards() {
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
     const navigate = useNavigate()
     const location = useLocation()
@@ -23,7 +23,7 @@ export function SidebarFavoriteBoards() {
 
     return (
         <section className="sidebar-favorites">
-            <div className={`section-header ${isOpen ? 'open' : ''}`} onClick={handleHeaderClick}>
+            <div className={`sidebar-item section-header ${isOpen ? 'open' : ''}`} onClick={handleHeaderClick}>
                 <FavoriteToggleIcon isFavorite={isOpen} />
                 <span className="title">Favorites</span>
                 <span className="chevron">
@@ -35,6 +35,7 @@ export function SidebarFavoriteBoards() {
                 <div className="favorites-content">
                     {favoriteBoards.length === 0 ? (
                         <div className="empty-msg">
+                            <img src="https://microfrontends.monday.com/mf-leftpane/latest/static/media/favorites-empty-.99fa5473.svg" alt="No favorite items image"></img>
                             <p className="bold">Your favorites are empty</p>
                             <p>Add your boards, docs, or dashboards for a quick access.</p>
                         </div>
@@ -54,7 +55,6 @@ export function SidebarFavoriteBoards() {
                     )}
                 </div>
             )}
-            <hr className="divider" />
         </section>
     )
 }

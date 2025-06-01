@@ -19,7 +19,7 @@ export function Sidebar() {
   useState(() => {
     document.documentElement.style.setProperty(
       '--sidebar-width', 
-      isCollapsed ? '48px' : '240px'
+      isCollapsed ? '30px' : '280px'
     )
   }, [isCollapsed])
 
@@ -32,6 +32,7 @@ export function Sidebar() {
       </div>
 
       <div className="sidebar-content">
+        <div className="sidebar-header">
         <div
           className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
           onClick={() => navigate('/')}
@@ -44,12 +45,16 @@ export function Sidebar() {
           <CalendarIcon />
           {!isCollapsed && <span>My work</span>}
         </div>
+        </div>
 
         {!isCollapsed && (
           <>
             <hr className="divider" />
 
             <SidebarFavoriteBoards boards={boards} />
+            
+            <hr className="divider" />
+
             <SidebarBoardsList boards={boards} />
           </>
         )}

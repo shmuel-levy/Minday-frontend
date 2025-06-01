@@ -8,8 +8,8 @@ export function FavoriteToggleIcon({ isFavorite }) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        width="20"
-        height="20"
+        width="18"
+        height="18"
         className="star-icon"
       >
         <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9" />

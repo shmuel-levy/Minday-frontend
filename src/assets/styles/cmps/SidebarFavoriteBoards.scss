@@ -1,17 +1,13 @@
 .sidebar-favorites {
+    padding: 4px 12px;
+
   .section-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 8px 16px;
     cursor: pointer;
     gap: 8px;
     transition: background 0.2s;
 
-    &:hover {
-      background: rgba(245, 246, 248, 0.5);
-      border-radius: 6px;
-    }
 
     .btn-favorite-icon {
       background: none;
@@ -24,23 +20,14 @@
     }
 
     .title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #676879;
-      text-transform: uppercase;
+      font-size: 14px;
       letter-spacing: 0.5px;
       flex-grow: 1;
     }
 
     .chevron {
       margin-left: auto;
-      transition: transform 0.2s;
     }
-  }
-
-  .favorites-content {
-    padding-left: 16px;
-    padding-right: 16px;
   }
 
   .empty-msg {
@@ -57,9 +44,4 @@
     }
   }
 
-  .divider {
-    border: none;
-    border-top: 1px solid #e1e1e1;
-    margin: 12px 16px;
-  }
 }
