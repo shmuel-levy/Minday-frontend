@@ -4,10 +4,10 @@ export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
 
     const availableUsers = [
-        { id: 'u1', name: 'John', initials: 'JD', color: '#ff7f50' },
-        { id: 'u2', name: 'SS', initials: 'SS', color: '#87ceeb' },
-        { id: 'u3', name: 'Mike', initials: 'MK', color: '#dda0dd' },
-        { id: 'u4', name: 'Anna', initials: 'AN', color: '#98fb98' }
+        { id: 'u1', name: 'Shoham', initials: 'SS', color: '#ff7f50' },
+        { id: 'u2', name: 'Shmuel', initials: 'SL', color: '#87ceeb' },
+        { id: 'u3', name: 'Agam', initials: 'AL', color: '#dda0dd' },
+        { id: 'u4', name: 'Shani', initials: 'SC', color: '#98fb98' }
     ]
 
     const currentUser = availableUsers.find(user => user.name === value)
