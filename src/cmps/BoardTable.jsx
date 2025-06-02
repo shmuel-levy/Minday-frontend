@@ -5,7 +5,7 @@ import { TableHeader } from './table/TableHeader'
 import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
 
-export function BoardTable({ board }) {
+export function BoardTable({ board, onUpdateTask }) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
     const [taskDrafts, setTaskDrafts] = useState({})
     const [checkedTasks, setCheckedTasks] = useState({})
