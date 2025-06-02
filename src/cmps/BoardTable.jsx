@@ -127,36 +127,6 @@ export function BoardTable({ board, onUpdateTask }) {
 
     return (
         <div className="board-table">
-            <div className="board-header">
-                <div className="board-title-section">
-                    <h1>{demoBoard.title}</h1>
-                    <div className="board-actions">
-                        <button className="btn">Integrate</button>
-                        <button className="btn">Automate</button>
-                        <div className="board-members">
-                            <div className="avatar">S</div>
-                            <div className="avatar">SS</div>
-                            <div className="invite">+1</div>
-                        </div>
-                        <button className="btn-primary">Invite / 1</button>
-                    </div>
-                </div>
-
-                <div className="board-controls">
-                    <div className="view-controls">
-                        <button className="view-btn active">📋 Main table</button>
-                    </div>
-                    <div className="table-actions">
-                        <button className="btn-new-task">New task</button>
-                        <button className="btn-control">🔍 Search</button>
-                        <button className="btn-control">👤 Person</button>
-                        <button className="btn-control">🔽 Filter</button>
-                        <button className="btn-control">⬇️ Sort</button>
-                    </div>
-                </div>
-            </div>
-
-
             <div className="table-wrapper">
                 {demoBoard.groups?.map(group => (
                     <div key={group.id} className="group-section">
