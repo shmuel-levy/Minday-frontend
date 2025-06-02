@@ -42,8 +42,6 @@ export function BoardDetails() {
 
     return (
         <section className="board-details">
-            <Link to="/board">Back to boards</Link>
-            
             <BoardHeader 
                 board={board}
                 onUpdateBoard={handleUpdateBoard}
