@@ -64,7 +64,14 @@ export async function addBoard(board) {
 export async function updateBoard(board) {
     try {
         const savedBoard = await boardService.save(board)
+        
         store.dispatch(getCmdUpdateBoard(savedBoard))
+        
+        const currentBoard = store.getState().boardModule.board
+        if (currentBoard && currentBoard._id === savedBoard._id) {
+            store.dispatch(getCmdSetBoard(savedBoard))
+        }
+        
         return savedBoard
     } catch (err) {
         console.log('Cannot save board', err)
