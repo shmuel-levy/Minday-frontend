@@ -17,7 +17,7 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
     function handleCellUpdate(columnId, newValue) {
         if (onUpdateTask) {
             const updatedTask = { ...task }
-            
+
             switch (columnId) {
                 case 'task':
                     updatedTask.title = newValue
@@ -32,17 +32,26 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
                     updatedTask.dueDate = newValue
                     break
             }
-            
+
             onUpdateTask(updatedTask)
         }
     }
 
     function renderCell(column) {
         let value = ''
-        
+
         switch (column.id) {
             case 'checkbox':
-                return <input type="checkbox" />
+                return (
+                    <input
+                        type="checkbox"
+                        checked={task.isChecked || false}
+                        onChange={(e) => {
+                            const updatedTask = { ...task, isChecked: e.target.checked }
+                            onUpdateTask?.(updatedTask)
+                        }}
+                    />
+                )
             case 'task':
                 value = task.title
                 break
@@ -60,7 +69,7 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
         switch (column.type) {
             case 'text':
                 return (
-                    <TextColumn 
+                    <TextColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                         placeholder={`Enter ${column.id}...`}
@@ -68,21 +77,21 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
                 )
             case 'status':
                 return (
-                    <StatusColumn 
+                    <StatusColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
             case 'person':
                 return (
-                    <PersonColumn 
+                    <PersonColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
             case 'date':
                 return (
-                    <DateColumn 
+                    <DateColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
