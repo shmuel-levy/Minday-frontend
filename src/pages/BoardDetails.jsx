@@ -4,17 +4,28 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadBoard, addBoardActivity } from '../store/board.actions'
+import { loadBoard, addBoardActivity, updateBoard } from '../store/board.actions'
+import { BoardHeader } from '../cmps/board-header/BoardHeader'
 import { BoardTable } from '../cmps/BoardTable'
 
 export function BoardDetails() {
-
     const { boardId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
 
     useEffect(() => {
-        loadBoard(boardId)
+        if (boardId) {
+            loadBoard(boardId)
+        }
     }, [boardId])
+
+    async function handleUpdateBoard(updatedBoard) {
+        try {
+            await updateBoard(updatedBoard)
+            showSuccessMsg('Board updated successfully')
+        } catch (err) {
+            showErrorMsg('Cannot update board')
+        }
+    }
 
     async function onAddBoardActivity(boardId) {
         try {
@@ -25,12 +36,24 @@ export function BoardDetails() {
         }
     }
 
+    if (!board) {
+        return <div>Loading board...</div>
+    }
+
     return (
         <section className="board-details">
             <Link to="/board">Back to boards</Link>
-            {board && <BoardTable board={board} />}
             
-            {/* Keep this button for demo purposes */}
+            <BoardHeader 
+                board={board}
+                onUpdateBoard={handleUpdateBoard}
+            />
+            
+            <BoardTable 
+                board={board}
+                onUpdateTask={handleUpdateBoard}
+            />
+            
             <div className="board-actions">
                 <button onClick={() => { onAddBoardActivity(board._id) }}>
                     Add board activity
