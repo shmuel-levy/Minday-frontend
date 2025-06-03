@@ -6,23 +6,22 @@ import { BoardIconSidebar } from './svg/BoardIconSidebar'
 import { AddBoard } from './svg/AddBoard'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 
-export function SidebarBoardsList({ boards, favoritesOpen }) {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const navigate = useNavigate()
   const location = useLocation()
 
   if (favoritesOpen) {
     return (
-    <section className="sidebar-workspaces">
-      <div className="sidebar-item" onClick={() => window.dispatchEvent(new CustomEvent('close-favorites'))}>
-        <WorkspaceSidebar />
-        <span className='title'>Workspaces</span>
-        <span className="chevron">
-            
-        <ArrowDownUpIcon direction={favoritesOpen ? 'up' : ''} />
-            
-        </span>
-      </div>
+      <section className="sidebar-workspaces">
+        <div className="sidebar-item" onClick={() => window.dispatchEvent(new CustomEvent('close-favorites'))}>
+          <WorkspaceSidebar />
+          <span className='title'>Workspaces</span>
+          <span className="chevron">
+
+            <ArrowDownUpIcon direction={favoritesOpen ? 'up' : ''} />
+
+          </span>
+        </div>
       </section>
     )
   }
@@ -44,7 +43,7 @@ export function SidebarBoardsList({ boards, favoritesOpen }) {
 
         <button
           className="add-board-btn"
-          onClick={() => setIsCreateModalOpen(true)}
+          onClick={onOpenBoardModal}
           title="Create board"
         >
           <AddBoard />
@@ -64,10 +63,10 @@ export function SidebarBoardsList({ boards, favoritesOpen }) {
         ))}
       </div>
 
-      <CreateBoardModal
+      {/* <CreateBoardModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-      />
+      /> */}
     </section>
   )
 }
