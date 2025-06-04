@@ -28,9 +28,8 @@ export function BoardIndex() {
 
    function getBoardPreview(board) {
     const templates = [
-        './quick-search.svg',
-        './quick-search2.svg', 
-        './boardIndex.svg'
+        './img/quick-search.svg',
+        
     ]
     const templateIndex = board._id ? board._id.length % templates.length : 0
     return templates[templateIndex]

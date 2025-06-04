@@ -1,4 +1,4 @@
-import { useState, useEffect  } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { HomeIcon } from './svg/HomeIcon'
@@ -8,7 +8,7 @@ import { ArrowIcon } from './svg/ArrowIcon'
 import { SidebarBoardsList } from './SidebarBoardsList'
 import { SidebarFavoriteBoards } from './SidebarFavoriteBoards'
 
-export function Sidebar() {
+export function Sidebar({ onOpenBoardModal }) {
   const boards = useSelector(storeState => storeState.boardModule.boards) || []
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false)
@@ -21,7 +21,7 @@ export function Sidebar() {
 
   useEffect(() => {
     document.documentElement.style.setProperty(
-      '--sidebar-width', 
+      '--sidebar-width',
       isCollapsed ? '30px' : '280px'
     )
   }, [isCollapsed])
@@ -45,18 +45,18 @@ export function Sidebar() {
 
       <div className="sidebar-content">
         <div className="sidebar-header">
-        <div
-          className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
-          onClick={() => navigate('/')}
-        >
-          <HomeIcon />
-          {!isCollapsed && <span>Home</span>}
-        </div>
+          <div
+            className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
+            onClick={() => navigate('/')}
+          >
+            <HomeIcon />
+            {!isCollapsed && <span>Home</span>}
+          </div>
 
-        <div className="sidebar-item" onClick={() => navigate('/my-work')}>
-          <CalendarIcon />
-          {!isCollapsed && <span>My work</span>}
-        </div>
+          <div className="sidebar-item" onClick={() => navigate('/my-work')}>
+            <CalendarIcon />
+            {!isCollapsed && <span>My work</span>}
+          </div>
         </div>
 
         {!isCollapsed && (
@@ -70,7 +70,7 @@ export function Sidebar() {
 
             <hr className="divider" />
 
-          <SidebarBoardsList boards={boards} favoritesOpen={isFavoritesOpen} />
+            <SidebarBoardsList boards={boards} favoritesOpen={isFavoritesOpen} onOpenBoardModal={onOpenBoardModal} />
           </>
         )}
       </div>

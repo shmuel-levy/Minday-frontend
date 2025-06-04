@@ -4,6 +4,7 @@ import { GroupHeader } from './GroupHeader'
 import { TableHeader } from './table/TableHeader'
 import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
+import { AddBoard } from './svg/AddBoard'
 
 export function BoardTable({ board, onUpdateTask }) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
@@ -171,7 +172,8 @@ export function BoardTable({ board, onUpdateTask }) {
 
             <div className="add-group-container">
                 <button className="btn-add-group" onClick={handleAddGroup}>
-                    ➕ Add new group
+                    <AddBoard className="icon" />
+                    <span>Add new group</span>
                 </button>
             </div>
         </div>

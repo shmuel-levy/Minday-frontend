@@ -77,14 +77,6 @@
       }
     }
 
-    .group-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 20px;
-        background-color: #ffffff;
-    }
-
     .task-row {
         display: grid;
         grid-template-columns: 40px 1fr 150px 120px 120px;
@@ -148,6 +140,18 @@
     .group-title {
       margin: 0;
     }
+    .collapse-btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit; // So it uses the group color
+}
   }
 
   .add-group-container {
@@ -155,13 +159,24 @@
     margin-left: 40px;
 
   .btn-add-group {
-    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
+    font-family: 'FigtreeLight', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #323338;
+
     border: 1px solid #c3c6d4;
-    border-radius: 6px;
-    padding-inline: 8px;
+    border-radius: 4px;
+    padding: 4px 8px;
     height: 32px;
     cursor: pointer;
+
+    svg {
+      margin-right: 8px;
+    }
     
     &:hover {
       background: #6768791a;
