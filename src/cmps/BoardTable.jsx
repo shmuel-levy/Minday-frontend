@@ -5,6 +5,8 @@ import { TableHeader } from './table/TableHeader'
 import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
 import { AddBoard } from './svg/AddBoard'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 
 export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, onAddNewTask }, ref) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
@@ -43,7 +45,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
 
     function handleAddNewTask() {
         let updatedBoard = { ...demoBoard }
-        
+
         // Create default group if none exist
         if (!updatedBoard.groups?.length) {
             updatedBoard.groups = [{
@@ -65,10 +67,10 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
 
         // Add to FIRST position in first group
         updatedBoard.groups[0].tasks = [newTask, ...updatedBoard.groups[0].tasks]
-        
+
         setDemoBoard(updatedBoard)
         setFocusTaskId(newTask.id)
-        
+
         if (onAddNewTask) onAddNewTask(newTask, updatedBoard.groups[0].id)
     }
 
@@ -132,49 +134,93 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
         setDemoBoard({ ...demoBoard, groups: updatedGroups })
     }
 
-    useImperativeHandle(ref, () => ({ 
+    function handleDragEnd(result) {
+        const { source, destination } = result
+        if (!destination) return
+
+        const srcGroupIdx = demoBoard.groups.findIndex(g => g.id === source.droppableId)
+        const destGroupIdx = demoBoard.groups.findIndex(g => g.id === destination.droppableId)
+        if (srcGroupIdx === -1 || destGroupIdx === -1) return
+
+        const srcGroup = demoBoard.groups[srcGroupIdx]
+        const destGroup = demoBoard.groups[destGroupIdx]
+
+        const [movedTask] = srcGroup.tasks.splice(source.index, 1)
+        destGroup.tasks.splice(destination.index, 0, movedTask)
+
+        const updatedGroups = [...demoBoard.groups]
+        updatedGroups[srcGroupIdx] = { ...srcGroup }
+        updatedGroups[destGroupIdx] = { ...destGroup }
+
+        setDemoBoard(prev => ({ ...prev, groups: updatedGroups }))
+    }
+
+    useImperativeHandle(ref, () => ({
         handleAddNewTask,
-        handleAddGroupAtTop 
+        handleAddGroupAtTop
     }))
+
 
     return (
         <div className="board-table">
-            <div className="table-wrapper">
-                {demoBoard.groups?.map(group => (
-                    <div key={group.id} className="group-section">
-                        <GroupHeader group={group} />
-                        <div className="tasks-container" style={{ borderLeft: `6px solid ${group.color}` }}>
-                            <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)} />
-                            {group.tasks?.map(task => (
-                                <DynamicTaskRow
-                                    key={task.id}
-                                    task={task}
-                                    onUpdateTask={(updatedTask) => handleUpdateTask(group.id, updatedTask)}
-                                    shouldFocus={focusTaskId === task.id}
-                                    onFocusHandled={() => setFocusTaskId(null)}
-                                />
-                            ))}
-                            <div className="add-task-row">
-                                <div className="col-checkbox"></div>
-                                <div className="col-task">
-                                    <input
-                                        type="text"
-                                        placeholder="+ Add task"
-                                        className="input-add-task"
-                                        value={taskDrafts[group.id] || ''}
-                                        onChange={e => setTaskDrafts(prev => ({ ...prev, [group.id]: e.target.value }))}
-                                        onBlur={() => handleAdd(group.id)}
-                                        onKeyDown={e => e.key === 'Enter' && handleAdd(group.id)}
-                                    />
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <div className="table-wrapper">
+                    {demoBoard.groups?.map(group => (
+                        <Droppable droppableId={group.id} key={group.id}>
+                            {(provided) => (
+                                <div
+                                    className="group-section"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    <GroupHeader group={group} />
+                                    <div className="tasks-container" style={{ borderLeft: `6px solid ${group.color}` }}>
+                                        <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)} />
+                                        {group.tasks?.map((task, idx) => (
+                                            <Draggable draggableId={task.id} index={idx} key={task.id}>
+                                                {(provided, snapshot) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <DynamicTaskRow
+                                                            task={task}
+                                                            onUpdateTask={(updatedTask) => handleUpdateTask(group.id, updatedTask)}
+                                                            shouldFocus={focusTaskId === task.id}
+                                                            onFocusHandled={() => setFocusTaskId(null)}
+                                                            isDragging={snapshot.isDragging}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+
+                                        <div className="add-task-row">
+                                            <div className="col-checkbox"></div>
+                                            <div className="col-task">
+                                                <input
+                                                    type="text"
+                                                    placeholder="+ Add task"
+                                                    className="input-add-task"
+                                                    value={taskDrafts[group.id] || ''}
+                                                    onChange={e => setTaskDrafts(prev => ({ ...prev, [group.id]: e.target.value }))}
+                                                    onBlur={() => handleAdd(group.id)}
+                                                    onKeyDown={e => e.key === 'Enter' && handleAdd(group.id)}
+                                                />
+                                            </div>
+                                            <div className="col-status"></div>
+                                            <div className="col-owner"></div>
+                                            <div className="col-date"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="col-status"></div>
-                                <div className="col-owner"></div>
-                                <div className="col-date"></div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                            )}
+                        </Droppable>
+                    ))}
+                </div>
+            </DragDropContext>
 
             <div className="add-group-container">
                 <button className="btn-add-group" onClick={handleAddGroup}>

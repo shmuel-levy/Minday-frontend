@@ -3,7 +3,7 @@ import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
 
-export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
+export function DynamicTaskRow({ task, columns = [], onUpdateTask, isDragging = false }) {
     const defaultColumns = [
         { id: 'checkbox', type: 'checkbox', width: '40px' },
         { id: 'task', type: 'text', width: 'auto' },
@@ -104,7 +104,7 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask }) {
     }
 
     return (
-        <div className="task-row">
+        <div className={`task-row${isDragging ? ' drag-preview' : ''}`}>
             <div className="col-checkbox">
                 {renderCell(columnsToRender[0])}
             </div>

@@ -91,6 +91,13 @@
         .owner-avatar { width: 24px; height: 24px; border-radius: 50%; background: #ff9500; color: white; text-align: center; line-height: 24px; font-size: 12px; }
     }
 
+    .task-row.drag-preview {
+     transform: rotate(1deg) scale(1.02);
+     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+     opacity: 0.85;
+     background: #efefef;
+     transition: transform 0.15s ease;
+   }
     .add-task-row {
         display: grid;
         grid-template-columns: 40px 1fr 150px 120px 120px;
