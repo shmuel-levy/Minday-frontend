@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  
+  flex: 1; 
+  justify-content: flex-start; 
+
   .btn-new-task {
     background: #0073ea;
     color: #ffffff;
@@ -11,59 +13,46 @@
     border-radius: 4px;
     font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
     font-size: 14px;
-    line-height: 24px;
+    line-height: 20px; 
     font-weight: 400;
     height: 32px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background: #005bb5;
     }
-    
+
     &:active {
       background: #004494;
     }
   }
-  
+
   .btn-control {
     background: transparent;
     color: #676879;
     border: none;
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 4px;
     font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
     font-size: 15px;
-    line-height: 22.5px;
+    line-height: 20px; 
     font-weight: 400;
     height: 32px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 4px;
-    
+    gap: 6px;
+    white-space: nowrap; 
+
     &:hover {
       background: #f5f6f8;
       color: #323338;
     }
-    
+
     &:active {
       background: #e6e9ef;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .table-controls {
-    flex-wrap: wrap;
-    gap: 6px;
-    
-    .btn-new-task,
-    .btn-control {
-      font-size: 13px;
-      padding: 6px 10px;
-      height: 28px;
     }
   }
 }

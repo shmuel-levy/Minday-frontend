@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, forwardRef, useImperativeHandle } from 'react'
 import { useSelector } from 'react-redux'
 import { GroupHeader } from './GroupHeader'
 import { TableHeader } from './table/TableHeader'
@@ -6,10 +6,10 @@ import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
 import { AddBoard } from './svg/AddBoard'
 
-export function BoardTable({ board, onUpdateTask }) {
+export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, onAddNewTask }, ref) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
     const [taskDrafts, setTaskDrafts] = useState({})
-    const [checkedTasks, setCheckedTasks] = useState({})
+    const [focusTaskId, setFocusTaskId] = useState(null)
 
     const [demoBoard, setDemoBoard] = useState(() =>
         currentBoard?.groups?.length ? currentBoard : {
@@ -36,28 +36,41 @@ export function BoardTable({ board, onUpdateTask }) {
                         { id: 't6', title: 'Create MongoDB schema files', status: 'Working on it', assignee: 'John', dueDate: 'May 30', isChecked: false },
                         { id: 't7', title: 'Build Login & Signup pages', status: 'Working on it', assignee: 'Mike', dueDate: 'May 31', isChecked: false }
                     ]
-                },
-                {
-                    id: 'g3',
-                    title: 'QA',
-                    color: getRandomColor(),
-                    tasks: [
-                        { id: 't8', title: 'Write test cases for Auth', status: 'Not started', assignee: 'Dana', dueDate: 'Jun 2', isChecked: false },
-                        { id: 't9', title: 'Test drag-and-drop tasks', status: 'Working on it', assignee: 'Eli', dueDate: 'Jun 3', isChecked: false }
-                    ]
-                },
-                {
-                    id: 'g4',
-                    title: 'Bugs & Issues',
-                    color: getRandomColor(),
-                    tasks: [
-                        { id: 't10', title: 'Fix login redirect bug', status: 'Stuck', assignee: 'John', dueDate: 'Jun 4', isChecked: false },
-                        { id: 't11', title: 'Resolve layout shift on Safari', status: 'Working on it', assignee: 'SS', dueDate: 'Jun 5', isChecked: false }
-                    ]
                 }
             ]
         }
     )
+
+    function handleAddNewTask() {
+        let updatedBoard = { ...demoBoard }
+        
+        // Create default group if none exist
+        if (!updatedBoard.groups?.length) {
+            updatedBoard.groups = [{
+                id: `g${Date.now()}`,
+                title: 'New Group',
+                color: getRandomColor(),
+                tasks: []
+            }]
+        }
+
+        const newTask = {
+            id: `t${Date.now()}`,
+            title: 'New task',
+            status: 'Not Started',
+            assignee: '',
+            dueDate: '',
+            isChecked: false
+        }
+
+        // Add to FIRST position in first group
+        updatedBoard.groups[0].tasks = [newTask, ...updatedBoard.groups[0].tasks]
+        
+        setDemoBoard(updatedBoard)
+        setFocusTaskId(newTask.id)
+        
+        if (onAddNewTask) onAddNewTask(newTask, updatedBoard.groups[0].id)
+    }
 
     function handleAdd(groupId) {
         const title = (taskDrafts[groupId] || '').trim()
@@ -84,47 +97,45 @@ export function BoardTable({ board, onUpdateTask }) {
     function handleUpdateTask(groupId, updatedTask) {
         const updatedGroups = demoBoard.groups.map(group =>
             group.id === groupId
-                ? {
-                    ...group,
-                    tasks: group.tasks.map(task =>
-                        task.id === updatedTask.id ? updatedTask : task
-                    )
-                }
+                ? { ...group, tasks: group.tasks.map(task => task.id === updatedTask.id ? updatedTask : task) }
                 : group
         )
         setDemoBoard({ ...demoBoard, groups: updatedGroups })
     }
 
     function handleAddGroup() {
-        const newColor = getRandomColor()
         const newGroup = {
             id: `g${Date.now()}`,
             title: 'New Group',
-            color: newColor,
+            color: getRandomColor(),
             tasks: []
         }
+        setDemoBoard(prev => ({ ...prev, groups: [...prev.groups, newGroup] }))
+    }
 
-        setDemoBoard(prev => ({
-            ...prev,
-            groups: [...prev.groups, newGroup]
-        }))
+    function handleAddGroupAtTop() {
+        const newGroup = {
+            id: `g${Date.now()}`,
+            title: 'New Group',
+            color: getRandomColor(),
+            tasks: []
+        }
+        setDemoBoard(prev => ({ ...prev, groups: [newGroup, ...prev.groups] }))
     }
 
     function toggleAllInGroup(groupId, isChecked) {
         const updatedGroups = demoBoard.groups.map(group =>
             group.id === groupId
-                ? {
-                    ...group,
-                    tasks: group.tasks.map(task => ({
-                        ...task,
-                        isChecked,
-                    })),
-                }
+                ? { ...group, tasks: group.tasks.map(task => ({ ...task, isChecked })) }
                 : group
         )
-
         setDemoBoard({ ...demoBoard, groups: updatedGroups })
     }
+
+    useImperativeHandle(ref, () => ({ 
+        handleAddNewTask,
+        handleAddGroupAtTop 
+    }))
 
     return (
         <div className="board-table">
@@ -132,16 +143,15 @@ export function BoardTable({ board, onUpdateTask }) {
                 {demoBoard.groups?.map(group => (
                     <div key={group.id} className="group-section">
                         <GroupHeader group={group} />
-
                         <div className="tasks-container" style={{ borderLeft: `6px solid ${group.color}` }}>
-                            <TableHeader
-                                onToggleAll={(checked) => toggleAllInGroup(group.id, checked)}
-                            />
+                            <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)} />
                             {group.tasks?.map(task => (
                                 <DynamicTaskRow
                                     key={task.id}
                                     task={task}
                                     onUpdateTask={(updatedTask) => handleUpdateTask(group.id, updatedTask)}
+                                    shouldFocus={focusTaskId === task.id}
+                                    onFocusHandled={() => setFocusTaskId(null)}
                                 />
                             ))}
                             <div className="add-task-row">
@@ -152,13 +162,9 @@ export function BoardTable({ board, onUpdateTask }) {
                                         placeholder="+ Add task"
                                         className="input-add-task"
                                         value={taskDrafts[group.id] || ''}
-                                        onChange={e =>
-                                            setTaskDrafts(prev => ({ ...prev, [group.id]: e.target.value }))
-                                        }
+                                        onChange={e => setTaskDrafts(prev => ({ ...prev, [group.id]: e.target.value }))}
                                         onBlur={() => handleAdd(group.id)}
-                                        onKeyDown={e => {
-                                            if (e.key === 'Enter') handleAdd(group.id)
-                                        }}
+                                        onKeyDown={e => e.key === 'Enter' && handleAdd(group.id)}
                                     />
                                 </div>
                                 <div className="col-status"></div>
@@ -178,4 +184,4 @@ export function BoardTable({ board, onUpdateTask }) {
             </div>
         </div>
     )
-}
+})

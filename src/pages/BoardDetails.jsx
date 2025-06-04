@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { BoardTable } from '../cmps/BoardTable'
 export function BoardDetails() {
     const { boardId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
+    const boardTableRef = useRef(null)
 
     useEffect(() => {
         if (boardId) {
@@ -36,6 +37,20 @@ export function BoardDetails() {
         }
     }
 
+    function handleAddNewTask() {
+        // Call the BoardTable's add new task function
+        if (boardTableRef.current && boardTableRef.current.handleAddNewTask) {
+            boardTableRef.current.handleAddNewTask()
+        }
+    }
+
+    function handleAddNewGroup() {
+        // Call the BoardTable's add new group at top function
+        if (boardTableRef.current && boardTableRef.current.handleAddGroupAtTop) {
+            boardTableRef.current.handleAddGroupAtTop()
+        }
+    }
+
     if (!board) {
         return <div>Loading board...</div>
     }
@@ -45,11 +60,18 @@ export function BoardDetails() {
             <BoardHeader 
                 board={board}
                 onUpdateBoard={handleUpdateBoard}
+                onAddNewTask={handleAddNewTask}
+                onAddNewGroup={handleAddNewGroup}
             />
             
             <BoardTable 
+                ref={boardTableRef}
                 board={board}
                 onUpdateTask={handleUpdateBoard}
+                onAddNewTask={(task, groupId) => {
+                    console.log('New task added:', task, 'to group:', groupId)
+                    // You can add additional logic here if needed
+                }}
             />
             
             <div className="board-actions">

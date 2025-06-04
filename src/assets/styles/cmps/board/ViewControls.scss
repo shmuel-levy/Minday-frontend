@@ -1,8 +1,9 @@
 .view-controls {
   display: flex;
   align-items: center;
-  
-  .main-table-btn {
+  margin-right: 12px;
+
+ .main-table-btn {
     background: transparent;
     border: 1px solid #d0d4e4;
     color: #676879;
@@ -14,16 +15,16 @@
     font-weight: 400;
     height: 32px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: 6px;
-    
+
     &:hover {
       background: #f5f6f8;
       border-color: #c5c9d6;
     }
-    
+
     &:active {
       background: #e6e9ef;
     }

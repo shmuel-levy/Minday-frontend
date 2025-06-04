@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  
+
   .btn-action {
     background: transparent;
     border: none;
@@ -19,16 +19,16 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    
+
     &:hover {
       background: #f5f6f8;
     }
-    
+
     &:active {
       background: #e6e9ef;
     }
   }
-  
+
   .btn-invite {
     background: #0073ea;
     color: #ffffff;
@@ -44,11 +44,11 @@
     transition: background-color 0.2s ease;
     display: flex;
     align-items: center;
-    
+
     &:hover {
       background: #005bb5;
     }
-    
+
     &:active {
       background: #004494;
     }

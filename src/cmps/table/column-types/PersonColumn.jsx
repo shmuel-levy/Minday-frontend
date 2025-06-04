@@ -7,8 +7,7 @@ export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
     const [availableUsers, setAvailableUsers] = useState([])
     const [loading, setLoading] = useState(true)
-    
-    // Get current board members from Redux (optional - can show all users or just board members)
+
     const { board } = useSelector(state => state.boardModule)
 
     useEffect(() => {
@@ -57,9 +56,19 @@ export function PersonColumn({ value, onUpdate }) {
     return (
         <div className="person-column">
             <div 
-                className="person-display"
+                className={`person-display multiple-person-cell-component ${currentUser ? 'assigned' : 'unassigned'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
+                <div 
+                    className="add-btn"
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        setIsOpen(true)
+                    }}
+                >
+                    +
+                </div>
+                
                 {currentUser ? (
                     <>
                         {currentUser.imgUrl ? (
@@ -71,7 +80,7 @@ export function PersonColumn({ value, onUpdate }) {
                         ) : (
                             <img 
                                 src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                                className="person-icon-small" 
+                                className="person-icon-small person-bullet-image" 
                                 alt="" 
                                 aria-hidden="true"
                             />
@@ -81,7 +90,7 @@ export function PersonColumn({ value, onUpdate }) {
                 ) : (
                     <img 
                         src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                        className="person-icon-small" 
+                        className="person-icon-small person-bullet-image" 
                         alt="" 
                         aria-hidden="true"
                     />

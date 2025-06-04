@@ -1,89 +1,183 @@
+// PersonColumn - Pixel Perfect Monday.com Styling
 .person-column {
-  position: relative;
+    position: relative;
 
-  .person-display {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    padding: 2px;
-
-    .avatar {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 600;
-    }
-
-    .avatar-placeholder {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: 2px dashed #ddd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #999;
-    }
-
-    .person-name {
-      font-size: 12px;
-    }
-  }
-
-  .person-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
-    min-width: 140px;
-
-    .person-option {
-      padding: 8px 12px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
-
-      &.unassigned {
-        color: #999;
-        font-size: 12px;
-      }
-
-      .avatar {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        color: white;
+    .person-display {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        font-weight: 600;
-      }
+        position: relative;
+        width: 97px;
+        height: 35px;
+        background: #ffffff;
+        border: 1px solid #d0d4d9;
+        border-radius: 0px;
+        padding: 0;
+        cursor: pointer;
+        font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+        font-size: 14px;
+        line-height: 36px;
+        font-weight: 400;
+        letter-spacing: normal;
+        color: #333333;
+        
+        &:hover {
+            background: #f6f7fb;
+            
+            .add-btn {
+                display: flex;
+            }
+        }
 
-      .person-name {
-        font-size: 12px;
-      }
+        // When unassigned (only icon), center everything
+        &.unassigned {
+            justify-content: center;
+        }
+
+        // When assigned (has user), align left with padding
+        &.assigned {
+            justify-content: flex-start;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        // Add button (plus icon)
+        .add-btn {
+            display: none;
+            position: absolute;
+            left: 14px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #0073ea;
+            color: #ffffff;
+            font-size: 12px;
+            line-height: 12px;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            margin: 0px -6px;
+            cursor: pointer;
+            border: none;
+            font-weight: 600;
+            
+            &:hover {
+                background-color: #005bb5;
+            }
+        }
+
+        // Person avatar (when assigned)
+        .person-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 6px;
+        }
+
+        // Person icon (when unassigned)
+        .person-icon-small {
+            width: 16px;
+            height: 16px;
+            opacity: 0.6;
+        }
+
+        .person-name {
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 36px;
+            font-weight: 400;
+            color: #333333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
     }
-  }
-}
 
+    .person-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #d0d4d9;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        min-width: 200px;
+        max-height: 300px;
+        overflow-y: auto;
+
+        .person-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+            font-size: 14px;
+            color: #333333;
+
+            &:hover {
+                background: #f6f7fb;
+            }
+
+            &.selected {
+                background: #e3f3ff;
+            }
+
+            &.unassigned {
+                border-bottom: 1px solid #e6e9ef;
+            }
+
+            &.disabled {
+                color: #676879;
+                cursor: not-allowed;
+            }
+
+            // Large avatars in dropdown
+            .person-avatar-large {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+            }
+
+            .person-icon-large {
+                width: 24px;
+                height: 24px;
+                opacity: 0.6;
+                flex-shrink: 0;
+            }
+
+            .person-name {
+                font-family: inherit;
+                font-size: 14px;
+                color: #333333;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .dropdown-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+    }
+
+    .loading {
+        .person-display {
+            opacity: 0.7;
+            
+            .person-icon-small {
+                opacity: 0.3;
+            }
+        }
+    }
+}
 .owner-avatar {
     width: 20px;
     height: 20px;
