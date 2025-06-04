@@ -3,7 +3,7 @@ import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
 
-export function DynamicTaskRow({ task, columns = [], onUpdateTask, isDragging = false }) {
+export function DynamicTaskRow({ task, groupColor, columns = [], onUpdateTask, isDragging = false }) {
     const defaultColumns = [
         { id: 'checkbox', type: 'checkbox', width: '40px' },
         { id: 'task', type: 'text', width: 'auto' },
@@ -104,7 +104,10 @@ export function DynamicTaskRow({ task, columns = [], onUpdateTask, isDragging = 
     }
 
     return (
-        <div className={`task-row${isDragging ? ' drag-preview' : ''}`}>
+        <div
+            className={`task-row${isDragging ? ' drag-preview' : ''}`}
+            style={{ '--group-color': groupColor }}
+        >
             <div className="col-checkbox">
                 {renderCell(columnsToRender[0])}
             </div>

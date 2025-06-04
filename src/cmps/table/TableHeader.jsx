@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function TableHeader({ columns = [], onToggleAll }) {
+export function TableHeader({ columns = [], onToggleAll, groupColor }) {
     const defaultColumns = [
         { id: 'checkbox', type: 'checkbox', title: '☐', width: '40px', editable: false },
         { id: 'task', type: 'text', title: 'Task', width: 'auto', editable: false },
@@ -20,7 +20,7 @@ export function TableHeader({ columns = [], onToggleAll }) {
     const columnsToRender = columns.length ? columns : defaultColumns
 
     return (
-        <div className="table-header">
+        <div className="table-header" style={{ '--group-color': groupColor }}>
             {columnsToRender.map(column => (
                 <div
                     key={column.id}

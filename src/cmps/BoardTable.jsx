@@ -174,8 +174,9 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                                     {...provided.droppableProps}
                                 >
                                     <GroupHeader group={group} />
-                                    <div className="tasks-container" style={{ borderLeft: `6px solid ${group.color}` }}>
-                                        <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)} />
+                                    <div className="tasks-container" >
+                                        <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)}
+                                            groupColor={group.color} />
                                         {group.tasks?.map((task, idx) => (
                                             <Draggable draggableId={task.id} index={idx} key={task.id}>
                                                 {(provided, snapshot) => (
@@ -186,6 +187,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                                                     >
                                                         <DynamicTaskRow
                                                             task={task}
+                                                            groupColor={group.color}
                                                             onUpdateTask={(updatedTask) => handleUpdateTask(group.id, updatedTask)}
                                                             shouldFocus={focusTaskId === task.id}
                                                             onFocusHandled={() => setFocusTaskId(null)}
@@ -197,7 +199,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                                         ))}
                                         {provided.placeholder}
 
-                                        <div className="add-task-row">
+                                        <div className="add-task-row" style={{ '--group-color': group.color }}>
                                             <div className="col-checkbox"></div>
                                             <div className="col-task">
                                                 <input

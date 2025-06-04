@@ -38,13 +38,27 @@
     
   
     .table-header {
+        position: relative;
         display: grid;
         grid-template-columns: 40px 1fr 150px 120px 120px;
         gap: 15px;
         padding: 10px 20px;
         border-top: 1px solid #c3c6d4;
         border-bottom: 1px solid #c3c6d4;
-        font-size: 14px;
+        font-size: 14px; 
+        border-top-left-radius: 8px;
+        
+  
+        &::before {
+        content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 6px;
+         height: 105%;
+         background-color: var(--group-color);
+         border-top-left-radius: 8px; 
+        }
 
         .header-input {
           font-size: 14px;
@@ -68,24 +82,36 @@
 
     .group-section {
       margin-bottom: 65px;
-
-      .tasks-container {
-       border-left: 6px solid transparent;
-       border-top-left-radius: 8px;
-       border-bottom-left-radius: 8px;
-       overflow: hidden;
-      }
     }
 
     .task-row {
+        position: relative;
         display: grid;
         grid-template-columns: 40px 1fr 150px 120px 120px;
         gap: 15px;
         padding: 8px 20px;
         border-bottom: 1px solid #c3c6d4;
+        background-color: #fff;
         align-items: center;
 
+        overflow: visible;
+        
+
+        &::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 4px;
+           padding: 1px;
+           height: 100%;
+           background-color: var(--group-color);
+           display: block;
+         }
+
         &:hover { background: #f5f6f8; }
+
+
 
         .status-label { padding: 4px 8px; color: white; font-size: 14px; text-align: center; }
         .owner-avatar { width: 24px; height: 24px; border-radius: 50%; background: #ff9500; color: white; text-align: center; line-height: 24px; font-size: 12px; }
@@ -99,12 +125,25 @@
      transition: transform 0.15s ease;
    }
     .add-task-row {
+      position: relative;
         display: grid;
         grid-template-columns: 40px 1fr 150px 120px 120px;
         gap: 15px;
         padding: 8px 20px;
         color: #666;
         border-bottom: 1px solid #c3c6d4;
+        border-bottom-left-radius: 8px;
+
+         &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: var(--group-color);
+            border-bottom-left-radius: 8px;
+          }
 
         &:hover { background: #f5f6f8; 
         .input-add-task {
