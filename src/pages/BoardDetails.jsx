@@ -28,24 +28,14 @@ export function BoardDetails() {
         }
     }
 
-    async function onAddBoardActivity(boardId) {
-        try {
-            await addBoardActivity(boardId, 'New activity: ' + parseInt(Math.random() * 10))
-            showSuccessMsg(`Board activity added`)
-        } catch (err) {
-            showErrorMsg('Cannot add board activity')
-        }
-    }
 
     function handleAddNewTask() {
-        // Call the BoardTable's add new task function
         if (boardTableRef.current && boardTableRef.current.handleAddNewTask) {
             boardTableRef.current.handleAddNewTask()
         }
     }
 
     function handleAddNewGroup() {
-        // Call the BoardTable's add new group at top function
         if (boardTableRef.current && boardTableRef.current.handleAddGroupAtTop) {
             boardTableRef.current.handleAddGroupAtTop()
         }
@@ -69,16 +59,10 @@ export function BoardDetails() {
                 board={board}
                 onUpdateTask={handleUpdateBoard}
                 onAddNewTask={(task, groupId) => {
-                    console.log('New task added:', task, 'to group:', groupId)
-                    // You can add additional logic here if needed
                 }}
             />
             
-            <div className="board-actions">
-                <button onClick={() => { onAddBoardActivity(board._id) }}>
-                    Add board activity
-                </button>
-            </div>
+    
         </section>
     )
 }
