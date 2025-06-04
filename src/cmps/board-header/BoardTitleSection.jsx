@@ -36,10 +36,7 @@ export function BoardTitleSection({ board, onUpdateBoard }) {
                     />
                 </div>
             </div>
-            
-            <button className="btn-share">
-                Share
-            </button>
+        
         </div>
     )
 }
