@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { MainTableIcon } from '../svg/MainTableIcon'
 import { NotificationIcon } from '../svg/NotificationIcon'
 
@@ -8,43 +9,31 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
     const [isFavorited, setIsFavorited] = useState(board?.isFavorited || false)
     const [isEditingDescription, setIsEditingDescription] = useState(false)
     const dropdownRef = useRef(null)
-
-    const availableUsers = [
-        { id: 'u1', name: 'Shoham', initials: 'SS', color: '#ff7f50' },
-        { id: 'u2', name: 'Shmuel', initials: 'SL', color: '#87ceeb' },
-        { id: 'u3', name: 'Agam', initials: 'AL', color: '#dda0dd' },
-        { id: 'u4', name: 'Shani', initials: 'SC', color: '#98fb98' }
-    ]
-
-    const owner = availableUsers.find(user => user.id === (board?.ownerId || 'u1')) || availableUsers[0]
-    const creator = availableUsers.find(user => user.id === (board?.createdBy || 'u1')) || availableUsers[0]
+    
+    const { user: loggedinUser } = useSelector(state => state.userModule)
+    const owner = board?.createdBy || loggedinUser
+    const createdDate = board?.createdAt ? 
+        new Date(board.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 
+        new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
     useEffect(() => {
         if (isOpen) {
             setTitleDraft(board?.title || '')
             setDescriptionDraft(board?.description || 'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.')
         }
-    }, [isOpen, board?.title, board?.description])
+    }, [isOpen, board])
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (dropdownRef.current && 
-                !dropdownRef.current.contains(event.target) && 
-                anchorEl && 
-                !anchorEl.contains(event.target)) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && 
+                anchorEl && !anchorEl.contains(event.target)) {
                 handleSave()
             }
         }
-
         if (isOpen) {
-            setTimeout(() => {
-                document.addEventListener('mousedown', handleClickOutside)
-            }, 100)
+            setTimeout(() => document.addEventListener('mousedown', handleClickOutside), 100)
         }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
+        return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [isOpen, anchorEl, titleDraft, descriptionDraft])
 
     function handleSave() {
@@ -52,11 +41,7 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
         const trimmedDescription = descriptionDraft.trim()
         
         if (trimmedTitle && (trimmedTitle !== board?.title || trimmedDescription !== board?.description)) {
-            onUpdateBoard({ 
-                ...board, 
-                title: trimmedTitle,
-                description: trimmedDescription 
-            })
+            onUpdateBoard({ ...board, title: trimmedTitle, description: trimmedDescription })
         }
         setIsEditingDescription(false)
         onClose()
@@ -75,18 +60,10 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
         onUpdateBoard(updatedBoard)
     }
 
-    function handleDropdownClick(e) {
-        e.stopPropagation()
-    }
-
     if (!isOpen) return null
 
     return (
-        <div 
-            className="board-dropdown" 
-            ref={dropdownRef}
-            onClick={handleDropdownClick}
-        >
+        <div className="board-dropdown" ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
             <div className="board-dropdown-content">
                 <div className="board-header">
                     <div className="title-star">
@@ -97,10 +74,7 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                             maxLength={100}
                             onClick={(e) => e.stopPropagation()}
                         />
-                        <button 
-                            className={`star-btn ${isFavorited ? 'starred' : ''}`}
-                            onClick={toggleFavorite}
-                        >
+                        <button className={`star-btn ${isFavorited ? 'starred' : ''}`} onClick={toggleFavorite}>
                             {isFavorited ? '★' : '☆'}
                         </button>
                     </div>
@@ -116,13 +90,10 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                             rows={3}
                         />
                     ) : (
-                        <p 
-                            className="description" 
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                setIsEditingDescription(true)
-                            }}
-                        >
+                        <p className="description" onClick={(e) => {
+                            e.stopPropagation()
+                            setIsEditingDescription(true)
+                        }}>
                             {descriptionDraft}
                         </p>
                     )}
@@ -144,20 +115,26 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                     <div className="info-row">
                         <span className="label">Owner</span>
                         <div className="value">
-                            <div className="avatar" style={{ backgroundColor: owner.color }}>
-                                {owner.initials}
-                            </div>
-                            <span>{owner.name}</span>
+                            {owner?.imgUrl ? (
+                                <img src={owner.imgUrl} alt={owner.fullname} className="owner-avatar" />
+                            ) : (
+                                <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                                     className="owner-icon" alt="" aria-hidden="true" />
+                            )}
+                            <span>{owner?.fullname || 'Unknown User'}</span>
                         </div>
                     </div>
 
                     <div className="info-row">
                         <span className="label">Created by</span>
                         <div className="value">
-                            <div className="avatar" style={{ backgroundColor: creator.color }}>
-                                {creator.initials}
-                            </div>
-                            <span>on {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                            {owner?.imgUrl ? (
+                                <img src={owner.imgUrl} alt={owner.fullname} className="owner-avatar" />
+                            ) : (
+                                <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                                     className="owner-icon" alt="" aria-hidden="true" />
+                            )}
+                            <span>on {createdDate}</span>
                         </div>
                     </div>
 

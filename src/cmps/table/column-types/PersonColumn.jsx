@@ -1,22 +1,57 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { userService } from '../../../services/user'
+import { formatUsersForSelect, formatUserForDisplay } from '../../../services/util.service'
 
 export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
+    const [availableUsers, setAvailableUsers] = useState([])
+    const [loading, setLoading] = useState(true)
+    
+    // Get current board members from Redux (optional - can show all users or just board members)
+    const { board } = useSelector(state => state.boardModule)
 
-    const availableUsers = [
-        { id: 'u1', name: 'Shoham', initials: 'SS', color: '#ff7f50' },
-        { id: 'u2', name: 'Shmuel', initials: 'SL', color: '#87ceeb' },
-        { id: 'u3', name: 'Agam', initials: 'AL', color: '#dda0dd' },
-        { id: 'u4', name: 'Shani', initials: 'SC', color: '#98fb98' }
-    ]
+    useEffect(() => {
+        loadUsers()
+    }, [])
 
-    const currentUser = availableUsers.find(user => user.name === value)
+    async function loadUsers() {
+        try {
+            setLoading(true)
+            const users = await userService.getUsers()
+            const formattedUsers = formatUsersForSelect(users)
+            setAvailableUsers(formattedUsers)
+        } catch (error) {
+            console.error('Failed to load users:', error)
+            setAvailableUsers([])
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Find current user by matching the stored value (could be user ID, fullname, etc.)
+    const currentUser = availableUsers.find(user => 
+        user.fullname === value || 
+        user._id === value ||
+        user.username === value
+    )
 
     function handlePersonChange(person) {
         if (onUpdate) {
-            onUpdate(person ? person.name : '')
+            // Store the user's fullname as the value (or you could store _id)
+            onUpdate(person ? person.fullname : '')
         }
         setIsOpen(false)
+    }
+
+    if (loading) {
+        return (
+            <div className="person-column">
+                <div className="person-display loading">
+                    <div className="avatar-placeholder">...</div>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -27,16 +62,29 @@ export function PersonColumn({ value, onUpdate }) {
             >
                 {currentUser ? (
                     <>
-                        <div 
-                            className="avatar"
-                            style={{ backgroundColor: currentUser.color }}
-                        >
-                            {currentUser.initials}
-                        </div>
-                        <span className="person-name">{currentUser.name}</span>
+                        {currentUser.imgUrl ? (
+                            <img 
+                                src={currentUser.imgUrl} 
+                                alt={currentUser.fullname}
+                                className="person-avatar"
+                            />
+                        ) : (
+                            <img 
+                                src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                                className="person-icon-small" 
+                                alt="" 
+                                aria-hidden="true"
+                            />
+                        )}
+                        <span className="person-name">{currentUser.fullname}</span>
                     </>
                 ) : (
-                    <div className="avatar-placeholder">+</div>
+                    <img 
+                        src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                        className="person-icon-small" 
+                        alt="" 
+                        aria-hidden="true"
+                    />
                 )}
             </div>
 
@@ -46,24 +94,44 @@ export function PersonColumn({ value, onUpdate }) {
                         className="person-option unassigned"
                         onClick={() => handlePersonChange(null)}
                     >
-                        Unassigned
+                        <img 
+                            src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                            className="person-icon-large" 
+                            alt="" 
+                            aria-hidden="true"
+                        />
+                        <span>Unassigned</span>
                     </div>
 
-                    {availableUsers.map(user => (
-                        <div
-                            key={user.id}
-                            className="person-option"
-                            onClick={() => handlePersonChange(user)}
-                        >
-                            <div 
-                                className="avatar"
-                                style={{ backgroundColor: user.color }}
+                    {availableUsers.length > 0 ? (
+                        availableUsers.map(user => (
+                            <div
+                                key={user._id}
+                                className={`person-option ${currentUser?._id === user._id ? 'selected' : ''}`}
+                                onClick={() => handlePersonChange(user)}
                             >
-                                {user.initials}
+                                {user.imgUrl ? (
+                                    <img 
+                                        src={user.imgUrl} 
+                                        alt={user.fullname}
+                                        className="person-avatar-large"
+                                    />
+                                ) : (
+                                    <img 
+                                        src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
+                                        className="person-icon-large" 
+                                        alt="" 
+                                        aria-hidden="true"
+                                    />
+                                )}
+                                <span className="person-name">{user.fullname}</span>
                             </div>
-                            <span className="person-name">{user.name}</span>
+                        ))
+                    ) : (
+                        <div className="person-option disabled">
+                            <span>No users available</span>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
 

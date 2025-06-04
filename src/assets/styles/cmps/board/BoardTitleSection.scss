@@ -105,3 +105,30 @@
     }
   }
 }
+
+.person-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.person-icon-small {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+}
+
+.person-avatar-large {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.person-icon-large {
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+}
+

@@ -10,7 +10,8 @@ export const boardService = {
     save,
     remove,
     addBoardActivity,
-    toggleStar
+    toggleStar,
+    addMemberToBoard
 }
 window.bs = boardService
 
@@ -40,14 +41,26 @@ async function query(filterBy = { txt: '', maxMembers: 0 }) {
             (new Date(board1.createdAt) - new Date(board2.createdAt)) * +sortDir)
     }
 
-    boards = boards.map(({ _id, title, description, isStarred, createdBy, members, groups }) => ({ 
-        _id, title, description, isStarred, createdBy, members, groups 
+    boards = boards.map(({ _id, title, description, isStarred, createdBy, members, groups }) => ({
+        _id, title, description, isStarred, createdBy, members, groups
     }))
     return boards
 }
 
-function getById(boardId) {
-    return storageService.get(STORAGE_KEY, boardId)
+async function getById(boardId) {
+    const board = await storageService.get(STORAGE_KEY, boardId)
+    
+    // Auto-add current user as member when accessing board
+    if (board) {
+        const currentUser = userService.getLoggedinUser()
+        if (currentUser && !isMemberOfBoard(board, currentUser._id)) {
+            await addMemberToBoard(boardId, currentUser)
+            // Return updated board
+            return await storageService.get(STORAGE_KEY, boardId)
+        }
+    }
+    
+    return board
 }
 
 async function remove(boardId) {
@@ -70,6 +83,7 @@ async function save(board) {
         }
         savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
     } else {
+        const currentUser = userService.getLoggedinUser()
         const boardToSave = {
             title: board.title,
             description: board.description,
@@ -77,13 +91,14 @@ async function save(board) {
             archivedAt: null,
             isStarred: false,
             createdAt: Date.now(),
-            // Later, createdBy is set by the backend
-            createdBy: userService.getLoggedinUser(),
+            // Set created by to current user
+            createdBy: currentUser,
             style: {
                 backgroundImgs: []
             },
             labels: [],
-            members: [userService.getLoggedinUser()],
+            // Creator is automatically first member
+            members: currentUser ? [currentUser] : [],
             groups: [],
             activities: [],
             cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
@@ -103,7 +118,6 @@ async function addBoardActivity(boardId, txt) {
         createdAt: Date.now(),
         byMember: userService.getLoggedinUser(),
         isStarred: false
-
     }
     board.activities.push(activity)
     await storageService.put(STORAGE_KEY, board)
@@ -115,4 +129,26 @@ async function toggleStar(boardId, isStarred) {
     const board = await getById(boardId)
     board.isStarred = isStarred
     return save(board)
+}
+
+// Add member to board function
+async function addMemberToBoard(boardId, user) {
+    const board = await storageService.get(STORAGE_KEY, boardId)
+    if (!board || !user) return
+
+    // Check if user is already a member
+    if (isMemberOfBoard(board, user._id)) return board
+
+    // Add user to members
+    board.members = board.members || []
+    board.members.push(user)
+    
+    await storageService.put(STORAGE_KEY, board)
+    return board
+}
+
+// Helper function to check if user is member
+function isMemberOfBoard(board, userId) {
+    if (!board.members || !userId) return false
+    return board.members.some(member => member._id === userId)
 }
