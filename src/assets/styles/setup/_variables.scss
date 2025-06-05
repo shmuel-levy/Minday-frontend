@@ -68,7 +68,10 @@ $shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
 
 $main-header-height: em(48px);
-$sidebar-width: 280px; 
-$sidebar-collapsed-width: 30px;
 
 
+
+:root {
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 30px;
+}
