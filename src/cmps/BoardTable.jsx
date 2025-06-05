@@ -5,8 +5,9 @@ import { TableHeader } from './table/TableHeader'
 import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
 import { AddBoard } from './svg/AddBoard'
-import { UpdateModal } from './UpdateModal'
+import { TaskDetailModal, } from './task-detail-modal/TaskDetailModal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 
 
 export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, onAddNewTask }, ref) {
@@ -25,10 +26,46 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                     title: 'Frontend',
                     color: getRandomColor(),
                     tasks: [
-                        { id: 't1', title: 'Implement Task Preview UI 2', status: 'Working on it', assignee: 'John', dueDate: 'May 26', isChecked: false },
-                        { id: 't2', title: 'Build Board List component', status: 'Done', assignee: 'SS', dueDate: 'May 25', isChecked: false },
-                        { id: 't3', title: 'Create Task Details modal', status: 'Stuck', assignee: 'Mike', dueDate: 'May 27', isChecked: false },
-                        { id: 't4', title: 'Add drag & drop for tasks', status: 'Working on it', assignee: 'SS', dueDate: 'May 28', isChecked: false }
+                        { 
+                            id: 't1', 
+                            title: 'Implement Task Preview UI 2', 
+                            status: 'Working on it', 
+                            assignee: 'John', 
+                            dueDate: 'May 26', 
+                            isChecked: false,
+                            updates: [], 
+                            files: [], 
+                        },
+                        { 
+                            id: 't2', 
+                            title: 'Build Board List component', 
+                            status: 'Done', 
+                            assignee: 'SS', 
+                            dueDate: 'May 25', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        },
+                        { 
+                            id: 't3', 
+                            title: 'Create Task Details modal', 
+                            status: 'Stuck', 
+                            assignee: 'Mike', 
+                            dueDate: 'May 27', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        },
+                        { 
+                            id: 't4', 
+                            title: 'Add drag & drop for tasks', 
+                            status: 'Working on it', 
+                            assignee: 'SS', 
+                            dueDate: 'May 28', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        }
                     ]
                 },
                 {
@@ -36,9 +73,36 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                     title: 'Backend',
                     color: getRandomColor(),
                     tasks: [
-                        { id: 't5', title: 'Set up Express server', status: 'Working on it', assignee: 'SS', dueDate: 'May 30', isChecked: false },
-                        { id: 't6', title: 'Create MongoDB schema files', status: 'Working on it', assignee: 'John', dueDate: 'May 30', isChecked: false },
-                        { id: 't7', title: 'Build Login & Signup pages', status: 'Working on it', assignee: 'Mike', dueDate: 'May 31', isChecked: false }
+                        { 
+                            id: 't5', 
+                            title: 'Set up Express server', 
+                            status: 'Working on it', 
+                            assignee: 'SS', 
+                            dueDate: 'May 30', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        },
+                        { 
+                            id: 't6', 
+                            title: 'Create MongoDB schema files', 
+                            status: 'Working on it', 
+                            assignee: 'John', 
+                            dueDate: 'May 30', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        },
+                        { 
+                            id: 't7', 
+                            title: 'Build Login & Signup pages', 
+                            status: 'Working on it', 
+                            assignee: 'Mike', 
+                            dueDate: 'May 31', 
+                            isChecked: false,
+                            updates: [],
+                            files: [],
+                        }
                     ]
                 }
             ]
@@ -48,7 +112,6 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
     function handleAddNewTask() {
         let updatedBoard = { ...demoBoard }
 
-        // Create default group if none exist
         if (!updatedBoard.groups?.length) {
             updatedBoard.groups = [{
                 id: `g${Date.now()}`,
@@ -64,10 +127,11 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
             status: 'Not Started',
             assignee: '',
             dueDate: '',
-            isChecked: false
+            isChecked: false,
+            updates: [], 
+            files: [], 
         }
 
-        // Add to FIRST position in first group
         updatedBoard.groups[0].tasks = [newTask, ...updatedBoard.groups[0].tasks]
 
         setDemoBoard(updatedBoard)
@@ -85,7 +149,9 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
             title,
             status: 'Not Started',
             assignee: '',
-            dueDate: ''
+            dueDate: '',
+            updates: [],
+            files: [],
         }
 
         const updatedGroups = demoBoard.groups.map(group =>
@@ -157,11 +223,15 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
         setDemoBoard(prev => ({ ...prev, groups: updatedGroups }))
     }
 
+    function handleOpenUpdates(taskId) {
+        console.log('Opening modal for task:', taskId) 
+        setOpenTaskId(taskId)
+    }
+
     useImperativeHandle(ref, () => ({
         handleAddNewTask,
         handleAddGroupAtTop
     }))
-
 
     return (
         <div className="board-table">
@@ -194,7 +264,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                                                             shouldFocus={focusTaskId === task.id}
                                                             onFocusHandled={() => setFocusTaskId(null)}
                                                             isDragging={snapshot.isDragging}
-                                                            onOpenUpdates={(taskId) => setOpenTaskId(taskId)}
+                                                            onOpenUpdates={handleOpenUpdates} 
                                                         />
                                                     </div>
                                                 )}
@@ -226,9 +296,11 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                     ))}
                 </div>
             </DragDropContext>
+            
             {openTaskId && (
-                <UpdateModal
-                    task={demoBoard.groups.flatMap(g => g.tasks).find(t => t.id === openTaskId)}
+                <TaskDetailModal
+                    taskId={openTaskId}
+                    board={demoBoard} 
                     onClose={() => setOpenTaskId(null)}
                 />
             )}
