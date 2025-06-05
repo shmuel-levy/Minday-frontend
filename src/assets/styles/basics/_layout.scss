@@ -7,23 +7,28 @@
     > *.full { grid-column: 1 / -1; }
 }
 
-
 .main-layout {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
-    .app-header { position: sticky; top: 0; z-index: 200; }
+    .app-header { 
+        position: sticky;
+         top: 0; 
+         z-index: 200; 
+        }
+
     .app-body {     
         display: flex;
         flex: 1;
         background-color: #eceff8;
     }
+
     .main-content { 
         flex: 1; 
-    margin-left: var(--sidebar-width);
+        margin-left: var(--main-content-margin);
         transition: margin-left 0.3s; 
-    }&.collapsed { margin-left: var(--sidebar-collapsed-width); }
+    }&.collapsed { margin-left: var(--margin-left-sidebar-collapsed); }
 
 }
 

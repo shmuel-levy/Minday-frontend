@@ -1,25 +1,36 @@
-.board-header {
-  background: #ffffff;
-  border-bottom: 1px solid #d0d4e4;
-  padding: 16px 24px;
+.board-header-container {
+  display: grid;
+  column-gap: 16px;
+  background-color: #ffffff;
+  padding: 18px 30px 0 30px;
 
-  .board-header-top {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 16px;
 
-    .board-header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+
+  grid-template-areas:
+    "info info action"
+    "navigation navigation navigation"
+    "contextualAction contextualAction contextualAction";
+
+  grid-template-columns: fit-content(800px) 1fr auto;
+  grid-template-rows: auto;
+
+  .board-header-info {
+    grid-area: info;
+    overflow: hidden;
+    gap: 8px;
   }
 
-  .board-header-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0; // Remove any gap between containers
+  .board-header-action {
+    grid-area: action;
+  }
+
+  .board-header-navigation {
+    grid-area: navigation;
+    border-bottom: 1px solid #e6e6ea;
+  }
+
+  .board-header-contextualAction {
+    grid-area: contextualAction;
+
   }
 }
