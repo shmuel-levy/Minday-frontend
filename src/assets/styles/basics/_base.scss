@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    user-select: none;
+
 }
 
 html {
@@ -27,7 +29,7 @@ img {
 }
 
 p {
-    margin: 0 0 1em;
+    margin: 0;
 }
 
 a {

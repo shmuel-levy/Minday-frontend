@@ -28,11 +28,14 @@ export function SidebarFavoriteBoards({ isOpen, onToggle }) {
 
       <div className={`favorites-content ${isOpen ? 'open' : ''}`}>
         {favoriteBoards.length === 0 ? (
-          <div className="empty-msg">
-            <img src="https://microfrontends.monday.com/mf-leftpane/latest/static/media/favorites-empty-.99fa5473.svg" alt="No favorite items" />
-            <p className="bold">Your favorites are empty</p>
-            <p>Add your boards, docs, or dashboards for a quick access.</p>
-          </div>
+
+          <section className='empty-msg-container flex column align-center '>
+            <div className="empty-msg flex column align-center justify-center">
+              <img src="https://microfrontends.monday.com/mf-leftpane/latest/static/media/favorites-empty-.99fa5473.svg" alt="No favorite items" />
+              <p className="empty-msg-title">Your favorites are empty</p>
+              <p className='empty-msg-text'>Add your boards, docs, or dashboards for a quick access.</p>
+            </div>
+          </section>
         ) : (
           <div className="workspace-boards">
             {favoriteBoards.map(board => (
