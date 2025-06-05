@@ -1,65 +1,78 @@
 @font-face {
-  font-family: RobotoRegular;
-  src: url(src/assets/fonts/Roboto/Roboto-Regular.ttf);
+  font-family: 'Roboto';
+  src: url(../../assets/fonts/Roboto/Roboto-Regular.ttf);
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: PoppinsRegular;
-  src: url(src/assets/fonts/Poppins/Poppins-Regular.ttf);
+  font-family: 'Poppins';
+  src: url(../../assets/fonts/Poppins/Poppins-Regular.ttf);
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: PoppinsBold;
-  src: url(src/assets/fonts/Poppins/Poppins-Bold.ttf) ;
+  font-family: 'Poppins';
+  src: url(../../assets/fonts/Poppins/Poppins-Bold.ttf);
+  font-weight: 700;
 }
 
 @font-face {
-  font-family: PoppinsMedium;
-  src: url(src/assets/fonts/Poppins/Poppins-Medium.ttf);
+  font-family: 'Poppins';
+  src: url(../../assets/fonts/Poppins/Poppins-Medium.ttf);
+  font-weight: 500;
 }
 
 @font-face {
-  font-family: PoppinsSemiBold;
-  src: url(src/assets/fonts/Poppins/Poppins-SemiBold.ttf);
+  font-family: 'Poppins';
+  src: url(../../assets/fonts/Poppins/Poppins-SemiBold.ttf);
+  font-weight: 600;
 }
 
 @font-face {
-  font-family: PoppinsLight;
-  src: url(src/assets/fonts/Poppins/Poppins-Light.ttf);
+  font-family: 'Poppins';
+  src: url(../../assets/fonts/Poppins/Poppins-Light.ttf);
+  font-weight: 300;
 }
 
 @font-face {
-  font-family: FigtreeLight;
-  src: url(src/assets/fonts/Figtree/Figtree-Light.ttf);
+  font-family: 'Figtree';
+  src: url(../../assets/fonts/Figtree/Figtree-Light.ttf);
+  font-weight: 300;
 }
 
 @font-face {
-  font-family: FigtreeRegular;
-  src: url(src/assets/fonts/Figtree/Figtree-Regular.ttf) ;
+  font-family: 'Figtree';
+  src: url(../../assets/fonts/Figtree/Figtree-Regular.ttf);
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: FigtreeBold;
-  src: url(src/assets/fonts/Figtree/Figtree-Bold.ttf);
+  font-family: 'Figtree';
+  src: url(../../assets/fonts/Figtree/Figtree-Medium.ttf);
+  font-weight: 500;
 }
 
 @font-face {
-  font-family: FigtreeSemiBold;
-  src: url(src/assets/fonts/Figtree/Figtree-SemiBold.ttf);
+  font-family: 'Figtree';
+  src: url(../../assets/fonts/Figtree/Figtree-SemiBold.ttf);
+  font-weight: 600;
 }
 
 @font-face {
-  font-family: FigtreeMedium;
-  src: url(src/assets/fonts/Figtree/Figtree-Medium.ttf);
+  font-family: 'Figtree';
+  src: url(../../assets/fonts/Figtree/Figtree-Bold.ttf);
+  font-weight: 700;
 }
 
-
+/* Font Awesome */
 @font-face {
-  font-family: faRegular;
-  src: url(src/assets/fonts/fa/fa-regular-400.ttf);
+  font-family: 'FontAwesomeRegular';
+  src: url(../../assets/fonts/fa/fa-regular-400.ttf);
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: faSolid;
-  src: url(src/assets/fonts/fa/fa-solid-900.ttf);
+  font-family: 'FontAwesomeSolid';
+  src: url(../../assets/fonts/fa/fa-solid-900.ttf);
+  font-weight: 900;
 }

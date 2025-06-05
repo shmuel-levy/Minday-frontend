@@ -17,7 +17,7 @@
   flex-direction: column;
 
   &.collapsed {
-    width: var(--sidebar-collapsed-width);
+    width: $sidebar-collapsed-width;
   }
 
   .sidebar-toggle {

@@ -1,11 +1,6 @@
 button {
 	border: 0;
 	background-color: transparent;
-	// background-color: $clr1;
-	// color: whitesmoke;
-	// padding: 5px 10px;
-	// margin: 5px;
-	// cursor: pointer;
 
 	&:hover {
 	background-color: rgba(103, 104, 121, 0.1);
@@ -15,16 +10,6 @@ button {
 
 form > * {
 	display: block;
-	// width: 200px;
 	margin: 10px 0px;
 }
 
-// .btn-link {
-// 	border: 0;
-// 	background-color: transparent;
-// 	// text-decoration: underline;
-// 	transition: 0.5s;
-// }
-// .btn-link:hover {
-// 	background-color: rgba(103, 104, 121, 0.1);
-// }
