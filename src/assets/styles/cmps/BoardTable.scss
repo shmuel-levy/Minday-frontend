@@ -229,4 +229,28 @@
     }
   }
  }
+
+ .task-with-icon {
+    display: flex;
+    align-items: center;
+    
+
+    .btn-add-update {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0 6px;
+        display: flex;
+        align-items: center;
+
+        svg {
+            color: #676879;
+            transition: color 0.2s;
+        }
+
+        &:hover svg {
+            color: #0073ea;
+        }
+    }
+}
 }

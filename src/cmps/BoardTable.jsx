@@ -5,6 +5,7 @@ import { TableHeader } from './table/TableHeader'
 import { DynamicTaskRow } from './table/DynamicTaskRow'
 import { getRandomColor } from '../services/util.service'
 import { AddBoard } from './svg/AddBoard'
+import { UpdateModal } from './UpdateModal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 
@@ -12,6 +13,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
     const [taskDrafts, setTaskDrafts] = useState({})
     const [focusTaskId, setFocusTaskId] = useState(null)
+    const [openTaskId, setOpenTaskId] = useState(null)
 
     const [demoBoard, setDemoBoard] = useState(() =>
         currentBoard?.groups?.length ? currentBoard : {
@@ -192,6 +194,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                                                             shouldFocus={focusTaskId === task.id}
                                                             onFocusHandled={() => setFocusTaskId(null)}
                                                             isDragging={snapshot.isDragging}
+                                                            onOpenUpdates={(taskId) => setOpenTaskId(taskId)}
                                                         />
                                                     </div>
                                                 )}
@@ -223,6 +226,12 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                     ))}
                 </div>
             </DragDropContext>
+            {openTaskId && (
+                <UpdateModal
+                    task={demoBoard.groups.flatMap(g => g.tasks).find(t => t.id === openTaskId)}
+                    onClose={() => setOpenTaskId(null)}
+                />
+            )}
 
             <div className="add-group-container">
                 <button className="btn-add-group" onClick={handleAddGroup}>
