@@ -8,7 +8,6 @@ export function TaskDetailModal({ taskId, board, onClose }) {
     const [isClosing, setIsClosing] = useState(false)
     const [activeTab, setActiveTab] = useState('updates')
     
-    // Find the task
     let task = null
     let groupTitle = ''
     
@@ -23,7 +22,7 @@ export function TaskDetailModal({ taskId, board, onClose }) {
         }
     }
 
-    // Load updates when task changes - FIXED!
+
     useEffect(() => {
         if (task) {
             setUpdates(task.updates || [])
@@ -31,8 +30,6 @@ export function TaskDetailModal({ taskId, board, onClose }) {
     }, [taskId, task])
 
     function handleAddFile(fileData) {
-        // For now, just update local state
-        // Later this will integrate with store actions
         console.log('File added:', fileData)
     }
 
