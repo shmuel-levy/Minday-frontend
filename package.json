@@ -12,6 +12,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@vibe/icons": "^1.8.0",
         "axios": "^1.5.0",
         "lucide-react": "^0.511.0",
         "monday-ui-react-core": "^2.149.5",
