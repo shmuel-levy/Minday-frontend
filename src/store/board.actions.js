@@ -32,6 +32,20 @@ export async function removeBoard(boardId) {
     }
 }
 
+export async function deleteGroup(boardId, groupId) {
+    try {
+        const result = await boardService.deleteGroup(boardId, groupId)
+        
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+        
+        return result
+    } catch (err) {
+        console.log('Cannot delete group', err)
+        throw err
+    }
+}
+
 export async function toggleBoardStar(boardId) {
     try {
         const { boards } = store.getState().boardModule
@@ -138,4 +152,63 @@ async function unitTestActions() {
     })
     await removeBoard('b1oC7')
     // TODO unit test addBoardActivity
+}
+
+// Add these to your existing board.actions.js
+
+export async function updateTask(boardId, groupId, taskId, taskToUpdate) {
+    try {
+        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskToUpdate)
+        
+        // Reload the board to get the updated state
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+        
+        return updatedTask
+    } catch (err) {
+        console.log('Cannot update task', err)
+        throw err
+    }
+}
+
+export async function addTaskUpdate(boardId, groupId, taskId, updateText) {
+    try {
+        const result = await boardService.addTaskUpdate(boardId, groupId, taskId, {
+            text: updateText,
+            type: 'text'
+        })
+        
+        // Reload the board to get the updated state
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+        
+        return result
+    } catch (err) {
+        console.log('Cannot add task update', err)
+        throw err
+    }
+}
+
+export async function addTaskFile(boardId, groupId, taskId, fileData) {
+    try {
+        const result = await boardService.addTaskFile(boardId, groupId, taskId, fileData)
+        
+        // Reload the board to get the updated state
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+        
+        return result
+    } catch (err) {
+        console.log('Cannot add task file', err)
+        throw err
+    }
+}
+
+export async function getTaskActivities(boardId, taskId) {
+    try {
+        return await boardService.getTaskActivities(boardId, taskId)
+    } catch (err) {
+        console.log('Cannot get task activities', err)
+        throw err
+    }
 }

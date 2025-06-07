@@ -2,8 +2,19 @@ import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
+import { AddUpdateIcon } from '../svg/AddUpdateIcon' 
 
-export function DynamicTaskRow({ task, groupColor, columns = [], onUpdateTask, isDragging = false }) {
+// UPDATE: Add the new props here
+export function DynamicTaskRow({ 
+    task, 
+    groupColor, 
+    columns = [], 
+    onUpdateTask, 
+    onOpenUpdates, 
+    isDragging = false,
+    onTaskSelection,    // NEW PROP
+    isSelected = false  // NEW PROP
+}) {
     const defaultColumns = [
         { id: 'checkbox', type: 'checkbox', width: '40px' },
         { id: 'task', type: 'text', width: 'auto' },
@@ -45,16 +56,36 @@ export function DynamicTaskRow({ task, groupColor, columns = [], onUpdateTask, i
                 return (
                     <input
                         type="checkbox"
-                        checked={task.isChecked || false}
+                        checked={isSelected}  // CHANGED: Use isSelected instead of task.isChecked
                         onChange={(e) => {
+                            // CHANGED: Call selection handler first
+                            if (onTaskSelection) {
+                                onTaskSelection(e.target.checked)
+                            }
+                            
+                            // Still update the task's isChecked property if needed
                             const updatedTask = { ...task, isChecked: e.target.checked }
                             onUpdateTask?.(updatedTask)
                         }}
                     />
                 )
             case 'task':
-                value = task.title
-                break
+                return (
+                    <div className="task-with-icon">
+                        <TextColumn
+                            value={task.title}
+                            onUpdate={(newValue) => handleCellUpdate('task', newValue)}
+                            placeholder="Enter task..."
+                        />
+                        <button
+                            className="btn-add-update"
+                            onClick={() => onOpenUpdates?.(task.id)}
+                            title="Add update"
+                        >
+                            <AddUpdateIcon />
+                        </button>
+                    </div>
+                )
             case 'status':
                 value = task.status
                 break

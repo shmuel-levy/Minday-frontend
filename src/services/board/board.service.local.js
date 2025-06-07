@@ -11,7 +11,12 @@ export const boardService = {
     remove,
     addBoardActivity,
     toggleStar,
-    addMemberToBoard
+    addMemberToBoard,
+    updateTask,
+    addTaskUpdate,
+    addTaskFile,
+    getTaskActivities,
+    deleteGroup
 }
 window.bs = boardService
 
@@ -50,12 +55,10 @@ async function query(filterBy = { txt: '', maxMembers: 0 }) {
 async function getById(boardId) {
     const board = await storageService.get(STORAGE_KEY, boardId)
     
-    // Auto-add current user as member when accessing board
     if (board) {
         const currentUser = userService.getLoggedinUser()
         if (currentUser && !isMemberOfBoard(board, currentUser._id)) {
             await addMemberToBoard(boardId, currentUser)
-            // Return updated board
             return await storageService.get(STORAGE_KEY, boardId)
         }
     }
@@ -64,7 +67,6 @@ async function getById(boardId) {
 }
 
 async function remove(boardId) {
-    // throw new Error('Nope')
     await storageService.remove(STORAGE_KEY, boardId)
 }
 
@@ -91,13 +93,11 @@ async function save(board) {
             archivedAt: null,
             isStarred: false,
             createdAt: Date.now(),
-            // Set created by to current user
             createdBy: currentUser,
             style: {
                 backgroundImgs: []
             },
             labels: [],
-            // Creator is automatically first member
             members: currentUser ? [currentUser] : [],
             groups: [],
             activities: [],
@@ -109,7 +109,6 @@ async function save(board) {
 }
 
 async function addBoardActivity(boardId, txt) {
-    // Later, this is all done by the backend
     const board = await getById(boardId)
 
     const activity = {
@@ -131,15 +130,12 @@ async function toggleStar(boardId, isStarred) {
     return save(board)
 }
 
-// Add member to board function
 async function addMemberToBoard(boardId, user) {
     const board = await storageService.get(STORAGE_KEY, boardId)
     if (!board || !user) return
 
-    // Check if user is already a member
     if (isMemberOfBoard(board, user._id)) return board
 
-    // Add user to members
     board.members = board.members || []
     board.members.push(user)
     
@@ -147,8 +143,134 @@ async function addMemberToBoard(boardId, user) {
     return board
 }
 
-// Helper function to check if user is member
 function isMemberOfBoard(board, userId) {
     if (!board.members || !userId) return false
     return board.members.some(member => member._id === userId)
+}
+
+async function updateTask(boardId, groupId, taskId, taskToUpdate) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+    
+    const group = board.groups.find(g => g.id === groupId)
+    if (!group) throw new Error('Group not found')
+    
+    const taskIdx = group.tasks.findIndex(t => t.id === taskId)
+    if (taskIdx === -1) throw new Error('Task not found')
+    
+    group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskToUpdate }
+    
+    await storageService.put(STORAGE_KEY, board)
+    return group.tasks[taskIdx]
+}
+
+async function addTaskUpdate(boardId, groupId, taskId, updateData) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+    
+    const group = board.groups.find(g => g.id === groupId)
+    if (!group) throw new Error('Group not found')
+    
+    const task = group.tasks.find(t => t.id === taskId)
+    if (!task) throw new Error('Task not found')
+    
+    if (!task.updates) task.updates = []
+    
+    const newUpdate = {
+        id: makeId(),
+        ...updateData,
+        createdAt: Date.now(),
+        byMember: userService.getLoggedinUser()
+    }
+    
+    task.updates.push(newUpdate)
+    
+    const activity = {
+        id: makeId(),
+        txt: `added an update to "${task.title}"`,
+        createdAt: Date.now(),
+        byMember: userService.getLoggedinUser(),
+        task: { id: taskId, title: task.title },
+        group: { id: groupId, title: group.title },
+        type: 'task-update'
+    }
+    
+    if (!board.activities) board.activities = []
+    board.activities.push(activity)
+    
+    await storageService.put(STORAGE_KEY, board)
+    return { update: newUpdate, activity }
+}
+
+async function deleteGroup(boardId, groupId) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+    
+    const groupIndex = board.groups.findIndex(g => g.id === groupId)
+    if (groupIndex === -1) throw new Error('Group not found')
+    
+    const deletedGroup = board.groups[groupIndex]
+    board.groups.splice(groupIndex, 1)
+    
+    const activity = {
+        id: makeId(),
+        txt: `deleted group "${deletedGroup.title}" with ${deletedGroup.tasks?.length || 0} tasks`,
+        createdAt: Date.now(),
+        byMember: userService.getLoggedinUser(),
+        type: 'group-delete'
+    }
+    
+    if (!board.activities) board.activities = []
+    board.activities.push(activity)
+    
+    await storageService.put(STORAGE_KEY, board)
+    return { deletedGroup, activity }
+}
+
+async function addTaskFile(boardId, groupId, taskId, fileData) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+    
+    const group = board.groups.find(g => g.id === groupId)
+    if (!group) throw new Error('Group not found')
+    
+    const task = group.tasks.find(t => t.id === taskId)
+    if (!task) throw new Error('Task not found')
+    
+    if (!task.files) task.files = []
+    
+    const newFile = {
+        id: makeId(),
+        ...fileData,
+        uploadedAt: Date.now(),
+        uploadedBy: userService.getLoggedinUser()
+    }
+    
+    task.files.push(newFile)
+    
+    const activity = {
+        id: makeId(),
+        txt: `uploaded "${fileData.name}" to "${task.title}"`,
+        createdAt: Date.now(),
+        byMember: userService.getLoggedinUser(),
+        task: { id: taskId, title: task.title },
+        group: { id: groupId, title: group.title },
+        file: newFile,
+        type: 'file-upload'
+    }
+    
+    if (!board.activities) board.activities = []
+    board.activities.push(activity)
+    
+    await storageService.put(STORAGE_KEY, board)
+    return { file: newFile, activity }
+}
+
+async function getTaskActivities(boardId, taskId) {
+    const board = await getById(boardId)
+    if (!board) return []
+    
+    return (board.activities || []).filter(activity => 
+        activity.task && activity.task.id === taskId
+    ).sort((a, b) => b.createdAt - a.createdAt)
 }

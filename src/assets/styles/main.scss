@@ -26,6 +26,8 @@
 @import "cmps/AppHeader";
 @import "cmps/UserMsg";
 @import "cmps/Sidebar";
+@import "cmps/GroupHeader";
+@import "cmps/CrudlBar";
 @import "cmps/CreateBoardModal";
 @import "cmps/Modal";
 @import "cmps/table/StatusColumn";
@@ -41,6 +43,8 @@
 @import "cmps/table/TextColumn";
 @import "cmps/SidebarFavoriteBoards";
 @import "cmps/SidebarBoardsList";
+@import "cmps/TaskModal/TaskDetailModal.scss";
+@import "cmps/TaskModal/TaskFilesSection.scss";
 
 
 //scss
