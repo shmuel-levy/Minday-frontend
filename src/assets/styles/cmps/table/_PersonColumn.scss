@@ -7,22 +7,14 @@
         align-items: center;
         position: relative;
         width: 97px;
-        height: 35px;
-        background: #ffffff;
-        border: 1px solid #d0d4d9;
-        border-radius: 0px;
         padding: 0;
         cursor: pointer;
         font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
         font-size: 14px;
-        line-height: 36px;
-        font-weight: 400;
         letter-spacing: normal;
         color: #333333;
         
         &:hover {
-            background: #f6f7fb;
-            
             .add-btn {
                 display: flex;
             }
@@ -76,8 +68,8 @@
 
         // Person icon (when unassigned)
         .person-icon-small {
-            width: 16px;
-            height: 16px;
+             width: 26px;
+            height: 26px;
             opacity: 0.6;
         }
 

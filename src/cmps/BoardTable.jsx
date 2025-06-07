@@ -482,7 +482,13 @@ export const BoardTable = forwardRef(function BoardTable(
                       className="add-task-row"
                       style={{ "--group-color": group.color }}
                     >
-                      <div className="col-checkbox"></div>
+                      <div className="col-left-indicator"></div>
+                      <div className="col-checkbox">
+                        <input
+                            disabled
+                            type="checkbox"
+                        />
+                      </div>
                       <div className="col-task">
                         <input
                           type="text"
@@ -501,9 +507,6 @@ export const BoardTable = forwardRef(function BoardTable(
                           }
                         />
                       </div>
-                      <div className="col-status"></div>
-                      <div className="col-owner"></div>
-                      <div className="col-date"></div>
                     </div>
                   </div>
                 </div>

@@ -1,12 +1,15 @@
 import { useState } from 'react'
+import { Plus } from "../svg/Plus"
 
 export function TableHeader({ columns = [], onToggleAll, groupColor }) {
     const defaultColumns = [
-        { id: 'checkbox', type: 'checkbox', title: '☐', width: '40px', editable: false },
-        { id: 'task', type: 'text', title: 'Task', width: 'auto', editable: false },
-        { id: 'status', type: 'status', title: 'Status', width: '140px', editable: true },
-        { id: 'owner', type: 'person', title: 'Owner', width: '120px', editable: true },
-        { id: 'date', type: 'date', title: 'Due date', width: '120px', editable: true }
+        { id: 'left-indicator', type: 'left-indicator', title: '', width: '6px', editable: false },
+        { id: 'checkbox', type: 'checkbox', title: '☐', width: '33px', editable: false },
+        { id: 'task', type: 'text', title: 'Task', width: '360px', editable: false },
+        { id: 'status', type: 'status', title: 'Status', width: '139px', editable: true },
+        { id: 'owner', type: 'person', title: 'Owner', width: '97px', editable: true },
+        { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },  
+        { id: 'add-cell', type: 'add-cell', title: <Plus />, width: 'auto', editable: false }
     ]
 
     const [headerTitles, setHeaderTitles] = useState(

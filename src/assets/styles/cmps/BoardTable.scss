@@ -1,72 +1,38 @@
 .board-table {
     margin-left: 0px;
     background: white;
-    padding: 20px;
+    padding: 20px 8px 20px 38px;
 
-    .board-header {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 15px;
-        margin-bottom: 20px;
+    .table-wrapper{
+    gap: 28px;
+    display: flex;
+    flex-direction: column;
 
-        .board-title-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+    .group-section{
+      .tasks-container{
 
-            .board-actions {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-
-                button { padding: 5px 10px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer; }
-                .btn-primary { background: #0073ea; color: white; border: none; }
-                .avatar { width: 24px; height: 24px; border-radius: 50%; background: #ff9500; color: white; text-align: center; line-height: 24px; font-size: 12px; }
-            }
-        }
-
-        .board-controls {
-            display: flex;
-            justify-content: space-between;
-
-            .table-actions { display: flex; gap: 8px; }
-            button { padding: 5px 10px; border: 1px solid #ccc; background: white; cursor: pointer; }
-            .btn-new-task { background: #0073ea; color: white; border: none; }
-        }
-    }
-
-    
-  
-    .table-header {
-        position: relative;
-        display: grid;
-        grid-template-columns: 40px 1fr 150px 120px 120px;
-        gap: 15px;
-        padding: 10px 20px;
-        border-top: 1px solid #c3c6d4;
-        border-bottom: 1px solid #c3c6d4;
-        font-size: 14px; 
-        border-top-left-radius: 8px;
-        
-  
-        &::before {
-        content: '';
-         position: absolute;
-         top: 0;
-         left: 0;
-         width: 6px;
-         height: 105%;
-         background-color: var(--group-color);
+        .table-header {
+          grid-template-columns: 6px 33px 360px 139px 97px  139px 1fr; //agam: 1fr to cells add 
          border-top-left-radius: 8px; 
+         border-top: 1px solid #c3c6d4;
+        
+          .col-left-indicator{
+         border-top-left-radius: 8px;
+        }
+
+        .col-task{
+            justify-content: center;
         }
 
         .header-input {
-          font-size: 14px;
-          border: 1px solid transparent;   // Invisible but space is reserved
-          border-radius: 3px;
-          background: transparent;
-          outline: none;
-          transition: border 0.2s ease;
+           font-size: 14px;
+           border: 1px solid transparent;
+           border-radius: 3px;
+           background: transparent;
+           outline: none;
+           transition: border 0.2s ease;
+           text-align: center;
+           padding: 0;
 
          &:hover {
           border-color: #d0d4e4;
@@ -76,42 +42,141 @@
          &:focus {
            border-color: #0073ea;
            background-color: #fff;
+           text-align: left;
+
         }
-      }
+      }    
+ 
     }
 
-    .group-section {
-      margin-bottom: 65px;
-    }
+        .task-row{
+          grid-template-columns: 6px 33px 295px 65px 139px 97px  139px 1fr; //agam: 1fr to cells add 
+           .col-task {
+         padding: 0 0 0 30px;
+        }
+        }
 
-    .task-row {
-        position: relative;
-        display: grid;
-        grid-template-columns: 40px 1fr 150px 120px 120px;
-        gap: 15px;
-        padding: 8px 20px;
-        border-bottom: 1px solid #c3c6d4;
-        background-color: #fff;
-        align-items: center;
+        .table-header ,.task-row {
+       position: relative;
+       display: grid;
+       font-size: 14px;
+       height: 36px;
+       align-items: center;
 
-        overflow: visible;
-        
+       .col-left-indicator{
+         width: 100%;
+         height: 100%;
+         background-color: var(--group-color);
+        }
 
-        &::before {
-           content: '';
-           position: absolute;
-           top: 0;
-           left: 0;
-           width: 4px;
-           padding: 1px;
-           height: 100%;
-           background-color: var(--group-color);
-           display: block;
+        .col-checkbox, .col-task, .col-status, .col-owner, .col-date,.btn-add-update {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          border-bottom: 1px solid #c3c6d4;
+          border-right: 1px solid #c3c6d4;
+        }
+
+        .col-add-cell{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            border-bottom: 1px solid #c3c6d4;
+            padding: 0 0 0 10px;
+        }
+
+        .col-checkbox, .col-status, .col-owner, .col-date, .btn-add-update{
+          justify-content: center;
+
+        }
+       
+     }
+
+        .add-task-row {
+            position: relative;
+            display: grid;
+            font-size: 14px;
+            height: 36px;
+            align-items: center;
+            border-bottom-left-radius: 8px; 
+            border-bottom: 1px solid #c3c6d4;
+            grid-template-columns: 6px 33px 1fr; //agam: 1fr to cells add 
+
+            .col-checkbox{
+              display: flex;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+              border-right: 1px solid #c3c6d4;
+              justify-content: center;
+        }
+
+        .col-left-indicator{
+         width: 100%;
+         height: 100%;
+         background-color: var(--group-color);
+         opacity: .5;
+        border-bottom-left-radius: 8px;
+        }
+
+
+           .input-add-task {
+           padding: 2px 0 3px 24px;
+           margin: 6px 10px;
+           width: 340px;
+           outline: none;
+           border: none;
+           border-radius: 6px;
+           height: 24px;
+
+       &::placeholder {
+        color: #999;
+        font-size: 14px;
+   }
+       
+       &:focus {
+       border: solid 1px #0073ea;
+
+        .add-task-row {
+             background-color: #0073ea;
+        }
+
+         .col-left-indicator{
+          opacity: 1;
          }
+    }
 
+}
+        &:focus-within {
+        background-color: #cce5ff;
+        .col-left-indicator{
+          opacity: 1;
+         }
+        }
+
+             &:hover:not(:focus-within)   {
+              background-color: #f9f9f9;
+            .input-add-task {
+                    background-color: #f9f9f9;
+                    border: 1px solid #d0d4e4;
+                    width: 340px;
+              }
+               .col-left-indicator{
+          opacity:1;
+         }
+}
+    }
+    
+    }
+  }
+
+}
+   
+     
+    .task-row {
         &:hover { background: #f5f6f8; }
-
-
 
         .status-label { padding: 4px 8px; color: white; font-size: 14px; text-align: center; }
         .owner-avatar { width: 24px; height: 24px; border-radius: 50%; background: #ff9500; color: white; text-align: center; line-height: 24px; font-size: 12px; }
@@ -124,81 +189,9 @@
      background: #efefef;
      transition: transform 0.15s ease;
    }
-    .add-task-row {
-      position: relative;
-        display: grid;
-        grid-template-columns: 40px 1fr 150px 120px 120px;
-        gap: 15px;
-        padding: 8px 20px;
-        color: #666;
-        border-bottom: 1px solid #c3c6d4;
-        border-bottom-left-radius: 8px;
+ 
+ 
 
-         &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background-color: var(--group-color);
-            border-bottom-left-radius: 8px;
-          }
-
-        &:hover { background: #f5f6f8; 
-        .input-add-task {
-            border: 1px solid #d0d4e4;
-        }
-    }
-
-        
-        &:focus-within {
-        background-color: #cce5ff;
-        }
-    }
-    .input-add-task {
-       width: 13.5rem;
-       height: 1.5rem;
-       padding: 0.5em;
-       font-size: 15px;
-       border-radius: 3px;
-       border: none;
-       outline: none;
-       color: #555;
-
-       &::placeholder {
-        color: #999;
-        font-style: italic;
-   }
-       
-       &:focus {
-       border: solid 1px #0073ea;
-  }
-}
- .group-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    font-weight: bold;
-    font-size: 14px;
-
-    .group-title {
-      margin: 0;
-    }
-    .collapse-btn {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: inherit; // So it uses the group color
-}
-  }
 
   .add-group-container {
     margin-top: 70px;
@@ -229,28 +222,4 @@
     }
   }
  }
-
- .task-with-icon {
-    display: flex;
-    align-items: center;
-    
-
-    .btn-add-update {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0 6px;
-        display: flex;
-        align-items: center;
-
-        svg {
-            color: #676879;
-            transition: color 0.2s;
-        }
-
-        &:hover svg {
-            color: #0073ea;
-        }
-    }
-}
 }

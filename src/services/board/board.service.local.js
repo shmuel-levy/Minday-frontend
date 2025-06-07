@@ -145,7 +145,7 @@ async function addMemberToBoard(boardId, user) {
 
 function isMemberOfBoard(board, userId) {
     if (!board.members || !userId) return false
-    return board.members.some(member => member._id === userId)
+    return board.members.some(member => member?._id === userId)
 }
 
 async function updateTask(boardId, groupId, taskId, taskToUpdate) {

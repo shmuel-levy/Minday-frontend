@@ -26,9 +26,8 @@
 
     .main-content { 
         flex: 1; 
-        margin-left: var(--main-content-margin);
         transition: margin-left 0.3s; 
-    }&.collapsed { margin-left: var(--margin-left-sidebar-collapsed); }
+    }
 
 }
 

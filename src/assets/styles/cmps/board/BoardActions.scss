@@ -2,14 +2,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+
 
   .btn-action {
     background: transparent;
     border: none;
-    color: #676879;
+    color: #323338;
     padding: 6px 12px;
     border-radius: 4px;
-    font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
     font-size: 15px;
     line-height: 22px;
     font-weight: 400;
@@ -30,12 +31,11 @@
   }
 
   .btn-invite {
-    background: #0073ea;
-    color: #ffffff;
-    border: none;
     padding: 6px 12px;
-    border-radius: 4px;
+    border: 1px solid #d0d4e4;
+    border-radius: 4px 0 0 4px;    
     font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+    color: #323338;
     font-size: 15px;
     line-height: 22px;
     font-weight: 400;
@@ -46,11 +46,7 @@
     align-items: center;
 
     &:hover {
-      background: #005bb5;
-    }
-
-    &:active {
-      background: #004494;
+background-color: #e6e9ef;
     }
   }
 }
