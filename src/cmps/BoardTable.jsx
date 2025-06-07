@@ -10,14 +10,13 @@ import { CrudlBar } from "./CrudlBar";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export const BoardTable = forwardRef(function BoardTable(
-  { board, onUpdateTask, onAddNewTask },
+  { board, onUpdateTask, onAddNewTask, onOpenUpdates },
   ref
 ) {
   const currentBoard =
     board || useSelector((storeState) => storeState.boardModule.board);
   const [taskDrafts, setTaskDrafts] = useState({});
   const [focusTaskId, setFocusTaskId] = useState(null);
-  const [openTaskId, setOpenTaskId] = useState(null);
   const [selectedTasks, setSelectedTasks] = useState([]);
 
   const [demoBoard, setDemoBoard] = useState(() =>
@@ -254,7 +253,7 @@ export const BoardTable = forwardRef(function BoardTable(
 
   function handleOpenUpdates(taskId) {
     console.log("Opening modal for task:", taskId);
-    setOpenTaskId(taskId);
+     if (onOpenUpdates) onOpenUpdates(taskId, demoBoard)
   }
 
   function handleTaskSelection(taskId, groupId, isSelected) {
@@ -516,13 +515,7 @@ export const BoardTable = forwardRef(function BoardTable(
         </div>
       </DragDropContext>
 
-      {openTaskId && (
-        <TaskDetailModal
-          taskId={openTaskId}
-          board={demoBoard}
-          onClose={() => setOpenTaskId(null)}
-        />
-      )}
+      
 
       <CrudlBar
         selectedTasks={selectedTasks}

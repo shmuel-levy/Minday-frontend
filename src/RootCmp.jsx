@@ -18,9 +18,11 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
 import { Signup } from './pages/Signup.jsx'
+import { TaskDetailModal } from './cmps/task-detail-modal/TaskDetailModal.jsx'
 
 export function RootCmp() {
     const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false)
+    const [openTaskId, setOpenTaskId] = useState(null)
 
     function openBoardModal() {
         setIsCreateBoardOpen(true)
@@ -42,7 +44,7 @@ export function RootCmp() {
                             <Routes>
                                 <Route path="/" element={<BoardIndex />} />
                                 <Route path="board" element={<BoardIndex />} />
-                                <Route path="board/:boardId" element={<BoardDetails />} />
+                                <Route path="board/:boardId" element={<BoardDetails openTaskId={openTaskId} setOpenTaskId={setOpenTaskId} />} />
                                 <Route path="user/:id" element={<UserDetails />} />
                                 <Route path="chat" element={<ChatApp />} />
                                 <Route path="admin" element={
@@ -60,6 +62,12 @@ export function RootCmp() {
                 </div>
                 <FloatingChatIcon />
             </div>
+            {openTaskId && (
+                <TaskDetailModal
+                    taskId={openTaskId}
+                    onClose={() => setOpenTaskId(null)}
+                />
+            )}
             <CreateBoardModal isOpen={isCreateBoardOpen} onClose={closeBoardModal} />
         </>
     )

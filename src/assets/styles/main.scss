@@ -48,9 +48,11 @@
 
 
 //scss
+@import "cmps/board/BoardDetails.scss";
 @import "cmps/BoardFilter";
 @import "cmps/BoardTable";
 @import "cmps/BoardList";
 @import "cmps/BoardPreview";
 @import "cmps/UserAvatar";
+
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TaskFilesSection } from './TaskFilesSection'
 
-export function TaskDetailModal({ taskId, board, onClose }) {
+export function TaskDetailModal({ taskId, board, onClose, onStartClose }) {
     const [text, setText] = useState('')
     const [updates, setUpdates] = useState([])
     const [isEditorOpen, setIsEditorOpen] = useState(false)
@@ -47,6 +47,7 @@ export function TaskDetailModal({ taskId, board, onClose }) {
 
     function handleClose() {
         setIsClosing(true)
+          if (onStartClose) onStartClose()
         setTimeout(() => {
             onClose()
             setIsClosing(false)

@@ -1,0 +1,23 @@
+.board-details {
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  transition: margin-right 0.3s ease;
+
+  &.with-modal {
+    margin-right: 570px;
+      
+  }
+
+   &::-webkit-scrollbar {
+    width: 10px;
+    background-color: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #C3C6D4;
+   
+  }
+}
+
