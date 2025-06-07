@@ -10,11 +10,11 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 
 
-export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, onAddNewTask }, ref) {
+export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, onAddNewTask, onOpenUpdates }, ref) {
     const currentBoard = board || useSelector(storeState => storeState.boardModule.board)
     const [taskDrafts, setTaskDrafts] = useState({})
     const [focusTaskId, setFocusTaskId] = useState(null)
-    const [openTaskId, setOpenTaskId] = useState(null)
+    // const [openTaskId, setOpenTaskId] = useState(null)
 
     const [demoBoard, setDemoBoard] = useState(() =>
         currentBoard?.groups?.length ? currentBoard : {
@@ -225,7 +225,7 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
 
     function handleOpenUpdates(taskId) {
         console.log('Opening modal for task:', taskId) 
-        setOpenTaskId(taskId)
+          if (onOpenUpdates) onOpenUpdates(taskId, demoBoard)
     }
 
     useImperativeHandle(ref, () => ({
@@ -297,13 +297,13 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                 </div>
             </DragDropContext>
             
-            {openTaskId && (
+            {/* {openTaskId && (
                 <TaskDetailModal
                     taskId={openTaskId}
                     board={demoBoard} 
                     onClose={() => setOpenTaskId(null)}
                 />
-            )}
+            )} */}
 
             <div className="add-group-container">
                 <button className="btn-add-group" onClick={handleAddGroup}>

@@ -1,18 +1,7 @@
 import { useEffect } from 'react'
 
 export function Modal({ isOpen, onClose, title, children, className = '' }) {
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden'
-        } else {
-            document.body.style.overflow = 'unset'
-        }
-
-        return () => {
-            document.body.style.overflow = 'unset'
-        }
-    }, [isOpen])
-
+    
     useEffect(() => {
         function handleEscape(e) {
             if (e.key === 'Escape') {
