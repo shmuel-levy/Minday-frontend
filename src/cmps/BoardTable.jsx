@@ -202,37 +202,42 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
         setDemoBoard({ ...demoBoard, groups: updatedGroups })
     }
 
+    function handleDeleteGroup(groupId) {
+        const updatedGroups = demoBoard.groups.filter(group => group.id !== groupId)
+        setDemoBoard({ ...demoBoard, groups: updatedGroups })
+    }
+    
     function handleDragEnd(result) {
         const { source, destination } = result
         if (!destination) return
-
+        
         const srcGroupIdx = demoBoard.groups.findIndex(g => g.id === source.droppableId)
         const destGroupIdx = demoBoard.groups.findIndex(g => g.id === destination.droppableId)
         if (srcGroupIdx === -1 || destGroupIdx === -1) return
-
+        
         const srcGroup = demoBoard.groups[srcGroupIdx]
         const destGroup = demoBoard.groups[destGroupIdx]
-
+        
         const [movedTask] = srcGroup.tasks.splice(source.index, 1)
         destGroup.tasks.splice(destination.index, 0, movedTask)
-
+        
         const updatedGroups = [...demoBoard.groups]
         updatedGroups[srcGroupIdx] = { ...srcGroup }
         updatedGroups[destGroupIdx] = { ...destGroup }
-
+        
         setDemoBoard(prev => ({ ...prev, groups: updatedGroups }))
     }
-
+    
     function handleOpenUpdates(taskId) {
         console.log('Opening modal for task:', taskId) 
         setOpenTaskId(taskId)
     }
-
+    
     useImperativeHandle(ref, () => ({
         handleAddNewTask,
         handleAddGroupAtTop
     }))
-
+    
     return (
         <div className="board-table">
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -241,11 +246,11 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
                         <Droppable droppableId={group.id} key={group.id}>
                             {(provided) => (
                                 <div
-                                    className="group-section"
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
+                                className="group-section"
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
                                 >
-                                    <GroupHeader group={group} />
+                                        <GroupHeader group={group} onDeleteGroup={handleDeleteGroup} />
                                     <div className="tasks-container" >
                                         <TableHeader onToggleAll={(checked) => toggleAllInGroup(group.id, checked)}
                                             groupColor={group.color} />
@@ -299,9 +304,9 @@ export const BoardTable = forwardRef(function BoardTable({ board, onUpdateTask, 
             
             {openTaskId && (
                 <TaskDetailModal
-                    taskId={openTaskId}
-                    board={demoBoard} 
-                    onClose={() => setOpenTaskId(null)}
+                taskId={openTaskId}
+                board={demoBoard} 
+                onClose={() => setOpenTaskId(null)}
                 />
             )}
 

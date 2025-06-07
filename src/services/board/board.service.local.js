@@ -15,7 +15,8 @@ export const boardService = {
     updateTask,
     addTaskUpdate,
     addTaskFile,
-    getTaskActivities
+    getTaskActivities,
+    deleteGroup
 }
 window.bs = boardService
 
@@ -199,6 +200,31 @@ async function addTaskUpdate(boardId, groupId, taskId, updateData) {
     
     await storageService.put(STORAGE_KEY, board)
     return { update: newUpdate, activity }
+}
+
+async function deleteGroup(boardId, groupId) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+    
+    const groupIndex = board.groups.findIndex(g => g.id === groupId)
+    if (groupIndex === -1) throw new Error('Group not found')
+    
+    const deletedGroup = board.groups[groupIndex]
+    board.groups.splice(groupIndex, 1)
+    
+    const activity = {
+        id: makeId(),
+        txt: `deleted group "${deletedGroup.title}" with ${deletedGroup.tasks?.length || 0} tasks`,
+        createdAt: Date.now(),
+        byMember: userService.getLoggedinUser(),
+        type: 'group-delete'
+    }
+    
+    if (!board.activities) board.activities = []
+    board.activities.push(activity)
+    
+    await storageService.put(STORAGE_KEY, board)
+    return { deletedGroup, activity }
 }
 
 async function addTaskFile(boardId, groupId, taskId, fileData) {

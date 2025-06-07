@@ -32,6 +32,20 @@ export async function removeBoard(boardId) {
     }
 }
 
+export async function deleteGroup(boardId, groupId) {
+    try {
+        const result = await boardService.deleteGroup(boardId, groupId)
+        
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+        
+        return result
+    } catch (err) {
+        console.log('Cannot delete group', err)
+        throw err
+    }
+}
+
 export async function toggleBoardStar(boardId) {
     try {
         const { boards } = store.getState().boardModule
