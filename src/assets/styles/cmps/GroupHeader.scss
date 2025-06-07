@@ -1,0 +1,88 @@
+// Add this to your _GroupHeader.scss
+
+.group-header {
+    // your existing styles...
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .group-actions {
+      position: relative;
+      opacity: 0; // Hidden by default
+      transition: opacity 0.2s ease;
+      
+      .group-menu-btn {
+        background: none;
+        border: none;
+        font-size: 26px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #676879;
+        
+        &:hover {
+          background: #f5f6f8;
+          color: #333;
+        }
+      }
+      
+      .group-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #e6e9f0;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        min-width: 140px;
+        
+        .group-menu-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          width: 100%;
+          padding: 8px 12px;
+          border: none;
+          background: none;
+          text-align: left;
+          cursor: pointer;
+          font-size: 13px;
+          color: #333333; // Changed to #333333
+          border-radius: 6px;
+          
+          &:hover {
+            background: #f5f6f8;
+          }
+          
+          &.delete {
+            color: #333333; // Changed from #e2445c to #333333
+            
+            &:hover {
+              background: #f5f6f8; // Changed from red background
+            }
+            
+            svg {
+              width: 16px;
+              height: 16px;
+              fill: currentColor;
+            }
+          }
+        }
+      }
+    }
+    
+    // Show 3 dots on hover
+    &:hover .group-actions {
+      opacity: 1;
+    }
+    
+    .group-title {
+      margin-left: 0;
+    }
+    
+    .progress-indicator {
+      margin-left: auto;
+    }
+  }
