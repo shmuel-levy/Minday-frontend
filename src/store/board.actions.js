@@ -16,6 +16,7 @@ export async function loadBoard(boardId) {
     try {
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
+        return board
     } catch (err) {
         console.log('Cannot load board', err)
         throw err
@@ -35,10 +36,10 @@ export async function removeBoard(boardId) {
 export async function deleteGroup(boardId, groupId) {
     try {
         const result = await boardService.deleteGroup(boardId, groupId)
-        
+
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
-        
+
         return result
     } catch (err) {
         console.log('Cannot delete group', err)
@@ -49,18 +50,26 @@ export async function deleteGroup(boardId, groupId) {
 export async function toggleBoardStar(boardId) {
     try {
         const { boards } = store.getState().boardModule
+     
         const boardToUpdate = boards.find(board => board._id === boardId)
-        
-        if (!boardToUpdate) throw new Error('Board not found')
+        if (!boardToUpdate) {
+            throw new Error('Board not found')
+        }
 
         const updatedBoard = { ...boardToUpdate, isStarred: !boardToUpdate.isStarred }
-        await boardService.toggleStar(boardId, updatedBoard.isStarred)
+       
         store.dispatch(getCmdUpdateBoard(updatedBoard))
         
-        return updatedBoard
+        const recentBoards = JSON.parse(localStorage.getItem('recentBoards')) || []
+        const updatedRecentBoards = recentBoards.map(b =>
+            b && b._id === updatedBoard._id ? updatedBoard : b
+        )
+        localStorage.setItem('recentBoards', JSON.stringify(updatedRecentBoards))
+       
+        return Promise.resolve(updatedBoard)
     } catch (err) {
-        console.log('Cannot toggle board star', err)
-        throw err
+        console.error('🔴 toggleBoardStar failed:', err)
+        return Promise.reject(err)
     }
 }
 
@@ -78,14 +87,14 @@ export async function addBoard(board) {
 export async function updateBoard(board) {
     try {
         const savedBoard = await boardService.save(board)
-        
+
         store.dispatch(getCmdUpdateBoard(savedBoard))
-        
+
         const currentBoard = store.getState().boardModule.board
         if (currentBoard && currentBoard._id === savedBoard._id) {
             store.dispatch(getCmdSetBoard(savedBoard))
         }
-        
+
         return savedBoard
     } catch (err) {
         console.log('Cannot save board', err)
@@ -159,11 +168,11 @@ async function unitTestActions() {
 export async function updateTask(boardId, groupId, taskId, taskToUpdate) {
     try {
         const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskToUpdate)
-        
+
         // Reload the board to get the updated state
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
-        
+
         return updatedTask
     } catch (err) {
         console.log('Cannot update task', err)
@@ -177,11 +186,11 @@ export async function addTaskUpdate(boardId, groupId, taskId, updateText) {
             text: updateText,
             type: 'text'
         })
-        
+
         // Reload the board to get the updated state
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
-        
+
         return result
     } catch (err) {
         console.log('Cannot add task update', err)
@@ -192,11 +201,11 @@ export async function addTaskUpdate(boardId, groupId, taskId, updateText) {
 export async function addTaskFile(boardId, groupId, taskId, fileData) {
     try {
         const result = await boardService.addTaskFile(boardId, groupId, taskId, fileData)
-        
+
         // Reload the board to get the updated state
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
-        
+
         return result
     } catch (err) {
         console.log('Cannot add task file', err)

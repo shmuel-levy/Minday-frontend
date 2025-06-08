@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 
 export function BoardPreview({ board }) {
+    if (!board || !board._id) return null
+    
     return (
         <article className="preview">
             <header>

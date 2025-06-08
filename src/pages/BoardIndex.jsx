@@ -7,157 +7,191 @@ import { userService } from '../services/user/index.js'
 import { StarIcon } from '../cmps/svg/StarIcon.jsx'
 import { BoardIcon } from '../cmps/svg/BoardIcon.jsx'
 
+import { WorkspaceIcon } from '../cmps/svg/WorkspaceIcon.jsx'
+import { CollapsibleDescriptionIcon } from '../cmps/svg/CollapsibleDescriptionIcon.jsx'
+import { DropdownHome } from '../cmps/svg/DropdownButtonHome.jsx'
+import { DropdownButtonRight } from '../cmps/svg/DropdownButtonRight.jsx'
+import { HomeWorkspaceIcon } from '../cmps/svg/HomeIconWorkspace.jsx'
+
 export function BoardIndex() {
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
     const navigate = useNavigate()
     const [isRecentlyVisitedCollapsed, setIsRecentlyVisitedCollapsed] = useState(false)
     const [isMyWorkspacesCollapsed, setIsMyWorkspacesCollapsed] = useState(false)
+    const [isUpdateFeedCollapsed, setIsUpdateFeedCollapsed] = useState(false)
+
+    const [recentBoards, setRecentBoards] = useState(() => {
+        try {
+            const saved = JSON.parse(localStorage.getItem('recentBoards') || '[]')
+            return Array.isArray(saved) ? saved : []
+        } catch {
+            return []
+        }
+    })
+
 
     useEffect(() => {
         loadBoards()
+        const storedRecent = JSON.parse(localStorage.getItem('recentBoards')) || []
+        setRecentBoards(storedRecent)
     }, [])
 
     function onBoardClick(boardId) {
+        const board = boards.find(b => b._id === boardId)
+        if (board) {
+            const cleanBoards = recentBoards.filter(b => b && b._id && b.title)
+            const updated = [board, ...cleanBoards.filter(b => b._id !== board._id)].slice(0, 4)
+            setRecentBoards(updated)
+            localStorage.setItem('recentBoards', JSON.stringify(updated))
+        }
+
         navigate(`/board/${boardId}`)
     }
 
     function onStarClick(e, boardId) {
         e.stopPropagation()
         toggleBoardStar(boardId)
+            .then(updatedBoard => {
+                setRecentBoards(prev =>
+                    prev.map(b => (b._id === updatedBoard._id ? updatedBoard : b))
+                )
+            })
+            .catch(err => {
+                console.error('🔴 Failed to toggle star:', err)
+            })
     }
 
-   function getBoardPreview(board) {
-    const templates = [
-        './img/quick-search.svg',
-        
-    ]
-    const templateIndex = board._id ? board._id.length % templates.length : 0
-    return templates[templateIndex]
-}
+    function getBoardPreview(board) {
+        if (!board || !board._id) return './img/quick-search.svg' // fallback preview
+        const templates = ['./img/quick-search.svg']
+        const templateIndex = board._id.length % templates.length
+        return templates[templateIndex]
+    }
+
+    function getTimeBasedGreeting() {
+        const hour = new Date().getHours()
+        if (hour >= 5 && hour < 12) return 'Good morning'
+        if (hour >= 12 && hour < 17) return 'Good afternoon'
+        if (hour >= 17 && hour < 21) return 'Good evening'
+        return 'Good night'
+    }
 
     return (
         <div className="board-index">
-          
+
             <div className="board-index-header">
                 <div className="welcome-section">
-                    <h1>Good morning, {userService.getLoggedinUser()?.fullname || 'Guest'}!</h1>
+                    <h1>{getTimeBasedGreeting()}, {userService.getLoggedinUser()?.fullname || 'Guest'}!</h1>
                     <p>Quickly access your recent boards, Inbox and workspaces</p>
                 </div>
             </div>
 
-         
-            <div className="recently-visited-section">
-                <div className="section-header" onClick={() => setIsRecentlyVisitedCollapsed(!isRecentlyVisitedCollapsed)}>
-                    <svg 
-                        className={`dropdown-arrow ${isRecentlyVisitedCollapsed ? 'collapsed' : ''}`}
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 16 16" 
-                        fill="currentColor"
-                    >
-                        <path d="M4.427 7.427a.6.6 0 0 1 .849 0L8 10.15l2.724-2.723a.6.6 0 1 1 .849.849l-3.148 3.148a.6.6 0 0 1-.85 0L4.427 8.276a.6.6 0 0 1 0-.849Z"/>
-                    </svg>
-                    <h2>Recently visited</h2>
-                </div>
-                
-                {!isRecentlyVisitedCollapsed && (
-                    <div className="boards-grid">
-                        {boards.length > 0 ? (
-                            boards.map(board => (
-                                <div 
-                                    key={board._id}
-                                    className="board-card"
-                                    onClick={() => onBoardClick(board._id)}
-                                >
-                                    <div className="board-preview">
-                                        <img 
-                                            src={getBoardPreview(board)}
-                                            alt="Board preview"
-                                            className="board-preview-img"
-                                        />
-                                    </div>
-                                    
-                                    <div className="board-info">
-                                        <div className="board-title-row">
-                                            <BoardIcon />
-                                            <div className="board-title">{board.title}</div>
-                                            <StarIcon 
-                                                isStarred={board.isStarred || false}
-                                                onClick={(e) => onStarClick(e, board._id)}
-                                            />
+            <div className="board-container">
+                <div className="recently-visited-section">
+                    <div className="section-header" onClick={() => setIsRecentlyVisitedCollapsed(!isRecentlyVisitedCollapsed)}>
+                        {isRecentlyVisitedCollapsed ? <DropdownButtonRight /> : <DropdownHome />}
+                        <p>Recently visited</p>
+                    </div>
+
+                    {!isRecentlyVisitedCollapsed && (
+                        <div className="boards-grid">
+                            {recentBoards.length > 0 ? (
+                                recentBoards
+                                    .filter(board => board && board._id && board.title)
+                                    .map(board => (
+                                        <div
+                                            key={board._id}
+                                            className="board-card"
+                                            onClick={() => onBoardClick(board._id)}
+                                        >
+                                            <div className="board-preview">
+                                                <img
+                                                    src={getBoardPreview(board)}
+                                                    alt="Board preview"
+                                                    className="board-preview-img"
+                                                />
+                                            </div>
+
+                                            <div className="board-info">
+                                                <div className="board-title-row">
+                                                    <BoardIcon />
+                                                    <div className="board-title">{board.title}</div>
+                                                    <StarIcon
+                                                        isStarred={board.isStarred}
+                                                        onClick={(e) => onStarClick(e, board._id)}
+                                                    />
+                                                </div>
+                                                <div className="board-workspace">
+                                                    <div className='workspace-icon'>
+                                                        <WorkspaceIcon
+
+                                                        />
+
+                                                    </div>
+                                                    <div className="workspace-text">work management &gt; Main workspace </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="board-workspace">
-                                            <img 
-                                                src="/src/assets/img/work-management-icon.png" 
-                                                alt="Work management"
-                                                className="workspace-icon"
-                                            />
-                                            work management • Main workspace
+
+                                    ))
+                            ) : (
+                                <div className="empty-state">
+                                    <div className="empty-icon">📋</div>
+                                    <h3>No boards yet</h3>
+                                    <p>Create your first board to get started</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                <div className="update-feed-section">
+                    <div className="section-header" onClick={() => setIsUpdateFeedCollapsed(!isUpdateFeedCollapsed)}>
+                        {isUpdateFeedCollapsed ? <DropdownButtonRight /> : <DropdownHome />}
+                        <h2>Update feed (Inbox)</h2>
+                        <div className="inbox-count">0</div>
+                    </div>
+                </div>
+
+                <div className="my-workspaces-section">
+                    <div className="section-header" onClick={() => setIsMyWorkspacesCollapsed(!isMyWorkspacesCollapsed)}>
+                        {isMyWorkspacesCollapsed ? <DropdownButtonRight /> : <DropdownHome />}
+                        <h2>My workspaces</h2>
+                        <div className="info-icon">
+                            <CollapsibleDescriptionIcon />
+                        </div>
+                    </div>
+
+                    <div className="my-workspaces-component">
+                        <div className="workspaces-list">
+                            {!isMyWorkspacesCollapsed && (
+                                <div className="workspace-card">
+                                    <div className='home-icon-wrap'>
+                                        <div className="workspace-icon-container" style={{ backgroundColor: '#FF642E' }}>
+                                            <div className="workspace-icon" aria-label="Workspace">
+                                                <span className="letter">M</span>
+                                            </div>
+                                            <div className='home-icon'>
+                                                <HomeWorkspaceIcon />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="workspace-card-titles">
+                                        <div className="workspace-name">Main workspace</div>
+                                        <div className="workspace-type">
+                                            <div>
+                                                <WorkspaceIcon />
+                                            </div>
+                                            <div className="text">work management</div>
                                         </div>
                                     </div>
                                 </div>
-                            ))
-                        ) : (
-                            <div className="empty-state">
-                                <div className="empty-icon">📋</div>
-                                <h3>No boards yet</h3>
-                                <p>Create your first board to get started</p>
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
-
-         
-            <div className="update-feed-section">
-                <div className="section-header" onClick={() => console.log('Toggle update feed')}>
-                    <svg 
-                        className="dropdown-arrow"
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 16 16" 
-                        fill="currentColor"
-                    >
-                        <path d="M4.427 7.427a.6.6 0 0 1 .849 0L8 10.15l2.724-2.723a.6.6 0 1 1 .849.849l-3.148 3.148a.6.6 0 0 1-.85 0L4.427 8.276a.6.6 0 0 1 0-.849Z"/>
-                    </svg>
-                    <h2>Update feed (Inbox)</h2>
-                    <div className="inbox-count">0</div>
-                </div>
-            </div>
-
-            <div className="my-workspaces-section">
-                <div className="section-header" onClick={() => setIsMyWorkspacesCollapsed(!isMyWorkspacesCollapsed)}>
-                    <svg 
-                        className={`dropdown-arrow ${isMyWorkspacesCollapsed ? 'collapsed' : ''}`}
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 16 16" 
-                        fill="currentColor"
-                    >
-                        <path d="M4.427 7.427a.6.6 0 0 1 .849 0L8 10.15l2.724-2.723a.6.6 0 1 1 .849.849l-3.148 3.148a.6.6 0 0 1-.85 0L4.427 8.276a.6.6 0 0 1 0-.849Z"/>
-                    </svg>
-                    <h2>My workspaces</h2>
-                    <div className="info-icon">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM7.25 4.75a.75.75 0 0 1 1.5 0v2.5a.75.75 0 0 1-1.5 0v-2.5ZM8 10a.75.75 0 1 1 0 1.5A.75.75 0 0 1 8 10Z"/>
-                        </svg>
-                    </div>
-                </div>
-
-                {!isMyWorkspacesCollapsed && (
-                    <div className="workspace-card">
-                        <div className="workspace-icon">M</div>
-                        <div className="workspace-info">
-                            <div className="workspace-name">Main workspace</div>
-                            <div className="workspace-type">work management</div>
-                        </div>
-                        <div className="workspace-member">
-                            <div className="member-avatar">
-                                {userService.getLoggedinUser()?.fullname?.charAt(0) || 'U'}
-                            </div>
+                            )}
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     )

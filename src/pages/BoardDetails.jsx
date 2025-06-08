@@ -18,9 +18,24 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
 
+
     useEffect(() => {
         if (boardId) {
-            loadBoard(boardId)
+            loadBoard(boardId).then((board) => {
+                  console.log('Loaded board:', board)
+                if (!board || !board._id) return
+
+                const storageKey = 'recentBoards'
+                const stored = JSON.parse(localStorage.getItem(storageKey)) || []
+
+                // Filter out the board if it already exists
+                const filtered = stored.filter(b => b && b._id && b._id !== board._id)
+
+                // Add the new board to the top and keep max 4
+                const updated = [board, ...filtered].slice(0, 4)
+
+                localStorage.setItem(storageKey, JSON.stringify(updated))
+            })
         }
     }, [boardId])
 
