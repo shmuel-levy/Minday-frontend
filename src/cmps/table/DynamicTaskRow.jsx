@@ -16,11 +16,14 @@ export function DynamicTaskRow({
     isSelected = false  // NEW PROP
 }) {
     const defaultColumns = [
-        { id: 'checkbox', type: 'checkbox', width: '40px' },
-        { id: 'task', type: 'text', width: 'auto' },
-        { id: 'status', type: 'status', width: '140px' },
-        { id: 'owner', type: 'person', width: '120px' },
-        { id: 'date', type: 'date', width: '120px' }
+        { id: 'left-indicator', type: 'left-indicator', width: '6px'},
+        { id: 'checkbox', type: 'checkbox', width: '33px'},
+        { id: 'task', type: 'text', width: '295px'},
+        { id: 'add-update', type: 'add-update', width: '65px'},
+        { id: 'status', type: 'status', width: '139px'},
+        { id: 'owner', type: 'person', width: '97px'},
+        { id: 'date', type: 'date', width: '139px'},
+        { id: 'add-cell', type: 'add-cell', width: 'auto'}
     ]
 
     const columnsToRender = columns.length ? columns : defaultColumns
@@ -52,6 +55,9 @@ export function DynamicTaskRow({
         let value = ''
 
         switch (column.id) {
+            case 'left-indicator':
+                return <></>;
+
             case 'checkbox':
                 return (
                     <input
@@ -77,15 +83,17 @@ export function DynamicTaskRow({
                             onUpdate={(newValue) => handleCellUpdate('task', newValue)}
                             placeholder="Enter task..."
                         />
-                        <button
-                            className="btn-add-update"
+                    </div>
+                )
+            case 'add-update':
+                   return (
+                          <button
                             onClick={() => onOpenUpdates?.(task.id)}
                             title="Add update"
                         >
                             <AddUpdateIcon />
                         </button>
-                    </div>
-                )
+                   )
             case 'status':
                 value = task.status
                 break
@@ -127,8 +135,9 @@ export function DynamicTaskRow({
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
-            case 'checkbox':
-                return <input type="checkbox" />
+                  case 'col-add-cell':
+                return <></>;
+           
             default:
                 return <span>{value}</span>
         }
@@ -139,21 +148,31 @@ export function DynamicTaskRow({
             className={`task-row${isDragging ? ' drag-preview' : ''}`}
             style={{ '--group-color': groupColor }}
         >
-            <div className="col-checkbox">
+             <div className="col-left-indicator">
                 {renderCell(columnsToRender[0])}
             </div>
-            <div className="col-task">
+            <div className="col-checkbox">
                 {renderCell(columnsToRender[1])}
             </div>
-            <div className="col-status">
+            <div className="col-task">
                 {renderCell(columnsToRender[2])}
             </div>
-            <div className="col-owner">
+            <div className="btn-add-update">
                 {renderCell(columnsToRender[3])}
             </div>
-            <div className="col-date">
+            <div className="col-status">
                 {renderCell(columnsToRender[4])}
             </div>
+            <div className="col-owner">
+                {renderCell(columnsToRender[5])}
+            </div>
+            <div className="col-date">
+                {renderCell(columnsToRender[6])}
+            </div>
+             <div className="col-add-cell">
+                {renderCell(columnsToRender[7])}
+            </div>
+             
         </div>
     )
 }

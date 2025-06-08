@@ -28,7 +28,6 @@
 
     .title {
       font-size: 14px;
-      letter-spacing: 0.5px;
       flex-grow: 1;
     }
 
@@ -42,19 +41,29 @@
     max-height: 0;
     opacity: 0;
     overflow-y: auto; 
-  }
 
-  .empty-msg {
-    font-size: 13px;
-    color: #a1a1aa;
+  }
+  .empty-msg-container  {
     padding: 64px 24px 0 24px;
-    text-align: center;
 
-    .bold {
-      font-weight: 600;
-      color: #323338;
-      margin-bottom: 4px;
-      display: block;
+    .empty-msg {
+      gap: 8px;
+      width: 232px;
+      
+      .empty-msg-title {
+        color: #323338;
+        line-height: 22px;
+      }
+      
+      .empty-msg-text {
+        font-size: 14px;
+        color: #676879;
+        text-align: center;
+        line-height: 20px;
+
+      }
     }
+    
   }
+  
 }

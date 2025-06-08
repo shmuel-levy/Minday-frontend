@@ -18,7 +18,7 @@ export function BoardTitleSection({ board, onUpdateBoard }) {
         <div className="board-title-section">
             <div className="board-title-container">
                 <div 
-                    className="board-title-wrapper" 
+                    className="board-title-wrapper flex align-center" 
                     onClick={handleTitleClick}
                     ref={titleWrapperRef}
                 >

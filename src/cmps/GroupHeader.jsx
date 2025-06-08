@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
+import { ThreeDots } from "./svg/ThreeDots"
 
 export function GroupHeader({ group, onDeleteGroup }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -16,7 +17,7 @@ export function GroupHeader({ group, onDeleteGroup }) {
                     className="group-menu-btn"
                     onClick={() => setShowMenu(!showMenu)}
                 >
-                    ⋯
+                     <ThreeDots />
                 </button>
                 
                 {showMenu && (
@@ -37,7 +38,7 @@ export function GroupHeader({ group, onDeleteGroup }) {
             <button className="collapse-btn" style={{ color: group.color }}>
                 <CollapseGroupDown />
             </button>
-            <h3 className="group-title" style={{ color: group.color }}>{group.title}</h3>
+            <div className="group-title" style={{ color: group.color }}>{group.title}</div>
             <div className="progress-indicator">
                 <div className="progress-bar"></div>
             </div>

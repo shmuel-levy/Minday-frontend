@@ -31,6 +31,7 @@ export function RootCmp() {
     function closeBoardModal() {
         setIsCreateBoardOpen(false)
     }
+    
     return (
         <>
             <div className="main-container main-layout">

@@ -24,6 +24,11 @@ export function Sidebar({ onOpenBoardModal }) {
       '--sidebar-width',
       isCollapsed ? '30px' : '280px'
     )
+
+    document.documentElement.style.setProperty(
+      '--main-content-margin',
+      isCollapsed ? '42px' : '292px'
+    )
   }, [isCollapsed])
 
   useEffect(() => {

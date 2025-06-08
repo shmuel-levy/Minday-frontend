@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    user-select: none;
+
 }
 
 html {
@@ -9,7 +11,7 @@ html {
 body {
     margin: 0 auto;
     padding: 0;
-    font-family: FigtreeRegular, RobotoRegular, sans-serif;
+  font-family: 'Figtree', 'Roboto', sans-serif;
     color: #323338;
     overflow: hidden;
 
@@ -17,7 +19,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.6em;
-    font-family: FigtreeRegular, RobotoRegular, sans-serif;
+  font-family: 'Poppins', 'Roboto', sans-serif;
     color: #323338;
 
 }
@@ -28,7 +30,7 @@ img {
 }
 
 p {
-    margin: 0 0 1em;
+    margin: 0;
 }
 
 a {

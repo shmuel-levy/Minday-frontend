@@ -1,28 +1,50 @@
-// Add this to your _GroupHeader.scss
-
 .group-header {
-    // your existing styles...
-    position: relative;
     display: flex;
     align-items: center;
-    gap: 8px;
-    
+    font-size: 18px;
+    left: -20px;
+    height: 40px;
+    font-weight: 400;
+    gap: 0;
+    position: relative;
+
+      .group-title {
+        margin: 0;
+        font-weight: 500;
+        font-size: 18px;
+        padding: 0 4px;
+         font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+    }
+
+      .collapse-btn {
+        width: 30px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    }
+
     .group-actions {
       position: relative;
-      opacity: 0; // Hidden by default
+      opacity: 0; 
       transition: opacity 0.2s ease;
       
       .group-menu-btn {
-        background: none;
-        border: none;
-        font-size: 26px;
-        cursor: pointer;
-        padding: 4px 8px;
-        border-radius: 4px;
-        color: #676879;
+            width: 24px;
+    max-width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 2px 0;
         
         &:hover {
-          background: #f5f6f8;
+          background-color: #d0d4e4;
           color: #333;
         }
       }

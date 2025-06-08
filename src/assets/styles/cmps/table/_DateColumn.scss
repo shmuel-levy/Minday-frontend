@@ -5,26 +5,15 @@
     padding: 4px 8px;
     cursor: pointer;
     border-radius: 4px;
-    font-size: 12px;
-    min-width: 60px;
+    font-size: 14px;
     text-align: center;
+      color: #666666;
 
     &.empty {
       border: 1px dashed #ddd;
       color: #c4c4c4;
     }
 
-    &.normal {
-      color: #333;
-    }
-
-    &.overdue {
-      color: #e2445c;
-    }
-
-    &.today {
-      color: #fdab3d;
-    }
   }
 
   .date-dropdown {

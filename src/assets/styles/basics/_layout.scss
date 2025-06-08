@@ -1,10 +1,4 @@
 
-:root {
-     --sidebar-width: 280px; 
-     --sidebar-collapsed-width: 30px;
-}
-
-
 .main-container {
     display: grid;
     grid-template-columns: 3rem 1fr 3rem;
@@ -13,30 +7,28 @@
     > *.full { grid-column: 1 / -1; }
 }
 
-
 .main-layout {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
-    .app-header { position: sticky; top: 0; z-index: 200; }
+    .app-header { 
+        position: sticky;
+         top: 0; 
+         z-index: 200; 
+        }
+
     .app-body {     
         display: flex;
         flex: 1;
         background-color: #eceff8;
     }
+
     .main-content { 
         flex: 1; 
-        margin-left: var(--sidebar-width); 
         transition: margin-left 0.3s; 
-    }&.collapsed { margin-left: var(--sidebar-collapsed-width); }
-
-    .app-footer { margin-left: var(--sidebar-width); transition: margin-left 0.3s; 
-    }&.collapsed { margin-left: var(--sidebar-collapsed-width); }
-
-    @media (max-width: 768px) {
-        .main-content, .app-footer { margin-left: 0; }
     }
+
 }
 
 .card-grid {
