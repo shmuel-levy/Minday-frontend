@@ -1,5 +1,4 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { useSelector } from "react-redux";
 import { GroupHeader } from "./GroupHeader";
 import { TableHeader } from "./table/TableHeader";
 import { DynamicTaskRow } from "./table/DynamicTaskRow";
@@ -72,32 +71,6 @@ export const BoardTable = forwardRef(function BoardTable(
     }));
   }
 
-  function refreshDataFromRedux() {
-    if (currentBoardFromRedux && currentBoardFromRedux.groups) {
-      setDemoBoard(prevBoard => {
-        const updatedBoard = {
-          ...currentBoardFromRedux,
-          groups: currentBoardFromRedux.groups.map(group => {
-            const existingGroup = prevBoard.groups.find(g => g.id === group.id);
-            return {
-              ...group,
-              isCollapsed: existingGroup?.isCollapsed || false
-            };
-          })
-        };
-        
-        console.log("Data refreshed from Redux store");
-        console.log("Updated groups:", updatedBoard.groups.map(g => ({ 
-          id: g.id, 
-          title: g.title, 
-          tasksCount: g.tasks?.length || 0,
-          updatesPerTask: g.tasks?.map(t => ({ id: t.id, updates: t.updates?.length || 0 }))
-        })));
-        
-        return updatedBoard;
-      });
-    }
-  }
 
   useImperativeHandle(ref, () => ({
     handleAddNewTask,
