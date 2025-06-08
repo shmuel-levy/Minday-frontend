@@ -211,6 +211,7 @@
             margin-bottom: 12px;
 
             h2 {
+                font-family: 'Figtree';
                 display: inline-block;
                 font-size: 18px;
                 font-weight: 700;
@@ -238,6 +239,7 @@
         .section-header {
             
             h2 {
+                font-family: 'Figtree';
                 display: inline-block;
                 font-size: 18px;
                 font-weight: 700;
@@ -318,6 +320,11 @@
     .workspace-type {
         display: flex;
         align-items: center;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
         
 
         .text {
