@@ -2,12 +2,18 @@ import { useState } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
 import { ThreeDots } from "./svg/ThreeDots"
 
-export function GroupHeader({ group, onDeleteGroup }) {
+export function GroupHeader({ group, onDeleteGroup, onToggleCollapse }) {
     const [showMenu, setShowMenu] = useState(false)
 
     function handleDeleteGroup() {
         onDeleteGroup(group.id)
         setShowMenu(false)
+    }
+
+    function handleToggleCollapse() {
+        if (onToggleCollapse) {
+            onToggleCollapse(group.id)
+        }
     }
 
     return (
@@ -17,7 +23,7 @@ export function GroupHeader({ group, onDeleteGroup }) {
                     className="group-menu-btn"
                     onClick={() => setShowMenu(!showMenu)}
                 >
-                     <ThreeDots />
+                    <ThreeDots />
                 </button>
                 
                 {showMenu && (
@@ -35,7 +41,11 @@ export function GroupHeader({ group, onDeleteGroup }) {
                 )}
             </div>
             
-            <button className="collapse-btn" style={{ color: group.color }}>
+            <button 
+                className={`collapse-btn ${group.isCollapsed ? 'collapsed' : ''}`}
+                style={{ color: group.color }}
+                onClick={handleToggleCollapse}
+            >
                 <CollapseGroupDown />
             </button>
             <div className="group-title" style={{ color: group.color }}>{group.title}</div>

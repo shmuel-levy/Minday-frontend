@@ -18,14 +18,28 @@
 
       .collapse-btn {
         width: 30px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        
+        svg {
+          transition: transform 0.2s ease;
+        }
+        
+        &.collapsed svg {
+          transform: rotate(-90deg);
+        }
+        
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+          border-radius: 4px;
+        }
     }
 
     .group-actions {
@@ -71,7 +85,7 @@
           text-align: left;
           cursor: pointer;
           font-size: 13px;
-          color: #333333; // Changed to #333333
+          color: #333333;
           border-radius: 6px;
           
           &:hover {
@@ -79,10 +93,10 @@
           }
           
           &.delete {
-            color: #333333; // Changed from #e2445c to #333333
+            color: #333333;
             
             &:hover {
-              background: #f5f6f8; // Changed from red background
+              background: #f5f6f8;
             }
             
             svg {
@@ -94,8 +108,7 @@
         }
       }
     }
-    
-    // Show 3 dots on hover
+
     &:hover .group-actions {
       opacity: 1;
     }
@@ -108,3 +121,7 @@
       margin-left: auto;
     }
   }
+.tasks-container {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
