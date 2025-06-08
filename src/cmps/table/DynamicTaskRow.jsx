@@ -2,9 +2,8 @@ import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
-import { AddUpdateIcon } from '../svg/AddUpdateIcon' 
+import { AddUpdateIcon } from '../svg/AddUpdateIcon' // Updated import
 
-// UPDATE: Add the new props here
 export function DynamicTaskRow({ 
     task, 
     groupColor, 
@@ -12,8 +11,8 @@ export function DynamicTaskRow({
     onUpdateTask, 
     onOpenUpdates, 
     isDragging = false,
-    onTaskSelection,    // NEW PROP
-    isSelected = false  // NEW PROP
+    onTaskSelection,
+    isSelected = false
 }) {
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', width: '6px'},
@@ -62,14 +61,12 @@ export function DynamicTaskRow({
                 return (
                     <input
                         type="checkbox"
-                        checked={isSelected}  // CHANGED: Use isSelected instead of task.isChecked
+                        checked={isSelected}
                         onChange={(e) => {
-                            // CHANGED: Call selection handler first
                             if (onTaskSelection) {
                                 onTaskSelection(e.target.checked)
                             }
                             
-                            // Still update the task's isChecked property if needed
                             const updatedTask = { ...task, isChecked: e.target.checked }
                             onUpdateTask?.(updatedTask)
                         }}
@@ -86,14 +83,18 @@ export function DynamicTaskRow({
                     </div>
                 )
             case 'add-update':
-                   return (
-                          <button
-                            onClick={() => onOpenUpdates?.(task.id)}
-                            title="Add update"
-                        >
-                            <AddUpdateIcon />
-                        </button>
-                   )
+                // Get the number of updates for this task
+                const updatesCount = task.updates?.length || 0;
+                
+                return (
+                    <button
+                        onClick={() => onOpenUpdates?.(task.id)}
+                        title="Add update"
+                        className="add-update-button"
+                    >
+                        <AddUpdateIcon updatesCount={updatesCount} />
+                    </button>
+                )
             case 'status':
                 value = task.status
                 break
@@ -135,7 +136,7 @@ export function DynamicTaskRow({
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
-                  case 'col-add-cell':
+            case 'col-add-cell':
                 return <></>;
            
             default:
