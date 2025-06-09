@@ -12,7 +12,8 @@
       .tasks-container{
 
         .table-header {
-          grid-template-columns: 6px 33px 360px 139px 97px  139px 1fr; //agam: 1fr to cells add 
+            grid-template-columns: 6px 33px 360px 139px 97px 139px 139px 1fr;
+
          border-top-left-radius: 8px; 
          border-top: 1px solid #c3c6d4;
         
@@ -50,7 +51,8 @@
     }
 
         .task-row{
-          grid-template-columns: 6px 33px 295px 65px 139px 97px  139px 1fr; //agam: 1fr to cells add 
+           grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 139px 1fr;
+
            .col-task {
          padding: 0 0 0 30px;
         }
@@ -69,7 +71,7 @@
          background-color: var(--group-color);
         }
 
-        .col-checkbox, .col-task, .col-status, .col-owner, .col-date,.btn-add-update {
+       .col-checkbox, .col-task, .col-status, .col-owner, .col-date, .col-priority, .btn-add-update  {
           display: flex;
           align-items: center;
           width: 100%;
@@ -87,7 +89,7 @@
             padding: 0 0 0 10px;
         }
 
-        .col-checkbox, .col-status, .col-owner, .col-date, .btn-add-update{
+        .col-checkbox, .col-status, .col-owner, .col-date, .col-priority, .btn-add-update{
           justify-content: center;
 
         }
