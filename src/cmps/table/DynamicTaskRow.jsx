@@ -2,7 +2,9 @@ import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
-import { AddUpdateIcon } from '../svg/AddUpdateIcon' // Updated import
+import { AddUpdateIcon } from '../svg/AddUpdateIcon' 
+import { PriorityColumn } from './column-types/PriorityColumn'
+
 
 export function DynamicTaskRow({ 
     task, 
@@ -15,15 +17,16 @@ export function DynamicTaskRow({
     isSelected = false
 }) {
     const defaultColumns = [
-        { id: 'left-indicator', type: 'left-indicator', width: '6px'},
-        { id: 'checkbox', type: 'checkbox', width: '33px'},
-        { id: 'task', type: 'text', width: '295px'},
-        { id: 'add-update', type: 'add-update', width: '65px'},
-        { id: 'status', type: 'status', width: '139px'},
-        { id: 'owner', type: 'person', width: '97px'},
-        { id: 'date', type: 'date', width: '139px'},
-        { id: 'add-cell', type: 'add-cell', width: 'auto'}
-    ]
+    { id: 'left-indicator', type: 'left-indicator', width: '6px'},
+    { id: 'checkbox', type: 'checkbox', width: '33px'},
+    { id: 'task', type: 'text', width: '295px'},
+    { id: 'add-update', type: 'add-update', width: '65px'},
+    { id: 'status', type: 'status', width: '139px'},
+    { id: 'owner', type: 'person', width: '97px'},
+    { id: 'date', type: 'date', width: '139px'},
+    { id: 'priority', type: 'priority', width: '139px'}, 
+    { id: 'add-cell', type: 'add-cell', width: 'auto'}
+]
 
     const columnsToRender = columns.length ? columns : defaultColumns
 
@@ -44,6 +47,9 @@ export function DynamicTaskRow({
                 case 'date':
                     updatedTask.dueDate = newValue
                     break
+                    case 'priority':
+    updatedTask.priority = newValue
+    break
             }
 
             onUpdateTask(updatedTask)
@@ -95,6 +101,9 @@ export function DynamicTaskRow({
                         <AddUpdateIcon updatesCount={updatesCount} />
                     </button>
                 )
+                case 'priority':
+    value = task.priority
+    break
             case 'status':
                 value = task.status
                 break
@@ -115,6 +124,14 @@ export function DynamicTaskRow({
                         placeholder={`Enter ${column.id}...`}
                     />
                 )
+                case 'priority':
+    return (
+        <PriorityColumn
+            value={value}
+            onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+        />
+    )
+
             case 'status':
                 return (
                     <StatusColumn
@@ -170,8 +187,11 @@ export function DynamicTaskRow({
             <div className="col-date">
                 {renderCell(columnsToRender[6])}
             </div>
+            <div className="col-priority">
+    {renderCell(columnsToRender[7])}
+</div>
              <div className="col-add-cell">
-                {renderCell(columnsToRender[7])}
+                {renderCell(columnsToRender[8])}
             </div>
              
         </div>

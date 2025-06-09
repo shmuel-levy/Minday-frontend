@@ -8,7 +8,8 @@ export function TableHeader({ columns = [], onToggleAll, groupColor }) {
         { id: 'task', type: 'text', title: 'Task', width: '360px', editable: false },
         { id: 'status', type: 'status', title: 'Status', width: '139px', editable: true },
         { id: 'owner', type: 'person', title: 'Owner', width: '97px', editable: true },
-        { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },  
+        { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },
+        { id: 'priority', type: 'priority', title: 'Priority', width: '139px', editable: true }, // NEW
         { id: 'add-cell', type: 'add-cell', title: <Plus />, width: 'auto', editable: false }
     ]
 
