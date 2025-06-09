@@ -4,13 +4,28 @@
   height: 100%;
 
   .status-badge {
+    position: relative;
     display: flex;
     justify-content: center;
     cursor: pointer;
     font-size: 14px;
     height: 100%;
     align-items: center;
-    
+
+    // Corner fold effect
+    .corner-fold {
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-color: rgba(0, 0, 0, 0.2) #fff;
+      border-style: solid;
+      border-width: 0;
+      transition: border-width 0.3s ease 0.2s;
+    }
+
+    &:hover .corner-fold {
+      border-width: 0 10px 10px 0;
+    }
 
     &.not-started {
       background-color: #c4c4c4;
@@ -31,39 +46,63 @@
       background-color: #00c875;
       color: #ffffff;
     }
-    
-    &.on-hold {
-      background-color: #a25ddc;
-      color: #ffffff;
-    }
   }
 
   .status-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
+    right: 0;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
-    min-width: 120px;
+    z-index: 1001;
+    padding: 8px;
 
-    .status-option {
-      padding: 8px 12px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-      
-      &:hover {
-        background-color: #f5f5f5;
-      }
+    .change-label-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
 
-      .status-preview {
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 11px;
-        font-weight: 500;
+      li {
+        font-size: 0.875em;
+        align-self: stretch;
+        text-align: center;
+        padding: 4px 0;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border-radius: 4px;
+        list-style: none;
+        
+        &:hover {
+          opacity: 0.85;
+        }
+
+        .corner-fold {
+          position: absolute;
+          right: 0;
+          top: 0;
+          border-color: rgba(0, 0, 0, 0.2) #fff;
+          border-style: solid;
+          border-width: 0;
+          transition: border-width 0.3s ease 0.2s;
+        }
+
+        &:hover .corner-fold {
+          border-width: 0 8px 8px 0;
+        }
       }
     }
+  }
+
+  .dropdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
   }
 }

@@ -7,8 +7,7 @@ export function StatusColumn({ value, onUpdate }) {
         { label: 'Not Started', cssClass: 'not-started', bg: '#c4c4c4', color: '#323338' },
         { label: 'Working on it', cssClass: 'working-on-it', bg: '#fdab3d', color: '#ffffff' },
         { label: 'Stuck', cssClass: 'stuck', bg: '#e2445c', color: '#ffffff' },
-        { label: 'Done', cssClass: 'done', bg: '#00c875', color: '#ffffff' },
-        { label: 'On Hold', cssClass: 'on-hold', bg: '#a25ddc', color: '#ffffff' }
+        { label: 'Done', cssClass: 'done', bg: '#00c875', color: '#ffffff' }
     ]
 
     const currentStatus = statusOptions.find(option => option.label === value) || statusOptions[0]
@@ -24,30 +23,33 @@ export function StatusColumn({ value, onUpdate }) {
         <div className="status-column">
             <div 
                 className={`status-badge ${currentStatus.cssClass}`}
+                style={{ 
+                    backgroundColor: currentStatus.bg,
+                    color: currentStatus.color 
+                }}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {currentStatus.label}
+                <div className="corner-fold"></div>
             </div>
 
             {isOpen && (
                 <div className="status-dropdown">
-                    {statusOptions.map(option => (
-                        <div
-                            key={option.label}
-                            className="status-option"
-                            onClick={() => handleStatusChange(option)}
-                        >
-                            <span 
-                                className="status-preview"
+                    <ul className="change-label-container">
+                        {statusOptions.map(option => (
+                            <li
+                                key={option.label}
                                 style={{ 
                                     backgroundColor: option.bg, 
                                     color: option.color 
                                 }}
+                                onClick={() => handleStatusChange(option)}
                             >
                                 {option.label}
-                            </span>
-                        </div>
-                    ))}
+                                <div className="corner-fold"></div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
 
