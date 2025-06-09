@@ -22,7 +22,7 @@ export function PriorityColumn({ value, onUpdate }) {
     return (
         <div className="priority-column">
             <div 
-                className={`priority-cell ${currentPriority.cssClass}`}
+                className={`priority-badge ${currentPriority.cssClass}`}
                 style={{ 
                     backgroundColor: currentPriority.bg,
                     color: currentPriority.color 
