@@ -14,7 +14,7 @@ export const BoardTable = forwardRef(function BoardTable(
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
-  
+
   const {
     demoBoard,
     setDemoBoard,
@@ -53,19 +53,26 @@ export const BoardTable = forwardRef(function BoardTable(
     setOpenTaskId(taskId);
   }
 
+  function handleUpdateGroup(updatedGroup) {
+    const updatedGroups = demoBoard.groups.map(group =>
+      group.id === updatedGroup.id ? updatedGroup : group
+    )
+    setDemoBoard(prev => ({ ...prev, groups: updatedGroups }))
+  }
+
   function handleUpdateAdded(taskId, groupId, newUpdate) {
     setDemoBoard(prevBoard => ({
       ...prevBoard,
       groups: prevBoard.groups.map(group =>
         group.id === groupId
           ? {
-              ...group,
-              tasks: group.tasks.map(task =>
-                task.id === taskId
-                  ? { ...task, updates: [...(task.updates || []), newUpdate] }
-                  : task
-              )
-            }
+            ...group,
+            tasks: group.tasks.map(task =>
+              task.id === taskId
+                ? { ...task, updates: [...(task.updates || []), newUpdate] }
+                : task
+            )
+          }
           : group
       )
     }));
@@ -93,8 +100,9 @@ export const BoardTable = forwardRef(function BoardTable(
                     group={group}
                     onDeleteGroup={handleDeleteGroupWithCleanup}
                     onToggleCollapse={handleToggleCollapse}
+                    onUpdateGroup={handleUpdateGroup}
                   />
-                  
+
                   {!group.isCollapsed && (
                     <div className="tasks-container">
                       <TableHeader

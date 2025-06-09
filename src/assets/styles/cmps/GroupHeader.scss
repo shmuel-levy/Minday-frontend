@@ -120,6 +120,83 @@
     .progress-indicator {
       margin-left: auto;
     }
+    .group-color-picker {
+    position: relative;
+}
+
+.group-color-picker-button {
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.group-color-picker-button-inner {
+    width: 14px;
+    height: 14px;
+    border-radius: 25%;
+    display: block;
+
+    &:hover {
+      opacity: .8;
+    }
+}
+
+.group-title-display {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0px 4px;
+  cursor: text;
+   
+
+  &:hover {
+    border: 1px solid #c3c6d4;
+    border-radius: 4px;
+  }
+}
+
+.group-title-input {
+    
+    outline: none;
+    border: 1px solid #0073ea;
+    border-radius: 4px;
+    height: 26px;
+    width: 100%;
+     font-size: 18px;
+    font-weight: 500;
+    font-family: 'Poppins';
+    color: inherit;
+}
+
+.color-picker {
+    position: absolute;
+    top: calc(100% + 1px);
+    display: grid;
+    grid-template-columns: repeat(5, 24px);
+    gap: 8px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid #c3c6d4;
+    z-index: 20;
+}
+
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:hover {
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+}
   }
 .tasks-container {
   transition: all 0.3s ease;
