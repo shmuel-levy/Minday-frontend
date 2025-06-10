@@ -6,25 +6,17 @@
 
     .board-title-wrapper {
       gap: 8px;
-      padding: 4px 8px;
-      border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
-
+      margin: 0;
+    
       &:hover {
         background-color: #f5f6f8;
       }
 
       .board-title {
-        letter-spacing: -0.1px;
         font-size: 24px;
         font-weight: 500;
         margin: 0;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      -webkit-font-smoothing: antialiased;
-
       }
     }
   }
