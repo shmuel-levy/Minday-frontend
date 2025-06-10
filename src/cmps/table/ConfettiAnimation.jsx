@@ -5,15 +5,20 @@ export function ConfettiAnimation({ isActive, onComplete }) {
 
     useEffect(() => {
         if (!isActive) return
+
         const newParticles = []
-        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7']
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#ff9ff3', '#54a0ff']
         
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 25; i++) {
             newParticles.push({
                 id: i,
-                x: Math.random() * 80 + 10, 
+                x: Math.random() * 100,
                 color: colors[Math.floor(Math.random() * colors.length)],
-                delay: Math.random() * 0.5 
+                delay: Math.random() * 1,
+                size: Math.random() * 6 + 4, 
+                direction: Math.random() > 0.5 ? 1 : -1, 
+                speed: Math.random() * 0.5 + 0.5, 
+                bounce: Math.random() * 20 + 10 
             })
         }
         
@@ -22,7 +27,7 @@ export function ConfettiAnimation({ isActive, onComplete }) {
         const timer = setTimeout(() => {
             setParticles([])
             onComplete?.()
-        }, 2500)
+        }, 3500)
 
         return () => clearTimeout(timer)
     }, [isActive, onComplete])
@@ -38,8 +43,12 @@ export function ConfettiAnimation({ isActive, onComplete }) {
                     style={{
                         left: `${particle.x}%`,
                         backgroundColor: particle.color,
-                        animationDelay: `${particle.delay}s`
+                        width: `${particle.size}px`,
+                        height: `${particle.size}px`,
+                        animationDelay: `${particle.delay}s`,
+                        animationDuration: `${2 + particle.speed}s`
                     }}
+                    // className={`confetti-particle direction-${particle.direction > 0 ? 'right' : 'left'}`}
                 />
             ))}
         </div>
