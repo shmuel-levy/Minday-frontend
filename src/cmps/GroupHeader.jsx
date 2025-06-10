@@ -172,6 +172,15 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 )}
             </div>
 
+            <div className="group-summary-data" role="presentation">
+                <div
+                    className="group-summary-text"
+                    id={`${group.id}_tasks_count_chip`}
+                >
+                    {group.tasks?.length || 'No'} Tasks
+                </div>
+            </div>
+
 
             <div className="progress-indicator">
                 <div className="progress-bar"></div>

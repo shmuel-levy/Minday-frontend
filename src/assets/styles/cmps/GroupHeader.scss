@@ -196,9 +196,30 @@
     &:hover {
         box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
     }
+ }
 }
-  }
+
+  .group-summary-data {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.group-header:hover .group-summary-data {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.group-summary-text {
+  white-space: nowrap;
+  font-size: 14px;
+  margin-top: 3px;
+  color: #676879;
+  margin-left: 4px;
+}
+
 .tasks-container {
   transition: all 0.3s ease;
-  overflow: hidden;
+  // overflow: hidden;
 }

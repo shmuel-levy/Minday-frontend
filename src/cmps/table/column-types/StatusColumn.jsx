@@ -49,6 +49,7 @@ export function StatusColumn({ value, onUpdate }) {
 
             {isOpen && (
                 <div className="status-dropdown">
+                 <div className="status-caret"></div>
                     <ul className="change-label-container">
                         {statusOptions.map(option => (
                             <li
