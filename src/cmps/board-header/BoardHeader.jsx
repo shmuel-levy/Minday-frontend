@@ -26,9 +26,6 @@ export function BoardHeader({ board, onUpdateBoard }) {
                 <TableControls />
             </div>
 
-              {/* <button className="btn-collapse-header flex align-center" onClick={toggleExpanded}>
-        <ArrowDownUpIcon />
-      </button> */}
         </section>
     )
 }
