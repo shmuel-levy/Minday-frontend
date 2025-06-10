@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { ConfettiAnimation } from '../ConfettiAnimation'
 
 export function StatusColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
+    const [showConfetti, setShowConfetti] = useState(false)
 
     const statusOptions = [
         { label: 'Not Started', cssClass: 'not-started', bg: '#c4c4c4', color: '#323338' },
@@ -17,6 +19,13 @@ export function StatusColumn({ value, onUpdate }) {
             onUpdate(newStatus.label)
         }
         setIsOpen(false)
+        if (newStatus.label === 'Done' && value !== 'Done') {
+            setShowConfetti(true)
+        }
+    }
+
+    function handleConfettiComplete() {
+        setShowConfetti(false)
     }
 
     return (
@@ -32,6 +41,11 @@ export function StatusColumn({ value, onUpdate }) {
                 {currentStatus.label}
                 <div className="corner-fold"></div>
             </div>
+
+            <ConfettiAnimation 
+                isActive={showConfetti} 
+                onComplete={handleConfettiComplete}
+            />
 
             {isOpen && (
                 <div className="status-dropdown">

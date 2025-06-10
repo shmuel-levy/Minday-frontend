@@ -1,0 +1,41 @@
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.confetti-particle {
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: confetti-pop 2s ease-out forwards;
+}
+
+@keyframes confetti-pop {
+  0% {
+    transform: translateY(5px) scale(0.8);
+    opacity: 1;
+  }
+  
+  20% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  
+  60% {
+    transform: translateY(-60px) scale(0.9);
+    opacity: 0.9;
+  }
+  
+  100% {
+    transform: translateY(-120px) scale(0.4);
+    opacity: 0;
+  }
+}
