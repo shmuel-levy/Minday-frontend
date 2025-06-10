@@ -14,7 +14,7 @@ export function BoardHeader({ board, onUpdateBoard }) {
                 />    
             </div>
 
-            <div className="board-header-action">
+            <div className="board-header-action flex align-center">
                 <BoardActions />
             </div>
 

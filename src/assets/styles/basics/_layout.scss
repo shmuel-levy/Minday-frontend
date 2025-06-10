@@ -12,6 +12,7 @@
     flex-direction: column;
     min-height: 100vh;
 
+
     .app-header { 
         position: sticky;
          top: 0; 
@@ -27,6 +28,8 @@
     .main-content { 
         flex: 1; 
         transition: margin-left 0.3s; 
+        background-color: #ffffff;
+
     }
 
 }

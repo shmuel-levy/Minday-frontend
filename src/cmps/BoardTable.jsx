@@ -210,8 +210,8 @@ export const BoardTable = forwardRef(function BoardTable(
         />
       )}
 
-      <div className="add-group-container">
-        <button className="btn-add-group" onClick={handleAddGroup}>
+      <div className="add-group-container ">
+        <button className="btn-add-group  flex align-center" onClick={handleAddGroup}>
           <AddBoard className="icon" />
           <span>Add new group</span>
         </button>

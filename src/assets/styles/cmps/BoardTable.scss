@@ -192,5 +192,29 @@
      background: #efefef;
      transition: transform 0.15s ease;
    }
+.add-group-container{
+  left: 40px;
+  margin-top: 8px;
+  max-width: 300px;
+  cursor: pointer;
+  display: block;
+  z-index: 0;
+  
+  .btn-add-group{
+    position: absolute;
+    border: 1px solid #c3c6d4;
+    border-radius: 4px;
+    color: #323338;
+    height: 32px;
+    padding: 4px 8px;
+    font-family: Figtree,Roboto,Noto Sans Hebrew,Noto Kufi Arabic,Noto Sans JP,sans-serif;
+    gap:8px;
+    
+  }
+
+  .hover{
+   background-color:#f0f0f0 ; 
+  }
+}
  
 }

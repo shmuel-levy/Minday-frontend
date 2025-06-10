@@ -50,7 +50,7 @@ export function ViewControls() {
             <>
              <PinIcon />
                 {isPinned ? 'Unpin view' : 'Pin view'}
-           </>
+        </>
           </button>
         </div>
       )}

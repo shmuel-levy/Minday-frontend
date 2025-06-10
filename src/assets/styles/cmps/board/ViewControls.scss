@@ -1,8 +1,6 @@
 .view-controls{
-    position: relative;
-    width: 110px;
-
-
+  width: 130px;
+  position: relative;
 .main-table-btn {
   display: flex;
   align-items: center;
@@ -13,7 +11,6 @@
   font-family: Figtree, Roboto, sans-serif;
   cursor: pointer;
   border-radius: 4px;
-
   gap: 6px;
 
   &::after {
@@ -25,6 +22,7 @@
     height: 2px;
     background-color: #0073ea;
     border-radius: 1px;
+    
   }
 
   &:hover {
