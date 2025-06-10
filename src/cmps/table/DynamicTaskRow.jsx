@@ -2,9 +2,9 @@ import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
-import { AddUpdateIcon } from '../svg/AddUpdateIcon' 
 import { PriorityColumn } from './column-types/PriorityColumn'
-
+import { MembersColumn } from './column-types/MembersColumn'
+import { AddUpdateIcon } from '../svg/AddUpdateIcon'
 
 export function DynamicTaskRow({ 
     task, 
@@ -17,16 +17,17 @@ export function DynamicTaskRow({
     isSelected = false
 }) {
     const defaultColumns = [
-    { id: 'left-indicator', type: 'left-indicator', width: '6px'},
-    { id: 'checkbox', type: 'checkbox', width: '33px'},
-    { id: 'task', type: 'text', width: '295px'},
-    { id: 'add-update', type: 'add-update', width: '65px'},
-    { id: 'status', type: 'status', width: '139px'},
-    { id: 'owner', type: 'person', width: '97px'},
-    { id: 'date', type: 'date', width: '139px'},
-    { id: 'priority', type: 'priority', width: '139px'}, 
-    { id: 'add-cell', type: 'add-cell', width: 'auto'}
-]
+        { id: 'left-indicator', type: 'left-indicator', width: '6px'},
+        { id: 'checkbox', type: 'checkbox', width: '33px'},
+        { id: 'task', type: 'text', width: '295px'},
+        { id: 'add-update', type: 'add-update', width: '65px'},
+        { id: 'status', type: 'status', width: '139px'},
+        { id: 'owner', type: 'person', width: '97px'},
+        { id: 'date', type: 'date', width: '139px'},
+        { id: 'priority', type: 'priority', width: '139px'}, 
+        { id: 'members', type: 'members', width: '150px'},
+        { id: 'add-cell', type: 'add-cell', width: 'auto'}
+    ]
 
     const columnsToRender = columns.length ? columns : defaultColumns
 
@@ -47,9 +48,12 @@ export function DynamicTaskRow({
                 case 'date':
                     updatedTask.dueDate = newValue
                     break
-                    case 'priority':
-    updatedTask.priority = newValue
-    break
+                case 'priority':
+                    updatedTask.priority = newValue
+                    break
+                case 'members':
+                    updatedTask.members = newValue
+                    break
             }
 
             onUpdateTask(updatedTask)
@@ -78,6 +82,7 @@ export function DynamicTaskRow({
                         }}
                     />
                 )
+
             case 'task':
                 return (
                     <div className="task-with-icon">
@@ -88,8 +93,8 @@ export function DynamicTaskRow({
                         />
                     </div>
                 )
+
             case 'add-update':
-                // Get the number of updates for this task
                 const updatesCount = task.updates?.length || 0;
                 
                 return (
@@ -101,9 +106,7 @@ export function DynamicTaskRow({
                         <AddUpdateIcon updatesCount={updatesCount} />
                     </button>
                 )
-                case 'priority':
-    value = task.priority
-    break
+
             case 'status':
                 value = task.status
                 break
@@ -112,6 +115,12 @@ export function DynamicTaskRow({
                 break
             case 'date':
                 value = task.dueDate
+                break
+            case 'priority':
+                value = task.priority
+                break
+            case 'members':
+                value = task.members
                 break
         }
 
@@ -124,13 +133,6 @@ export function DynamicTaskRow({
                         placeholder={`Enter ${column.id}...`}
                     />
                 )
-                case 'priority':
-    return (
-        <PriorityColumn
-            value={value}
-            onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
-        />
-    )
 
             case 'status':
                 return (
@@ -139,6 +141,7 @@ export function DynamicTaskRow({
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
+
             case 'person':
                 return (
                     <PersonColumn
@@ -146,6 +149,7 @@ export function DynamicTaskRow({
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
+
             case 'date':
                 return (
                     <DateColumn
@@ -153,6 +157,24 @@ export function DynamicTaskRow({
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
                     />
                 )
+
+            case 'priority':
+                return (
+                    <PriorityColumn
+                        value={value}
+                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                    />
+                )
+
+            case 'members':
+                return (
+                    <MembersColumn
+                        value={value}
+                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                        task={task}
+                    />
+                )
+
             case 'col-add-cell':
                 return <></>;
            
@@ -166,7 +188,7 @@ export function DynamicTaskRow({
             className={`task-row${isDragging ? ' drag-preview' : ''}`}
             style={{ '--group-color': groupColor }}
         >
-             <div className="col-left-indicator">
+            <div className="col-left-indicator">
                 {renderCell(columnsToRender[0])}
             </div>
             <div className="col-checkbox">
@@ -188,12 +210,14 @@ export function DynamicTaskRow({
                 {renderCell(columnsToRender[6])}
             </div>
             <div className="col-priority">
-    {renderCell(columnsToRender[7])}
-</div>
-             <div className="col-add-cell">
+                {renderCell(columnsToRender[7])}
+            </div>
+            <div className="col-members">
                 {renderCell(columnsToRender[8])}
             </div>
-             
+            <div className="col-add-cell">
+                {renderCell(columnsToRender[9])}
+            </div>
         </div>
     )
 }
