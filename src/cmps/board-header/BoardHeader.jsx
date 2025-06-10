@@ -3,6 +3,7 @@ import { BoardActions } from './BoardActions'
 import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 
+
 export function BoardHeader({ board, onUpdateBoard }) {
     return (
         <section className="board-header-container grid">
@@ -24,6 +25,10 @@ export function BoardHeader({ board, onUpdateBoard }) {
             <div className="board-header-contextualAction">
                 <TableControls />
             </div>
+
+              {/* <button className="btn-collapse-header flex align-center" onClick={toggleExpanded}>
+        <ArrowDownUpIcon />
+      </button> */}
         </section>
     )
 }

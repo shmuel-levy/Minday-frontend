@@ -1,9 +1,8 @@
 .table-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 1; 
-  justify-content: flex-start; 
+  gap: 12px;
+  padding: 16px 0px;
 
   .btn-new-task {
     background: #0073ea;

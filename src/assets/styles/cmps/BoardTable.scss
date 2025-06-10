@@ -192,36 +192,4 @@
      transition: transform 0.15s ease;
    }
  
- 
-
-
-  .add-group-container {
-    margin-top: 70px;
-    margin-left: 40px;
-
-  .btn-add-group {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    font-family: 'FigtreeLight', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    color: #323338;
-
-    border: 1px solid #c3c6d4;
-    border-radius: 4px;
-    padding: 4px 8px;
-    height: 32px;
-    cursor: pointer;
-
-    svg {
-      margin-right: 8px;
-    }
-    
-    &:hover {
-      background: #6768791a;
-    }
-  }
- }
 }
