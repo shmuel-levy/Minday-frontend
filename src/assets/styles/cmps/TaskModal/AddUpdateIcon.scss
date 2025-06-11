@@ -21,9 +21,6 @@
   }
 
   &:hover:not(.has-updates) {
-    background-color: #e6f3ff; 
-    border-radius: 4px;
-    
     .update-icon {
       color: #0073ea; 
     }
@@ -34,10 +31,6 @@
       color: #0073ea; 
     }
     
-    &:hover {
-      background-color: #e6f3ff; 
-      border-radius: 4px;
-    }
   }
 
   .update-count-indicator {
