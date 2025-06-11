@@ -1,0 +1,221 @@
+.files-column {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    
+    .files-preview {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        
+        &:hover {
+            background-color: #f5f6f8;
+        }
+    }
+    
+    .uploading-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(0, 115, 234, 0.2);
+        border-top-color: #0073ea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .files-thumbnails {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 6px;
+        position: relative;
+        
+        .preview-thumbnail {
+            width: 24px;
+            height: 24px;
+            border-radius: 2px;
+            overflow: hidden;
+            border: 1px solid #e6e9ef;
+            background-color: white;
+            margin-right: -10px;
+            position: relative;
+            
+            .file-thumbnail {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        
+        .more-files {
+            margin-left: 12px;
+            font-size: 12px;
+            color: #676879;
+        }
+    }
+    
+    .empty-files {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background-image: url("https://cdn.monday.com/images/file-types/empty.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px;
+        
+        .plus-icon {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            left: calc(50% - 20px);
+            background-color: #0073ea;
+            border-radius: 50%;
+            
+            &:before {
+                content: "+";
+                position: absolute;
+                color: white;
+                font-size: 14px;
+                font-weight: bold;
+                top: -3px;
+                left: 3px;
+            }
+        }
+    }
+    
+  
+    .files-preview:hover .empty-files {
+        opacity: 1;
+    }
+    
+    .files-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+        z-index: 100;
+        overflow: hidden;
+        padding: 8px 0;
+        
+        .files-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #e6e9ef;
+            
+            .file-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px 16px;
+                
+                &:hover {
+                    background-color: #f5f6f8;
+                }
+                
+                .file-content {
+                    display: flex;
+                    align-items: center;
+                    flex: 1;
+                    cursor: pointer;
+                    
+                    .file-preview {
+                        width: 32px;
+                        height: 32px;
+                        margin-right: 12px;
+                        border-radius: 2px;
+                        overflow: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        
+                        .file-thumbnail {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    
+                    .file-details {
+                        flex: 1;
+                        
+                        .file-name {
+                            font-size: 14px;
+                            color: #323338;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                        
+                        .file-size {
+                            font-size: 12px;
+                            color: #676879;
+                        }
+                    }
+                }
+                
+                .delete-button {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    padding: 4px;
+                    color: #676879;
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.05);
+                        color: #d83a52;
+                    }
+                }
+            }
+        }
+        
+        .upload-options {
+            padding: 0 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            
+            .option-button {
+                display: flex;
+                align-items: center;
+                padding: 10px 16px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #323338;
+                text-align: left;
+                font-size: 14px;
+                border-radius: 4px;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                    background-color: #f5f6f8;
+                }
+                
+                svg {
+                    margin-right: 12px;
+                    color: #676879;
+                }
+            }
+        }
+    }
+}
