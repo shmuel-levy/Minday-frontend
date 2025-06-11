@@ -8,7 +8,7 @@ export function StatusColumn({ value, onUpdate }) {
     const statusOptions = [
         { label: 'Not Started', cssClass: 'not-started', bg: '#c4c4c4', color: '#323338' },
         { label: 'Working on it', cssClass: 'working-on-it', bg: '#fdab3d', color: '#ffffff' },
-        { label: 'Stuck', cssClass: 'stuck', bg: '#e2445c', color: '#ffffff' },
+        { label: 'Stuck', cssClass: 'stuck', bg: '#df2f4a', color: '#ffffff' },
         { label: 'Done', cssClass: 'done', bg: '#00c875', color: '#ffffff' }
     ]
 

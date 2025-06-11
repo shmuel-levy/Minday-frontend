@@ -5,6 +5,7 @@ import { CreateBoardModal } from './CreateBoardModal'
 import { BoardIconSidebar } from './svg/BoardIconSidebar'
 import { AddBoard } from './svg/AddBoard'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
+import { HomeWorkspaceIcon } from './svg/HomeIconWorkspace'
 
 export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const navigate = useNavigate()
@@ -35,7 +36,11 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
 
       <div className="workspace-container">
         <div className="workspace-header">
-          <span className="workspace-icon">M</span>
+          <span className="workspace-icon">
+            <div className='main-home-icon'>
+              <HomeWorkspaceIcon />
+            </div>
+          M</span>
           <div>
             <div className="workspace-name">Main workspace</div>
           </div>

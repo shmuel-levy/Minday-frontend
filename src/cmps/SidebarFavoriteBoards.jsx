@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { FavoriteToggleIcon } from './icons/FavoriteToggleIcon'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { BoardIconSidebar } from './svg/BoardIconSidebar'
+import { StarIcon } from './svg/StarIcon'
 
 
 export function SidebarFavoriteBoards({ isOpen, onToggle }) {
@@ -19,7 +20,7 @@ export function SidebarFavoriteBoards({ isOpen, onToggle }) {
   return (
     <section className={`sidebar-favorites ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-item section-header" onClick={onToggle}>
-        <FavoriteToggleIcon isFavorite={isOpen} />
+        <StarIcon isStarred={isOpen} />
         <span className="title">Favorites</span>
         <span className="chevron">
           <ArrowDownUpIcon direction={isOpen ? 'up' : 'down'} />

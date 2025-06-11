@@ -4,7 +4,7 @@ export function PriorityColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
 
     const priorityOptions = [
-        { label: 'Critical ⚠️', cssClass: 'critical', bg: 'rgb(86, 62, 62)', color: 'rgb(247, 247, 248)' },
+        { label: 'Critical ⚠️', cssClass: 'critical', bg: 'rgb(51 ,51, 51)', color: 'rgb(247, 247, 248)' },
         { label: 'High', cssClass: 'high', bg: 'rgb(64, 22, 148)', color: 'rgb(247, 247, 248)' },
         { label: 'Medium', cssClass: 'medium', bg: 'rgb(85, 89, 223)', color: 'rgb(247, 247, 248)' },
         { label: 'Low', cssClass: 'low', bg: 'rgb(87, 155, 252)', color: 'rgb(247, 247, 248)' }
@@ -21,11 +21,11 @@ export function PriorityColumn({ value, onUpdate }) {
 
     return (
         <div className="priority-column">
-            <div 
+            <div
                 className={`priority-badge ${currentPriority.cssClass}`}
-                style={{ 
+                style={{
                     backgroundColor: currentPriority.bg,
-                    color: currentPriority.color 
+                    color: currentPriority.color
                 }}
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -35,13 +35,14 @@ export function PriorityColumn({ value, onUpdate }) {
 
             {isOpen && (
                 <div className="priority-dropdown">
+                    <div className="priority-caret"></div>
                     <ul className="change-label-container">
                         {priorityOptions.map(option => (
                             <li
                                 key={option.label}
-                                style={{ 
-                                    backgroundColor: option.bg, 
-                                    color: option.color 
+                                style={{
+                                    backgroundColor: option.bg,
+                                    color: option.color
                                 }}
                                 onClick={() => handlePriorityChange(option)}
                             >
@@ -54,7 +55,7 @@ export function PriorityColumn({ value, onUpdate }) {
             )}
 
             {isOpen && (
-                <div 
+                <div
                     className="dropdown-overlay"
                     onClick={() => setIsOpen(false)}
                 />

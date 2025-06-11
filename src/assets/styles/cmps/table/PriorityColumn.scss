@@ -28,7 +28,7 @@
     }
 
     &.critical {
-      background-color: rgb(86, 62, 62);
+      background-color: #333;
       color: rgb(247, 247, 248);
     }
 
@@ -51,30 +51,50 @@
   .priority-dropdown {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     right: 0;
+    margin-top: 5px;
+    cursor: default;
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .32);
     z-index: 1001;
-    padding: 8px;
+    width: 200px;
+
+    .priority-caret {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid white;
+        z-index: 101;
+    }
 
     .change-label-container {
       display: flex;
       flex-direction: column;
-      gap: 7px;
       align-items: center;
+      margin: 8px 0 0 0;
+      padding: 16px 24px 8px;
 
       li {
-        font-size: 0.875em;
-        align-self: stretch;
-        text-align: center;
-        padding: 4px 0;
+         width: 144px;
+        padding: 0px 4px;
+        color: #fff;
+        font-weight: 400;
         cursor: pointer;
-        transition: opacity 0.2s;
-        border-radius: 4px;
-        list-style: none;
+        transition: transform .1s ease-in-out, opacity .1s ease-in-out;
+        position: relative;
+        margin-bottom: 8px;
+        height: 32px;
+        text-align: center;
+        line-height: 32px;
         
         &:hover {
           opacity: 0.85;

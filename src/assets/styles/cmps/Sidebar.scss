@@ -95,6 +95,23 @@
       margin-left: auto;
       font-size: 12px;
     }
+    
+    .star-icon-btn {
+      padding: 0;
+    }
+    .star-icon {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+
+    &.outlined {
+        color: #676879;
+    }
+
+    &.filled {
+        color: #ffcb00;
+    }
+}
   }
 
   .empty-text {
