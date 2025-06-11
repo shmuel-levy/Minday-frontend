@@ -6,13 +6,15 @@ import { PriorityColumn } from './column-types/PriorityColumn'
 import { MembersColumn } from './column-types/MembersColumn'
 import { FilesColumn } from './column-types/FilesColumn'
 import { AddUpdateIcon } from '../svg/AddUpdateIcon'
+// import { Checkbox } from '../svg/Checkbox'
+import { TaskCheckbox } from '../TaskCheckbox'
 
-export function DynamicTaskRow({ 
-    task, 
-    groupColor, 
-    columns = [], 
-    onUpdateTask, 
-    onOpenUpdates, 
+export function DynamicTaskRow({
+    task,
+    groupColor,
+    columns = [],
+    onUpdateTask,
+    onOpenUpdates,
     isDragging = false,
     onTaskSelection,
     isSelected = false
@@ -25,10 +27,10 @@ export function DynamicTaskRow({
         { id: 'status', type: 'status', width: '139px'},
         { id: 'owner', type: 'person', width: '97px'},
         { id: 'date', type: 'date', width: '139px'},
-        { id: 'priority', type: 'priority', width: '139px'}, 
+        { id: 'priority', type: 'priority', width: '139px'},
         { id: 'members', type: 'members', width: '150px'},
         { id: 'files', type: 'files', width: '150px'},
-        { id: 'add-cell', type: 'add-cell', width: 'auto'}
+        { id: 'add-cell', type: 'add-cell', width: 'auto' }
     ]
 
     const columnsToRender = columns.length ? columns : defaultColumns
@@ -74,16 +76,11 @@ export function DynamicTaskRow({
 
             case 'checkbox':
                 return (
-                    <input
-                        type="checkbox"
+                    <TaskCheckbox
                         checked={isSelected}
-                        onChange={(e) => {
-                            if (onTaskSelection) {
-                                onTaskSelection(e.target.checked)
-                            }
-                            
-                            const updatedTask = { ...task, isChecked: e.target.checked }
-                            onUpdateTask?.(updatedTask)
+                        onChange={(newValue) => {
+                            onTaskSelection?.(newValue)
+                            onUpdateTask?.({ ...task, isChecked: newValue })
                         }}
                     />
                 )
@@ -101,7 +98,7 @@ export function DynamicTaskRow({
 
             case 'add-update':
                 const updatesCount = task.updates?.length || 0;
-                
+
                 return (
                     <button
                         onClick={() => onOpenUpdates?.(task.id)}
@@ -182,7 +179,7 @@ export function DynamicTaskRow({
                         task={task}
                     />
                 )
-                
+
             case 'files':
                 return (
                     <FilesColumn
@@ -194,7 +191,7 @@ export function DynamicTaskRow({
 
             case 'col-add-cell':
                 return <></>;
-           
+
             default:
                 return <span>{value}</span>
         }

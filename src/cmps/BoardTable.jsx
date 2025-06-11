@@ -8,6 +8,7 @@ import { TaskDetailModal } from "./task-detail-modal/TaskDetailModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useBoardState } from "../customHooks/useBoardState";
 import { useTaskSelection } from "../customHooks/useTaskSelection";
+import { TaskCheckbox } from "./TaskCheckbox";
 
 export const BoardTable = forwardRef(function BoardTable(
   { board, onUpdateTask, onAddNewTask, onOpenUpdates },
@@ -162,7 +163,7 @@ export const BoardTable = forwardRef(function BoardTable(
                       >
                         <div className="col-left-indicator"></div>
                         <div className="col-checkbox">
-                          <input disabled type="checkbox" />
+                          <TaskCheckbox disabled />
                         </div>
                         <div className="col-task">
                           <input
