@@ -9,21 +9,22 @@ export function TableHeader({ columns = [], onToggleAll, groupColor }) {
         { id: 'status', type: 'status', title: 'Status', width: '139px', editable: true },
         { id: 'owner', type: 'person', title: 'Owner', width: '97px', editable: true },
         { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },
-        { id: 'priority', type: 'priority', title: 'Priority', width: '139px', editable: true }, 
+        { id: 'priority', type: 'priority', title: 'Priority', width: '139px', editable: true },
         { id: 'members', type: 'members', title: 'Members', width: '150px', editable: true },
+        { id: 'files', type: 'files', title: 'Files', width: '150px', editable: true },
         { id: 'add-cell', type: 'add-cell', title: <Plus />, width: 'auto', editable: false }
     ]
-
+    
     const [headerTitles, setHeaderTitles] = useState(
         Object.fromEntries(defaultColumns.map(col => [col.id, col.title]))
     )
-
+    
     function handleTitleChange(id, value) {
         setHeaderTitles(prev => ({ ...prev, [id]: value }))
     }
-
+    
     const columnsToRender = columns.length ? columns : defaultColumns
-
+    
     return (
         <div className="table-header" style={{ '--group-color': groupColor }}>
             {columnsToRender.map(column => (

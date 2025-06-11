@@ -4,6 +4,7 @@ import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
 import { PriorityColumn } from './column-types/PriorityColumn'
 import { MembersColumn } from './column-types/MembersColumn'
+import { FilesColumn } from './column-types/FilesColumn'
 import { AddUpdateIcon } from '../svg/AddUpdateIcon'
 
 export function DynamicTaskRow({ 
@@ -26,6 +27,7 @@ export function DynamicTaskRow({
         { id: 'date', type: 'date', width: '139px'},
         { id: 'priority', type: 'priority', width: '139px'}, 
         { id: 'members', type: 'members', width: '150px'},
+        { id: 'files', type: 'files', width: '150px'},
         { id: 'add-cell', type: 'add-cell', width: 'auto'}
     ]
 
@@ -53,6 +55,9 @@ export function DynamicTaskRow({
                     break
                 case 'members':
                     updatedTask.members = newValue
+                    break
+                case 'files':
+                    updatedTask.files = newValue
                     break
             }
 
@@ -122,6 +127,9 @@ export function DynamicTaskRow({
             case 'members':
                 value = task.members
                 break
+            case 'files':
+                value = task.files
+                break
         }
 
         switch (column.type) {
@@ -174,6 +182,15 @@ export function DynamicTaskRow({
                         task={task}
                     />
                 )
+                
+            case 'files':
+                return (
+                    <FilesColumn
+                        value={value}
+                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                        task={task}
+                    />
+                )
 
             case 'col-add-cell':
                 return <></>;
@@ -215,8 +232,11 @@ export function DynamicTaskRow({
             <div className="col-members">
                 {renderCell(columnsToRender[8])}
             </div>
-            <div className="col-add-cell">
+            <div className="col-files">
                 {renderCell(columnsToRender[9])}
+            </div>
+            <div className="col-add-cell">
+                {renderCell(columnsToRender[10])}
             </div>
         </div>
     )

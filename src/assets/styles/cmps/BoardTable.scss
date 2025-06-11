@@ -12,7 +12,7 @@
       .tasks-container{
 
         .table-header {
-            grid-template-columns: 6px 33px 360px 139px 97px 139px 139px 150px 1fr;
+            grid-template-columns: 6px 33px 360px 139px 97px 139px 139px 150px 150px 1fr;
 
          border-top-left-radius: 8px; 
          border-top: 1px solid #c3c6d4;
@@ -51,7 +51,7 @@
     }
 
         .task-row{
-            grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 139px 150px auto;
+            grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 139px 150px 150px auto;
 
 
            .col-task {
@@ -72,7 +72,7 @@
          background-color: var(--group-color);
         }
 
-       .col-checkbox, .col-task, .col-status, .col-owner, .col-date, .col-priority, .col-members, .btn-add-update  {
+       .col-checkbox, .col-task, .col-status, .col-owner, .col-date, .col-priority, .col-members, .col-files, .btn-add-update  {
           display: flex;
           align-items: center;
           width: 100%;
@@ -90,7 +90,7 @@
             padding: 0 0 0 10px;
         }
 
-        .col-checkbox, .col-status, .col-owner, .col-date, .col-priority, .col-members, .btn-add-update{
+        .col-checkbox, .col-status, .col-owner, .col-date, .col-priority, .col-members, .col-files, .btn-add-update{
           justify-content: center;
 
         }
@@ -191,30 +191,4 @@
      opacity: 0.85;
      background: #efefef;
      transition: transform 0.15s ease;
-   }
-.add-group-container{
-  left: 40px;
-  margin-top: 8px;
-  max-width: 300px;
-  cursor: pointer;
-  display: block;
-  z-index: 0;
-  
-  .btn-add-group{
-    position: absolute;
-    border: 1px solid #c3c6d4;
-    border-radius: 4px;
-    color: #323338;
-    height: 32px;
-    padding: 4px 8px;
-    font-family: Figtree,Roboto,Noto Sans Hebrew,Noto Kufi Arabic,Noto Sans JP,sans-serif;
-    gap:8px;
-    
-  }
-
-  .hover{
-   background-color:#f0f0f0 ; 
-  }
-}
- 
-}
+    }}
