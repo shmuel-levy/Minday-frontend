@@ -1,0 +1,187 @@
+// Warning icon styles (for red/stuck status)
+.deadline-icon.overdue {
+  font-size: 13px;
+  color: currentColor;
+}.timeline-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline {
+  position: relative;
+  cursor: pointer;
+  width: 108px;
+  height: 22px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+    
+    .reset-btn {
+      opacity: 1;
+    }
+    
+    .timeline-icon-container {
+      opacity: 1;
+    }
+  }
+}
+
+.timeline-icon-container {
+  position: absolute;
+  left: 6px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.timeline-icon {
+  width: 17px;
+  height: 17px;
+  color: currentColor;
+  
+  &.done-icon {
+    color: currentColor;
+  }
+}
+
+.reset-btn {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  background: #666;
+  color: #333333;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    width: 15.9954px;
+    height: 15.9954px;
+  }
+  
+  &:hover {
+    background: #333;
+  }
+}
+
+.timeline-modal {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  z-index: 1000;
+  padding: 16px;
+  width: 280px;
+  margin-top: 4px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+  
+  span:first-child {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  span:last-child {
+    font-size: 12px;
+    color: #666;
+  }
+}
+
+.date-inputs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  input {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    
+    &:focus {
+      outline: none;
+      border-color: #007EB5;
+    }
+  }
+}
+
+.calendar .cal-header {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+
+  div {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    padding: 4px;
+  }
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+
+  .cal-day {
+    aspect-ratio: 1;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+    border-radius: 4px;
+    transition: background 0.15s;
+
+    &:hover { background: #f0f0f0; }
+    &.other { color: #ccc; }
+    &.today { background: #007EB5; color: white; font-weight: 600; }
+    &.range { background: #E6F3FF; }
+    &.selected { background: #007EB5; color: white; font-weight: 600; }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}

@@ -24,7 +24,11 @@ export function useBoardState(board, onAddNewTask) {
                   title: "Implement Task Preview UI 2",
                   assignee: "John",
                   status: "Working on it",
-                  dueDate: "May 26",
+                  dueDate: "May 26", // Keep for backward compatibility
+                  timeline: {
+                    startDate: "2025-06-10",
+                    endDate: "2025-06-15"
+                  },
                   priority: "High",
                   isChecked: false,
                   updates: [],
@@ -36,6 +40,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "SS",
                   status: "Done",
                   dueDate: "May 25",
+                  timeline: {
+                    startDate: "2025-06-01",
+                    endDate: "2025-06-08"
+                  },
                   priority: "Medium",
                   isChecked: false,
                   updates: [],
@@ -47,6 +55,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "Mike",
                   status: "Stuck",
                   dueDate: "May 27",
+                  timeline: {
+                    startDate: "2025-06-12",
+                    endDate: "2025-06-20"
+                  },
                   priority: "Critical",
                   isChecked: false,
                   updates: [],
@@ -58,6 +70,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "SS",
                   status: "Working on it",
                   dueDate: "May 28",
+                  timeline: {
+                    startDate: "",
+                    endDate: ""
+                  },
                   priority: "Low",
                   isChecked: false,
                   updates: [],
@@ -77,6 +93,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "SS",
                   status: "Working on it",
                   dueDate: "May 30",
+                  timeline: {
+                    startDate: "2025-06-15",
+                    endDate: "2025-06-25"
+                  },
                   priority: "High",
                   isChecked: false,
                   updates: [],
@@ -88,6 +108,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "John",
                   status: "Working on it",
                   dueDate: "May 30",
+                  timeline: {
+                    startDate: "2025-06-20",
+                    endDate: "2025-06-30"
+                  },
                   priority: "Medium",
                   isChecked: false,
                   updates: [],
@@ -99,6 +123,10 @@ export function useBoardState(board, onAddNewTask) {
                   assignee: "Mike",
                   status: "Working on it",
                   dueDate: "May 31",
+                  timeline: {
+                    startDate: "",
+                    endDate: ""
+                  },
                   priority: "Low",
                   isChecked: false,
                   updates: [],
@@ -134,6 +162,10 @@ export function useBoardState(board, onAddNewTask) {
       assignee: "",
       status: "Not Started",
       dueDate: "",
+      timeline: {
+        startDate: "",
+        endDate: ""
+      },
       priority: "Medium",
       isChecked: false,
       updates: [],
@@ -158,6 +190,10 @@ export function useBoardState(board, onAddNewTask) {
       assignee: "",
       status: "Not Started",
       dueDate: "",
+      timeline: {
+        startDate: "",
+        endDate: ""
+      },
       priority: "Medium",
       updates: [],
       files: [],
@@ -174,6 +210,11 @@ export function useBoardState(board, onAddNewTask) {
   }
 
   function handleUpdateTask(groupId, updatedTask) {
+    // Ensure timeline object exists for backward compatibility
+    if (!updatedTask.timeline) {
+      updatedTask.timeline = { startDate: "", endDate: "" };
+    }
+
     const updatedGroups = demoBoard.groups.map((group) =>
       group.id === groupId
         ? {

@@ -2,6 +2,7 @@ import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
+import { TimelineColumn } from './column-types/TimelineColumn'
 import { PriorityColumn } from './column-types/PriorityColumn'
 import { MembersColumn } from './column-types/MembersColumn'
 import { FilesColumn } from './column-types/FilesColumn'
@@ -27,6 +28,7 @@ export function DynamicTaskRow({
         { id: 'status', type: 'status', width: '139px'},
         { id: 'owner', type: 'person', width: '97px'},
         { id: 'date', type: 'date', width: '139px'},
+        { id: 'timeline', type: 'timeline', width: '180px'},
         { id: 'priority', type: 'priority', width: '139px'},
         { id: 'members', type: 'members', width: '150px'},
         { id: 'files', type: 'files', width: '150px'},
@@ -51,6 +53,9 @@ export function DynamicTaskRow({
                     break
                 case 'date':
                     updatedTask.dueDate = newValue
+                    break
+                case 'timeline':
+                    updatedTask.timeline = newValue
                     break
                 case 'priority':
                     updatedTask.priority = newValue
@@ -118,6 +123,9 @@ export function DynamicTaskRow({
             case 'date':
                 value = task.dueDate
                 break
+            case 'timeline':
+                value = task.timeline || { startDate: '', endDate: '' }
+                break
             case 'priority':
                 value = task.priority
                 break
@@ -160,6 +168,15 @@ export function DynamicTaskRow({
                     <DateColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                    />
+                )
+
+            case 'timeline':
+                return (
+                    <TimelineColumn
+                        value={value}
+                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                        task={task}
                     />
                 )
 
@@ -223,17 +240,20 @@ export function DynamicTaskRow({
             <div className="col-date">
                 {renderCell(columnsToRender[6])}
             </div>
-            <div className="col-priority">
+            <div className="col-timeline">
                 {renderCell(columnsToRender[7])}
             </div>
-            <div className="col-members">
+            <div className="col-priority">
                 {renderCell(columnsToRender[8])}
             </div>
-            <div className="col-files">
+            <div className="col-members">
                 {renderCell(columnsToRender[9])}
             </div>
-            <div className="col-add-cell">
+            <div className="col-files">
                 {renderCell(columnsToRender[10])}
+            </div>
+            <div className="col-add-cell">
+                {renderCell(columnsToRender[11])}
             </div>
         </div>
     )

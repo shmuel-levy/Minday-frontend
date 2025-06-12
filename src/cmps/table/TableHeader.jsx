@@ -10,6 +10,7 @@ export function TableHeader({ columns = [], onToggleAll, groupColor, isAllSelect
         { id: 'status', type: 'status', title: 'Status', width: '139px', editable: true },
         { id: 'owner', type: 'person', title: 'Owner', width: '97px', editable: true },
         { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },
+        { id: 'timeline', type: 'timeline', title: 'Timeline', width: '180px', editable: true },
         { id: 'priority', type: 'priority', title: 'Priority', width: '139px', editable: true },
         { id: 'members', type: 'members', title: 'Members', width: '150px', editable: true },
         { id: 'files', type: 'files', title: 'Files', width: '150px', editable: true },
