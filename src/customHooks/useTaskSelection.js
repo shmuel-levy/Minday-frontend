@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+
 
 export function useTaskSelection(demoBoard, setDemoBoard) {
   const [selectedTasks, setSelectedTasks] = useState([]);
@@ -113,6 +115,7 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
 
     setDemoBoard({ ...demoBoard, groups: updatedGroups });
     setSelectedTasks([]);
+    showSuccessMsg('Selected tasks successfully deleted');
   }
 
   function handleMoveSelectedToGroup(targetGroupId) {

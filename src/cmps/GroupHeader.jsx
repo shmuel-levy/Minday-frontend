@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
 import { ThreeDots } from "./svg/ThreeDots"
+import { showSuccessMsg } from '../services/event-bus.service'
 
 export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGroup }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -37,6 +38,8 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
     function handleDeleteGroup() {
         onDeleteGroup(group.id)
         setShowMenu(false)
+
+        showSuccessMsg('Group successfully deleted');
     }
 
     function handleToggleCollapse() {
