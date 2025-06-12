@@ -1,8 +1,11 @@
 import { storageService } from '../async-storage.service'
 import { makeId } from '../util.service'
 import { userService } from '../user'
+import { getRandomColor } from '../util.service'
+
 
 const STORAGE_KEY = 'board'
+_createDemoBoard
 
 export const boardService = {
     query,
@@ -16,7 +19,10 @@ export const boardService = {
     addTaskUpdate,
     addTaskFile,
     getTaskActivities,
-    deleteGroup
+    deleteGroup,
+    getEmptyBoard,
+    getDefaultFilter,
+    _createDemoBoard
 }
 window.bs = boardService
 
@@ -273,4 +279,95 @@ async function getTaskActivities(boardId, taskId) {
     return (board.activities || []).filter(activity => 
         activity.task && activity.task.id === taskId
     ).sort((a, b) => b.createdAt - a.createdAt)
+}
+
+function getEmptyBoard() {
+    return {
+        title: 'New Board',
+        description: '',
+        isStarred: false,
+        archivedAt: null,
+        createdBy: null,
+        style: {
+            backgroundImgs: []
+        },
+        labels: [],
+        members: [],
+        groups: [],
+        activities: [],
+        cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
+    }
+}
+
+function getDefaultFilter() {
+    return {
+        txt: '',
+        maxMembers: '',
+        minTasks: '',
+        sortField: '',
+        sortDir: '',
+        // pageIdx: 0
+    }
+}
+
+
+async function _createDemoBoard() {
+    const boards = await storageService.query(STORAGE_KEY)
+    if (!boards || !boards.length) {
+        const demoBoard = getDemoBoard()
+        await storageService.post(STORAGE_KEY, demoBoard)
+    }
+}
+
+///DEMO BOARD
+
+function getDemoBoard() {
+  return {
+    _id: 'demo',
+    title: "Monday - Sprint 4 - Design Approval",
+    description: "Sprint demo",
+    groups: [
+      {
+        id: "g1",
+        title: "Frontend",
+        color: getRandomColor(),
+        isCollapsed: false,
+        tasks: [
+          {
+            id: "t1",
+            title: "Implement Task Preview UI 2",
+            assignee: "John",
+            status: "Working on it",
+            dueDate: "May 26",
+            priority: "High",
+            isChecked: false,
+            updates: [],
+            files: [],
+          },
+        ],
+      },
+      {
+        id: "g2",
+        title: "Backend",
+        color: getRandomColor(),
+        isCollapsed: false,
+        tasks: [
+          {
+            id: "t5",
+            title: "Set up Express server",
+            assignee: "SS",
+            status: "Working on it",
+            dueDate: "May 30",
+            priority: "High",
+            isChecked: false,
+            updates: [],
+            files: [],
+          },
+        ],
+      },
+    ],
+    members: [],
+    style: {},
+    labels: [],
+  }
 }

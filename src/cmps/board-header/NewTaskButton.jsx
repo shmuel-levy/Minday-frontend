@@ -3,12 +3,12 @@ import { DropdownArrowIcon } from '../svg/DropdownArrowIcon'
 import { NewGroupIcon } from '../svg/NewGroupIcon'
 import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 
-export function NewTaskButton({ onAddTask, onAddNewGroup }) {
+export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
     const [showDropdown, setShowDropdown] = useState(false)
 
     function handleNewTask() {
-        if (onAddTask) {
-            onAddTask()
+        if (onAddNewTask) {
+            onAddNewTask()
         }
     }
 

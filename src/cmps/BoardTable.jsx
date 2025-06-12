@@ -31,7 +31,7 @@ export const BoardTable = forwardRef(function BoardTable(
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
-  } = useBoardState(board, onAddNewTask);
+  } = useBoardState(board, onAddNewTask)
 
   const {
     selectedTasks,
@@ -43,15 +43,15 @@ export const BoardTable = forwardRef(function BoardTable(
     handleMoveSelectedToGroup,
     handleClearSelection,
     cleanupSelections,
-  } = useTaskSelection(demoBoard, setDemoBoard);
+  } = useTaskSelection(demoBoard, setDemoBoard)
 
   function handleDeleteGroupWithCleanup(groupId) {
-    handleDeleteGroup(groupId);
-    cleanupSelections(groupId);
+    handleDeleteGroup(groupId)
+    cleanupSelections(groupId)
   }
 
   function handleOpenUpdates(taskId) {
-    setOpenTaskId(taskId);
+    setOpenTaskId(taskId)
   }
 
   function handleUpdateGroup(updatedGroup) {

@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { getRandomColor } from "../services/util.service";
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import { getRandomColor } from "../services/util.service"
+import { updateBoard } from "../store/board.actions.js"
 
 export function useBoardState(board, onAddNewTask) {
   const currentBoard =
-    board || useSelector((storeState) => storeState.boardModule.board);
+    board || useSelector((storeState) => storeState.boardModule.board)
 
   const [demoBoard, setDemoBoard] = useState(() =>
     currentBoard?.groups?.length
@@ -30,39 +31,6 @@ export function useBoardState(board, onAddNewTask) {
                   updates: [],
                   files: [],
                 },
-                {
-                  id: "t2",
-                  title: "Build Board List component",
-                  assignee: "SS",
-                  status: "Done",
-                  dueDate: "May 25",
-                  priority: "Medium",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
-                {
-                  id: "t3",
-                  title: "Create Task Details modal",
-                  assignee: "Mike",
-                  status: "Stuck",
-                  dueDate: "May 27",
-                  priority: "Critical",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
-                {
-                  id: "t4",
-                  title: "Add drag & drop for tasks",
-                  assignee: "SS",
-                  status: "Working on it",
-                  dueDate: "May 28",
-                  priority: "Low",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
               ],
             },
             {
@@ -82,39 +50,26 @@ export function useBoardState(board, onAddNewTask) {
                   updates: [],
                   files: [],
                 },
-                {
-                  id: "t6",
-                  title: "Create MongoDB schema files",
-                  assignee: "John",
-                  status: "Working on it",
-                  dueDate: "May 30",
-                  priority: "Medium",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
-                {
-                  id: "t7",
-                  title: "Build Login & Signup pages",
-                  assignee: "Mike",
-                  status: "Working on it",
-                  dueDate: "May 31",
-                  priority: "Low",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
               ],
             },
           ],
         }
-  );
+  )
 
-  const [taskDrafts, setTaskDrafts] = useState({});
-  const [focusTaskId, setFocusTaskId] = useState(null);
+  const [taskDrafts, setTaskDrafts] = useState({})
+  const [focusTaskId, setFocusTaskId] = useState(null)
+
+  async function saveBoardChanges(updatedBoard) {
+    setDemoBoard(updatedBoard)
+    try {
+      await updateBoard(updatedBoard)
+    } catch (err) {
+      console.error("❌ Failed to save board:", err)
+    }
+  }
 
   function handleAddNewTask() {
-    let updatedBoard = { ...demoBoard };
+    let updatedBoard = { ...demoBoard }
 
     if (!updatedBoard.groups?.length) {
       updatedBoard.groups = [
@@ -125,7 +80,7 @@ export function useBoardState(board, onAddNewTask) {
           isCollapsed: false,
           tasks: [],
         },
-      ];
+      ]
     }
 
     const newTask = {
@@ -138,19 +93,19 @@ export function useBoardState(board, onAddNewTask) {
       isChecked: false,
       updates: [],
       files: [],
-    };
+    }
 
-    updatedBoard.groups[0].tasks = [newTask, ...updatedBoard.groups[0].tasks];
+    updatedBoard.groups[0].tasks = [newTask, ...updatedBoard.groups[0].tasks]
 
-    setDemoBoard(updatedBoard);
-    setFocusTaskId(newTask.id);
+    setDemoBoard(updatedBoard)
+    setFocusTaskId(newTask.id)
 
-    if (onAddNewTask) onAddNewTask(newTask, updatedBoard.groups[0].id);
+    if (onAddNewTask) onAddNewTask(newTask, updatedBoard.groups[0].id)
   }
 
-  function handleAdd(groupId) {
-    const title = (taskDrafts[groupId] || "").trim();
-    if (!title) return;
+  async function handleAdd(groupId) {
+    const title = (taskDrafts[groupId] || "").trim()
+    if (!title) return
 
     const newTask = {
       id: `t${Date.now()}`,
@@ -161,19 +116,19 @@ export function useBoardState(board, onAddNewTask) {
       priority: "Medium",
       updates: [],
       files: [],
-    };
+    }
 
     const updatedGroups = demoBoard.groups.map((group) =>
-      group.id === groupId
-        ? { ...group, tasks: [...group.tasks, newTask] }
-        : group
-    );
+      group.id === groupId ? { ...group, tasks: [...group.tasks, newTask] } : group
+    )
 
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
-    setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }));
+    const updatedBoard = { ...demoBoard, groups: updatedGroups }
+
+    await saveBoardChanges(updatedBoard)
+    setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }))
   }
 
-  function handleUpdateTask(groupId, updatedTask) {
+  async function handleUpdateTask(groupId, updatedTask) {
     const updatedGroups = demoBoard.groups.map((group) =>
       group.id === groupId
         ? {
@@ -183,71 +138,90 @@ export function useBoardState(board, onAddNewTask) {
             ),
           }
         : group
-    );
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    )
+
+    const updatedBoard = { ...demoBoard, groups: updatedGroups }
+    await saveBoardChanges(updatedBoard)
   }
 
-  function handleAddGroup() {
+  async function handleAddGroup() {
     const newGroup = {
       id: `g${Date.now()}`,
       title: "New Group",
       color: getRandomColor(),
       isCollapsed: false,
       tasks: [],
-    };
-    setDemoBoard((prev) => ({ ...prev, groups: [...prev.groups, newGroup] }));
+    }
+
+    const updatedBoard = {
+      ...demoBoard,
+      groups: [...demoBoard.groups, newGroup],
+    }
+
+    await saveBoardChanges(updatedBoard)
   }
 
-  function handleAddGroupAtTop() {
+  async function handleAddGroupAtTop() {
     const newGroup = {
       id: `g${Date.now()}`,
       title: "New Group",
       color: getRandomColor(),
       isCollapsed: false,
       tasks: [],
-    };
-    setDemoBoard((prev) => ({ ...prev, groups: [newGroup, ...prev.groups] }));
+    }
+
+    const updatedBoard = {
+      ...demoBoard,
+      groups: [newGroup, ...demoBoard.groups],
+    }
+
+    await saveBoardChanges(updatedBoard)
   }
 
-  function handleDeleteGroup(groupId) {
-    const updatedGroups = demoBoard.groups.filter(
-      (group) => group.id !== groupId
-    );
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+  async function handleDeleteGroup(groupId) {
+    const updatedGroups = demoBoard.groups.filter((group) => group.id !== groupId)
+    const updatedBoard = { ...demoBoard, groups: updatedGroups }
+
+    await saveBoardChanges(updatedBoard)
   }
 
-  function handleToggleCollapse(groupId) {
+  async function handleToggleCollapse(groupId) {
     const updatedGroups = demoBoard.groups.map((group) =>
       group.id === groupId
         ? { ...group, isCollapsed: !group.isCollapsed }
         : group
-    );
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    )
+
+    const updatedBoard = { ...demoBoard, groups: updatedGroups }
+
+    await saveBoardChanges(updatedBoard)
   }
 
-  function handleDragEnd(result) {
-    const { source, destination } = result;
-    if (!destination) return;
+  async function handleDragEnd(result) {
+    const { source, destination } = result
+    if (!destination) return
 
     const srcGroupIdx = demoBoard.groups.findIndex(
       (g) => g.id === source.droppableId
-    );
+    )
     const destGroupIdx = demoBoard.groups.findIndex(
       (g) => g.id === destination.droppableId
-    );
-    if (srcGroupIdx === -1 || destGroupIdx === -1) return;
+    )
+    if (srcGroupIdx === -1 || destGroupIdx === -1) return
 
-    const srcGroup = demoBoard.groups[srcGroupIdx];
-    const destGroup = demoBoard.groups[destGroupIdx];
+    const srcGroup = demoBoard.groups[srcGroupIdx]
+    const destGroup = demoBoard.groups[destGroupIdx]
 
-    const [movedTask] = srcGroup.tasks.splice(source.index, 1);
-    destGroup.tasks.splice(destination.index, 0, movedTask);
+    const [movedTask] = srcGroup.tasks.splice(source.index, 1)
+    destGroup.tasks.splice(destination.index, 0, movedTask)
 
-    const updatedGroups = [...demoBoard.groups];
-    updatedGroups[srcGroupIdx] = { ...srcGroup };
-    updatedGroups[destGroupIdx] = { ...destGroup };
+    const updatedGroups = [...demoBoard.groups]
+    updatedGroups[srcGroupIdx] = { ...srcGroup }
+    updatedGroups[destGroupIdx] = { ...destGroup }
 
-    setDemoBoard((prev) => ({ ...prev, groups: updatedGroups }));
+    const updatedBoard = { ...demoBoard, groups: updatedGroups }
+
+    await saveBoardChanges(updatedBoard)
   }
 
   return {
@@ -265,5 +239,5 @@ export function useBoardState(board, onAddNewTask) {
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
-  };
+  }
 }

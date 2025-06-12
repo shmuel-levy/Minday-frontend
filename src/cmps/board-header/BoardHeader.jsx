@@ -4,7 +4,7 @@ import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 
 
-export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup }) {
+export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup ,onSetFilter }) {
     return (
         <section className="board-header-container grid">
             <div className="board-header-info">
@@ -23,7 +23,10 @@ export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup 
             </div>
 
             <div className="board-header-contextualAction">
-                <TableControls  onAddNewTask={onAddNewTask} onAddNewGroup={onAddNewGroup}/>
+                <TableControls  
+                onAddNewTask={onAddNewTask}
+                onAddNewGroup={onAddNewGroup}
+                onSetFilter={onSetFilter}/>
             </div>
 
         </section>
