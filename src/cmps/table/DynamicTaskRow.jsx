@@ -7,6 +7,7 @@ import { PriorityColumn } from './column-types/PriorityColumn'
 import { MembersColumn } from './column-types/MembersColumn'
 import { FilesColumn } from './column-types/FilesColumn'
 import { AddUpdateIcon } from '../svg/AddUpdateIcon'
+// import { Checkbox } from '../svg/Checkbox'
 import { TaskCheckbox } from '../TaskCheckbox'
 
 export function DynamicTaskRow({
@@ -64,10 +65,6 @@ export function DynamicTaskRow({
                     break
                 case 'files':
                     updatedTask.files = newValue
-                    break
-                default:
-                    // Handle dynamic columns
-                    updatedTask[columnId] = newValue
                     break
             }
 
@@ -138,11 +135,6 @@ export function DynamicTaskRow({
             case 'files':
                 value = task.files
                 break
-            case 'add-cell':
-                return <></>;
-            default:
-                value = task[column.id] || ''
-                break
         }
 
         switch (column.type) {
@@ -151,7 +143,7 @@ export function DynamicTaskRow({
                     <TextColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
-                        placeholder={`Enter ${column.title || column.id}...`}
+                        placeholder={`Enter ${column.id}...`}
                     />
                 )
 
@@ -214,27 +206,11 @@ export function DynamicTaskRow({
                     />
                 )
 
-            case 'numbers':
-                return (
-                    <TextColumn
-                        value={value}
-                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
-                        placeholder="0"
-                        type="number"
-                    />
-                )
-
-            case 'add-cell':
+            case 'col-add-cell':
                 return <></>;
 
             default:
-                return (
-                    <TextColumn
-                        value={value}
-                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
-                        placeholder={`Enter ${column.title || column.id}...`}
-                    />
-                )
+                return <span>{value}</span>
         }
     }
 
@@ -243,15 +219,42 @@ export function DynamicTaskRow({
             className={`task-row${isDragging ? ' drag-preview' : ''}`}
             style={{ '--group-color': groupColor }}
         >
-            {columnsToRender.map((column, index) => (
-                <div
-                    key={column.id}
-                    className={`col-${column.id}`}
-                    style={{ width: column.width }}
-                >
-                    {renderCell(column)}
-                </div>
-            ))}
+            <div className="col-left-indicator">
+                {renderCell(columnsToRender[0])}
+            </div>
+            <div className="col-checkbox">
+                {renderCell(columnsToRender[1])}
+            </div>
+            <div className="col-task">
+                {renderCell(columnsToRender[2])}
+            </div>
+            <div className="btn-add-update">
+                {renderCell(columnsToRender[3])}
+            </div>
+            <div className="col-status">
+                {renderCell(columnsToRender[4])}
+            </div>
+            <div className="col-owner">
+                {renderCell(columnsToRender[5])}
+            </div>
+            <div className="col-date">
+                {renderCell(columnsToRender[6])}
+            </div>
+            <div className="col-timeline">
+                {renderCell(columnsToRender[7])}
+            </div>
+            <div className="col-priority">
+                {renderCell(columnsToRender[8])}
+            </div>
+            <div className="col-members">
+                {renderCell(columnsToRender[9])}
+            </div>
+            <div className="col-files">
+                {renderCell(columnsToRender[10])}
+            </div>
+            <div className="col-add-cell">
+                {renderCell(columnsToRender[11])}
+            </div>
         </div>
     )
 }
