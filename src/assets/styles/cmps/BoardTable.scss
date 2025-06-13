@@ -191,4 +191,27 @@
      background: #efefef;
      transition: transform 0.15s ease;
     }
+
+    .add-group-container {
+      position: sticky;
+      left: 40px;
+      margin-top: 8px;
+      max-width: 300px;
+      cursor: pointer;
+
+      .btn-add-group {
+        font-family: 'Figtree';
+        border: 1px solid #c3c6d4;
+        border-radius: 4px;
+        color: #323338;
+        background: transparent;
+        padding: 4px 8px;
+        height: 32px;
+        cursor: pointer;
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
 }

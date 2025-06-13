@@ -1,53 +1,112 @@
 .date-column {
-  position: relative;
+    position: relative;
 
-  .date-display {
-    padding: 4px 8px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    text-align: center;
-      color: #666666;
-
-    &.empty {
-      border: 1px dashed #ddd;
-      color: #c4c4c4;
-    }
-
-  }
-
-  .date-dropdown {
-    position: absolute;
-    top: 100%;
+    .overlay-due-date {
+    position: fixed;
+    top: 0;
     left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
-    padding: 8px;
-
-    .date-input {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 4px;
-      font-size: 12px;
-    }
-
-    .clear-date-btn {
-      display: block;
-      margin-top: 4px;
-      padding: 4px 8px;
-      background-color: #f5f5f5;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      font-size: 11px;
-      cursor: pointer;
-      width: 100%;
-
-      &:hover {
-        background-color: #e9e9e9;
-      }
-    }
-  }
+    right: 0;
+    bottom: 0;
+    z-index: 1; 
+    cursor: default;
 }
+
+    .date-display {
+        padding: 4px 10px;
+        background: transparent;
+        min-width: 70px;
+        border: 1px solid #d0d4e4;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        color: #323338;
+    }
+
+    .date-picker-modal {
+        position: absolute;
+        top: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        border: 1px solid #e6e9f0;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 2;
+        padding: 16px;
+        width: 280px;
+    }
+
+    .today-btn {
+        background: transparent;
+        font-family: 'Figtree';
+        font-size: 14px;
+        color: #323338;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        height: 32px;
+        border: 1px solid #c3c6d4;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(103, 104, 121, 0.1);
+        }
+    }
+
+    .clear-btn {
+    margin-top: 12px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    background: #f5f6f8;
+    color: #323338;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+        background: #e6e9f0;
+    }
+}
+
+    .month-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .weekdays, .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+    }
+
+    .weekdays div {
+        font-weight: 500;
+        color: #676879;
+        padding: 4px 0;
+    }
+
+    .day-cell {
+        padding: 8px 0;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &.today {
+            border: 2px solid #0073ea;
+        }
+        &.selected {
+            background: #0073ea;
+            color: white;
+        }
+        &.other {
+            color: #bbb;
+        }
+
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
+}
+
