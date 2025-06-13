@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
 import { ThreeDots } from "./svg/ThreeDots"
 import { showSuccessMsg } from '../services/event-bus.service'
+import { ProgressBar } from './table/column-types/ProgressBar'
+import { StatusDistribution } from './table/column-types/StatusDistribution'
+import { PriorityDistribution } from './table/column-types/PriorityDistribution'
+import { TimelineDistribution } from './table/column-types/TimelineDistribution'
 
 export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGroup }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -62,8 +66,12 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
         }
     }
 
+
+    const totalBudget = group.tasks.reduce((sum, task) => sum + (task.budget || 0), 0);
+    const totalFiles = group.tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0);
+
     return (
-        <div className="group-header">
+        <div className="group-header" style={{ background: group.isCollapsed ? '#e6e9f0' : 'none' }}>
             <div className="group-actions">
                 <button
                     className="group-menu-btn"
@@ -95,8 +103,6 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 <CollapseGroupDown />
             </button>
 
-
-
             <div className="group-title-container">
                 {isEditingTitle ? (
                     <>
@@ -126,7 +132,7 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                                     setTimeout(() => {
                                         if (clickedInsidePicker.current) {
                                             console.log('Clicked inside picker — keep open')
-                                            inputRef.current?.focus() // stay in editing mode
+                                            inputRef.current?.focus() 
                                             return
                                         }
 
@@ -175,19 +181,39 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 )}
             </div>
 
-            <div className="group-summary-data" role="presentation">
-                <div
-                    className="group-summary-text"
-                    id={`${group.id}_tasks_count_chip`}
-                >
-                    {group.tasks?.length || 'No'} Tasks
+            {group.isCollapsed ? (
+                <div className="collapsed-group-content">
+                    <div className="group-title-collapsed">
+                        <span className="title">{group.title}</span>
+                        <span className="task-count">{group.tasks?.length || 'No'} Tasks</span>
+                    </div>
+                    <div className="column-summary status">
+                        <StatusDistribution tasks={group.tasks} />
+                    </div>
+                    <div className="column-summary timeline">
+                        <TimelineDistribution tasks={group.tasks} />
+                    </div>
+                    <div className="column-summary priority">
+                        <PriorityDistribution tasks={group.tasks} />
+                    </div>
+               
+                    <div className="column-summary budget">
+                        {totalBudget > 0 ? `$${totalBudget.toLocaleString()} sum` : '-'}
+                    </div>
+                    <div className="column-summary files">
+                        {totalFiles > 0 ? `${totalFiles} files` : '-'}
+                    </div>
                 </div>
-            </div>
-
-
-            <div className="progress-indicator">
-                <div className="progress-bar"></div>
-            </div>
+            ) : (
+                <div className="group-summary-data" role="presentation">
+                    <div
+                        className="group-summary-text"
+                        id={`${group.id}_tasks_count_chip`}
+                    >
+                        {group.tasks?.length || 'No'} Tasks
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
