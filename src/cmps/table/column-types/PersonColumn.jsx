@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { userService } from '../../../services/user'
-import { formatUsersForSelect, formatUserForDisplay } from '../../../services/util.service'
+import { formatUsersForSelect } from '../../../services/util.service'
 
 export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -28,16 +28,14 @@ export function PersonColumn({ value, onUpdate }) {
         }
     }
 
-    // Find current user by matching the stored value (could be user ID, fullname, etc.)
-    const currentUser = availableUsers.find(user => 
-        user.fullname === value || 
+    const currentUser = availableUsers.find(user =>
+        user.fullname === value ||
         user._id === value ||
         user.username === value
     )
 
     function handlePersonChange(person) {
         if (onUpdate) {
-            // Store the user's fullname as the value (or you could store _id)
             onUpdate(person ? person.fullname : '')
         }
         setIsOpen(false)
@@ -55,11 +53,11 @@ export function PersonColumn({ value, onUpdate }) {
 
     return (
         <div className="person-column">
-            <div 
+            <div
                 className={`person-display multiple-person-cell-component ${currentUser ? 'assigned' : 'unassigned'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div 
+                <div
                     className="add-btn"
                     onClick={(e) => {
                         e.stopPropagation()
@@ -68,30 +66,27 @@ export function PersonColumn({ value, onUpdate }) {
                 >
                     +
                 </div>
-                
+
                 {currentUser ? (
-                    <>
-                        {currentUser.imgUrl ? (
-                            <img 
-                                src={currentUser.imgUrl} 
-                                alt={currentUser.fullname}
-                                className="person-avatar"
-                            />
-                        ) : (
-                            <img 
-                                src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                                className="person-icon-small person-bullet-image" 
-                                alt="" 
-                                aria-hidden="true"
-                            />
-                        )}
-                        <span className="person-name">{currentUser.fullname}</span>
-                    </>
+                    currentUser.imgUrl ? (
+                        <img
+                            src={currentUser.imgUrl}
+                            alt={currentUser.fullname}
+                            className="person-avatar"
+                        />
+                    ) : (
+                        <img
+                            src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+                            className="person-icon-small person-bullet-image"
+                            alt=""
+                            aria-hidden="true"
+                        />
+                    )
                 ) : (
-                    <img 
-                        src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                        className="person-icon-small person-bullet-image" 
-                        alt="" 
+                    <img
+                        src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+                        className="person-icon-small person-bullet-image"
+                        alt=""
                         aria-hidden="true"
                     />
                 )}
@@ -103,10 +98,10 @@ export function PersonColumn({ value, onUpdate }) {
                         className="person-option unassigned"
                         onClick={() => handlePersonChange(null)}
                     >
-                        <img 
-                            src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                            className="person-icon-large" 
-                            alt="" 
+                        <img
+                            src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+                            className="person-icon-large"
+                            alt=""
                             aria-hidden="true"
                         />
                         <span>Unassigned</span>
@@ -120,16 +115,16 @@ export function PersonColumn({ value, onUpdate }) {
                                 onClick={() => handlePersonChange(user)}
                             >
                                 {user.imgUrl ? (
-                                    <img 
-                                        src={user.imgUrl} 
+                                    <img
+                                        src={user.imgUrl}
                                         alt={user.fullname}
                                         className="person-avatar-large"
                                     />
                                 ) : (
-                                    <img 
-                                        src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                                        className="person-icon-large" 
-                                        alt="" 
+                                    <img
+                                        src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+                                        className="person-icon-large"
+                                        alt=""
                                         aria-hidden="true"
                                     />
                                 )}

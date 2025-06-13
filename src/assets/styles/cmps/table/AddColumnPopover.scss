@@ -1,0 +1,171 @@
+@import '../../../../assets/styles/setup/variables';
+
+.add-column-container {
+    position: relative;
+    display: inline-block;
+}
+
+.add-column-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: $border-radius-sm;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $dark-gray;
+
+    &:hover {
+        background-color: $light-gray;
+        color: $darker-gray;
+    }
+
+    &.open {
+        background-color: $light-gray;
+        color: $primary-color;
+    }
+
+    svg {
+        pointer-events: none;
+    }
+}
+
+.add-column-popover {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    min-width: 250px;
+    max-width: 320px;
+    background-color: $white;
+    border: 1px solid $border-light;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-lg;
+    margin-top: $spacing-xs;
+    animation: popoverFadeIn 0.2s ease-out;
+
+    .popover-header {
+        padding: $spacing-md $spacing-md $spacing-sm;
+        border-bottom: 1px solid $border-light;
+
+        h3 {
+            margin: 0;
+            font-family: $font-family;
+            font-size: $font-size-md;
+            font-weight: 600;
+            color: $darker-gray;
+        }
+    }
+
+    .popover-search {
+        padding: $spacing-sm $spacing-md;
+
+        .search-input {
+            width: 100%;
+            padding: $spacing-sm;
+            border: 1px solid $border-medium;
+            border-radius: $border-radius-sm;
+            font-family: $font-family;
+            font-size: $font-size-sm;
+            color: $darker-gray;
+            background-color: $white;
+            transition: border-color 0.2s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+            }
+
+            &::placeholder {
+                color: $medium-gray;
+            }
+        }
+    }
+
+    .popover-options {
+        max-height: 200px;
+        overflow-y: auto;
+        padding: $spacing-xs 0;
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: $spacing-sm $spacing-md;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-align: left;
+
+            &:hover {
+                background-color: $light-gray;
+            }
+
+            &:active {
+                background-color: darken($light-gray, 5%);
+            }
+
+            .option-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                margin-right: $spacing-sm;
+                flex-shrink: 0;
+            }
+
+            .option-label {
+                font-family: $font-family;
+                font-size: $font-size-md;
+                color: $darker-gray;
+                line-height: 1.4;
+            }
+        }
+
+        .no-results {
+            padding: $spacing-md;
+            text-align: center;
+            font-family: $font-family;
+            font-size: $font-size-sm;
+            color: $medium-gray;
+            font-style: italic;
+        }
+    }
+}
+
+@keyframes popoverFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+.popover-options {
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $medium-gray;
+        border-radius: 2px;
+
+        &:hover {
+            background: $dark-gray;
+        }
+    }
+}

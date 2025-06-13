@@ -1,10 +1,10 @@
-// PersonColumn - Pixel Perfect Monday.com Styling
 .person-column {
     position: relative;
 
     .person-display {
         display: flex;
         align-items: center;
+        justify-content: center;
         position: relative;
         width: 97px;
         padding: 0;
@@ -13,26 +13,22 @@
         font-size: 14px;
         letter-spacing: normal;
         color: #333333;
-        
+
         &:hover {
             .add-btn {
                 display: flex;
             }
         }
 
-        // When unassigned (only icon), center everything
+        &.assigned {
+            justify-content: center;
+            padding: 0;
+        }
+
         &.unassigned {
             justify-content: center;
         }
 
-        // When assigned (has user), align left with padding
-        &.assigned {
-            justify-content: flex-start;
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-
-        // Add button (plus icon)
         .add-btn {
             display: none;
             position: absolute;
@@ -51,24 +47,21 @@
             cursor: pointer;
             border: none;
             font-weight: 600;
-            
+
             &:hover {
                 background-color: #005bb5;
             }
         }
 
-        // Person avatar (when assigned)
         .person-avatar {
             width: 24px;
             height: 24px;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 6px;
         }
 
-        // Person icon (when unassigned)
         .person-icon-small {
-             width: 26px;
+            width: 26px;
             height: 26px;
             opacity: 0.6;
         }
@@ -126,7 +119,6 @@
                 cursor: not-allowed;
             }
 
-            // Large avatars in dropdown
             .person-avatar-large {
                 width: 32px;
                 height: 32px;
@@ -163,13 +155,14 @@
     .loading {
         .person-display {
             opacity: 0.7;
-            
+
             .person-icon-small {
                 opacity: 0.3;
             }
         }
     }
 }
+
 .owner-avatar {
     width: 20px;
     height: 20px;
