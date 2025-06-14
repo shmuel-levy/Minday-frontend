@@ -4,9 +4,10 @@
     padding: 20px 8px 20px 38px;
 
     .table-wrapper{
-    gap: 28px;
-    display: flex;
-    flex-direction: column;
+     min-width: max-content;
+     display: flex;
+     flex-direction: column;
+     gap: 28px;
 
     .group-section{
       .tasks-container{
@@ -214,4 +215,51 @@
         }
       }
     }
+    .table-header .col-left-indicator,
+.task-row .col-left-indicator {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: #fff;
+}
+
+.table-header .col-checkbox,
+.task-row .col-checkbox {
+    position: sticky;
+    left: 6px;
+    z-index: 5;
+    background: #fff;
+}
+
+.table-header .col-task,
+.task-row .col-task {
+    position: sticky;
+    left: 39px;
+    z-index: 5;
+    background: #fff;
+}
+
+// Sticky add-update button (col 4)
+.task-row .btn-add-update {
+    position: sticky;
+    left: 334px; // 6 + 33 + 295
+    z-index: 5;
+    background: #fff;
+}
+
+// Sticky group header (for entire group title)
+.group-header {
+    position: sticky;
+    left: 0;
+    z-index: 15;
+    background: #fff;
+}
+
+// Sticky add-task-row
+.add-task-row {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: #fff;
+}
 }
