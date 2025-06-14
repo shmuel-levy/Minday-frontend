@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { WorkspaceSidebar } from './svg/WorkspaceSidebar'
 import { CreateBoardModal } from './CreateBoardModal'
@@ -6,10 +6,15 @@ import { BoardIconSidebar } from './svg/BoardIconSidebar'
 import { AddBoard } from './svg/AddBoard'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { HomeWorkspaceIcon } from './svg/HomeIconWorkspace'
+import { AddBoardDropdown } from './AddBoardDropdown'
+import { boardService } from './../services/board'
 
 export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const addBoardBtnRef = useRef(null)
 
   if (favoritesOpen) {
     return (
@@ -18,13 +23,38 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
           <WorkspaceSidebar />
           <span className='title'>Workspaces</span>
           <span className="chevron">
-
             <ArrowDownUpIcon direction={favoritesOpen ? 'up' : ''} />
-
           </span>
         </div>
       </section>
     )
+  }
+
+  const handleAddBoardClick = () => {
+    setIsDropdownOpen(true)
+  }
+
+  const handleDropdownSelect = (type) => {
+    setIsDropdownOpen(false)
+    if (type === 'board') {
+      setIsCreateModalOpen(true)
+    }
+    // Handle other types (dashboard, kanban) here when implemented
+  }
+
+  const handleCreateBoard = async (boardData) => {
+    try {
+      const newBoard = {
+        ...boardService.getEmptyBoard(),
+        ...boardData,
+        createdAt: Date.now()
+      }
+      const savedBoard = await boardService.save(newBoard)
+      setIsCreateModalOpen(false)
+      navigate(`/board/${savedBoard._id}`)
+    } catch (error) {
+      console.error('Failed to create board:', error)
+    }
   }
 
   return (
@@ -46,13 +76,24 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
           </div>
         </div>
 
-        <button
-          className="add-board-btn"
-          onClick={onOpenBoardModal}
-          title="Create board"
-        >
-          <AddBoard />
-        </button>
+        <div className="add-board-container">
+          <button
+            ref={addBoardBtnRef}
+            className="add-board-btn"
+            onClick={handleAddBoardClick}
+            title="Create board"
+          >
+            <AddBoard />
+          </button>
+          
+          {isDropdownOpen && (
+            <AddBoardDropdown 
+              onClose={() => setIsDropdownOpen(false)}
+              onSelect={handleDropdownSelect}
+              triggerRef={addBoardBtnRef}
+            />
+          )}
+        </div>
       </div>
 
       <div className="workspace-boards">
@@ -68,10 +109,11 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
         ))}
       </div>
 
-      {/* <CreateBoardModal
+      <CreateBoardModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-      /> */}
+        onCreateBoard={handleCreateBoard}
+      />
     </section>
   )
 }

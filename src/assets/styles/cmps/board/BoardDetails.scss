@@ -3,20 +3,34 @@
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    overflow: hidden;
     transition: margin-right 0.3s ease;
 
     &.with-modal {
         margin-right: 570px;
     }
 
-    &::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+    .board-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: white;
     }
 
-    &::-webkit-scrollbar-thumb {
-        background: #C3C6D4;
+    .board-table-container {
+        flex: 1;
+        overflow-x: auto;
+        overflow-y: auto;
+        
+        &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #C3C6D4;
+        }
     }
 }
 
