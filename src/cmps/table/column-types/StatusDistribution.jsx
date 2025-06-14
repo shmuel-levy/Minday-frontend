@@ -1,3 +1,4 @@
+import { useState } from 'react';
 export function StatusDistribution({ tasks }) {
     const statusOptions = [
         { label: 'Not Started', cssClass: 'not-started', bg: '#c4c4c4', color: '#323338' },
@@ -6,8 +7,10 @@ export function StatusDistribution({ tasks }) {
         { label: 'Done', cssClass: 'done', bg: '#00c875', color: '#ffffff' }
     ]
 
+    const [hovered, setHovered] = useState(null);
+
     const statusCounts = tasks.reduce((acc, task) => {
-        const status = task.status || 'Not Started' 
+        const status = task.status || 'Not Started'
         acc[status] = (acc[status] || 0) + 1
         return acc
     }, {})
@@ -23,11 +26,16 @@ export function StatusDistribution({ tasks }) {
                     <div
                         key={option.label}
                         className="status-segment"
-                        style={{
-                            backgroundColor: option.bg,
-                            width: `${percentage}%`
-                        }}
-                    ></div>
+                        style={{ backgroundColor: option.bg, width: `${percentage}%` }}
+                        onMouseEnter={() => setHovered({ label: option.label, count, percentage })}
+                        onMouseLeave={() => setHovered(null)}
+                    >
+                        {hovered?.label === option.label && (
+                            <div className="tooltip">
+                                {`${option.label} ${count}/${totalTasks}  ${percentage.toFixed(1)}%`}
+                            </div>
+                        )}
+                    </div>
                 )
             })}
         </div>

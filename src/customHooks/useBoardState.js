@@ -10,132 +10,132 @@ export function useBoardState(board, onAddNewTask) {
     currentBoard?.groups?.length
       ? currentBoard
       : {
-          ...currentBoard,
-          title: currentBoard?.title || "Monday - Sprint 4 - Design Approval",
-          groups: [
-            {
-              id: "g1",
-              title: "Frontend",
-              color: getRandomColor(),
-              isCollapsed: false,
-              tasks: [
-                {
-                  id: "t1",
-                  title: "Implement Task Preview UI 2",
-                  assignee: "John",
-                  status: "Working on it",
-                  dueDate: "May 26", // Keep for backward compatibility
-                  timeline: {
-                    startDate: "2025-06-10",
-                    endDate: "2025-06-15"
-                  },
-                  priority: "High",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+        ...currentBoard,
+        title: currentBoard?.title || "Monday - Sprint 4 - Design Approval",
+        groups: [
+          {
+            id: "g1",
+            title: "Frontend",
+            color: getRandomColor(),
+            isCollapsed: false,
+            tasks: [
+              {
+                id: "t1",
+                title: "Implement Task Preview UI 2",
+                assignee: "John",
+                status: "Working on it",
+                dueDate: "May 26", // Keep for backward compatibility
+                timeline: {
+                  startDate: "2025-06-10",
+                  endDate: "2025-06-15"
                 },
-                {
-                  id: "t2",
-                  title: "Build Board List component",
-                  assignee: "SS",
-                  status: "Done",
-                  dueDate: "May 25",
-                  timeline: {
-                    startDate: "2025-06-01",
-                    endDate: "2025-06-08"
-                  },
-                  priority: "Medium",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "High",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+              {
+                id: "t2",
+                title: "Build Board List component",
+                assignee: "SS",
+                status: "Done",
+                dueDate: "May 25",
+                timeline: {
+                  startDate: "2025-06-01",
+                  endDate: "2025-06-08"
                 },
-                {
-                  id: "t3",
-                  title: "Create Task Details modal",
-                  assignee: "Mike",
-                  status: "Stuck",
-                  dueDate: "May 27",
-                  timeline: {
-                    startDate: "2025-06-12",
-                    endDate: "2025-06-20"
-                  },
-                  priority: "Critical",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "Medium",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+              {
+                id: "t3",
+                title: "Create Task Details modal",
+                assignee: "Mike",
+                status: "Stuck",
+                dueDate: "May 27",
+                timeline: {
+                  startDate: "2025-06-12",
+                  endDate: "2025-06-20"
                 },
-                {
-                  id: "t4",
-                  title: "Add drag & drop for tasks",
-                  assignee: "SS",
-                  status: "Working on it",
-                  dueDate: "May 28",
-                  timeline: {
-                    startDate: "",
-                    endDate: ""
-                  },
-                  priority: "Low",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "Critical",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+              {
+                id: "t4",
+                title: "Add drag & drop for tasks",
+                assignee: "SS",
+                status: "Working on it",
+                dueDate: "May 28",
+                timeline: {
+                  startDate: "",
+                  endDate: ""
                 },
-              ],
-            },
-            {
-              id: "g2",
-              title: "Backend",
-              color: getRandomColor(),
-              isCollapsed: false,
-              tasks: [
-                {
-                  id: "t5",
-                  title: "Set up Express server",
-                  assignee: "SS",
-                  status: "Working on it",
-                  dueDate: "May 30",
-                  timeline: {
-                    startDate: "2025-06-15",
-                    endDate: "2025-06-25"
-                  },
-                  priority: "High",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "Low",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+            ],
+          },
+          {
+            id: "g2",
+            title: "Backend",
+            color: getRandomColor(),
+            isCollapsed: false,
+            tasks: [
+              {
+                id: "t5",
+                title: "Set up Express server",
+                assignee: "SS",
+                status: "Working on it",
+                dueDate: "May 30",
+                timeline: {
+                  startDate: "2025-06-15",
+                  endDate: "2025-06-25"
                 },
-                {
-                  id: "t6",
-                  title: "Create MongoDB schema files",
-                  assignee: "John",
-                  status: "Working on it",
-                  dueDate: "May 30",
-                  timeline: {
-                    startDate: "2025-06-20",
-                    endDate: "2025-06-30"
-                  },
-                  priority: "Medium",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "High",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+              {
+                id: "t6",
+                title: "Create MongoDB schema files",
+                assignee: "John",
+                status: "Working on it",
+                dueDate: "May 30",
+                timeline: {
+                  startDate: "2025-06-20",
+                  endDate: "2025-06-30"
                 },
-                {
-                  id: "t7",
-                  title: "Build Login & Signup pages",
-                  assignee: "Mike",
-                  status: "Working on it",
-                  dueDate: "May 31",
-                  timeline: {
-                    startDate: "",
-                    endDate: ""
-                  },
-                  priority: "Low",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
+                priority: "Medium",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+              {
+                id: "t7",
+                title: "Build Login & Signup pages",
+                assignee: "Mike",
+                status: "Working on it",
+                dueDate: "May 31",
+                timeline: {
+                  startDate: "",
+                  endDate: ""
                 },
-              ],
-            },
-          ],
-        }
+                priority: "Low",
+                isChecked: false,
+                updates: [],
+                files: [],
+              },
+            ],
+          },
+        ],
+      }
   );
 
   const [taskDrafts, setTaskDrafts] = useState({});
@@ -218,14 +218,17 @@ export function useBoardState(board, onAddNewTask) {
     const updatedGroups = demoBoard.groups.map((group) =>
       group.id === groupId
         ? {
-            ...group,
-            tasks: group.tasks.map((task) =>
-              task.id === updatedTask.id ? updatedTask : task
-            ),
-          }
+          ...group,
+          tasks: group.tasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          ),
+        }
         : group
     );
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    setDemoBoard(prevBoard => ({
+      ...prevBoard,
+      groups: updatedGroups
+    }));
   }
 
   function handleAddGroup() {

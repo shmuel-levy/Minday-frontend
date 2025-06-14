@@ -1,12 +1,48 @@
 .status-distribution-container {
+    position: relative;
     display: flex;
-    height: 18px;
+    height: 24px;
     width: 100%;
-    border-radius: 4px;
-    overflow: hidden;
+    margin: 0 8px 0 8px;
+    cursor: pointer;
+    
 
     .status-segment {
-        height: 100%;
-        transition: width 0.3s ease;
+        position: relative;
+        transition: height 0.2s ease;
+
+        &:hover {
+            height: 30px;
+            margin-top: -4px;
+            margin-bottom: -4px;
+            border-radius: 2px;
+        }
+
+        .tooltip {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #323338;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: "Figtree";
+            font-size: 14px;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+
+             &::after {
+              content: '';
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translateX(-50%);
+              border-width: 7px;
+              border-style: solid;
+              border-color: #323338 transparent transparent transparent;
+    }
+        }
     }
 } 

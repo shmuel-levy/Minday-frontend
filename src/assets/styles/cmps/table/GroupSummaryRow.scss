@@ -1,0 +1,34 @@
+.group-summary-row {
+    display: grid;
+    grid-template-columns: 400px 139px 97px 139px 180px 139px 150px 150px auto;
+    height: 36px;
+    align-items: center;
+    background: #fff;
+    transition: all 0.3s ease;
+
+    
+    .col-owner,
+    .col-date,
+    .col-add-cell {
+        height: 100%;
+       
+    }
+
+    .col-status, .col-owner, .col-timeline, .col-date, .col-priority, .col-members, .col-files {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #d0d4e4;
+        border-bottom: 1px solid #d0d4e4;
+        height: 100%;
+    }
+
+    .col-add-cell {
+        border-bottom: 1px solid #d0d4e4;
+    }
+
+    .col-status {
+        border-left: 1px solid #d0d4e4;
+        border-end-start-radius: 6px;
+    }
+}

@@ -2,13 +2,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 18px;
-    border-radius: 9px; /* Rounded corners for the bar */
-    overflow: hidden;
-    font-size: 12px;
-    color: #ffffff;
-    font-weight: 600;
-    min-width: 60px; /* Adjust as needed */
+   font-family: "Figtree";
+    position: relative;
+    cursor: pointer;
+    width: 108px;
+    height: 22px;
+    border-radius: 11px;
+    font-size: 14px;
+    background-color: #323338;
+    color: #fff;
+    transition: opacity 0.2s;
 
     &.empty {
         background-color: #c4c4c4; /* Gray for empty timeline */

@@ -1,55 +1,66 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 export function TimelineDistribution({ tasks }) {
-    const timelines = tasks.filter(task => task.timeline?.startDate && task.timeline?.endDate)
-                            .map(task => ({
-                                start: new Date(task.timeline.startDate),
-                                end: new Date(task.timeline.endDate)
-                            }));
+    const [isHovered, setIsHovered] = useState(false)
 
-    const overallTimeline = useMemo(() => {
-        if (timelines.length === 0) return null;
+    const timelines = tasks
+        .filter(task => task.timeline?.startDate && task.timeline?.endDate)
+        .map(task => ({
+            start: new Date(task.timeline.startDate),
+            end: new Date(task.timeline.endDate)
+        }))
 
-        let minStartDate = new Date(timelines[0].start);
-        let maxEndDate = new Date(timelines[0].end);
+    const summary = useMemo(() => {
+        if (timelines.length === 0) return null
 
-        timelines.forEach(tl => {
-            if (tl.start < minStartDate) minStartDate = tl.start;
-            if (tl.end > maxEndDate) maxEndDate = tl.end;
-        });
+        const startDates = timelines.map(t => t.start)
+        const endDates = timelines.map(t => t.end)
 
-        const totalDuration = maxEndDate.getTime() - minStartDate.getTime();
-        const now = new Date();
-        const elapsedDuration = now.getTime() - minStartDate.getTime();
+        const minStartDate = new Date(Math.min(...startDates.map(d => d.getTime())))
+        const maxEndDate = new Date(Math.max(...endDates.map(d => d.getTime())))
 
-        const progressPercentage = totalDuration > 0 ? Math.min(Math.max((elapsedDuration / totalDuration) * 100, 0), 100) : 0;
+        const totalDuration = maxEndDate.getTime() - minStartDate.getTime()
 
-        const totalDays = Math.ceil(totalDuration / (1000 * 60 * 60 * 24));
+        const now = new Date()
+        const elapsedDuration = now.getTime() - minStartDate.getTime()
 
-        return {
-            minStartDate,
-            maxEndDate,
-            progressPercentage,
-            totalDays
-        };
-    }, [timelines]);
+        const progressPercentage = totalDuration > 0
+            ? Math.min(Math.max((elapsedDuration / totalDuration) * 100, 0), 100)
+            : 0
 
-    if (!overallTimeline) {
-        return <div className="timeline-distribution-container empty">-</div>;
+        const totalDays = Math.ceil(totalDuration / (1000 * 60 * 60 * 24))
+
+        return { minStartDate, maxEndDate, totalDays, progressPercentage }
+    }, [timelines])
+
+    if (!summary) {
+        return <div className="timeline-distribution-container empty">-</div>
     }
 
-    const { progressPercentage, totalDays } = overallTimeline;
+    const { minStartDate, maxEndDate, totalDays, progressPercentage } = summary
+
+    const formatDate = (date) => {
+        return date.toLocaleString('en-US', { month: 'short', day: 'numeric' })
+    }
 
     const getTimelineBackground = () => {
-        return `linear-gradient(to right, #579bfc ${progressPercentage}%, #333333 ${progressPercentage}%)`;
-    };
+        return `linear-gradient(to right, rgb(87, 155, 252) ${progressPercentage}%, rgb(51, 51, 51) ${progressPercentage}%)`
+    }
 
     return (
         <div
             className="timeline-distribution-container"
             style={{ background: getTimelineBackground() }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
-            <span className="timeline-duration">{totalDays}d</span>
+            {isHovered ? (
+                <span className="timeline-duration">{totalDays}d</span>
+            ) : (
+                <span className="timeline-duration">
+                    {formatDate(minStartDate)} - {formatDate(maxEndDate)}
+                </span>
+            )}
         </div>
-    );
-} 
+    )
+}
