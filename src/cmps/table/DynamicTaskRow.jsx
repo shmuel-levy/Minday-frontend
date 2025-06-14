@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
@@ -9,6 +10,8 @@ import { FilesColumn } from './column-types/FilesColumn'
 import { AddUpdateIcon } from '../svg/AddUpdateIcon'
 // import { Checkbox } from '../svg/Checkbox'
 import { TaskCheckbox } from '../TaskCheckbox'
+import { ProgressBar } from './column-types/ProgressBar'
+import { CollapseGroupDown } from '../svg/CollapseGroupDown'
 
 export function DynamicTaskRow({
     task,
@@ -18,8 +21,12 @@ export function DynamicTaskRow({
     onOpenUpdates,
     isDragging = false,
     onTaskSelection,
-    isSelected = false
+    isSelected = false,
+    groupTasks = [],
+    isGroupHeader = false
 }) {
+    const [isCollapsed, setIsCollapsed] = useState(false)
+
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', width: '6px'},
         { id: 'checkbox', type: 'checkbox', width: '33px'},
@@ -73,6 +80,33 @@ export function DynamicTaskRow({
     }
 
     function renderCell(column) {
+        if (isGroupHeader && isCollapsed && column.id === 'task') {
+            return (
+                <div className="collapsed-group">
+                    <div className="group-title">{task.title}</div>
+                    <ProgressBar tasks={groupTasks} />
+                </div>
+            )
+        }
+
+        if (isGroupHeader && column.id === 'task') {
+            return (
+                <div className="group-header">
+                    <button 
+                        className="collapse-button"
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                    >
+                        <CollapseGroupDown isCollapsed={isCollapsed} />
+                    </button>
+                    <TextColumn
+                        value={task.title}
+                        onUpdate={(newValue) => handleCellUpdate('task', newValue)}
+                        placeholder="Enter task..."
+                    />
+                </div>
+            )
+        }
+
         let value = ''
 
         switch (column.id) {
