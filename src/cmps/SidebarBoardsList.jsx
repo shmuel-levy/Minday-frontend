@@ -7,7 +7,9 @@ import { AddBoard } from './svg/AddBoard'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { HomeWorkspaceIcon } from './svg/HomeIconWorkspace'
 import { AddBoardDropdown } from './AddBoardDropdown'
-import { boardService } from './../services/board'
+import { boardService } from './../services/board/board.service.local'
+import { addBoard } from '../store/board.actions'
+
 
 export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const navigate = useNavigate()
@@ -49,7 +51,7 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
         ...boardData,
         createdAt: Date.now()
       }
-      const savedBoard = await boardService.save(newBoard)
+const savedBoard = await addBoard(newBoard)
       setIsCreateModalOpen(false)
       navigate(`/board/${savedBoard._id}`)
     } catch (error) {

@@ -76,33 +76,27 @@ async function remove(boardId) {
 }
 
 async function save(board) {
-    var savedBoard
-    if (board._id) {
-      const boardToSave = { ...board }
-        savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
-    } else {
-        const currentUser = userService.getLoggedinUser()
-        const boardToSave = {
-            title: board.title,
-            description: board.description,
-            isStarred: false,
-            archivedAt: null,
-            isStarred: false,
-            createdAt: Date.now(),
-            createdBy: currentUser,
-            style: {
-                backgroundImgs: []
-            },
-            labels: [],
-            members: currentUser ? [currentUser] : [],
-            groups: [],
-            activities: [],
-            cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
-        }
-        savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
+  var savedBoard
+  if (board._id) {
+    const boardToSave = { ...board }
+    savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
+  } else {
+    const currentUser = userService.getLoggedinUser()
+    const boardToSave = {
+      ...board,
+      _id: makeId(),
+      isStarred: false,
+      archivedAt: null,
+      createdAt: Date.now(),
+      createdBy: currentUser,
+      members: currentUser ? [currentUser] : [],
+      activities: [],
     }
-    return savedBoard
+    savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
+  }
+  return savedBoard
 }
+
 
 async function addBoardActivity(boardId, txt) {
     const board = await getById(boardId)
@@ -342,18 +336,18 @@ async function _createDemoBoard() {
 
 function getDemoBoard() {
   return {
-    _id: 'demo',
+    _id: makeId(), 
     title: "Monday - Sprint 4 - Design Approval",
     description: "Sprint demo",
     groups: [
       {
-        id: "g1",
+        id: makeId(),
         title: "Frontend",
         color: getRandomColor(),
         isCollapsed: false,
         tasks: [
           {
-            id: "t1",
+            id: makeId(),
             title: "Implement Task Preview UI 2",
             assignee: "John",
             status: "Working on it",
@@ -366,13 +360,13 @@ function getDemoBoard() {
         ],
       },
       {
-        id: "g2",
+        id: makeId(),
         title: "Backend",
         color: getRandomColor(),
         isCollapsed: false,
         tasks: [
           {
-            id: "t5",
+            id: makeId(),
             title: "Set up Express server",
             assignee: "SS",
             status: "Working on it",
