@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { WorkspaceSidebar } from './svg/WorkspaceSidebar'
 import { CreateBoardModal } from './CreateBoardModal'
@@ -8,13 +8,19 @@ import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { HomeWorkspaceIcon } from './svg/HomeIconWorkspace'
 import { AddBoardDropdown } from './AddBoardDropdown'
 import { boardService } from './../services/board'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [localBoards, setLocalBoards] = useState(boards || [])
   const addBoardBtnRef = useRef(null)
+
+  useEffect(() => {
+    setLocalBoards(boards || [])
+  }, [boards])
 
   if (favoritesOpen) {
     return (
@@ -50,10 +56,13 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
         createdAt: Date.now()
       }
       const savedBoard = await boardService.save(newBoard)
+      setLocalBoards(prevBoards => [...prevBoards, savedBoard])
       setIsCreateModalOpen(false)
+      showSuccessMsg(`Board "${savedBoard.title}" created successfully`)
       navigate(`/board/${savedBoard._id}`)
     } catch (error) {
       console.error('Failed to create board:', error)
+      showErrorMsg('Failed to create board')
     }
   }
 
@@ -97,7 +106,7 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
       </div>
 
       <div className="workspace-boards">
-        {boards.map(board => (
+        {localBoards.map(board => (
           <div
             key={board._id}
             className={`board-item ${location.pathname === `/board/${board._id}` ? 'active' : ''}`}
