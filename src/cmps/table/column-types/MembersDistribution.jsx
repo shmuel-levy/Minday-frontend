@@ -1,14 +1,25 @@
 export function MembersDistribution({ tasks }) {
-    const allMembers = tasks.flatMap(task => task.members || []);
-    const uniqueMembers = [...new Set(allMembers.map(m => m.id))];
+    const members = tasks.flatMap(task => task.members || []);
 
-    if (uniqueMembers.length === 0) {
-        return <div className="members-distribution empty">-</div>;
-    }
+    const uniqueMembers = Array.from(new Map(
+        members.map(m => [m._id, m])
+    ).values());
+
+    const totalMembers = uniqueMembers.length;
+
+    const firstMember = uniqueMembers[0];
+
+    // safe fallback for empty data:
+    const displayLetter = firstMember?.name?.charAt(0).toUpperCase() || '?';
 
     return (
-        <div className="members-distribution">
-            <span>{uniqueMembers.length}</span>
+        <div className="members-summary">
+            <div className="avatar" style={{ backgroundColor: firstMember?.color || '#0073ea' }}>
+                {displayLetter}
+            </div>
+            {totalMembers > 1 && (
+                <div className="counter">+{totalMembers - 1}</div>
+            )}
         </div>
-    );
+    )
 }
