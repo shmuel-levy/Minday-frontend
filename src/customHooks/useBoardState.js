@@ -7,55 +7,7 @@ export function useBoardState(board, onAddNewTask) {
   const currentBoard =
     board || useSelector((storeState) => storeState.boardModule.board)
 
-  const [demoBoard, setDemoBoard] = useState(() =>
-    currentBoard?.groups?.length
-      ? currentBoard
-      : {
-          ...currentBoard,
-          title: currentBoard?.title || "Monday - Sprint 4 - Design Approval",
-          groups: [
-            {
-              id: "g1",
-              title: "Frontend",
-              color: getRandomColor(),
-              isCollapsed: false,
-              tasks: [
-                {
-                  id: "t1",
-                  title: "Implement Task Preview UI 2",
-                  assignee: "John",
-                  status: "Working on it",
-                  dueDate: "May 26",
-                  priority: "High",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
-              ],
-            },
-            {
-              id: "g2",
-              title: "Backend",
-              color: getRandomColor(),
-              isCollapsed: false,
-              tasks: [
-                {
-                  id: "t5",
-                  title: "Set up Express server",
-                  assignee: "SS",
-                  status: "Working on it",
-                  dueDate: "May 30",
-                  priority: "High",
-                  isChecked: false,
-                  updates: [],
-                  files: [],
-                },
-              ],
-            },
-          ],
-        }
-  )
-
+  const [demoBoard, setDemoBoard] = useState(currentBoard)
   const [taskDrafts, setTaskDrafts] = useState({})
   const [focusTaskId, setFocusTaskId] = useState(null)
 

@@ -1,11 +1,11 @@
 import { storageService } from '../async-storage.service'
-import { makeId } from '../util.service'
 import { userService } from '../user'
-import { getRandomColor } from '../util.service'
+import { makeId, getRandomColor } from '../util.service'
+
 
 
 const STORAGE_KEY = 'board'
-_createDemoBoard
+_createDemoBoard()
 
 export const boardService = {
     query,
@@ -52,9 +52,8 @@ async function query(filterBy = { txt: '', maxMembers: 0 }) {
             (new Date(board1.createdAt) - new Date(board2.createdAt)) * +sortDir)
     }
 
-    boards = boards.map(({ _id, title, description, isStarred, createdBy, members, groups }) => ({
-        _id, title, description, isStarred, createdBy, members, groups
-    }))
+ boards = boards.map(board => ({ ...board }))
+
     return boards
 }
 
@@ -79,16 +78,7 @@ async function remove(boardId) {
 async function save(board) {
     var savedBoard
     if (board._id) {
-        const boardToSave = {
-            _id: board._id,
-            title: board.title,
-            description: board.description,
-            isStarred: board.isStarred,
-            groups: board.groups,
-            members: board.members,
-            labels: board.labels,
-            style: board.style
-        }
+      const boardToSave = { ...board }
         savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
     } else {
         const currentUser = userService.getLoggedinUser()
@@ -281,23 +271,52 @@ async function getTaskActivities(boardId, taskId) {
     ).sort((a, b) => b.createdAt - a.createdAt)
 }
 
-function getEmptyBoard() {
-    return {
-        title: 'New Board',
-        description: '',
-        isStarred: false,
-        archivedAt: null,
-        createdBy: null,
-        style: {
-            backgroundImgs: []
-        },
-        labels: [],
-        members: [],
-        groups: [],
-        activities: [],
-        cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
-    }
+function createTasks(startIdx, count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: makeId(),
+    title: `Item ${startIdx + i}`,
+    assignee: "",
+    status: "Not Started",
+    dueDate: "",
+    priority: "Medium",
+    isChecked: false,
+    updates: [],
+    files: [],
+  }))
 }
+
+function getEmptyBoard() {
+  return {
+    title: 'New Board',
+    description: '',
+    isStarred: false,
+    archivedAt: null,
+    createdBy: null,
+    style: { backgroundImgs: [] },
+    labels: [],
+    members: [],
+    activities: [],
+    cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"],
+    groups: [
+      {
+        id: makeId(),
+        title: "Group Title",
+        color: getRandomColor(),
+        isCollapsed: false,
+        tasks: createTasks(1, 3), // Item 1–3
+      },
+      {
+        id: makeId(),
+        title: "Group Title",
+        color: getRandomColor(),
+        isCollapsed: false,
+        tasks: createTasks(4, 2), // Item 4–5
+      },
+    ],
+  }
+}
+
+
 
 function getDefaultFilter() {
     return {
