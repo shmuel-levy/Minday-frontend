@@ -1,0 +1,24 @@
+.timeline-distribution-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   font-family: "Figtree";
+    position: relative;
+    cursor: pointer;
+    width: 108px;
+    height: 22px;
+    border-radius: 11px;
+    font-size: 14px;
+    background-color: #323338;
+    color: #fff;
+    transition: opacity 0.2s;
+
+    &.empty {
+        background-color: #c4c4c4; /* Gray for empty timeline */
+        color: #323338;
+    }
+
+    .timeline-duration {
+        white-space: nowrap;
+    }
+} 

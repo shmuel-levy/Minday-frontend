@@ -1,92 +1,110 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 export function DateColumn({ value, onUpdate }) {
+    const today = new Date()
+
+    const [selectedDate, setSelectedDate] = useState(value ? new Date(value) : null)
     const [isOpen, setIsOpen] = useState(false)
-    const [selectedDate, setSelectedDate] = useState(value || '')
 
-    function formatDisplayDate(dateStr) {
-        if (!dateStr) return ''
-        
-        if (dateStr.includes('/') || dateStr.includes('-')) {
-            const date = new Date(dateStr)
-            if (!isNaN(date)) {
-                return date.toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric' 
-                })
-            }
-        }
-        
-        return dateStr
+    // Separate controlled month/year view
+    const [viewedMonth, setViewedMonth] = useState(selectedDate?.getMonth() ?? today.getMonth())
+    const [viewedYear, setViewedYear] = useState(selectedDate?.getFullYear() ?? today.getFullYear())
+
+    const formatDisplayDate = () => {
+        if (!selectedDate) return '+ Date'
+        return selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     }
 
-    function getDateClass() {
-        if (!selectedDate) return 'empty'
-        
-        const today = new Date()
-        const taskDate = new Date(selectedDate)
-        
-        if (isNaN(taskDate)) return 'normal'
-        
-        if (taskDate < today) return 'overdue'
-        if (taskDate.toDateString() === today.toDateString()) return 'today'
-        return 'normal'
-    }
+    const calendarDays = useMemo(() => {
+        const firstDayOfMonth = new Date(viewedYear, viewedMonth, 1)
+        const startDay = firstDayOfMonth.getDay() === 0 ? 6 : firstDayOfMonth.getDay() - 1
+        const startDate = new Date(firstDayOfMonth)
+        startDate.setDate(firstDayOfMonth.getDate() - startDay)
 
-    function handleDateChange(e) {
-        const newDate = e.target.value
-        if (newDate) {
-            const date = new Date(newDate)
-            const formatted = date.toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric' 
-            })
-            setSelectedDate(formatted)
-            if (onUpdate) {
-                onUpdate(formatted)
-            }
+        const days = []
+        for (let i = 0; i < 42; i++) {
+            days.push(new Date(startDate))
+            startDate.setDate(startDate.getDate() + 1)
         }
+        return days
+    }, [viewedMonth, viewedYear])
+
+    const handleDayClick = (day) => {
+        setSelectedDate(day)
+        onUpdate?.(day.toISOString())
         setIsOpen(false)
     }
 
-    function clearDate() {
-        setSelectedDate('')
-        if (onUpdate) {
-            onUpdate('')
-        }
+    const handleToday = () => {
+        const todayDate = new Date()
+        setSelectedDate(todayDate)
+        setViewedMonth(todayDate.getMonth())
+        setViewedYear(todayDate.getFullYear())
+        onUpdate?.(todayDate.toISOString())
+        setIsOpen(false)
+    }
+
+    const handleMonthChange = (diff) => {
+        const newDate = new Date(viewedYear, viewedMonth + diff, 1)
+        setViewedMonth(newDate.getMonth())
+        setViewedYear(newDate.getFullYear())
+    }
+
+    const handleClearDate = () => {
+        setSelectedDate(null)
+        onUpdate?.('')
         setIsOpen(false)
     }
 
     return (
         <div className="date-column">
-            <div 
-                className={`date-display ${getDateClass()}`}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {selectedDate || '+ Date'}
+            <div className="date-display" onClick={() => setIsOpen(!isOpen)}>
+                {formatDisplayDate()}
             </div>
 
             {isOpen && (
-                <div className="date-dropdown">
-                    <input
-                        type="date"
-                        className="date-input"
-                        onChange={handleDateChange}
-                        autoFocus
-                    />
-                    
-                    {selectedDate && (
-                        <button
-                            className="clear-date-btn"
-                            onClick={clearDate}
-                        >
-                            Clear date
-                        </button>
-                    )}
-                </div>
-            )}
+                <>
+                    <div className="date-picker-modal">
+                        <button className="today-btn" onClick={handleToday}>Today</button>
 
-            {isOpen && <div className="dropdown-overlay" onClick={() => setIsOpen(false)} />}
+                        <div className="month-header">
+                            <button onClick={() => handleMonthChange(-1)}>{'<'}</button>
+                            <span>{new Date(viewedYear, viewedMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                            <button onClick={() => handleMonthChange(1)}>{'>'}</button>
+                        </div>
+
+                        <div className="weekdays">
+                            {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map(d => (
+                                <div key={d}>{d}</div>
+                            ))}
+                        </div>
+
+                        <div className="calendar-grid">
+                            {calendarDays.map((day, idx) => {
+                                const isToday = day.toDateString() === today.toDateString()
+                                const isSelected = selectedDate && day.toDateString() === selectedDate.toDateString()
+                                const isCurrentMonth = day.getMonth() === viewedMonth
+
+                                return (
+                                    <div
+                                        key={idx}
+                                        className={`day-cell ${isCurrentMonth ? '' : 'other'} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
+                                        onClick={() => handleDayClick(day)}
+                                    >
+                                        {day.getDate()}
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <button className="clear-btn" onClick={handleClearDate}>
+                            Clear Date
+                        </button>
+                    </div>
+
+                    <div className="overlay-due-date" onClick={() => setIsOpen(false)} />
+                </>
+            )}
         </div>
     )
 }

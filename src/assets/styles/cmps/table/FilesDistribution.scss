@@ -1,0 +1,16 @@
+.files-distribution {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #323338;
+    gap: 4px;
+
+    .files-label {
+        font-size: 12px;
+        color: #999;
+    }
+}

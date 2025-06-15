@@ -34,7 +34,13 @@
 @import "cmps/table/Confetti";
 @import "cmps/table/FilesColumn";
 @import "cmps/table/PriorityColumn";
+@import "cmps/table/TimelineColumn";
+@import "cmps/table/AddColumnPopover";
 @import "cmps/table/MembersColumn";
+@import "cmps/table/ProgressBar";
+@import "cmps/table/StatusDistribution";
+@import "cmps/table/PriorityDistribution";
+@import "cmps/table/TimelineDistribution";
 @import "cmps/board/BoardHeader";
 @import "cmps/board/BoardTitleSection";
 @import "cmps/board/BoardActions";
@@ -52,6 +58,10 @@
 @import "cmps/TaskModal/AddUpdateIcon.scss";
 @import "cmps/TaskModal/TaskUpdateSection.scss";
 @import "cmps/TaskCheckbox.scss";
+@import "cmps/table/FilesDistribution.scss";
+@import "cmps/table/MembersDistribution.scss";
+@import "cmps/table/GroupSummaryRow.scss";
+
 
 
 //scss

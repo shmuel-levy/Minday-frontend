@@ -7,6 +7,13 @@
     font-weight: 400;
     gap: 0;
     position: relative;
+    transition: background-color 0.2s ease, border-top 0.2s ease, border-bottom 0.2s ease;
+
+    &.collapsed {
+        background-color: #e6e9f0;
+        border-top: 1px solid #c3c6d4;
+        border-bottom: 1px solid #c3c6d4;
+    }
 
       .group-title {
         margin: 0;
@@ -217,4 +224,67 @@
 .tasks-container {
   transition: all 0.3s ease;
   // overflow: hidden;
+}
+
+.collapsed-group-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 6px 33px 360px 139px 97px 139px 180px 139px 150px 150px 1fr;
+    align-items: center;
+    height: 100%;
+    padding-left: 10px; /* Adjust padding to align with table content */
+
+    .group-title-collapsed {
+        grid-column: 3 / span 1; /* Spans the 'task' column */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 8px;
+        height: 100%;
+        min-width: 100px;
+        
+        .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #323338;
+        }
+
+        .task-count {
+            font-size: 12px;
+            color: #676879;
+        }
+    }
+
+    .column-summary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0 8px;
+        font-size: 14px;
+        color: #323338;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.status {
+            grid-column: 4 / span 1;
+        }
+        &.timeline {
+            grid-column: 7 / span 1;
+        }
+        &.priority {
+            grid-column: 8 / span 1;
+        }
+        &.budget {
+            grid-column: 9 / span 1; /* Assuming budget takes members column */
+            justify-content: flex-start; /* Align budget to left */
+            font-weight: 500;
+        }
+        &.files {
+            grid-column: 10 / span 1;
+            justify-content: flex-start; /* Align files to left */
+            font-weight: 500;
+        }
+    }
 }

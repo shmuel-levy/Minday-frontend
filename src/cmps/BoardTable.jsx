@@ -9,6 +9,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useBoardState } from "../customHooks/useBoardState";
 import { useTaskSelection } from "../customHooks/useTaskSelection";
 import { TaskCheckbox } from "./TaskCheckbox";
+import { GroupSummaryRow } from "../cmps/GroupSummaryRow"
 
 export const BoardTable = forwardRef(function BoardTable(
   { board, onUpdateTask, onAddNewTask, onOpenUpdates },
@@ -184,6 +185,7 @@ export const BoardTable = forwardRef(function BoardTable(
                           />
                         </div>
                       </div>
+                      <GroupSummaryRow group={group} />
                     </div>
                   )}
                 </div>

@@ -1,0 +1,17 @@
+.members-distribution {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 500;
+    background: #f0f0f0;
+    color: #323338;
+    padding: 0 8px;
+    min-width: 30px;
+
+    &.empty {
+        background-color: #c4c4c4;
+    }
+}

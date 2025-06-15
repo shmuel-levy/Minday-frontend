@@ -41,6 +41,10 @@ export function useBoardState(board, onAddNewTask) {
       assignee: "",
       status: "Not Started",
       dueDate: "",
+      timeline: {
+        startDate: "",
+        endDate: ""
+      },
       priority: "Medium",
       isChecked: false,
       updates: [],
@@ -65,7 +69,11 @@ export function useBoardState(board, onAddNewTask) {
       assignee: "",
       status: "Not Started",
       dueDate: "",
-      priority: "Medium",
+      timeline: {
+        startDate: "",
+        endDate: ""
+      },
+      priority: "",
       updates: [],
       files: [],
     }
@@ -84,11 +92,11 @@ export function useBoardState(board, onAddNewTask) {
     const updatedGroups = demoBoard.groups.map((group) =>
       group.id === groupId
         ? {
-            ...group,
-            tasks: group.tasks.map((task) =>
-              task.id === updatedTask.id ? updatedTask : task
-            ),
-          }
+          ...group,
+          tasks: group.tasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          ),
+        }
         : group
     )
 

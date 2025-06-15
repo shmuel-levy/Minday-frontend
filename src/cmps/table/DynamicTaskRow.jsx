@@ -1,13 +1,17 @@
+import { useState } from 'react'
 import { TextColumn } from './column-types/TextColumn'
 import { StatusColumn } from './column-types/StatusColumn'
 import { PersonColumn } from './column-types/PersonColumn'
 import { DateColumn } from './column-types/DateColumn'
+import { TimelineColumn } from './column-types/TimelineColumn'
 import { PriorityColumn } from './column-types/PriorityColumn'
 import { MembersColumn } from './column-types/MembersColumn'
 import { FilesColumn } from './column-types/FilesColumn'
 import { AddUpdateIcon } from '../svg/AddUpdateIcon'
 // import { Checkbox } from '../svg/Checkbox'
 import { TaskCheckbox } from '../TaskCheckbox'
+import { ProgressBar } from './column-types/ProgressBar'
+import { CollapseGroupDown } from '../svg/CollapseGroupDown'
 
 export function DynamicTaskRow({
     task,
@@ -17,8 +21,12 @@ export function DynamicTaskRow({
     onOpenUpdates,
     isDragging = false,
     onTaskSelection,
-    isSelected = false
+    isSelected = false,
+    groupTasks = [],
+    isGroupHeader = false
 }) {
+    const [isCollapsed, setIsCollapsed] = useState(false)
+
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', width: '6px'},
         { id: 'checkbox', type: 'checkbox', width: '33px'},
@@ -27,6 +35,7 @@ export function DynamicTaskRow({
         { id: 'status', type: 'status', width: '139px'},
         { id: 'owner', type: 'person', width: '97px'},
         { id: 'date', type: 'date', width: '139px'},
+        { id: 'timeline', type: 'timeline', width: '180px'},
         { id: 'priority', type: 'priority', width: '139px'},
         { id: 'members', type: 'members', width: '150px'},
         { id: 'files', type: 'files', width: '150px'},
@@ -52,6 +61,9 @@ export function DynamicTaskRow({
                 case 'date':
                     updatedTask.dueDate = newValue
                     break
+                case 'timeline':
+                    updatedTask.timeline = newValue
+                    break
                 case 'priority':
                     updatedTask.priority = newValue
                     break
@@ -68,6 +80,33 @@ export function DynamicTaskRow({
     }
 
     function renderCell(column) {
+        if (isGroupHeader && isCollapsed && column.id === 'task') {
+            return (
+                <div className="collapsed-group">
+                    <div className="group-title">{task.title}</div>
+                    <ProgressBar tasks={groupTasks} />
+                </div>
+            )
+        }
+
+        if (isGroupHeader && column.id === 'task') {
+            return (
+                <div className="group-header">
+                    <button 
+                        className="collapse-button"
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                    >
+                        <CollapseGroupDown isCollapsed={isCollapsed} />
+                    </button>
+                    <TextColumn
+                        value={task.title}
+                        onUpdate={(newValue) => handleCellUpdate('task', newValue)}
+                        placeholder="Enter task..."
+                    />
+                </div>
+            )
+        }
+
         let value = ''
 
         switch (column.id) {
@@ -118,6 +157,9 @@ export function DynamicTaskRow({
             case 'date':
                 value = task.dueDate
                 break
+            case 'timeline':
+                value = task.timeline || { startDate: '', endDate: '' }
+                break
             case 'priority':
                 value = task.priority
                 break
@@ -160,6 +202,15 @@ export function DynamicTaskRow({
                     <DateColumn
                         value={value}
                         onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                    />
+                )
+
+            case 'timeline':
+                return (
+                    <TimelineColumn
+                        value={value}
+                        onUpdate={(newValue) => handleCellUpdate(column.id, newValue)}
+                        task={task}
                     />
                 )
 
@@ -223,17 +274,20 @@ export function DynamicTaskRow({
             <div className="col-date">
                 {renderCell(columnsToRender[6])}
             </div>
-            <div className="col-priority">
+            <div className="col-timeline">
                 {renderCell(columnsToRender[7])}
             </div>
-            <div className="col-members">
+            <div className="col-priority">
                 {renderCell(columnsToRender[8])}
             </div>
-            <div className="col-files">
+            <div className="col-members">
                 {renderCell(columnsToRender[9])}
             </div>
-            <div className="col-add-cell">
+            <div className="col-files">
                 {renderCell(columnsToRender[10])}
+            </div>
+            <div className="col-add-cell">
+                {renderCell(columnsToRender[11])}
             </div>
         </div>
     )

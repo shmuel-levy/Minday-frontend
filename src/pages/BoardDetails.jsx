@@ -90,13 +90,15 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                 onAddNewGroup={handleAddNewGroup}
             />
 
-            <BoardTable
-                ref={boardTableRef}
-                board={board}
-                onUpdateTask={handleUpdateBoard}
-                onAddNewTask={(task, groupId) => { }}
-                onOpenUpdates={handleOpenUpdates}
-            />
+            <div className="board-table-container">
+                <BoardTable
+                    ref={boardTableRef}
+                    board={board}
+                    onUpdateTask={handleUpdateBoard}
+                    onAddNewTask={(task, groupId) => { }}
+                    onOpenUpdates={handleOpenUpdates}
+                />
+            </div>
             {openTaskId && (
                 <TaskDetailModal
                     taskId={openTaskId}

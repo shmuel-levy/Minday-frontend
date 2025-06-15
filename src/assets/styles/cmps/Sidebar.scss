@@ -139,3 +139,37 @@
     }
 
 }
+
+.add-board-dropdown {
+    position: fixed;
+    background: white;
+    border: 1px solid #e6e9f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 9999;
+    min-width: 200px;
+    padding: 8px 0;
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        cursor: pointer;
+        gap: 8px;
+        color: #323338;
+        font-size: 14px;
+
+        &:hover {
+            background-color: #f5f6f8;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+.add-board-container {
+    position: relative;
+}

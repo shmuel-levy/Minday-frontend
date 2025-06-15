@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { addBoard } from '../store/board.actions'
 import { userService } from '../services/user'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { Modal } from './Modal'
 
-export function CreateBoardModal({ isOpen, onClose }) {
+export function CreateBoardModal({ isOpen, onClose, onCreateBoard }) {
     const [boardName, setBoardName] = useState('New Board')
     const [selectedType, setSelectedType] = useState('Items')
     const [isLoading, setIsLoading] = useState(false)
@@ -32,25 +31,16 @@ export function CreateBoardModal({ isOpen, onClose }) {
 
         setIsLoading(true)
         try {
-            const newBoard = {
+            const boardData = {
                 title: boardName.trim(),
                 description: `Managing ${selectedType.toLowerCase()}`,
                 isStarred: false,
-                archivedAt: null,
-                createdAt: Date.now(),
                 createdBy: userService.getLoggedinUser(),
-                style: { backgroundImgs: [] },
-                labels: [],
-                members: [userService.getLoggedinUser()],
-                groups: [],
-                activities: [],
-                cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
+                members: [userService.getLoggedinUser()]
             }
 
-            const savedBoard = await addBoard(newBoard)
-            showSuccessMsg(`Board "${savedBoard.title}" created successfully`)
-            onClose()
-            navigate(`/board/${savedBoard._id}`)
+            await onCreateBoard(boardData)
+            showSuccessMsg(`Board "${boardName}" created successfully`)
         } catch (err) {
             showErrorMsg('Failed to create board')
             console.error('Error creating board:', err)
