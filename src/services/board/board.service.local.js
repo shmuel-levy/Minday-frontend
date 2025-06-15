@@ -303,14 +303,14 @@ function getEmptyBoard() {
         title: "Group Title",
         color: getRandomColor(),
         isCollapsed: false,
-        tasks: createTasks(1, 3), // Item 1–3
+        tasks: createTasks(1, 3), 
       },
       {
         id: makeId(),
         title: "Group Title",
         color: getRandomColor(),
         isCollapsed: false,
-        tasks: createTasks(4, 2), // Item 4–5
+        tasks: createTasks(4, 2), 
       },
     ],
   }
