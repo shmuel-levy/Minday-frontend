@@ -15,7 +15,7 @@ export function GroupSummaryRow({ group }) {
 
     return (
         <div className="group-summary-row" style={{ '--group-color': color }}>
-            <div></div>
+            <div className="sticky"></div>
             <div className="col-status">
                 <StatusDistribution tasks={tasks} />
             </div>
