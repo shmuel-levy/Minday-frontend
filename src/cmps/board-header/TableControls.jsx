@@ -4,10 +4,14 @@ import { FilterIcon } from '../svg/FilterIcon'
 import { SortIcon } from '../svg/SortIcon'
 import { NewTaskButton } from './NewTaskButton'
 
-export function TableControls({ onAddNewTask, onAddNewGroup }) {
+export function TableControls({ onAddNewTask, onAddNewGroup, boardType }) {
     return (
         <div className="table-controls">
-            <NewTaskButton onAddTask={onAddNewTask} onAddNewGroup={onAddNewGroup} />
+            <NewTaskButton 
+                onAddTask={onAddNewTask} 
+                onAddNewGroup={onAddNewGroup}
+                boardType={boardType}
+            />
             
             <button className="btn-control search-btn">
                 <SearchIcon />
