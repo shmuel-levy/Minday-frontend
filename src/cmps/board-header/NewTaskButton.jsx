@@ -3,8 +3,52 @@ import { DropdownArrowIcon } from '../svg/DropdownArrowIcon'
 import { NewGroupIcon } from '../svg/NewGroupIcon'
 import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 
-export function NewTaskButton({ onAddTask, onAddNewGroup }) {
+export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' }) {
     const [showDropdown, setShowDropdown] = useState(false)
+
+    const getButtonLabel = () => {
+        switch (boardType) {
+            case 'Tasks':
+                return 'New task'
+            case 'Employees':
+                return 'New employee'
+            case 'Leads':
+                return 'New lead'
+            case 'Creatives':
+                return 'New creative'
+            case 'Budgets':
+                return 'New budget'
+            case 'Campaigns':
+                return 'New campaign'
+            case 'Projects':
+                return 'New project'
+            case 'Clients':
+                return 'New client'
+            default:
+                return 'New item'
+        }
+    }
+
+    const getDropdownOptions = () => {
+        const baseOptions = [
+            {
+                icon: <NewGroupIcon />,
+                label: `New group of ${boardType.toLowerCase()}`,
+                action: handleNewGroup
+            }
+        ]
+
+        // Add import option only for certain types
+        if (['Tasks', 'Employees', 'Leads', 'Projects'].includes(boardType)) {
+            baseOptions.push({
+                icon: <ImportTasksIcon />,
+                label: `Import ${boardType.toLowerCase()}`,
+                action: handleImportTasks
+            })
+        }
+
+        return baseOptions
+    }
 
     function handleNewTask() {
         if (onAddTask) {
@@ -24,7 +68,7 @@ export function NewTaskButton({ onAddTask, onAddNewGroup }) {
     }
 
     function handleImportTasks() {
-        console.log('Import tasks')
+        console.log(`Import ${boardType.toLowerCase()}`)
         setShowDropdown(false)
     }
 
@@ -35,7 +79,7 @@ export function NewTaskButton({ onAddTask, onAddNewGroup }) {
                 className="btn-new-task-main"
                 onClick={handleNewTask}
             >
-                New task
+                {getButtonLabel()}
             </button>
             
             {/* Dropdown Arrow Button */}
@@ -49,14 +93,16 @@ export function NewTaskButton({ onAddTask, onAddNewGroup }) {
             {/* Dropdown Menu */}
             {showDropdown && (
                 <div className="new-task-dropdown">
-                    <div className="dropdown-item" onClick={handleNewGroup}>
-                        <NewGroupIcon />
-                        New group of tasks
-                    </div>
-                    <div className="dropdown-item" onClick={handleImportTasks}>
-                        <ImportTasksIcon />
-                        Import tasks
-                    </div>
+                    {getDropdownOptions().map((option, index) => (
+                        <div 
+                            key={index} 
+                            className="dropdown-item" 
+                            onClick={option.action}
+                        >
+                            {option.icon}
+                            {option.label}
+                        </div>
+                    ))}
                 </div>
             )}
         </div>
