@@ -29,27 +29,6 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
         }
     }
 
-    const getDropdownOptions = () => {
-        const baseOptions = [
-            {
-                icon: <NewGroupIcon />,
-                label: `New group of ${boardType.toLowerCase()}`,
-                action: handleNewGroup
-            }
-        ]
-
-        // Add import option only for certain types
-        if (['Tasks', 'Employees', 'Leads', 'Projects'].includes(boardType)) {
-            baseOptions.push({
-                icon: <ImportTasksIcon />,
-                label: `Import ${boardType.toLowerCase()}`,
-                action: handleImportTasks
-            })
-        }
-
-        return baseOptions
-    }
-
     function handleNewTask() {
         if (onAddTask) {
             onAddTask()
@@ -93,16 +72,14 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
             {/* Dropdown Menu */}
             {showDropdown && (
                 <div className="new-task-dropdown">
-                    {getDropdownOptions().map((option, index) => (
-                        <div 
-                            key={index} 
-                            className="dropdown-item" 
-                            onClick={option.action}
-                        >
-                            {option.icon}
-                            {option.label}
-                        </div>
-                    ))}
+                    <div className="dropdown-item" onClick={handleNewGroup}>
+                        <NewGroupIcon />
+                        New group of {boardType.toLowerCase()}
+                    </div>
+                    <div className="dropdown-item" onClick={handleImportTasks}>
+                        <ImportTasksIcon />
+                        Import {boardType.toLowerCase()}
+                    </div>
                 </div>
             )}
         </div>
