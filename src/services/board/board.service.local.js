@@ -81,17 +81,18 @@ async function save(board) {
             groups: board.groups,
             members: board.members,
             labels: board.labels,
-            style: board.style
+            style: board.style,
+            type: board.type
         }
         savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
     } else {
         const currentUser = userService.getLoggedinUser()
         const boardToSave = {
+            _id: makeId(),
             title: board.title,
             description: board.description,
             isStarred: false,
             archivedAt: null,
-            isStarred: false,
             createdAt: Date.now(),
             createdBy: currentUser,
             style: {
@@ -99,12 +100,20 @@ async function save(board) {
             },
             labels: [],
             members: currentUser ? [currentUser] : [],
-            groups: [],
+            groups: board.groups || [],
             activities: [],
+            type: board.type,
             cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
         }
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }
+
+    const storageKey = 'recentBoards'
+    const stored = JSON.parse(localStorage.getItem(storageKey)) || []
+    const filtered = stored.filter(b => b && b._id && b._id !== savedBoard._id)
+    const updated = [savedBoard, ...filtered].slice(0, 4)
+    localStorage.setItem(storageKey, JSON.stringify(updated))
+
     return savedBoard
 }
 

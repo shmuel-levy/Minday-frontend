@@ -18,6 +18,7 @@ function getEmptyBoard() {
         members: [],
         groups: [],
         activities: [],
+        type: 'Items',
         cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
     }
 }
