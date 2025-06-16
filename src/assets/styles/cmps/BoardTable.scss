@@ -131,13 +131,21 @@
  
     }
 
-        .task-row{
+        .task-row {
             grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 180px 139px 150px 150px auto;
+            transition: background-color 0.2s ease;
 
+            &:hover {
+                background-color: #f5f6f8;
+            }
 
-           .col-task {
-         padding: 0 0 0 30px;
-        }
+            &.clicked {
+                background-color: #cce5ff;
+            }
+
+            .col-task {
+                padding: 0 0 0 30px;
+            }
         }
 
         .table-header ,.task-row {

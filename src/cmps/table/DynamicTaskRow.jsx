@@ -26,6 +26,7 @@ export function DynamicTaskRow({
     isGroupHeader = false
 }) {
     const [isCollapsed, setIsCollapsed] = useState(false)
+    const [isTaskClicked, setIsTaskClicked] = useState(false)
 
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', width: '6px'},
@@ -79,6 +80,10 @@ export function DynamicTaskRow({
         }
     }
 
+    function handleTaskClick() {
+        setIsTaskClicked(!isTaskClicked)
+    }
+
     function renderCell(column) {
         if (isGroupHeader && isCollapsed && column.id === 'task') {
             return (
@@ -126,7 +131,10 @@ export function DynamicTaskRow({
 
             case 'task':
                 return (
-                    <div className="task-with-icon">
+                    <div 
+                        className={`task-with-icon ${isTaskClicked ? 'clicked' : ''}`}
+                        onClick={handleTaskClick}
+                    >
                         <TextColumn
                             value={task.title}
                             onUpdate={(newValue) => handleCellUpdate('task', newValue)}
@@ -250,7 +258,7 @@ export function DynamicTaskRow({
 
     return (
         <div
-            className={`task-row${isDragging ? ' drag-preview' : ''}`}
+            className={`task-row${isDragging ? ' drag-preview' : ''} ${isTaskClicked ? 'clicked' : ''}`}
             style={{ '--group-color': groupColor }}
         >
             <div className="col-left-indicator">
@@ -259,7 +267,7 @@ export function DynamicTaskRow({
             <div className="col-checkbox">
                 {renderCell(columnsToRender[1])}
             </div>
-            <div className="col-task">
+            <div className="col-task" onClick={handleTaskClick}>
                 {renderCell(columnsToRender[2])}
             </div>
             <div className="btn-add-update">
