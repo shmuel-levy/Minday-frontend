@@ -55,9 +55,10 @@
         width: 30px;
         height: 30px;
         font-size: 12px;
-        margin: 0 -4px;
+        margin: 0 -8px;
         border: 2px solid #f5f6f8;
         cursor: pointer;
+        z-index: 10;
     }
 
     .counter {
