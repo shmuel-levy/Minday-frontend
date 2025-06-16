@@ -1,5 +1,23 @@
 import { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { CloseDateIcon } from '../../svg/CloseDateIcon'
+import { SearchIcon } from '../../svg/SearchIcon'
+
+export const Avatar = ({ member, size = "32px" }) => (
+    member.imgUrl ? (
+        <img src={member.imgUrl} alt={member.name} 
+             style={{width: size, height: size, borderRadius: "50%", border: "2px solid white"}} />
+    ) : (
+        <div style={{
+            width: size, height: size, borderRadius: "50%", border: "2px solid white",
+            backgroundColor: member.color || '#0073ea', color: 'white',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '12px', fontWeight: '600'
+        }}>
+            {member.name?.[0]?.toUpperCase() || '?'}
+        </div>
+    )
+)
 
 export function MembersColumn({ value = [], onUpdate }) {
     const allUsers = useSelector(state => state.userModule?.users || [])
@@ -20,7 +38,7 @@ export function MembersColumn({ value = [], onUpdate }) {
                 color: currentUser.color || '#0073ea'
             })
         }
-                if (allUsers.length > 0) {
+        if (allUsers.length > 0) {
             const otherUsers = allUsers
                 .filter(user => user._id !== currentUser?._id) 
                 .map(user => ({
@@ -54,9 +72,9 @@ export function MembersColumn({ value = [], onUpdate }) {
                 return m.name.toLowerCase().includes(search.toLowerCase().trim())
             })
     }, [allMembers, value, search])
+
     const addMember = (member) => {
         onUpdate?.([...value, member])
-        setIsOpen(false)
         setSearch("") 
     }
 
@@ -71,31 +89,11 @@ export function MembersColumn({ value = [], onUpdate }) {
         setIsOpen(!isOpen)
     }
 
-    const Avatar = ({ member, size = "32px" }) => (
-        member.imgUrl ? (
-            <img src={member.imgUrl} alt={member.name} 
-                 style={{width: size, height: size, borderRadius: "50%", border: "2px solid white"}} />
-        ) : (
-            <div style={{
-                width: size, height: size, borderRadius: "50%", border: "2px solid white",
-                backgroundColor: member.color || '#0073ea', color: 'white',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '12px', fontWeight: '600'
-            }}>
-                {member.name?.[0]?.toUpperCase() || '?'}
-            </div>
-        )
-    )
-
     return (
         <div className="members-column" 
              onMouseEnter={() => setIsHovered(true)} 
              onMouseLeave={() => setIsHovered(false)}>
-                        <div className="members-display" onClick={toggleDialog}>
-                {isHovered && availableMembers.length > 0 && (
-                    <button className="add-btn">+</button>
-                )}
-                
+            <div className="members-display" onClick={toggleDialog}>
                 {value.length === 0 && (
                     <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={24} height={24} />
                 )}
@@ -118,37 +116,43 @@ export function MembersColumn({ value = [], onUpdate }) {
             {isOpen && (
                 <>
                     <div className="members-dialog">
-                        <div className="section">
-                            <input 
-                                placeholder="Search members..." 
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="search-input"
-                            />
-                        </div>
                         {value.length > 0 && (
-                            <div className="section">
-                                <h5>Suggested People</h5>
-                                {value.map(member => (
-                                    <div key={member._id} className="member-row">
-                                        <div className="member-info">
-                                            <Avatar member={member} size="24px" />
-                                            <span>{member.name}</span>
+                            <div className="selected-members-box">
+                                <div className="selected-members-chips">
+                                    {value.map(member => (
+                                        <div key={member._id} className="member-chip">
+                                            <div className="member-info">
+                                                <Avatar member={member} size="24px" />
+                                                <span className="ds-text-component">{member.name}</span>
+                                            </div>
+                                            <div className="remove-btn">
+                                                <CloseDateIcon onClick={() => removeMember(member._id)} />
+                                            </div>
                                         </div>
-                                        <button onClick={() => removeMember(member._id)}>×</button>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         )}
                         <div className="section">
+                            <div className="search-container">
+                                <SearchIcon className="search-icon" />
+                                <input 
+                                    placeholder="Search members..." 
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="search-input"
+                                />
+                            </div>
+                        </div>
+                        <div className="section">
+                            <h5>Suggested people</h5>
                             {availableMembers.map(member => (
                                 <div key={member._id} className="member-row clickable" 
                                      onClick={() => addMember(member)}>
                                     <div className="member-info">
                                         <Avatar member={member} size="24px" />
-                                        <span>{member.name}</span>
+                                        <span className="ds-text-component">{member.name}</span>
                                     </div>
-                                    <span>+</span>
                                 </div>
                             ))}
                         </div>
