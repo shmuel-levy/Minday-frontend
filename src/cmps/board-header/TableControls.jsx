@@ -8,6 +8,7 @@ import { NewTaskButton } from './NewTaskButton'
 export function TableControls({ onAddNewTask, onAddNewGroup ,onSetFilter }) {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [searchTxt, setSearchTxt] = useState('')
+    const [isSearchFocused, setIsSearchFocused] = useState(false)
 
     function handleSearchToggle() {
         setIsSearchOpen(prev => !prev)
@@ -36,25 +37,22 @@ export function TableControls({ onAddNewTask, onAddNewGroup ,onSetFilter }) {
     return (
         <div className="table-controls">
             <NewTaskButton onAddNewTask={onAddNewTask} onAddNewGroup={onAddNewGroup} />
-
-            <button className="btn-control search-btn" onClick={handleSearchToggle}>
-                <SearchIcon />
-                Search
-            </button>
-
-            {isSearchOpen && (
-                <form className="search-form" onSubmit={ev => ev.preventDefault()}>
+         
+                <form  className={`btn-control  ${isSearchFocused ? 'active' : ''}`}   onClick={handleSearchToggle}  onSubmit={ev => ev.preventDefault()}>
+                   <div className='search-btn'>
                     <SearchIcon />
                     <input
                         type="text"
-                        placeholder="Search this board..."
+                        placeholder="Search"
                         value={searchTxt}
                         onChange={handleSearchChange}
-                        autoFocus
-                    />
-                    <button type="button" onClick={handleClearSearch}>✕</button>
+                        onFocus={() => setIsSearchFocused(true)}
+                        onBlur={() => setIsSearchFocused(false)}
+                        />
+                        </div>
+                    <button className='clear-btn' type="button" onClick={handleClearSearch}>✕</button>
                 </form>
-            )}
+           
 
             <button className="btn-control person-btn">
                 <PersonIcon />

@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadBoard, addBoardActivity, updateBoard } from '../store/board.actions'
 import { BoardHeader } from '../cmps/board-header/BoardHeader'
 import { BoardTable } from '../cmps/BoardTable'
 import { TaskDetailModal } from '../cmps/task-detail-modal/TaskDetailModal'
+import  {boardService } from '../services/board/board.service.local'
 
 export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const { boardId } = useParams()
@@ -15,6 +17,8 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const boardTableRef = useRef(null)
     const [boardForModal, setBoardForModal] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [filterBy, setFilterBy] = useState(boardService.getDefaultFilter())
+
 
     useEffect(() => {
         if (boardId) {
@@ -38,6 +42,10 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
             .then(() => showSuccessMsg('Board updated successfully'))
             .catch(() => showErrorMsg('Cannot update board'))
     }
+
+    function handleSetFilterBy(newFilter) {
+    setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
+}
 
     function handleOpenModal(taskId) {
         setOpenTaskId(taskId)
@@ -69,6 +77,8 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                 onUpdateBoard={handleUpdateBoard}
                 onAddNewTask={handleAddNewTask}
                 onAddNewGroup={handleAddNewGroup}
+                onSetFilter={handleSetFilterBy}
+
             />
 
             <div className="board-table-container">
@@ -78,6 +88,10 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                     onUpdateTask={handleUpdateBoard}
                     onAddNewTask={() => { }}
                     onOpenUpdates={handleOpenUpdates}
+                    filterBy={filterBy}
+
+                    // onSetFilter={setFilterBy}
+
                 />
             </div>
 

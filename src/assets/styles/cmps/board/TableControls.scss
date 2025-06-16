@@ -1,7 +1,6 @@
 .table-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
   padding: 16px 0px;
 
   .btn-new-task {
@@ -27,14 +26,12 @@
   }
 
   .btn-control {
-    background: transparent;
-    color: #676879;
+    color: #323338;
     border: none;
-    padding: 6px 12px;
     border-radius: 4px;
     font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
     font-size: 15px;
-    line-height: 20px; 
+    line-height: 20px;
     font-weight: 400;
     height: 32px;
     cursor: pointer;
@@ -42,7 +39,8 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    white-space: nowrap; 
+    white-space: nowrap;
+    margin-right: 6px;
 
     &:hover {
       background: #f5f6f8;
@@ -52,5 +50,44 @@
     &:active {
       background: #e6e9ef;
     }
+  
+  .search-btn {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+
+    input {
+    border: none;
+    width: 60px;
+    margin: 0 6px 0 0;
+    padding: 1px 0 1px 3px;
+    height: 28px;
+    outline: none;
+    background: transparent;
+
+    &:focus{
+       width: auto;
+    }
+    }
   }
+
+  .clear-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  &.active {
+    border: 1px solid #0073ea;
+    background-color: #ffffff;
+    width: 267px;
+    justify-content: space-between;
+
+    .clear-btn {
+      display: block;
+    }
+  }
+}
 }

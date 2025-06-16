@@ -12,10 +12,10 @@ import { TaskCheckbox } from "./TaskCheckbox";
 import { GroupSummaryRow } from "../cmps/GroupSummaryRow"
 
 export const BoardTable = forwardRef(function BoardTable(
-  { board, onUpdateTask, onAddNewTask, onOpenUpdates },
+  { board,filterBy, onUpdateTask, onAddNewTask, onOpenUpdates },
   ref
 ) {
-  const [openTaskId, setOpenTaskId] = useState(null);
+  const [openTaskId, setOpenTaskId] = useState(null)
 
   const {
     demoBoard,
@@ -84,13 +84,36 @@ export const BoardTable = forwardRef(function BoardTable(
   useImperativeHandle(ref, () => ({
     handleAddNewTask,
     handleAddGroupAtTop,
-  }));
+  }))
+
+  const searchTxt = filterBy?.txt?.toLowerCase() || ''
+
+const filteredGroups = demoBoard.groups
+  .map(group => {
+    const isGroupMatch = group.title.toLowerCase().includes(searchTxt)
+
+    const filteredTasks = group.tasks.filter(task =>
+      task.title.toLowerCase().includes(searchTxt)
+    )
+
+    // אם הקבוצה מתאימה - נחזיר אותה עם כל המשימות
+    if (isGroupMatch) return group
+
+    // אחרת נחזיר קבוצה רק עם המשימות שסוננו
+    return { ...group, tasks: filteredTasks }
+  })
+  // מסננים קבוצות שאין להן בכלל משימות ולא התאימו בשם
+  .filter(group =>
+    group.tasks.length > 0 ||
+    group.title.toLowerCase().includes(searchTxt)
+  )
+
 
   return (
     <div className="board-table">
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="table-wrapper">
-          {demoBoard.groups?.map((group) => (
+       {filteredGroups.map((group) => (
             <Droppable droppableId={group.id} key={group.id}>
               {(provided) => (
                 <div
