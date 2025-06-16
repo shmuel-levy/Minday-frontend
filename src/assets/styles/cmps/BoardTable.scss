@@ -134,57 +134,105 @@
         .task-row {
             grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 180px 139px 150px 150px auto;
             transition: background-color 0.2s ease;
+            position: relative;
 
             &:hover {
                 background-color: #f5f6f8;
+
+                .col-checkbox,
+                .col-task,
+                .btn-add-update {
+                    background-color: #f5f6f8;
+                }
             }
 
             &.clicked {
                 background-color: #cce5ff;
+
+                .col-checkbox,
+                .col-task,
+                .btn-add-update {
+                    background-color: #cce5ff;
+                }
             }
 
             .col-task {
                 padding: 0 0 0 30px;
             }
+
+            .col-checkbox,
+            .col-task,
+            .btn-add-update {
+                position: sticky;
+                z-index: 20;
+                transition: background-color 0.2s ease;
+            }
+
+            .col-checkbox {
+                left: 6px;
+            }
+
+            .col-task {
+                left: 39px;
+            }
+
+            .btn-add-update {
+                left: 334px;
+            }
         }
 
-        .table-header ,.task-row {
-       position: relative;
-       display: grid;
-       font-size: 14px;
-       height: 36px;
-       align-items: center;
-
-       .col-left-indicator{
-         width: 100%;
-         height: 100%;
-         background-color: var(--group-color);
-        }
-
-       .col-checkbox, .col-task, .col-status, .col-owner, .col-date, .col-timeline, .col-priority, .col-members, .col-files, .btn-add-update  {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          height: 100%;
-          border-bottom: 1px solid #c3c6d4;
-          border-right: 1px solid #c3c6d4;
-        }
-
-        .col-add-cell{
-            display: flex;
+        .table-header,
+        .task-row {
+            display: grid;
+            font-size: 14px;
+            height: 36px;
             align-items: center;
-            width: 100%;
-            height: 100%;
-            border-bottom: 1px solid #c3c6d4;
-            padding: 0 0 0 10px;
-        }
 
-        .col-checkbox, .col-status, .col-owner, .col-date, .col-timeline, .col-priority, .col-members, .col-files, .btn-add-update{
-          justify-content: center;
+            .col-left-indicator {
+                width: 100%;
+                height: 100%;
+                background-color: var(--group-color);
+            }
 
+            .col-checkbox,
+            .col-task,
+            .col-status,
+            .col-owner,
+            .col-date,
+            .col-timeline,
+            .col-priority,
+            .col-members,
+            .col-files,
+            .btn-add-update {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                border-bottom: 1px solid #c3c6d4;
+                border-right: 1px solid #c3c6d4;
+            }
+
+            .col-add-cell {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                border-bottom: 1px solid #c3c6d4;
+                padding: 0 0 0 10px;
+            }
+
+            .col-checkbox,
+            .col-status,
+            .col-owner,
+            .col-date,
+            .col-timeline,
+            .col-priority,
+            .col-members,
+            .col-files,
+            .btn-add-update {
+                justify-content: center;
+            }
         }
-       
-     }
 
         .add-task-row {
             position: sticky;
