@@ -6,6 +6,29 @@ import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
     const [showDropdown, setShowDropdown] = useState(false)
 
+    const getButtonLabel = () => {
+        switch (boardType) {
+            case 'Tasks':
+                return 'New task'
+            case 'Employees':
+                return 'New employee'
+            case 'Leads':
+                return 'New lead'
+            case 'Creatives':
+                return 'New creative'
+            case 'Budgets':
+                return 'New budget'
+            case 'Campaigns':
+                return 'New campaign'
+            case 'Projects':
+                return 'New project'
+            case 'Clients':
+                return 'New client'
+            default:
+                return 'New item'
+        }
+    }
+
     function handleNewTask() {
         if (onAddNewTask) {
             onAddNewTask()
@@ -24,7 +47,7 @@ export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
     }
 
     function handleImportTasks() {
-        console.log('Import tasks')
+        console.log(`Import ${boardType.toLowerCase()}`)
         setShowDropdown(false)
     }
 
@@ -35,7 +58,7 @@ export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
                 className="btn-new-task-main"
                 onClick={handleNewTask}
             >
-                New task
+                {getButtonLabel()}
             </button>
             
             {/* Dropdown Arrow Button */}
@@ -51,11 +74,11 @@ export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
                 <div className="new-task-dropdown">
                     <div className="dropdown-item" onClick={handleNewGroup}>
                         <NewGroupIcon />
-                        New group of tasks
+                        New group of {boardType.toLowerCase()}
                     </div>
                     <div className="dropdown-item" onClick={handleImportTasks}>
                         <ImportTasksIcon />
-                        Import tasks
+                        Import {boardType.toLowerCase()}
                     </div>
                 </div>
             )}

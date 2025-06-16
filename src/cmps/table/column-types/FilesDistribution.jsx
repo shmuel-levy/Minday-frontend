@@ -1,14 +1,10 @@
-export function FilesDistribution({ filesCount }) {
+export function FilesDistribution({ tasks }) {
+    const totalFiles = tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0);
+
     return (
-        <div className="files-distribution">
-            {filesCount > 0 ? (
-                <>
-                    <span>{filesCount}</span>
-                    <span className="files-label">files</span>
-                </>
-            ) : (
-                <span>-</span>
-            )}
+        <div className="files-summary">
+            <div className="files-count">{totalFiles}</div>
+            <div className="files-label">files</div>
         </div>
     );
 }

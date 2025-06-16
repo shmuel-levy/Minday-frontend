@@ -36,7 +36,28 @@ export function CreateBoardModal({ isOpen, onClose, onCreateBoard }) {
                 description: `Managing ${selectedType.toLowerCase()}`,
                 isStarred: false,
                 createdBy: userService.getLoggedinUser(),
-                members: [userService.getLoggedinUser()]
+                members: [userService.getLoggedinUser()],
+                type: selectedType,
+                groups: selectedType === 'Tasks' ? [
+                    {
+                        id: makeId(),
+                        title: 'To Do',
+                        color: '#579BFC',
+                        tasks: []
+                    },
+                    {
+                        id: makeId(),
+                        title: 'In Progress',
+                        color: '#FDAB3D',
+                        tasks: []
+                    },
+                    {
+                        id: makeId(),
+                        title: 'Done',
+                        color: '#00C875',
+                        tasks: []
+                    }
+                ] : []
             }
 
             await onCreateBoard(boardData)

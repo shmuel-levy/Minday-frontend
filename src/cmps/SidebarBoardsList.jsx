@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { WorkspaceSidebar } from './svg/WorkspaceSidebar'
 import { CreateBoardModal } from './CreateBoardModal'
@@ -16,7 +16,12 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
   const location = useLocation()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [localBoards, setLocalBoards] = useState(boards || [])
   const addBoardBtnRef = useRef(null)
+
+  useEffect(() => {
+    setLocalBoards(boards || [])
+  }, [boards])
 
   if (favoritesOpen) {
     return (
@@ -53,9 +58,11 @@ export function SidebarBoardsList({ boards, favoritesOpen, onOpenBoardModal }) {
       }
 const savedBoard = await addBoard(newBoard)
       setIsCreateModalOpen(false)
+      showSuccessMsg(`Board "${savedBoard.title}" created successfully`)
       navigate(`/board/${savedBoard._id}`)
     } catch (error) {
       console.error('Failed to create board:', error)
+      showErrorMsg('Failed to create board')
     }
   }
 
@@ -99,7 +106,7 @@ const savedBoard = await addBoard(newBoard)
       </div>
 
       <div className="workspace-boards">
-        {boards.map(board => (
+        {localBoards.map(board => (
           <div
             key={board._id}
             className={`board-item ${location.pathname === `/board/${board._id}` ? 'active' : ''}`}
