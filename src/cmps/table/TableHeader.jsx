@@ -55,12 +55,14 @@ export function TableHeader({
                     ) : column.id === 'add-cell' ? (
                         <AddColumnPopover onAddColumn={handleAddColumn} />
                     ) : column.editable ? (
-                        <input
-                            type="text"
-                            value={headerTitles[column.id]}
-                            onChange={e => handleTitleChange(column.id, e.target.value)}
+                        <div
+                            contentEditable
+                            onBlur={e => handleTitleChange(column.id, e.target.textContent)}
                             className="header-input"
-                        />
+                            suppressContentEditableWarning
+                        >
+                            <span>{headerTitles[column.id]}</span>
+                        </div>
                     ) : (
                         headerTitles[column.id]
                     )}

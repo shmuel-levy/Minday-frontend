@@ -94,42 +94,60 @@
 
         .table-header {
             grid-template-columns: 6px 33px 360px 139px 97px 139px 180px 139px 150px 150px 1fr;
+            border-top-left-radius: 8px; 
+            border-top: 1px solid #c3c6d4;
 
-         border-top-left-radius: 8px; 
-         border-top: 1px solid #c3c6d4;
+            > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: #f9f9f9;
+                }
+            }
         
-          .col-left-indicator{
-         border-top-left-radius: 8px;
+            .col-left-indicator{
+                border-top-left-radius: 8px;
+            }
+
+            .col-task{
+                justify-content: center;
+            }
+
+            .header-input {
+                font-size: 14px;
+                background: transparent;
+                outline: none;
+                text-align: center;
+                padding: 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                cursor: text;
+
+                span {
+                    display: inline-block;
+                    border: 1px solid transparent;
+                    border-radius: 3px;
+                    padding: 2px 4px;
+                    transition: border 0.2s ease, background-color 0.2s ease;
+                    min-width: 40px;
+                }
+
+                &:hover span {
+                    border-color: #d0d4e4;
+                }
+
+                &:focus span {
+                    border-color: #0073ea;
+                    background-color: #fff;
+                    text-align: left;
+                }
+            }    
         }
-
-        .col-task{
-            justify-content: center;
-        }
-
-        .header-input {
-           font-size: 14px;
-           border: 1px solid transparent;
-           border-radius: 3px;
-           background: transparent;
-           outline: none;
-           transition: border 0.2s ease;
-           text-align: center;
-           padding: 0;
-
-         &:hover {
-          border-color: #d0d4e4;
-          background-color: #f9f9f9;
-       }
-
-         &:focus {
-           border-color: #0073ea;
-           background-color: #fff;
-           text-align: left;
-
-        }
-      }    
- 
-    }
 
         .task-row {
             grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 180px 139px 150px 150px auto;
