@@ -33,12 +33,13 @@ export function DynamicTaskRow({
         { id: 'checkbox', type: 'checkbox', width: '33px'},
         { id: 'task', type: 'text', width: '295px'},
         { id: 'add-update', type: 'add-update', width: '65px'},
-        { id: 'status', type: 'status', width: '139px'},
         { id: 'owner', type: 'person', width: '97px'},
+        { id: 'status', type: 'status', width: '139px'},
+        // { id: 'owner', type: 'person', width: '97px'},
         { id: 'date', type: 'date', width: '139px'},
         { id: 'timeline', type: 'timeline', width: '180px'},
         { id: 'priority', type: 'priority', width: '139px'},
-        { id: 'members', type: 'members', width: '150px'},
+        { id: 'members', type: 'members', width: '100px'},
         { id: 'files', type: 'files', width: '150px'},
         { id: 'add-cell', type: 'add-cell', width: 'auto' }
     ]
@@ -273,10 +274,10 @@ export function DynamicTaskRow({
             <div className="btn-add-update">
                 {renderCell(columnsToRender[3])}
             </div>
-            <div className="col-status">
+            <div className="col-owner">
                 {renderCell(columnsToRender[4])}
             </div>
-            <div className="col-owner">
+            <div className="col-status">
                 {renderCell(columnsToRender[5])}
             </div>
             <div className="col-date">

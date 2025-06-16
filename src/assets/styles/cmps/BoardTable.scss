@@ -66,12 +66,6 @@
           display: flex;
           align-items: center;
           padding: 0 8px;
-
-          .group-title-display {
-           font-size: 18px;
-    font-weight: 500;
-            color: #323338;
-          }
         }
 
         .group-summary-data {
@@ -93,7 +87,7 @@
       .tasks-container{
 
         .table-header {
-            grid-template-columns: 6px 33px 360px 139px 97px 139px 180px 139px 150px 150px 1fr;
+            grid-template-columns: 6px 33px 360px 97px 139px 139px 180px 139px 100px 150px 1fr;
 
          border-top-left-radius: 8px; 
          border-top: 1px solid #c3c6d4;
@@ -107,7 +101,9 @@
         }
 
         .header-input {
+           font-family: 'Figtree';
            font-size: 14px;
+           color: #323338;
            border: 1px solid transparent;
            border-radius: 3px;
            background: transparent;
@@ -132,7 +128,7 @@
     }
 
         .task-row {
-            grid-template-columns: 6px 33px 295px 65px 139px 97px 139px 180px 139px 150px 150px auto;
+            grid-template-columns: 6px 33px 295px 65px 97px 139px 139px 180px 139px 100px 150px auto;
             transition: background-color 0.2s ease;
             position: relative;
 
@@ -210,6 +206,10 @@
                 height: 100%;
                 border-bottom: 1px solid #c3c6d4;
                 border-right: 1px solid #c3c6d4;
+            }
+
+            .col-members {
+                width: 100px ;
             }
 
             .col-add-cell {

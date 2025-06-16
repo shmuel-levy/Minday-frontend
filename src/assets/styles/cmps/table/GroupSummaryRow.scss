@@ -1,6 +1,6 @@
 .group-summary-row {
     display: grid;
-    grid-template-columns: 400px 139px 97px 139px 180px 139px 150px 150px auto;
+    grid-template-columns: 400px 97px 139px 139px 180px 139px 100px 150px auto;
     height: 36px;
     align-items: center;
     background: #fff;
@@ -27,7 +27,7 @@
         border-bottom: 1px solid #d0d4e4;
     }
 
-    .col-status {
+    .col-owner {
         border-left: 1px solid #d0d4e4;
         border-end-start-radius: 6px;
     }

@@ -10,7 +10,7 @@ export function PriorityColumn({ value, onUpdate }) {
         { label: 'Low', cssClass: 'low', bg: 'rgb(87, 155, 252)', color: 'rgb(247, 247, 248)' }
     ]
 
-    const currentPriority = priorityOptions.find(option => option.label === value) || priorityOptions[2] // Default to Medium
+    const currentPriority = priorityOptions.find(option => option.label === value) || 0 
 
     function handlePriorityChange(newPriority) {
         if (onUpdate) {

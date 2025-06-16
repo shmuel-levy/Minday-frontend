@@ -153,10 +153,11 @@
   font-size: 18px;
   padding: 0px 4px;
   cursor: text;
+  border: 1px solid transparent;
    
 
   &:hover {
-    border: 1px solid #c3c6d4;
+    border-color: #c3c6d4;
     border-radius: 4px;
   }
 }
