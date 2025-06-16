@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { MainTableIcon } from '../svg/MainTableIcon'
 import { NotificationIcon } from '../svg/NotificationIcon'
+import { UserAvatar } from '../UserAvatar'
 
 export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anchorEl }) {
     const [titleDraft, setTitleDraft] = useState(board?.title || '')
@@ -115,12 +116,12 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                     <div className="info-row">
                         <span className="label">Owner</span>
                         <div className="value">
-                            {owner?.imgUrl ? (
-                                <img src={owner.imgUrl} alt={owner.fullname} className="owner-avatar" />
-                            ) : (
-                                <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                                     className="owner-icon" alt="" aria-hidden="true" />
-                            )}
+                            <UserAvatar
+                                src={owner?.imgUrl}
+                                fullname={owner?.fullname || 'Unknown User'}
+                                userId={owner?._id}
+                                className="owner-avatar"
+                            />
                             <span>{owner?.fullname || 'Unknown User'}</span>
                         </div>
                     </div>
@@ -128,12 +129,12 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                     <div className="info-row">
                         <span className="label">Created by</span>
                         <div className="value">
-                            {owner?.imgUrl ? (
-                                <img src={owner.imgUrl} alt={owner.fullname} className="owner-avatar" />
-                            ) : (
-                                <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
-                                     className="owner-icon" alt="" aria-hidden="true" />
-                            )}
+                            <UserAvatar
+                                src={owner?.imgUrl}
+                                fullname={owner?.fullname || 'Unknown User'}
+                                userId={owner?._id}
+                                className="owner-avatar"
+                            />
                             <span>on {createdDate}</span>
                         </div>
                     </div>

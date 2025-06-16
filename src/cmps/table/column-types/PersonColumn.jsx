@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { userService } from '../../../services/user'
 import { formatUsersForSelect } from '../../../services/util.service'
+import { UserAvatar } from '../../UserAvatar'
 
 export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -68,26 +69,16 @@ export function PersonColumn({ value, onUpdate }) {
                 </div>
 
                 {currentUser ? (
-                    currentUser.imgUrl ? (
-                        <img
-                            src={currentUser.imgUrl}
-                            alt={currentUser.fullname}
-                            className="person-avatar"
-                        />
-                    ) : (
-                        <img
-                            src="https://cdn.monday.com/icons/dapulse-person-column.svg"
-                            className="person-icon-small person-bullet-image"
-                            alt=""
-                            aria-hidden="true"
-                        />
-                    )
+                    <UserAvatar
+                        src={currentUser.imgUrl}
+                        fullname={currentUser.fullname}
+                        userId={currentUser._id}
+                        className="person-avatar"
+                    />
                 ) : (
-                    <img
-                        src="https://cdn.monday.com/icons/dapulse-person-column.svg"
-                        className="person-icon-small person-bullet-image"
-                        alt=""
-                        aria-hidden="true"
+                    <UserAvatar
+                        fullname="Unassigned"
+                        className="person-icon-small"
                     />
                 )}
             </div>
@@ -98,11 +89,9 @@ export function PersonColumn({ value, onUpdate }) {
                         className="person-option unassigned"
                         onClick={() => handlePersonChange(null)}
                     >
-                        <img
-                            src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+                        <UserAvatar
+                            fullname="Unassigned"
                             className="person-icon-large"
-                            alt=""
-                            aria-hidden="true"
                         />
                         <span>Unassigned</span>
                     </div>
@@ -114,20 +103,12 @@ export function PersonColumn({ value, onUpdate }) {
                                 className={`person-option ${currentUser?._id === user._id ? 'selected' : ''}`}
                                 onClick={() => handlePersonChange(user)}
                             >
-                                {user.imgUrl ? (
-                                    <img
-                                        src={user.imgUrl}
-                                        alt={user.fullname}
-                                        className="person-avatar-large"
-                                    />
-                                ) : (
-                                    <img
-                                        src="https://cdn.monday.com/icons/dapulse-person-column.svg"
-                                        className="person-icon-large"
-                                        alt=""
-                                        aria-hidden="true"
-                                    />
-                                )}
+                                <UserAvatar
+                                    src={user.imgUrl}
+                                    fullname={user.fullname}
+                                    userId={user._id}
+                                    className="person-avatar-large"
+                                />
                                 <span className="person-name">{user.fullname}</span>
                             </div>
                         ))
