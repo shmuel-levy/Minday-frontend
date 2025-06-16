@@ -5,7 +5,7 @@ import { FilterIcon } from '../svg/FilterIcon'
 import { SortIcon } from '../svg/SortIcon'
 import { NewTaskButton } from './NewTaskButton'
 
-export function TableControls({ onAddNewTask, onAddNewGroup ,onSetFilter }) {
+export function TableControls({board,onAddNewTask, onAddNewGroup ,onSetFilter }) {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [searchTxt, setSearchTxt] = useState('')
     const [isSearchFocused, setIsSearchFocused] = useState(false)
@@ -36,7 +36,10 @@ export function TableControls({ onAddNewTask, onAddNewGroup ,onSetFilter }) {
 
     return (
         <div className="table-controls">
-            <NewTaskButton onAddNewTask={onAddNewTask} onAddNewGroup={onAddNewGroup} />
+            <NewTaskButton 
+            board={board} 
+            onAddNewTask={onAddNewTask}
+             onAddNewGroup={onAddNewGroup} />
          
                 <form  className={`btn-control  ${isSearchFocused ? 'active' : ''}`}   onClick={handleSearchToggle}  onSubmit={ev => ev.preventDefault()}>
                    <div className='search-btn'>

@@ -3,8 +3,9 @@ import { DropdownArrowIcon } from '../svg/DropdownArrowIcon'
 import { NewGroupIcon } from '../svg/NewGroupIcon'
 import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 
-export function NewTaskButton({ onAddNewTask, onAddNewGroup }) {
+export function NewTaskButton({board ,onAddNewTask, onAddNewGroup }) {
     const [showDropdown, setShowDropdown] = useState(false)
+    const boardType = board?.type || 'Item'
 
     const getButtonLabel = () => {
         switch (boardType) {

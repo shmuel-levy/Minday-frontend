@@ -286,6 +286,7 @@ function getEmptyBoard() {
     isStarred: false,
     archivedAt: null,
     createdBy: null,
+    type: 'Tasks',
     style: { backgroundImgs: [] },
     labels: [],
     members: [],
@@ -339,6 +340,7 @@ function getDemoBoard() {
     _id: makeId(), 
     title: "Monday - Sprint 4 - Design Approval",
     description: "Sprint demo",
+    type: 'Tasks',
     groups: [
       {
         id: makeId(),

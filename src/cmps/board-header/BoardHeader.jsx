@@ -23,7 +23,8 @@ export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup 
             </div>
 
             <div className="board-header-contextualAction">
-                <TableControls  
+                <TableControls 
+                board={board}
                 onAddNewTask={onAddNewTask}
                 onAddNewGroup={onAddNewGroup}
                 onSetFilter={onSetFilter}/>

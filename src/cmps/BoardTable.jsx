@@ -95,14 +95,9 @@ const filteredGroups = demoBoard.groups
     const filteredTasks = group.tasks.filter(task =>
       task.title.toLowerCase().includes(searchTxt)
     )
-
-    // אם הקבוצה מתאימה - נחזיר אותה עם כל המשימות
     if (isGroupMatch) return group
-
-    // אחרת נחזיר קבוצה רק עם המשימות שסוננו
     return { ...group, tasks: filteredTasks }
   })
-  // מסננים קבוצות שאין להן בכלל משימות ולא התאימו בשם
   .filter(group =>
     group.tasks.length > 0 ||
     group.title.toLowerCase().includes(searchTxt)
