@@ -9,22 +9,28 @@ export function MembersDistribution({ tasks }) {
 
     const totalMembers = uniqueMembers.length;
 
-    const firstMember = uniqueMembers[0];
-
     return (
         <div className="members-summary">
-            {firstMember ? (
-                <Avatar member={firstMember} size="32px" />
-            ) : (
+            {totalMembers === 0 ? (
                 <img 
                     src="https://cdn.monday.com/icons/dapulse-person-column.svg" 
                     width="32" 
                     height="32" 
                     alt="Default avatar"
                 />
-            )}
-            {totalMembers > 1 && (
-                <div className="counter">+{totalMembers - 1}</div>
+            ) : totalMembers === 1 ? (
+                <Avatar member={uniqueMembers[0]} size="32px" />
+            ) : (
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    {uniqueMembers.slice(0, 3).map((member, i) => (
+                        <div key={member._id} style={{marginLeft: i > 0 ? '-8px' : '0', zIndex: 3-i}}>
+                            <Avatar member={member} size="24px" />
+                        </div>
+                    ))}
+                    {totalMembers > 3 && (
+                        <div className="counter">+{totalMembers - 3}</div>
+                    )}
+                </div>
             )}
         </div>
     )
