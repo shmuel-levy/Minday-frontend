@@ -1,9 +1,12 @@
+import { generateUserColor } from '../services/util.service'
+
 export function UserAvatar({
   src,
   fullname = '',
   alt = 'User avatar',
   title = '',
   className = '',
+  userId,
   ...props
 }) {
   const getInitials = (name) => {
@@ -26,10 +29,26 @@ export function UserAvatar({
     )
   }
 
+  // If it's "Unassigned", return the original SVG
+  if (fullname === 'Unassigned') {
+    return (
+      <img
+        src="https://cdn.monday.com/icons/dapulse-person-column.svg"
+        className={`person-icon-small ${className}`}
+        alt=""
+        aria-hidden="true"
+        {...props}
+      />
+    )
+  }
+
+  const backgroundColor = generateUserColor(userId);
+
   return (
     <div
       className={`user-avatar fallback-avatar ${className}`}
       title={title || fullname}
+      style={{ backgroundColor, color: 'white' }}
       {...props}
     >
       {getInitials(fullname)}
