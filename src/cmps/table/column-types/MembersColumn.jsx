@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { CloseDateIcon } from '../../svg/CloseDateIcon'
 import { SearchIcon } from '../../svg/SearchIcon'
 
-export const Avatar = ({ member, size = "32px" }) => (
+export const Avatar = ({ member, size = "30px" }) => (
     member.imgUrl ? (
-        <img src={member.imgUrl} alt={member.name} 
-             style={{width: size, height: size, borderRadius: "50%", border: "2px solid white"}} />
+        <img src={member.imgUrl} alt={member.name}
+            style={{ width: size, height: size, borderRadius: "50%", border: "2px solid white" }} />
     ) : (
         <div style={{
             width: size, height: size, borderRadius: "50%", border: "2px solid white",
@@ -22,14 +22,14 @@ export const Avatar = ({ member, size = "32px" }) => (
 export function MembersColumn({ value = [], onUpdate }) {
     const allUsers = useSelector(state => state.userModule?.users || [])
     const currentUser = useSelector(state => state.userModule?.user)
-    
+
     const [isOpen, setIsOpen] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
     const [search, setSearch] = useState("")
-    
+
     const allMembers = useMemo(() => {
         let members = []
-        
+
         if (currentUser) {
             members.push({
                 _id: currentUser._id,
@@ -40,7 +40,7 @@ export function MembersColumn({ value = [], onUpdate }) {
         }
         if (allUsers.length > 0) {
             const otherUsers = allUsers
-                .filter(user => user._id !== currentUser?._id) 
+                .filter(user => user._id !== currentUser?._id)
                 .map(user => ({
                     _id: user._id,
                     name: user.fullname || user.username || user.name || 'Unknown User',
@@ -56,26 +56,26 @@ export function MembersColumn({ value = [], onUpdate }) {
                 { _id: 'test4', name: 'Benny Vdal', color: '#ff3333' },
                 { _id: 'test5', name: 'Eli Cupter', color: '#9333ea' },
                 { _id: 'test6', name: 'Leah Flitz', color: '#f59e0b' }
-            ].filter(testUser => testUser._id !== currentUser?._id) 
-            
+            ].filter(testUser => testUser._id !== currentUser?._id)
+
             members = [...members, ...testUsers]
         }
-        
+
         return members
     }, [allUsers, currentUser])
 
     const availableMembers = useMemo(() => {
         return allMembers
-            .filter(m => !value.some(v => v._id === m._id)) 
+            .filter(m => !value.some(v => v._id === m._id))
             .filter(m => {
-                if (!search.trim()) return true 
+                if (!search.trim()) return true
                 return m.name.toLowerCase().includes(search.toLowerCase().trim())
             })
     }, [allMembers, value, search])
 
     const addMember = (member) => {
         onUpdate?.([...value, member])
-        setSearch("") 
+        setSearch("")
     }
 
     const removeMember = (id) => {
@@ -84,32 +84,40 @@ export function MembersColumn({ value = [], onUpdate }) {
 
     const toggleDialog = () => {
         if (!isOpen) {
-            setSearch("") 
+            setSearch("")
         }
         setIsOpen(!isOpen)
     }
 
     return (
-        <div className="members-column" 
-             onMouseEnter={() => setIsHovered(true)} 
-             onMouseLeave={() => setIsHovered(false)}>
+        <div className="members-column"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
             <div className="members-display" onClick={toggleDialog}>
                 {value.length === 0 && (
-                    <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={24} height={24} />
+                    <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={30} height={30} />
                 )}
-                
-                {value.length === 1 && <Avatar member={value[0]} />}
-                
-                {value.length > 1 && (
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        {value.slice(0, 3).map((member, i) => (
-                            <div key={member._id} style={{marginLeft: i > 0 ? '-8px' : '0', zIndex: 3-i}}>
-                                <Avatar member={member} size="24px" />
+
+                {value.length === 1 && (
+                    <Avatar member={value[0]} size="30px" />
+                )}
+
+                {value.length === 2 && (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {value.map((member, i) => (
+                            <div key={member._id} style={{ marginLeft: i > 0 ? '-8px' : '0', zIndex: 3 + i }}>
+                                <Avatar member={member} size="30px" />
                             </div>
                         ))}
-                        {value.length > 3 && (
-                            <div className="counter">+{value.length - 3}</div>
-                        )}
+                    </div>
+                )}
+
+                {value.length > 2 && (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ marginLeft: '0', zIndex: 3 }}>
+                            <Avatar member={value[0]} size="30px" />
+                        </div>
+                        <div className="counter">+{value.length - 1}</div>
                     </div>
                 )}
             </div>
@@ -136,8 +144,8 @@ export function MembersColumn({ value = [], onUpdate }) {
                         <div className="section">
                             <div className="search-container">
                                 <SearchIcon className="search-icon" />
-                                <input 
-                                    placeholder="Search members..." 
+                                <input
+                                    placeholder="Search members..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     className="search-input"
@@ -147,8 +155,8 @@ export function MembersColumn({ value = [], onUpdate }) {
                         <div className="section">
                             <h5>Suggested people</h5>
                             {availableMembers.map(member => (
-                                <div key={member._id} className="member-row clickable" 
-                                     onClick={() => addMember(member)}>
+                                <div key={member._id} className="member-row clickable"
+                                    onClick={() => addMember(member)}>
                                     <div className="member-info">
                                         <Avatar member={member} size="24px" />
                                         <span className="ds-text-component">{member.name}</span>
