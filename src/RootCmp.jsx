@@ -38,6 +38,7 @@ export function RootCmp() {
                 <AppHeader />
                 <div className="app-body">
                     <Sidebar onOpenBoardModal={openBoardModal} />
+                    <div className="separation"></div>
                     <div className="main-content">
                         <UserMsg />
                         <main>

@@ -3,8 +3,18 @@
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
     transition: margin-right 0.3s ease;
+
+     &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #C3C6D4;
+        }
 
     &.with-modal {
         margin-right: 570px;
@@ -19,18 +29,7 @@
 
     .board-table-container {
         flex: 1;
-        overflow-x: auto;
-        overflow-y: auto;
-        
-        &::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-            background-color: #fff;
-        }
 
-        &::-webkit-scrollbar-thumb {
-            background: #C3C6D4;
-        }
     }
 }
 

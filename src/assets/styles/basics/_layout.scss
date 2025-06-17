@@ -23,6 +23,12 @@
         display: flex;
         flex: 1;
         background-color: #eceff8;
+
+        .separation {
+        width: 38px;
+        height: 100vh;
+        background-color: #ffffff;
+       }
     }
 
     .main-content { 

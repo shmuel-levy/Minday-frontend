@@ -1,4 +1,6 @@
 .board-header-container {
+  position: sticky;
+  left: 0;
   display: grid;
   column-gap: 16px;
   background-color: #ffffff;

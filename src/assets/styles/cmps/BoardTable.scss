@@ -1,7 +1,7 @@
 .board-table {
     margin-left: 0px;
     background: white;
-    padding: 20px 8px 20px 38px;
+    padding: 20px 8px 20px 0px;
     position: relative;
 
     .table-wrapper{
@@ -15,10 +15,6 @@
       position: relative;
 
       .group-header {
-        position: sticky;
-        left: 0;
-        z-index: 25;
-        background: #fff;
         margin-bottom: 8px;
         display: flex;
         align-items: center;
@@ -294,10 +290,10 @@
 
             .input-add-task {
                 position: sticky;
-                left: 39px;
+                left: 49px;
                 z-index: 20;
                 background: #fff;
-                padding: 2px 0 3px 24px;
+                padding-left: 20px;
                 margin: 6px 10px;
                 width: 340px;
                 outline: none;
@@ -358,9 +354,9 @@
 
     .add-group-container {
       position: sticky;
-      left: 40px;
+      left: 0px;
       margin-top: 8px;
-      max-width: 300px;
+      max-width: 200px;
       cursor: pointer;
 
       .btn-add-group {
