@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { FavoriteToggleIcon } from './icons/FavoriteToggleIcon'
+import { FavoriteToggleIcon } from './svg/FavoriteToggleIcon'
 import { ArrowDownUpIcon } from './svg/ArrowDownUpIcon'
 import { BoardIconSidebar } from './svg/BoardIconSidebar'
 import { StarIcon } from './svg/StarIcon'
