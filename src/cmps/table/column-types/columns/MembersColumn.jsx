@@ -19,6 +19,12 @@ export const Avatar = ({ member, size = "30px" }) => (
     )
 )
 
+const PlusIcon = () => (
+    <div className="plus-icon">
+        <div className="icon-dapulse-addbtn"></div>
+    </div>
+)
+
 export function MembersColumn({ value = [], onUpdate }) {
     const allUsers = useSelector(state => state.userModule?.users || [])
     const currentUser = useSelector(state => state.userModule?.user)
@@ -94,30 +100,33 @@ export function MembersColumn({ value = [], onUpdate }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}>
             <div className="members-display" onClick={toggleDialog}>
-                {value.length === 0 && (
+                {value.length === 0 ? (
                     <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={30} height={30} />
-                )}
-
-                {value.length === 1 && (
-                    <Avatar member={value[0]} size="30px" />
-                )}
-
-                {value.length === 2 && (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        {value.map((member, i) => (
-                            <div key={member._id} style={{ marginLeft: i > 0 ? '-8px' : '0', zIndex: 3 + i }}>
-                                <Avatar member={member} size="30px" />
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                {value.length > 2 && (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div style={{ marginLeft: '0', zIndex: 3 }}>
+                ) : (
+                    <div className="members-with-plus">
+                        {isHovered && <PlusIcon />}
+                        {value.length === 1 && (
                             <Avatar member={value[0]} size="30px" />
-                        </div>
-                        <div className="counter">+{value.length - 1}</div>
+                        )}
+
+                        {value.length === 2 && (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {value.map((member, i) => (
+                                    <div key={member._id} style={{ marginLeft: i > 0 ? '-8px' : '0', zIndex: 3 + i }}>
+                                        <Avatar member={member} size="30px" />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {value.length > 2 && (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ marginLeft: '0', zIndex: 3 }}>
+                                    <Avatar member={value[0]} size="30px" />
+                                </div>
+                                <div className="counter">+{value.length - 1}</div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

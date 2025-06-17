@@ -4,8 +4,15 @@ import { userService } from '../../../../services/user'
 import { formatUsersForSelect } from '../../../../services/util.service'
 import { UserAvatar } from '../../../UserAvatar'
 
+const PlusIcon = () => (
+    <div className="plus-icon">
+        <div className="icon-dapulse-addbtn"></div>
+    </div>
+)
+
 export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
     const [availableUsers, setAvailableUsers] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -53,33 +60,31 @@ export function PersonColumn({ value, onUpdate }) {
     }
 
     return (
-        <div className="person-column">
+        <div className="person-column"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
             <div
                 className={`person-display multiple-person-cell-component ${currentUser ? 'assigned' : 'unassigned'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div
-                    className="add-btn"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        setIsOpen(true)
-                    }}
-                >
-                    +
-                </div>
-
                 {currentUser ? (
-                    <UserAvatar
-                        src={currentUser.imgUrl}
-                        fullname={currentUser.fullname}
-                        userId={currentUser._id}
-                        className="person-avatar"
-                    />
+                    <div className="person-with-plus">
+                        {isHovered && <PlusIcon />}
+                        <UserAvatar
+                            src={currentUser.imgUrl}
+                            fullname={currentUser.fullname}
+                            userId={currentUser._id}
+                            className="person-avatar"
+                        />
+                    </div>
                 ) : (
-                    <UserAvatar
-                        fullname="Unassigned"
-                        className="person-icon-small"
-                    />
+                    <div className="person-with-plus">
+                        {isHovered && <PlusIcon />}
+                        <UserAvatar
+                            fullname="Unassigned"
+                            className="person-icon-small"
+                        />
+                    </div>
                 )}
             </div>
 

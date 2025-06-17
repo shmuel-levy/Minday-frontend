@@ -10,10 +10,31 @@
     justify-content: center;
     height: 100%;
     cursor: pointer;
+    padding: 0 16px;
 
     img {
       border: 2px solid #f5f6f8;
       border-radius: 50%;
+    }
+  }
+
+  .members-with-plus {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .plus-icon {
+      position: absolute;
+      left: -8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+
+    &:hover .plus-icon {
+      opacity: 1;
     }
   }
 
@@ -262,5 +283,35 @@
     right: 0;
     bottom: 0;
     z-index: 999;
+  }
+
+  .plus-icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color, #0073ea);
+    cursor: pointer;
+
+    .icon-dapulse-addbtn {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      background: var(--primary-color, #0073ea);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:before {
+        content: "+";
+        color: white;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: bold;
+      }
+    }
   }
 }

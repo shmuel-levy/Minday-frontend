@@ -5,9 +5,16 @@ import { AttachmentIcon } from '../../../svg/AttachmentIcon'
 import { LinkIcon } from '../../../svg/LinkIcon'
 import { DeleteIcon } from '../../../svg/CloseIcon'
 
+const PlusIcon = () => (
+    <div className="plus-icon">
+        <div className="icon-dapulse-addbtn"></div>
+    </div>
+)
+
 export function FilesColumn({ value = [], onUpdate, task }) {
     const [isUploading, setIsUploading] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
     const fileInputRef = useRef(null)
     const menuRef = useRef(null)
 
@@ -95,7 +102,9 @@ export function FilesColumn({ value = [], onUpdate, task }) {
     }
     
     return (
-        <div className="files-column">
+        <div className="files-column"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
             <div 
                 className="files-preview"
                 onClick={() => setIsMenuOpen(true)}
@@ -103,15 +112,18 @@ export function FilesColumn({ value = [], onUpdate, task }) {
                 {isUploading ? (
                     <div className="uploading-spinner"></div>
                 ) : filesCount > 0 ? (
-                    <div className="files-thumbnails">
-                        {files.slice(0, 3).map((file, index) => (
-                            <div key={file._id} className="preview-thumbnail" style={{ zIndex: 3 - index }}>
-                                {getFilePreview(file)}
-                            </div>
-                        ))}
-                        {filesCount > 3 && (
-                            <div className="more-files">+{filesCount - 3}</div>
-                        )}
+                    <div className="files-with-plus">
+                        {isHovered && <PlusIcon />}
+                        <div className="files-thumbnails">
+                            {files.slice(0, 3).map((file, index) => (
+                                <div key={file._id} className="preview-thumbnail" style={{ zIndex: 3 - index }}>
+                                    {getFilePreview(file)}
+                                </div>
+                            ))}
+                            {filesCount > 3 && (
+                                <div className="more-files">+{filesCount - 3}</div>
+                            )}
+                        </div>
                     </div>
                 ) : (
                     <div className="empty-files">

@@ -16,6 +16,56 @@
         }
     }
     
+    .files-with-plus {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .plus-icon {
+            position: absolute;
+            left: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+
+        &:hover .plus-icon {
+            opacity: 1;
+        }
+    }
+    
+    .plus-icon {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color, #0073ea);
+        cursor: pointer;
+
+        .icon-dapulse-addbtn {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color, #0073ea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:before {
+                content: "+";
+                color: white;
+                font-size: 14px;
+                line-height: 1;
+                font-weight: bold;
+            }
+        }
+    }
+    
     .uploading-spinner {
         width: 16px;
         height: 16px;
