@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { userService } from '../../../services/user'
-import { formatUsersForSelect } from '../../../services/util.service'
-import { UserAvatar } from '../../UserAvatar'
+import { userService } from '../../../../services/user'
+import { formatUsersForSelect } from '../../../../services/util.service'
+import { UserAvatar } from '../../../UserAvatar'
 
 export function PersonColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)

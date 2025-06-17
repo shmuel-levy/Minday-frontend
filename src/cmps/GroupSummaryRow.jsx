@@ -1,8 +1,8 @@
-import { StatusDistribution } from "./table/column-types/StatusDistribution"
-import { TimelineDistribution } from "./table/column-types/TimelineDistribution"
-import { PriorityDistribution } from "./table/column-types/PriorityDistribution"
-import { MembersDistribution } from "./table/column-types/MembersDistribution"
-import { FilesDistribution } from "./table/column-types/FilesDistribution"
+import { StatusDistribution } from "./table/column-types/distributions/StatusDistribution"
+import { TimelineDistribution } from "./table/column-types/distributions/TimelineDistribution"
+import { PriorityDistribution } from "./table/column-types/distributions/PriorityDistribution"
+import { MembersDistribution } from "./table/column-types/distributions/MembersDistribution"
+import { FilesDistribution } from "./table/column-types/distributions/FilesDistribution"
 
 export function GroupSummaryRow({ group }) {
 

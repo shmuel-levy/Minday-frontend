@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { CloseDateIcon } from '../../svg/CloseDateIcon'
+import { CloseDateIcon } from '../../../svg/CloseDateIcon'
 
 export function TimelineColumn({ value, onUpdate }) {
     const [isHovered, setIsHovered] = useState(false)

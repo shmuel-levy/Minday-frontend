@@ -1,7 +1,7 @@
-import { TextColumn } from './column-types/TextColumn'
-import { StatusColumn } from './column-types/StatusColumn'
-import { PersonColumn } from './column-types/PersonColumn'
-import { DateColumn } from './column-types/DateColumn'
+import { TextColumn } from './column-types/columns/TextColumn'
+import { StatusColumn } from './column-types/columns/StatusColumn'
+import { PersonColumn } from './column-types/columns/PersonColumn'
+import { DateColumn } from './column-types/columns/DateColumn'
 
 export function ColumnCell({ column, value, onUpdate }) {
     const cellProps = {

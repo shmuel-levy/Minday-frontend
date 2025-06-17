@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { CloseDateIcon } from '../../svg/CloseDateIcon'
-import { SearchIcon } from '../../svg/SearchIcon'
+import { CloseDateIcon } from '../../../svg/CloseDateIcon'
+import { SearchIcon } from '../../../svg/SearchIcon'
 
 export const Avatar = ({ member, size = "30px" }) => (
     member.imgUrl ? (

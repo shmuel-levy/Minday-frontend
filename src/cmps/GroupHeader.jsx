@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
 import { ThreeDots } from "./svg/ThreeDots"
 import { showSuccessMsg } from '../services/event-bus.service'
-import { ProgressBar } from './table/column-types/ProgressBar'
-import { StatusDistribution } from './table/column-types/StatusDistribution'
-import { PriorityDistribution } from './table/column-types/PriorityDistribution'
-import { TimelineDistribution } from './table/column-types/TimelineDistribution'
+import { ProgressBar } from './table/column-types/common/ProgressBar'
+import { StatusDistribution } from './table/column-types/distributions/StatusDistribution'
+import { PriorityDistribution } from './table/column-types/distributions/PriorityDistribution'
+import { TimelineDistribution } from './table/column-types/distributions/TimelineDistribution'
 
 export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGroup }) {
     const [showMenu, setShowMenu] = useState(false)

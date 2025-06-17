@@ -1,4 +1,4 @@
-import { Avatar } from './MembersColumn'
+import { Avatar } from '../columns/MembersColumn'
 import { useState } from 'react';
 
 export function MembersDistribution({ tasks }) {

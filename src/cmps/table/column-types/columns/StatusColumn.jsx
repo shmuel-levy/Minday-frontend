@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ConfettiAnimation } from '../ConfettiAnimation'
+import { ConfettiAnimation } from '../../ConfettiAnimation'
 
 export function StatusColumn({ value, onUpdate }) {
     const [isOpen, setIsOpen] = useState(false)

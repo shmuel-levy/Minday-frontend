@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import { uploadService } from '../../../services/upload.service'
-import { makeId } from '../../../services/util.service'
-import { AttachmentIcon } from '../../svg/AttachmentIcon'
-import { LinkIcon } from '../../svg/LinkIcon'
-import { DeleteIcon } from '../../svg/CloseIcon'
+import { uploadService } from '../../../../services/upload.service.js'
+import { makeId } from '../../../../services/util.service.js'
+import { AttachmentIcon } from '../../../svg/AttachmentIcon'
+import { LinkIcon } from '../../../svg/LinkIcon'
+import { DeleteIcon } from '../../../svg/CloseIcon'
 
 export function FilesColumn({ value = [], onUpdate, task }) {
     const [isUploading, setIsUploading] = useState(false)
