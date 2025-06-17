@@ -255,7 +255,7 @@
         .add-task-row {
             position: sticky;
             left: 0;
-            z-index: 20;
+            z-index: 10;
             background: #fff;
             display: grid;
             grid-template-columns: 6px 33px 1fr;
@@ -417,7 +417,7 @@
 .add-task-row {
     position: sticky;
     left: 0;
-    z-index: 20;
+    z-index: 10;
     background: #fff;
 }
 
@@ -431,8 +431,8 @@
 
     .btn-add-update {
         position: sticky;
-        left: 334px; // 6 + 33 + 295 (left indicator + checkbox + task width)
-        z-index: 20;
+        left: 334px;
+        z-index: 10;
         background: #fff;
         display: flex;
         align-items: center;

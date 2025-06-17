@@ -3,6 +3,7 @@
 .add-column-container {
     position: relative;
     display: inline-block;
+    z-index: 2000;
 }
 
 .add-column-btn {
@@ -37,7 +38,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 1000;
+    z-index: 2000;
     min-width: 250px;
     max-width: 320px;
     background-color: $white;
@@ -46,6 +47,7 @@
     box-shadow: $shadow-lg;
     margin-top: $spacing-xs;
     animation: popoverFadeIn 0.2s ease-out;
+    transform: translateZ(0);
 
     .popover-header {
         padding: $spacing-md $spacing-md $spacing-sm;
