@@ -14,13 +14,17 @@
        
     }
 
-    .col-status, .col-owner, .col-timeline, .col-date, .col-priority, .col-members, .col-files {
+    .col-person, .col-status, .col-owner, .col-timeline, .col-date, .col-priority, .col-members, .col-files {
         display: flex;
         align-items: center;
         justify-content: center;
         border-right: 1px solid #d0d4e4;
         border-bottom: 1px solid #d0d4e4;
         height: 100%;
+    }
+
+    .col-person {
+        border-left: 1px solid #d0d4e4;
     }
 
     .col-add-cell {

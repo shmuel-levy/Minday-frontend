@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from 'react'
 import { CollapseGroupDown } from "./svg/CollapseGroupDown"
 import { ThreeDots } from "./svg/ThreeDots"
 import { showSuccessMsg } from '../services/event-bus.service'
-import { ProgressBar } from './table/column-types/common/ProgressBar'
 import { StatusDistribution } from './table/column-types/distributions/StatusDistribution'
 import { PriorityDistribution } from './table/column-types/distributions/PriorityDistribution'
 import { TimelineDistribution } from './table/column-types/distributions/TimelineDistribution'
+import { MembersDistribution } from './table/column-types/distributions/MembersDistribution'
 
 export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGroup }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -15,7 +15,6 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
 
     const colorPickerRef = useRef()
     const inputRef = useRef()
-    const didClickColorToggle = useRef(false)
     const clickedInsidePicker = useRef(false)
     const editWrapperRef = useRef()
 
@@ -34,7 +33,6 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 clickedInsidePicker.current = false
             }
         }
-
         document.addEventListener('mousedown', handleMouseDown)
         return () => document.removeEventListener('mousedown', handleMouseDown)
     }, [])
@@ -42,14 +40,11 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
     function handleDeleteGroup() {
         onDeleteGroup(group.id)
         setShowMenu(false)
-
-        showSuccessMsg('Group successfully deleted');
+        showSuccessMsg('Group successfully deleted')
     }
 
     function handleToggleCollapse() {
-        if (onToggleCollapse) {
-            onToggleCollapse(group.id)
-        }
+        onToggleCollapse?.(group.id)
     }
 
     function handleColorChange(color) {
@@ -58,7 +53,6 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
         }
     }
 
-
     function handleTitleBlur() {
         setIsEditingTitle(false)
         if (title !== group.title) {
@@ -66,28 +60,23 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
         }
     }
 
-
-    const totalBudget = group.tasks.reduce((sum, task) => sum + (task.budget || 0), 0);
-    const totalFiles = group.tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0);
+    const totalFiles = group.tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0)
 
     return (
-        <div className="group-header" style={{ background: group.isCollapsed ? '#e6e9f0' : 'none' }}>
+        <div className={`group-header ${group.isCollapsed ? 'collapsed' : ''}`}
+            style={group.isCollapsed ? { '--group-color': group.color } : {}}
+        >
+
             <div className="group-actions">
-                <button
-                    className="group-menu-btn"
-                    onClick={() => setShowMenu(!showMenu)}
-                >
+                <button className="group-menu-btn" onClick={() => setShowMenu(!showMenu)}>
                     <ThreeDots />
                 </button>
 
                 {showMenu && (
                     <div className="group-menu">
-                        <button
-                            className="group-menu-item delete"
-                            onClick={handleDeleteGroup}
-                        >
-                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" role="img" aria-label="Delete group">
-                                <path d="M8.30035 1.86462C7.77994 1.86462 7.29477 2.08976 6.94732 2.46719C6.60179 2.84253 6.41724 3.33927 6.41724 3.84552V4.32642H4.901H2.63477C2.22055 4.32642 1.88477 4.6622 1.88477 5.07642C1.88477 5.49063 2.22055 5.82642 2.63477 5.82642H4.151V16.1545C4.151 16.6608 4.33556 17.1575 4.68109 17.5328C5.02853 17.9103 5.51371 18.1354 6.03411 18.1354H13.9659C14.4863 18.1354 14.9715 17.9103 15.3189 17.5328C15.6645 17.1575 15.849 16.6608 15.849 16.1545V5.82642H17.3652C17.7794 5.82642 18.1152 5.49063 18.1152 5.07642C18.1152 4.6622 17.7794 4.32642 17.3652 4.32642H15.099H13.5828V3.84552C13.5828 3.33927 13.3982 2.84253 13.0527 2.46719C12.7053 2.08976 12.2201 1.86462 11.6997 1.86462H8.30035ZM7.16447 5.82642C7.16539 5.82642 7.16631 5.82642 7.16724 5.82642H12.8328C12.8337 5.82642 12.8346 5.82642 12.8356 5.82642H14.349V16.1545C14.349 16.3012 14.2948 16.4306 14.2153 16.5169C14.1378 16.6012 14.0465 16.6354 13.9659 16.6354H6.03411C5.95348 16.6354 5.86223 16.6012 5.78468 16.5169C5.7052 16.4306 5.651 16.3012 5.651 16.1545V5.82642H7.16447ZM12.0828 4.32642V3.84552C12.0828 3.69887 12.0286 3.56943 11.9491 3.4831C11.8716 3.39886 11.7803 3.36462 11.6997 3.36462H8.30035C8.21972 3.36462 8.12847 3.39886 8.05091 3.4831C7.97144 3.56943 7.91724 3.69887 7.91724 3.84552V4.32642L12.0828 4.32642Z" fillRule="evenodd" clipRule="evenodd" />
+                        <button className="group-menu-item delete" onClick={handleDeleteGroup}>
+                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                <path d="M8.3 1.86c-.52 0-1.01.23-1.35.6a1.89 1.89 0 00-.53 1.38v.48H4.9H2.63a.63.63 0 000 1.26H4.15v10.33c0 .5.18.99.53 1.37.35.38.83.6 1.35.6h7.93c.52 0 1-.22 1.34-.6.35-.38.53-.87.53-1.37V5.83h1.52a.63.63 0 000-1.26h-2.27h-1.52v-.48c0-.52-.18-1-.53-1.38a1.89 1.89 0 00-1.34-.6H8.3zm-1.14 3.96h6.83v10.33c0 .15-.05.28-.13.36a.46.46 0 01-.35.15H6.03a.46.46 0 01-.35-.15.53.53 0 01-.14-.36V5.83h1.6zm4.92-1.5v-.48c0-.15-.05-.28-.13-.36a.46.46 0 00-.35-.15H8.3a.46.46 0 00-.35.15.53.53 0 00-.14.36v.48h4.92z" />
                             </svg>
                             Delete group
                         </button>
@@ -105,71 +94,58 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
 
             <div className="group-title-container">
                 {isEditingTitle ? (
-                    <>
-                        <div className="group-title-edit-wrapper" ref={editWrapperRef} style={{ flexGrow: 1 }}>
-                            <span className="group-color-picker floating">
-                                <a
-                                    className="group-color-picker-button"
-                                    tabIndex="1"
-                                    onClick={() => {
-                                        console.log('Color picker toggle clicked')
-                                        setShowColorPicker(prev => !prev)
-                                    }}
-                                >
-                                    <span
-                                        className="group-color-picker-button-inner"
-                                        style={{ background: group.color }}
-                                    ></span>
-                                </a>
-                            </span>
+                    <div className="group-title-edit-wrapper" ref={editWrapperRef} style={{ flexGrow: 1 }}>
+                        <span className="group-color-picker floating">
+                            <a
+                                className="group-color-picker-button"
+                                tabIndex="1"
+                                onClick={() => setShowColorPicker(prev => !prev)}
+                            >
+                                <span
+                                    className="group-color-picker-button-inner"
+                                    style={{ background: group.color }}
+                                ></span>
+                            </a>
+                        </span>
 
-                            <input
-                                ref={inputRef}
-                                className="group-title-input"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                onBlur={() => {
-                                    setTimeout(() => {
-                                        if (clickedInsidePicker.current) {
-                                            console.log('Clicked inside picker — keep open')
-                                            inputRef.current?.focus() 
-                                            return
-                                        }
+                        <input
+                            ref={inputRef}
+                            className="group-title-input"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            onBlur={() => {
+                                setTimeout(() => {
+                                    if (clickedInsidePicker.current) {
+                                        inputRef.current?.focus()
+                                        return
+                                    }
+                                    setIsEditingTitle(false)
+                                    setShowColorPicker(false)
+                                    if (title !== group.title) {
+                                        onUpdateGroup({ ...group, title })
+                                    }
+                                }, 0)
+                            }}
+                            autoFocus
+                            style={{ paddingLeft: '28px', color: group.color }}
+                        />
 
-                                        console.log('Blur triggered — close all')
-                                        setIsEditingTitle(false)
-                                        setShowColorPicker(false)
-
-                                        if (title !== group.title) {
-                                            onUpdateGroup({ ...group, title })
-                                        }
-                                    }, 0)
-                                }}
-                                autoFocus
-                                style={{
-                                    paddingLeft: '28px',
-                                    color: group.color
-                                }}
-                            />
-
-                            {showColorPicker && (
-                                <div className="color-picker" ref={colorPickerRef}>
-                                    {colors.map((color, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="color-option"
-                                            style={{ backgroundColor: color }}
-                                            onClick={() => {
-                                                console.log('Color selected:', color)
-                                                handleColorChange(color)
-                                                setShowColorPicker(false)
-                                            }}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </>
+                        {showColorPicker && (
+                            <div className="color-picker" ref={colorPickerRef}>
+                                {colors.map((color, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="color-option"
+                                        style={{ backgroundColor: color }}
+                                        onClick={() => {
+                                            handleColorChange(color)
+                                            setShowColorPicker(false)
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 ) : (
                     <div
                         className="group-title-display"
@@ -181,37 +157,43 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 )}
             </div>
 
-            {group.isCollapsed ? (
-                <div className="collapsed-group-content">
-                    <div className="group-title-collapsed">
-                        <span className="title">{group.title}</span>
-                        <span className="task-count">{group.tasks?.length || 'No'} Tasks</span>
-                    </div>
-                    <div className="column-summary status">
+            {group.isCollapsed && (
+                <div className="group-summary-row collapsed">
+                    {/* Skip col-checkbox + col-task */}
+
+                    <div className="col-person"></div>
+
+                    <div className="col-status">
+                        <div className="white-space-status">Status</div>
                         <StatusDistribution tasks={group.tasks} />
                     </div>
-                    <div className="column-summary timeline">
+
+                    <div className="col-date"></div>
+
+                    <div className="col-timeline">
+                        <div className="white-space-timeline">Timeline</div>
                         <TimelineDistribution tasks={group.tasks} />
                     </div>
-                    <div className="column-summary priority">
+
+                    <div className="col-priority">
+                        <div className="white-space-priority">Priority</div>
                         <PriorityDistribution tasks={group.tasks} />
                     </div>
-               
-                    <div className="column-summary budget">
-                        {totalBudget > 0 ? `$${totalBudget.toLocaleString()} sum` : '-'}
+
+                    <div className="col-members">
+                        <div className="white-space-members">People</div>
+                        <MembersDistribution tasks={group.tasks} />
+
                     </div>
-                    <div className="column-summary files">
-                        {totalFiles > 0 ? `${totalFiles} files` : '-'}
+
+                    <div className="col-files">
+                        <div className="white-space-files">Files</div>
+                        {group.tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0)} files
                     </div>
-                </div>
-            ) : (
-                <div className="group-summary-data" role="presentation">
-                    <div
-                        className="group-summary-text"
-                        id={`${group.id}_tasks_count_chip`}
-                    >
-                        {group.tasks?.length || 'No'} Tasks
-                    </div>
+
+                    <div className="col-add-cell"></div>
+
+                    {/* No col-add */}
                 </div>
             )}
         </div>
