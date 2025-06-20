@@ -1,0 +1,62 @@
+.board-dashboard {
+  padding: 20px 40px;
+  background: #f6f7fb;
+  min-height: 400px;
+
+  .dashboard-content {
+    background: white;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    
+    h2 {
+      font-size: 24px;
+      color: #323338;
+      margin-bottom: 16px;
+    }
+    
+    p {
+      color: #676879;
+      font-size: 16px;
+    }
+  }
+}
+
+.btn-add-widget {
+  background: #ffffff;
+  color: #323338;
+  border: 1px solid #d0d4e4;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover {
+    background: #f5f6f8;
+    border-color: #c3c6d4;
+  }
+
+  &:active {
+    background: #e6e9ef;
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.board-details.dashboard {
+  .board-header-contextualAction {
+    display: block;
+  }
+}
+
