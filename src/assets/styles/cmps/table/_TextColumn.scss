@@ -1,5 +1,5 @@
 .text-column {
-  cursor: pointer;
+  cursor: text;
 
   .placeholder {
     color: #999;
@@ -8,11 +8,12 @@
 }
 
 .text-column-input {
-  width: 100%;
+  width: 250px;
   border: 1px solid #0073ea;
   border-radius: 4px;
   padding: 4px 8px;
-  font-size: 12px;
+  font-family: 'Figtree';
+  font-size: 14px;
   outline: none;
   background: white;
 }

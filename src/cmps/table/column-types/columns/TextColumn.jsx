@@ -40,7 +40,7 @@ export function TextColumn({ value, onUpdate, placeholder = "Enter text...", isE
         <div 
             className="text-column"
             onClick={() => isEditable && setIsEditing(true)}
-            style={{ cursor: isEditable ? 'pointer' : 'default' }}
+            style={{ cursor: isEditable ? 'text' : 'default' }}
         >
             {value || <span className="placeholder">{placeholder}</span>}
         </div>

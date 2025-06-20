@@ -38,6 +38,11 @@
           background: #fff;
           display: flex;
           align-items: center;
+
+          &.collapsed {
+            position: relative;
+            left: -30px;
+          }
         }
 
         .collapse-btn {
@@ -51,6 +56,12 @@
           border: none;
           background: transparent;
           cursor: pointer;
+
+          &.collapsed {
+            position: relative;
+            left: -16px;
+            margin-bottom: 19px;
+          }
         }
 
         .group-title-container {
@@ -61,6 +72,13 @@
           display: flex;
           align-items: center;
           padding: 0 8px;
+
+           &.collapsed {
+           position: relative;
+           left: -19px;
+           pointer-events: none;
+           width: 200px;
+           }
         }
 
         .group-summary-data {

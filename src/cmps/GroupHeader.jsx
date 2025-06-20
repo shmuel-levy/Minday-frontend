@@ -38,6 +38,9 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
     }, [])
 
     function handleDeleteGroup() {
+        const confirmed = window.confirm('Are you sure you want to delete this group?');
+        if (!confirmed) return;
+        
         onDeleteGroup(group.id)
         setShowMenu(false)
         showSuccessMsg('Group successfully deleted')
@@ -67,8 +70,11 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
             style={group.isCollapsed ? { '--group-color': group.color } : {}}
         >
 
-            <div className="group-actions">
-                <button className="group-menu-btn" onClick={() => setShowMenu(!showMenu)}>
+            <div className={`group-actions ${group.isCollapsed ? 'collapsed' : ''}`}>
+                <button
+                    className={`group-menu-btn ${group.isCollapsed ? 'collapsed' : ''}`}
+                    onClick={() => setShowMenu(!showMenu)}
+                >
                     <ThreeDots />
                 </button>
 
@@ -92,7 +98,7 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 <CollapseGroupDown />
             </button>
 
-            <div className="group-title-container">
+            <div className={`group-title-container ${group.isCollapsed ? 'collapsed' : ''}`}>
                 {isEditingTitle ? (
                     <div className="group-title-edit-wrapper" ref={editWrapperRef} style={{ flexGrow: 1 }}>
                         <span className="group-color-picker floating">

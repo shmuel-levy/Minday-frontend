@@ -65,14 +65,15 @@
       transition: opacity 0.2s ease;
       
       .group-menu-btn {
-            width: 24px;
-    max-width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0 2px 0;
+        width: 24px;
+        max-width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 0 2px 0;
+        cursor: pointer;
         
         &:hover {
           background-color: #d0d4e4;
@@ -90,6 +91,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 1000;
         min-width: 140px;
+        pointer-events: auto;
         
         .group-menu-item {
           display: flex;
@@ -180,7 +182,7 @@
   }
 
   .task-count-inline {
-    font-size: 13px;
+    font-size: 14px;
     color: #6b6c7e;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -191,8 +193,9 @@
   }
 
   .task-count-collapsed {
-    font-size: 13px;
+    font-size: 14px;
     color: #6b6c7e;
+    padding-left: 4px;
   }
 }
 
@@ -286,7 +289,7 @@
     font-size: 14px;
     display: grid;
     grid-template-columns: 97px 139px 139px 180px 139px 100px 150px auto;
-    margin-left: 243px;
+    margin-left: 194px;
 
     > div {
         display: flex;
