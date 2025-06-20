@@ -3,8 +3,12 @@ import { BoardActions } from './BoardActions'
 import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 
+export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup, currentView, onViewChange }) {
+    
+    function handleAddWidget() {
+        console.log('Add widget clicked')
+    }
 
-export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup }) {
     return (
         <section className="board-header-container grid">
             <div className="board-header-info">
@@ -19,7 +23,10 @@ export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup 
             </div>
 
             <div className="board-header-navigation">
-                <ViewControls />
+                <ViewControls 
+                    currentView={currentView}
+                    onViewChange={onViewChange}
+                />
             </div>
 
             <div className="board-header-contextualAction">
@@ -27,9 +34,10 @@ export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup 
                     onAddNewTask={onAddNewTask}
                     onAddNewGroup={onAddNewGroup}
                     boardType={board.type || 'Items'}
+                    currentView={currentView}
+                    onAddWidget={handleAddWidget}
                 />
             </div>
-
         </section>
     )
 }
