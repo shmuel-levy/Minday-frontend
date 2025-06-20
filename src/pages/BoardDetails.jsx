@@ -1,39 +1,31 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadBoard, addBoardActivity, updateBoard } from '../store/board.actions'
+import { loadBoard, updateBoard } from '../store/board.actions'
 import { BoardHeader } from '../cmps/board-header/BoardHeader'
 import { BoardTable } from '../cmps/BoardTable'
+import { BoardDashboard } from './BoardDashboard'
 import { TaskDetailModal } from '../cmps/task-detail-modal/TaskDetailModal'
 
 export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const { boardId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
     const boardTableRef = useRef(null)
-    // const [openTaskId, setOpenTaskId] = useState(null)
     const [boardForModal, setBoardForModal] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
-
-
+    const [currentView, setCurrentView] = useState('table')
 
     useEffect(() => {
         if (boardId) {
             loadBoard(boardId).then((board) => {
-                  console.log('Loaded board:', board)
+                console.log('Loaded board:', board)
                 if (!board || !board._id) return
 
                 const storageKey = 'recentBoards'
                 const stored = JSON.parse(localStorage.getItem(storageKey)) || []
-
-                // Filter out the board if it already exists
                 const filtered = stored.filter(b => b && b._id && b._id !== board._id)
-
-                // Add the new board to the top and keep max 4
                 const updated = [board, ...filtered].slice(0, 4)
-
                 localStorage.setItem(storageKey, JSON.stringify(updated))
             })
         }
@@ -46,18 +38,6 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
         } catch (err) {
             showErrorMsg('Cannot update board')
         }
-    }
-    function handleOpenModal(taskId) {
-        setOpenTaskId(taskId)
-        setIsModalOpen(true)
-    }
-
-    function handleStartModalClose() {
-        setIsModalOpen(false)
-    }
-
-    function handleCloseModal() {
-        setOpenTaskId(null)
     }
 
     function handleOpenUpdates(taskId, boardSnapshot) {
@@ -77,28 +57,46 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
         }
     }
 
+    function handleViewChange(view) {
+        setCurrentView(view)
+    }
+
     if (!board) {
         return <div>Loading board...</div>
     }
 
     return (
-        <section className={`board-details ${openTaskId ? 'with-modal' : ''}`}>
+        <section className={`board-details ${openTaskId ? 'with-modal' : ''} ${currentView}`}>
             <BoardHeader
                 board={board}
                 onUpdateBoard={handleUpdateBoard}
                 onAddNewTask={handleAddNewTask}
                 onAddNewGroup={handleAddNewGroup}
+                currentView={currentView}
+                onViewChange={handleViewChange}
             />
 
-            <div className="board-table-container">
-                <BoardTable
-                    ref={boardTableRef}
-                    board={board}
-                    onUpdateTask={handleUpdateBoard}
-                    onAddNewTask={(task, groupId) => { }}
-                    onOpenUpdates={handleOpenUpdates}
-                />
+            <div className="board-content-container">
+                {currentView === 'table' ? (
+                    <div className="board-table-container">
+                        <BoardTable
+                            ref={boardTableRef}
+                            board={board}
+                            onUpdateTask={handleUpdateBoard}
+                            onAddNewTask={(task, groupId) => { }}
+                            onOpenUpdates={handleOpenUpdates}
+                        />
+                    </div>
+                ) : (
+                    <div className="board-dashboard-container">
+                        <BoardDashboard
+                            board={board}
+                            onUpdateBoard={handleUpdateBoard}
+                        />
+                    </div>
+                )}
             </div>
+            
             {openTaskId && (
                 <TaskDetailModal
                     taskId={openTaskId}
