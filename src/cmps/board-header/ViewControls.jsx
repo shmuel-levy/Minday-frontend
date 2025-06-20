@@ -60,7 +60,7 @@ export function ViewControls({ currentView = 'table', onViewChange }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isDropdownOpen])
 
-  const viewDisplayName = currentView === 'dashboard' ? 'Dashboard' : 'Main table'
+  const viewDisplayName = currentView === 'dashboard' ? 'Chart' : 'Main table'
 
   return (
     <div className="view-controls">
