@@ -18,8 +18,9 @@ export function GroupSummaryRow({ group }) {
             <div className="sticky"></div>
 
 
-
-            <div className="col-owner"></div>
+            <div className="border-left">
+                <div className="col-owner"></div>
+            </div>
             <div className="col-status">
                 <StatusDistribution tasks={tasks} />
             </div>
@@ -36,7 +37,9 @@ export function GroupSummaryRow({ group }) {
             <div className="col-files">
                 <FilesDistribution tasks={tasks} />
             </div>
+
             <div className="col-add-cell"></div>
+
 
         </div>
     )

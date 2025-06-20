@@ -5,7 +5,11 @@
     align-items: center;
     background: #fff;
     transition: all 0.3s ease;
-
+    width: 100%;
+    
+.border-left {
+    height: 36px;
+}
     
     .col-owner,
     .col-date,
@@ -21,6 +25,7 @@
         border-right: 1px solid #d0d4e4;
         border-bottom: 1px solid #d0d4e4;
         height: 100%;
+        // box-shadow: 0 8px 8px -8px #0000001a;
     }
 
     .col-person {
@@ -38,7 +43,7 @@
 
     .sticky {
         position: sticky;
-        left: 0;
+        left: 40px;
         z-index: 10;
         background: #fff;
         height: 36px;
