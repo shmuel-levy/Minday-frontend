@@ -107,85 +107,96 @@ export const BoardTable = forwardRef(function BoardTable(
 
                   {!group.isCollapsed && (
                     <div className="tasks-container">
-                      <TableHeader
-                        onToggleAll={(checked) =>
-                          toggleAllInGroup(group.id, checked)
-                        }
-                        groupColor={group.color}
-                        isAllSelected={areAllTasksSelected(group.id)}
-                        hasSelection={selectedTasks.some(
-                          (sg) => sg.groupId === group.id && sg.taskIds.length > 0
-                        )}
-                      />
-                      {group.tasks?.map((task, idx) => (
-                        <Draggable
-                          draggableId={task.id}
-                          index={idx}
-                          key={task.id}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <DynamicTaskRow
-                                task={task}
-                                groupColor={group.color}
-                                onUpdateTask={(updatedTask) =>
-                                  handleUpdateTask(group.id, updatedTask)
-                                }
-                                shouldFocus={focusTaskId === task.id}
-                                onFocusHandled={() => setFocusTaskId(null)}
-                                isDragging={snapshot.isDragging}
-                                onOpenUpdates={handleOpenUpdates}
-                                onTaskSelection={(isSelected) =>
-                                  handleTaskSelection(
-                                    task.id,
-                                    group.id,
-                                    isSelected
-                                  )
-                                }
-                                isSelected={selectedTasks.some(
-                                  (sg) =>
-                                    sg.groupId === group.id &&
-                                    sg.taskIds.includes(task.id)
-                                )}
-                              />
-                            </div>
+                      <div className="row-with-spacer">
+                        <div className="row-left-spacer"></div>
+                        <TableHeader
+                          onToggleAll={(checked) =>
+                            toggleAllInGroup(group.id, checked)
+                          }
+                          groupColor={group.color}
+                          isAllSelected={areAllTasksSelected(group.id)}
+                          hasSelection={selectedTasks.some(
+                            (sg) => sg.groupId === group.id && sg.taskIds.length > 0
                           )}
-                        </Draggable>
+                        />
+                      </div>
+                      {group.tasks?.map((task, idx) => (
+                        <div className="row-with-spacer" key={task.id}>
+                          <div className="row-left-spacer"></div>
+
+                          <Draggable draggableId={task.id} index={idx}>
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style, // keep built-in styles
+                                  width: '100%', // ✅ ensure full width
+                                }}
+                              >
+                                <DynamicTaskRow
+                                  task={task}
+                                  groupColor={group.color}
+                                  onUpdateTask={(updatedTask) =>
+                                    handleUpdateTask(group.id, updatedTask)
+                                  }
+                                  shouldFocus={focusTaskId === task.id}
+                                  onFocusHandled={() => setFocusTaskId(null)}
+                                  isDragging={snapshot.isDragging}
+                                  onOpenUpdates={handleOpenUpdates}
+                                  onTaskSelection={(isSelected) =>
+                                    handleTaskSelection(task.id, group.id, isSelected)
+                                  }
+                                  isSelected={selectedTasks.some(
+                                    (sg) =>
+                                      sg.groupId === group.id && sg.taskIds.includes(task.id)
+                                  )}
+                                />
+                              </div>
+                            )}
+                          </Draggable>
+                        </div>
                       ))}
                       {provided.placeholder}
 
-                      <div
-                        className="add-task-row"
-                        style={{ "--group-color": group.color }}
-                      >
-                        <div className="col-left-indicator"></div>
-                        <div className="col-checkbox">
-                          <TaskCheckbox disabled />
-                        </div>
-                        <div className="col-task">
-                          <input
-                            type="text"
-                            placeholder="+ Add task"
-                            className="input-add-task"
-                            value={taskDrafts[group.id] || ""}
-                            onChange={(e) =>
-                              setTaskDrafts((prev) => ({
-                                ...prev,
-                                [group.id]: e.target.value,
-                              }))
-                            }
-                            onBlur={() => handleAdd(group.id)}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && handleAdd(group.id)
-                            }
-                          />
+                      <div className="row-with-spacer">
+                        <div className="row-left-spacer"></div>
+
+                        <div
+                          className="add-task-row"
+                          style={{ "--group-color": group.color }}
+                        >
+                          <div className="col-left-indicator"></div>
+                          <div className="col-checkbox">
+                            <TaskCheckbox disabled />
+                          </div>
+                          <div className="col-task">
+                            <input
+                              type="text"
+                              placeholder="+ Add task"
+                              className="input-add-task"
+                              value={taskDrafts[group.id] || ""}
+                              onChange={(e) =>
+                                setTaskDrafts((prev) => ({
+                                  ...prev,
+                                  [group.id]: e.target.value,
+                                }))
+                              }
+                              onBlur={() => handleAdd(group.id)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleAdd(group.id)
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
-                      <GroupSummaryRow group={group} />
+
+                      <div className="row-with-spacer">
+                        <div className="row-left-spacer"></div>
+
+                        <GroupSummaryRow group={group} />
+                      </div>
                     </div>
                   )}
                 </div>

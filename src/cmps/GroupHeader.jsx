@@ -96,15 +96,10 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 {isEditingTitle ? (
                     <div className="group-title-edit-wrapper" ref={editWrapperRef} style={{ flexGrow: 1 }}>
                         <span className="group-color-picker floating">
-                            <a
-                                className="group-color-picker-button"
-                                tabIndex="1"
-                                onClick={() => setShowColorPicker(prev => !prev)}
-                            >
-                                <span
-                                    className="group-color-picker-button-inner"
-                                    style={{ background: group.color }}
-                                ></span>
+                            <a className="group-color-picker-button" tabIndex="1"
+                                onClick={() => setShowColorPicker(prev => !prev)}>
+                                <span className="group-color-picker-button-inner"
+                                    style={{ background: group.color }}></span>
                             </a>
                         </span>
 
@@ -147,20 +142,30 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                         )}
                     </div>
                 ) : (
-                    <div
-                        className="group-title-display"
-                        style={{ color: group.color }}
-                        onClick={() => setIsEditingTitle(true)}
-                    >
-                        {group.title}
+                    <div className={`group-title-display-wrapper ${group.isCollapsed ? 'collapsed' : ''}`}>
+                        <div
+                            className="group-title-display"
+                            style={{ color: group.color }}
+                            onClick={() => setIsEditingTitle(true)}
+                        >
+                            {group.title}
+                        </div>
+
+                        {group.isCollapsed ? (
+                            <div className="task-count-collapsed">
+                                {group.tasks?.length || 0} Tasks
+                            </div>
+                        ) : (
+                            <div className="task-count-inline">
+                                {group.tasks?.length || 0} Tasks
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
 
             {group.isCollapsed && (
                 <div className="group-summary-row collapsed">
-                    {/* Skip col-checkbox + col-task */}
-
                     <div className="col-person"></div>
 
                     <div className="col-status">
@@ -183,17 +188,14 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                     <div className="col-members">
                         <div className="white-space-members">People</div>
                         <MembersDistribution tasks={group.tasks} />
-
                     </div>
 
                     <div className="col-files">
                         <div className="white-space-files">Files</div>
-                        {group.tasks.reduce((sum, task) => sum + (task.files?.length || 0), 0)} files
+                        {totalFiles} files
                     </div>
 
                     <div className="col-add-cell"></div>
-
-                    {/* No col-add */}
                 </div>
             )}
         </div>

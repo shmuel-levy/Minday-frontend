@@ -104,9 +104,6 @@ export function AddColumnPopover({ onAddColumn }) {
 
             {isOpen && (
                 <div ref={popoverRef} className="add-column-popover">
-                    <div className="popover-header">
-                        <h3>Add Column</h3>
-                    </div>
                     
                     <div className="popover-search">
                         <input
