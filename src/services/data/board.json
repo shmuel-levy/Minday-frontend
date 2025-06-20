@@ -1,0 +1,3280 @@
+[{
+  "_id": {
+    "$oid": "6828af47d371e5b12cae4c44"
+  },
+  "account": "acc001",
+  "createdAt": {
+    "$numberLong": "1747207429585"
+  },
+  "createdBy": {
+    "_id": "6828aff6d371e5b12cae4c49"
+  },
+  "pos": 1,
+  "name": "Product Roadmap",
+  "isStarred": false,
+  "members": [
+    {
+      "_id": "6828aff6d371e5b12cae4c49",
+      "permission": "editor"
+    },
+    {
+      "_id": "9876543210fedcba98765432",
+      "permission": "editor"
+    },
+    {
+      "_id": "11223344556677889900aabb",
+      "permission": "editor"
+    }
+  ],
+  "activities": [],
+  "columns": [
+    {
+      "id": "col-83bvn140",
+      "name": "Task",
+      "createdAt": {
+        "$numberLong": "1747207429583"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 300,
+      "type": {
+        "variant": "item"
+      }
+    },
+    {
+      "id": "col-85fjn340",
+      "name": "Status",
+      "createdAt": {
+        "$numberLong": "1747207429583"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 120,
+      "type": {
+        "variant": "status",
+        "labels": [
+          {
+            "id": "label_007a3f3b",
+            "name": "To Do",
+            "color": "lavender"
+          },
+          {
+            "id": "label_41c3ac2f",
+            "name": "In Progress",
+            "color": "working_orange"
+          },
+          {
+            "id": "label_f93f0623",
+            "name": "Done",
+            "color": "done-green"
+          }
+        ]
+      }
+    },
+    {
+      "id": "col_87abd120",
+      "name": "Number",
+      "createdAt": {
+        "$numberLong": "1747207429584"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "number"
+      }
+    },
+    {
+      "id": "col_46bf8a8b",
+      "name": "Dropdowns",
+      "createdAt": {
+        "$numberLong": "1747207429584"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "dropdown"
+      }
+    },
+    {
+      "id": "col_3b9af5cf",
+      "name": "Date",
+      "createdAt": {
+        "$numberLong": "1747207429584"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "date"
+      }
+    },
+    {
+      "id": "col_739b133b",
+      "name": "Text",
+      "createdAt": {
+        "$numberLong": "1747207429585"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "text"
+      }
+    },
+    {
+      "id": "col_3253a57e",
+      "name": "Files",
+      "createdAt": {
+        "$numberLong": "1747207429585"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "file"
+      }
+    },
+    {
+      "id": "col_950091a8",
+      "name": "Peoples",
+      "createdAt": {
+        "$numberLong": "1747207429585"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "people"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "g_2945ab06",
+      "createdAt": {
+        "$numberLong": "1747207429585"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Planning",
+      "color": "purple",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_28e6a0ab",
+          "createdAt": {
+            "$numberLong": "1747207429585"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 17
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747785600000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Initial client meeting scheduled."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f976790023e78c03d0a",
+                  "account": "acc001",
+                  "firstName": "Code",
+                  "lastName": "Cohen",
+                  "email": "user5@company.com",
+                  "createdAt": "2025-05-17T15:50:34.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Code+Cohen&background=E83E8C&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "682b2f516790023e78c03d07",
+                  "account": "acc001",
+                  "firstName": "Java",
+                  "lastName": "Biton",
+                  "email": "user2@company.com",
+                  "createdAt": "2025-05-17T15:49:43.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Java+Biton&background=FF5733&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_c6e6bcec",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 10
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Awaiting budget approval."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_768f53ad",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 16
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748044800000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Initial client meeting scheduled."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_df7fdbe3",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write unit tests"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 19
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748908800000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Content finalized and published."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_e40846a6",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 9
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1749168000000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f7f6790023e78c03d09",
+                  "account": "acc001",
+                  "firstName": "Dana",
+                  "lastName": "Tamir",
+                  "email": "user4@company.com",
+                  "createdAt": "2025-05-17T15:50:24.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Dana+Tamir&background=6F42C1&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_0614abd6",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 29
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747785600000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Blocked by API integration issues."
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_18a34909",
+      "createdAt": {
+        "$numberLong": "1747207429586"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "QA",
+      "color": "brown",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_abae1fc4",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Implement authentication"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 36
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747267200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Awaiting budget approval."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_6553b020",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Review pull request"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 1
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1749254400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_b66fe54b",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 3
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748390400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_d92b1bf0",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 25
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748563200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Assets uploaded to shared drive."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_e6b6337b",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 5
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747267200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Content finalized and published."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f976790023e78c03d0a",
+                  "account": "acc001",
+                  "firstName": "Code",
+                  "lastName": "Cohen",
+                  "email": "user5@company.com",
+                  "createdAt": "2025-05-17T15:50:34.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Code+Cohen&background=E83E8C&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "6828aff6d371e5b12cae4c49",
+                  "account": "acc001",
+                  "firstName": "Ziv",
+                  "lastName": "Laufer",
+                  "email": "user1@company.com",
+                  "createdAt": "2025-05-17T15:49:10.000Z",
+                  "lastViewedBoards": [
+                    {
+                      "boardId": "6828af47d371e5b12cae4c44",
+                      "viewedAt": 1747640861240
+                    },
+                    {
+                      "boardId": "6828afb1d371e5b12cae4c46",
+                      "viewedAt": 1747640735403
+                    },
+                    {
+                      "boardId": "6828af96d371e5b12cae4c45",
+                      "viewedAt": 1747640685922
+                    },
+                    {
+                      "boardId": "6829cd5da999e379274578b8",
+                      "viewedAt": 1747573396758
+                    }
+                  ],
+                  "profileImg": "https://ui-avatars.com/api/?name=Ziv+Laufer&background=0D8ABC&color=fff&length=2&rounded=true&bold=true",
+                  "role": "admin"
+                },
+                {
+                  "_id": "682b2f7f6790023e78c03d09",
+                  "account": "acc001",
+                  "firstName": "Dana",
+                  "lastName": "Tamir",
+                  "email": "user4@company.com",
+                  "createdAt": "2025-05-17T15:50:24.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Dana+Tamir&background=6F42C1&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_84655068",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Deploy to staging"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 13
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747440000000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Kickoff meeting completed successfully."
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_21d7d547",
+      "createdAt": {
+        "$numberLong": "1747207429586"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "In Progress",
+      "color": "pecan",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_27fa0bb7",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 29
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748131200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Blocked by API integration issues."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_1671f747",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 16
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748563200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Reviewed and approved by QA."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_05c22f76",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 28
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Waiting on feedback from design team."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_5ed27dc7",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 19
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747353600000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "6828aff6d371e5b12cae4c49",
+                  "account": "acc001",
+                  "firstName": "Ziv",
+                  "lastName": "Laufer",
+                  "email": "user1@company.com",
+                  "createdAt": "2025-05-17T15:49:10.000Z",
+                  "lastViewedBoards": [
+                    {
+                      "boardId": "6828af47d371e5b12cae4c44",
+                      "viewedAt": 1747640861240
+                    },
+                    {
+                      "boardId": "6828afb1d371e5b12cae4c46",
+                      "viewedAt": 1747640735403
+                    },
+                    {
+                      "boardId": "6828af96d371e5b12cae4c45",
+                      "viewedAt": 1747640685922
+                    },
+                    {
+                      "boardId": "6829cd5da999e379274578b8",
+                      "viewedAt": 1747573396758
+                    }
+                  ],
+                  "profileImg": "https://ui-avatars.com/api/?name=Ziv+Laufer&background=0D8ABC&color=fff&length=2&rounded=true&bold=true",
+                  "role": "admin"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_ed470412",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Design login page"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 8
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748217600000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Initial client meeting scheduled."
+            },
+            {
+              "colId": "col_950091a8",
+              "value": [
+                {
+                  "_id": "682b2f516790023e78c03d07",
+                  "account": "acc001",
+                  "firstName": "Java",
+                  "lastName": "Biton",
+                  "email": "user2@company.com",
+                  "createdAt": "2025-05-17T15:49:43.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Java+Biton&background=FF5733&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_8625fae0",
+          "createdAt": {
+            "$numberLong": "1747207429586"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Implement authentication"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 5
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748044800000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Draft version sent to stakeholders."
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_a3ee6712",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Blocked",
+      "color": "lipstick",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_a3aac961",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write unit tests"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 6
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747699200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Content finalized and published."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_26519fe2",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 4
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1749254400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Waiting on feedback from design team."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_c83247e5",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 17
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1749254400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Content finalized and published."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_f3a66b44",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 33
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Waiting on feedback from design team."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_969dbf72",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_007a3f3b"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 5
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748736000000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Blocked by API integration issues."
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_5e819c51",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Completed",
+      "color": "tan",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_8bf53c9c",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Fix bug in form validation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_f93f0623"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 11
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747958400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Assets uploaded to shared drive."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_b0770c73",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write unit tests"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 33
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1747612800000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Final review pending before launch."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_600c71a7",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 8
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1749427200000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Initial client meeting scheduled."
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_bc8ee878",
+          "createdAt": {
+            "$numberLong": "1747207429587"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_41c3ac2f"
+            },
+            {
+              "colId": "col_87abd120",
+              "value": 36
+            },
+            {
+              "colId": "col_3b9af5cf",
+              "value": {
+                "$numberLong": "1748390400000"
+              }
+            },
+            {
+              "colId": "col_739b133b",
+              "value": "Waiting on feedback from design team."
+            }
+          ],
+          "updates": []
+        }
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6828af96d371e5b12cae4c45"
+  },
+  "account": "acc001",
+  "createdAt": {
+    "$numberLong": "1747207429587"
+  },
+  "createdBy": {
+    "_id": "6828aff6d371e5b12cae4c49"
+  },
+  "pos": 2,
+  "name": "Design Pipeline",
+  "isStarred": false,
+  "members": [
+    {
+      "_id": "6828aff6d371e5b12cae4c49",
+      "permission": "editor"
+    },
+    {
+      "_id": "ehy6w",
+      "permission": "editor"
+    },
+    {
+      "_id": "123abc456def7890abc123de",
+      "permission": "editor"
+    }
+  ],
+  "activities": [],
+  "columns": [
+    {
+      "id": "col-83bvn140",
+      "name": "Task",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 300,
+      "type": {
+        "variant": "item"
+      }
+    },
+    {
+      "id": "col-85fjn340",
+      "name": "Status",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 120,
+      "type": {
+        "variant": "status",
+        "labels": [
+          {
+            "id": "label_9e4bc9b0",
+            "name": "To Do",
+            "color": "lavender"
+          },
+          {
+            "id": "label_bceb770f",
+            "name": "In Progress",
+            "color": "working_orange"
+          },
+          {
+            "id": "label_efbcf1d8",
+            "name": "Done",
+            "color": "done-green"
+          }
+        ]
+      }
+    },
+    {
+      "id": "col_b1486e40",
+      "name": "Files",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "file"
+      }
+    },
+    {
+      "id": "col_2ec8de82",
+      "name": "Number",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "number"
+      }
+    },
+    {
+      "id": "col_f08bd260",
+      "name": "Text",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "text"
+      }
+    },
+    {
+      "id": "col_72b0653a",
+      "name": "Date",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "date"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "g_841ff458",
+      "createdAt": {
+        "$numberLong": "1747207429587"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Review",
+      "color": "dark-orange",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_b6c8f115",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 20
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747267200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_103807b3",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Fix bug in form validation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 26
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Reviewed and approved by QA."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748649600000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_4c6c20c6",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 3
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749254400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_c77f8a05",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Deploy to staging"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 26
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Final review pending before launch."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748908800000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_22816d23",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "QA",
+      "color": "coffee",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_739775ad",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 23
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747440000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_c412cea9",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 20
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Initial client meeting scheduled."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_7b0be6d0",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 5
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749254400000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_eca934d7",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "In Progress",
+      "color": "explosive",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_ac88fc98",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 16
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749600000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_603560f8",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Design login page"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 37
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748563200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_d0db9a99",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 11
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748044800000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_70172a61",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 19
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Final review pending before launch."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748736000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_776c653d",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write unit tests"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 5
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749340800000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_62acec35",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 29
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747353600000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_f500e691",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Planning",
+      "color": "bright-green",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_9224a73b",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Fix bug in form validation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 31
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Kickoff meeting completed successfully."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748649600000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_435dff96",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Design login page"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 39
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747699200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_a41cee46",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 24
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749600000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_a7465de3",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 38
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Kickoff meeting completed successfully."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748649600000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_d04a8d20",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 8
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Reviewed and approved by QA."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748131200000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_f90c3a01",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Blocked",
+      "color": "purple",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_a66d08f0",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Test on mobile"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 35
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Final review pending before launch."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749340800000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_c4615bb8",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 13
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749168000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_e5dcdcab",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 32
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748563200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_00821558",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_efbcf1d8"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 23
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1748908800000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_f6ad4967",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Completed",
+      "color": "river",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_94799acd",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 40
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Blocked by API integration issues."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747353600000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_9402bf9a",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write unit tests"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 20
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_99a23c61",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_9e4bc9b0"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 35
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749340800000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_1124f067",
+          "createdAt": {
+            "$numberLong": "1747207429588"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_bceb770f"
+            },
+            {
+              "colId": "col_2ec8de82",
+              "value": 26
+            },
+            {
+              "colId": "col_f08bd260",
+              "value": "Reviewed and approved by QA."
+            },
+            {
+              "colId": "col_72b0653a",
+              "value": {
+                "$numberLong": "1749686400000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6828afb1d371e5b12cae4c46"
+  },
+  "account": "acc001",
+  "createdAt": {
+    "$numberLong": "1747207429588"
+  },
+  "createdBy": {
+    "_id": "6828aff6d371e5b12cae4c49"
+  },
+  "pos": 3,
+  "name": "Dev Sprint",
+  "isStarred": true,
+  "members": [
+    {
+      "_id": "6828aff6d371e5b12cae4c49",
+      "permission": "editor"
+    },
+    {
+      "_id": "123abc456def7890abc123de",
+      "permission": "editor"
+    },
+    {
+      "_id": "fedcba9876543210fedcba98",
+      "permission": "editor"
+    },
+    {
+      "_id": "11223344556677889900aabb",
+      "permission": "editor"
+    }
+  ],
+  "activities": [],
+  "columns": [
+    {
+      "id": "col-83bvn140",
+      "name": "Task",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 300,
+      "type": {
+        "variant": "item"
+      }
+    },
+    {
+      "id": "col-85fjn340",
+      "name": "Status",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 120,
+      "type": {
+        "variant": "status",
+        "labels": [
+          {
+            "id": "label_5fb8c319",
+            "name": "To Do",
+            "color": "lavender"
+          },
+          {
+            "id": "label_4c167e69",
+            "name": "In Progress",
+            "color": "working_orange"
+          },
+          {
+            "id": "label_b0544b31",
+            "name": "Done",
+            "color": "done-green"
+          }
+        ]
+      }
+    },
+    {
+      "id": "col_4f2da896",
+      "name": "Peoples",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "people"
+      }
+    },
+    {
+      "id": "col_793cd4d0",
+      "name": "Number",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "number"
+      }
+    },
+    {
+      "id": "col_e60424fe",
+      "name": "Text",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "text"
+      }
+    },
+    {
+      "id": "col_6f85a303",
+      "name": "Date",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "date"
+      }
+    },
+    {
+      "id": "col_9b64618a",
+      "name": "Files",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "file"
+      }
+    },
+    {
+      "id": "col_43cea21c",
+      "name": "Dropdowns",
+      "createdAt": {
+        "$numberLong": "1747207429588"
+      },
+      "createdBy": {
+        "_id": "6828aff6d371e5b12cae4c49"
+      },
+      "width": 200,
+      "type": {
+        "variant": "dropdown"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "g_a72da215",
+      "createdAt": {
+        "$numberLong": "1747207429589"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "QA",
+      "color": "teal",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_750fce7b",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Deploy to staging"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 33
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748217600000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f7f6790023e78c03d09",
+                  "account": "acc001",
+                  "firstName": "Dana",
+                  "lastName": "Tamir",
+                  "email": "user4@company.com",
+                  "createdAt": "2025-05-17T15:50:24.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Dana+Tamir&background=6F42C1&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_97b3224f",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Review pull request"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_5fb8c319"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 24
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749686400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_be3208b8",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_b0544b31"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 25
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748736000000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_3a051825",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 1
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Final review pending before launch."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1747440000000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f7f6790023e78c03d09",
+                  "account": "acc001",
+                  "firstName": "Dana",
+                  "lastName": "Tamir",
+                  "email": "user4@company.com",
+                  "createdAt": "2025-05-17T15:50:24.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Dana+Tamir&background=6F42C1&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "6828aff6d371e5b12cae4c49",
+                  "account": "acc001",
+                  "firstName": "John",
+                  "lastName": "Doe",
+                  "email": "user1@company.com",
+                  "createdAt": "2025-05-17T15:49:10.000Z",
+                  "lastViewedBoards": [
+                    {
+                      "boardId": "6828afb1d371e5b12cae4c46",
+                      "viewedAt": 1747640640198
+                    },
+                    {
+                      "boardId": "6828af96d371e5b12cae4c45",
+                      "viewedAt": 1747640635037
+                    },
+                    {
+                      "boardId": "6828af47d371e5b12cae4c44",
+                      "viewedAt": 1747640607566
+                    },
+                    {
+                      "boardId": "6829cd5da999e379274578b8",
+                      "viewedAt": 1747573396758
+                    }
+                  ],
+                  "profileImg": "https://ui-avatars.com/api/?name=Ziv+Laufer&background=0D8ABC&color=fff&length=2&rounded=true&bold=true",
+                  "role": "admin"
+                },
+                {
+                  "_id": "682b2f976790023e78c03d0a",
+                  "account": "acc001",
+                  "firstName": "Code",
+                  "lastName": "Cohen",
+                  "email": "user5@company.com",
+                  "createdAt": "2025-05-17T15:50:34.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Code+Cohen&background=E83E8C&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_a350fb90",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_5fb8c319"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 17
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Content finalized and published."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_081c4b0f",
+      "createdAt": {
+        "$numberLong": "1747207429589"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Planning",
+      "color": "dark_indigo",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_7e88ed85",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Design login page"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 1
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749427200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_5362ea6f",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 26
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748563200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_40cb04f7",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Review pull request"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_b0544b31"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 22
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749772800000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f516790023e78c03d07",
+                  "account": "acc001",
+                  "firstName": "User2",
+                  "lastName": "Lastname2",
+                  "email": "user2@company.com",
+                  "createdAt": "2025-05-17T15:49:43.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Java+Biton&background=FF5733&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_82df0773",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_5fb8c319"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 27
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Draft version sent to stakeholders."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748217600000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f976790023e78c03d0a",
+                  "account": "acc001",
+                  "firstName": "Code",
+                  "lastName": "Cohen",
+                  "email": "user5@company.com",
+                  "createdAt": "2025-05-17T15:50:34.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Code+Cohen&background=E83E8C&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_53ec1c51",
+      "createdAt": {
+        "$numberLong": "1747207429589"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Completed",
+      "color": "dark-red",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_69055353",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Create user dashboard"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_b0544b31"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 19
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748822400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_fe65c537",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 26
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Assets uploaded to shared drive."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1747353600000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_b4f8001a",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Improve accessibility"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 15
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Kickoff meeting completed successfully."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748995200000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_6f2d6654",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Write documentation"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 39
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Waiting on feedback from design team."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1747526400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_222770db",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Implement authentication"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_4c167e69"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 36
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Kickoff meeting completed successfully."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749081600000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_b292a7e8",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Update dependencies"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 34
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Kickoff meeting completed successfully."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749772800000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f516790023e78c03d07",
+                  "account": "acc001",
+                  "firstName": "User2",
+                  "lastName": "Lastname2",
+                  "email": "user2@company.com",
+                  "createdAt": "2025-05-17T15:49:43.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Java+Biton&background=FF5733&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "682b2f976790023e78c03d0a",
+                  "account": "acc001",
+                  "firstName": "Code",
+                  "lastName": "Cohen",
+                  "email": "user5@company.com",
+                  "createdAt": "2025-05-17T15:50:34.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Code+Cohen&background=E83E8C&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        }
+      ]
+    },
+    {
+      "id": "g_543024ff",
+      "createdAt": {
+        "$numberLong": "1747207429589"
+      },
+      "createdBy": "6828aff6d371e5b12cae4c49",
+      "name": "Review",
+      "color": "dark_purple",
+      "isCollapsed": false,
+      "tasks": [
+        {
+          "id": "t_d25babb9",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_b0544b31"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 21
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Awaiting budget approval."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1749340800000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_4ac5421b",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Review pull request"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_5fb8c319"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 12
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Final review pending before launch."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1747958400000"
+              }
+            }
+          ],
+          "updates": []
+        },
+        {
+          "id": "t_f7daecc0",
+          "createdAt": {
+            "$numberLong": "1747207429589"
+          },
+          "createdBy": "6828aff6d371e5b12cae4c49",
+          "columnValues": [
+            {
+              "colId": "col-83bvn140",
+              "value": "Refactor navigation logic"
+            },
+            {
+              "colId": "col-85fjn340",
+              "value": "label_b0544b31"
+            },
+            {
+              "colId": "col_793cd4d0",
+              "value": 12
+            },
+            {
+              "colId": "col_e60424fe",
+              "value": "Content finalized and published."
+            },
+            {
+              "colId": "col_6f85a303",
+              "value": {
+                "$numberLong": "1748217600000"
+              }
+            },
+            {
+              "colId": "col_4f2da896",
+              "value": [
+                {
+                  "_id": "682b2f6b6790023e78c03d08",
+                  "account": "acc001",
+                  "firstName": "Noga",
+                  "lastName": "Shaham",
+                  "email": "user3@company.com",
+                  "createdAt": "2025-05-17T15:49:59.000Z",
+                  "lastViewedBoards": [],
+                  "profileImg": "https://ui-avatars.com/api/?name=Noga+Shaham&background=28A745&color=fff&length=2&rounded=true&bold=true",
+                  "role": "user"
+                },
+                {
+                  "_id": "6828aff6d371e5b12cae4c49",
+                  "account": "acc001",
+                  "firstName": "John",
+                  "lastName": "Doe",
+                  "email": "user1@company.com",
+                  "createdAt": "2025-05-17T15:49:10.000Z",
+                  "lastViewedBoards": [
+                    {
+                      "boardId": "6828afb1d371e5b12cae4c46",
+                      "viewedAt": 1747640640198
+                    },
+                    {
+                      "boardId": "6828af96d371e5b12cae4c45",
+                      "viewedAt": 1747640635037
+                    },
+                    {
+                      "boardId": "6828af47d371e5b12cae4c44",
+                      "viewedAt": 1747640607566
+                    },
+                    {
+                      "boardId": "6829cd5da999e379274578b8",
+                      "viewedAt": 1747573396758
+                    }
+                  ],
+                  "profileImg": "https://ui-avatars.com/api/?name=Ziv+Laufer&background=0D8ABC&color=fff&length=2&rounded=true&bold=true",
+                  "role": "admin"
+                }
+              ]
+            }
+          ],
+          "updates": []
+        }
+      ]
+    }
+  ]
+}]
