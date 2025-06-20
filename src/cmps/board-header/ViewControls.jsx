@@ -31,13 +31,12 @@ export function ViewControls({ currentView = 'table', onViewChange }) {
     setIsDropdownOpen(false)
   }
 
-  // Position dropdown below the button
   useEffect(() => {
     if (isDropdownOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect()
       setDropdownStyles({
         position: 'absolute',
-        top: rect.bottom + window.scrollY + 4, // +4 for margin
+        top: rect.bottom + window.scrollY + 4, 
         left: rect.left + window.scrollX,
         minWidth: rect.width,
         zIndex: 2000,
@@ -45,7 +44,6 @@ export function ViewControls({ currentView = 'table', onViewChange }) {
     }
   }, [isDropdownOpen])
 
-  // Close on outside click
   useEffect(() => {
     if (!isDropdownOpen) return
     function handleClickOutside(e) {
