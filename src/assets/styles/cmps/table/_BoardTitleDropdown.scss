@@ -1,9 +1,7 @@
 // Simplified but pixel-perfect dropdown
 .board-dropdown {
   position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
+  z-index: 2000;
   margin-top: 4px;
   width: 422px;
   background: #ffffff;
@@ -13,157 +11,156 @@
   font-family: Figtree, Roboto, sans-serif;
   font-size: 15px;
   color: #333333;
-  
-  .board-dropdown-content {
-    padding: 16px 16px 4px 16px;
-    
-    .board-header {
-      margin-bottom: 16px;
-      
-      .title-star {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
-        
-        .title-input {
-          flex: 1;
-          font-family: Poppins, Roboto, sans-serif;
-          font-size: 18px;
-          font-weight: 500;
-          color: #323338;
-          border: none;
-          outline: none;
-          padding: 4px;
-          border-radius: 4px;
-          
-          &:focus {
-            border: 1px solid #0073ea;
-            padding: 3px;
-          }
-        }
-        
-        .star-btn {
-          background: none;
-          border: none;
-          font-size: 18px;
-          color: #d0d4e4;
-          cursor: pointer;
-          padding: 4px;
-          
-          &:hover, &.starred {
-            color: #ffcb00;
-          }
-        }
-      }
-      
-      .description {
-        font-size: 14px;
-        line-height: 21px;
-        color: #333333;
-        margin: 0;
-        cursor: pointer;
-        padding: 4px;
-        border-radius: 4px;
-        
-        &:hover {
-          background: #f5f6f8;
-        }
-      }
-      
-      .description-input {
-        width: 100%;
-        font-size: 14px;
-        line-height: 21px;
-        color: #333333;
-        border: 1px solid #0073ea;
-        border-radius: 4px;
-        padding: 8px;
-        outline: none;
-        resize: vertical;
-        min-height: 60px;
-      }
-    }
-    
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: #d0d4e4;
-      margin: 8px 0;
-    }
-    
-    .board-info {
-      .info-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #323338;
-        margin: 0 0 6px 0; // Reduced from 16px to 0
-      }
-      
-      .info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0;
-        
-        .label {
-          color: #333333;
-        }
-        
-        .value {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #333333;
-          
-          .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 600;
-          }
-        }
-      }
-    }
-    
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 20px;
-      
-      .btn-cancel {
-        background: none;
-        border: 1px solid #d0d4e4;
-        padding: 8px 16px;
-        border-radius: 4px;
-        color: #676879;
-        cursor: pointer;
-        
-        &:hover {
-          background: #f5f6f8;
-        }
-      }
-      
-      .btn-save {
-        background: #0073ea;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 4px;
-        color: #ffffff;
-        cursor: pointer;
-        
-        &:hover {
-          background: #005bb5;
-        }
-      }
-    }
-  }
+}
+
+.board-dropdown-content {
+  padding: 16px 16px 4px 16px;
+}
+
+.board-dropdown .board-header {
+  margin-bottom: 16px;
+}
+
+.board-dropdown .title-star {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.board-dropdown .title-input {
+  flex: 1;
+  font-family: Poppins, Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #323338;
+  border: none;
+  outline: none;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.board-dropdown .title-input:focus {
+  border: 1px solid #0073ea;
+  padding: 3px;
+}
+
+.board-dropdown .star-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #d0d4e4;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.board-dropdown .star-btn:hover,
+.board-dropdown .star-btn.starred {
+  color: #ffcb00;
+}
+
+.board-dropdown .description {
+  font-size: 14px;
+  line-height: 21px;
+  color: #333333;
+  margin: 0;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.board-dropdown .description:hover {
+  background: #f5f6f8;
+}
+
+.board-dropdown .description-input {
+  width: 100%;
+  font-size: 14px;
+  line-height: 21px;
+  color: #333333;
+  border: 1px solid #0073ea;
+  border-radius: 4px;
+  padding: 8px;
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.board-dropdown .divider {
+  width: 100%;
+  height: 1px;
+  background: #d0d4e4;
+  margin: 8px 0;
+}
+
+.board-dropdown .board-info .info-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #323338;
+  margin: 0 0 6px 0;
+}
+
+.board-dropdown .board-info .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.board-dropdown .board-info .label {
+  color: #333333;
+}
+
+.board-dropdown .board-info .value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333333;
+}
+
+.board-dropdown .board-info .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.board-dropdown .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.board-dropdown .btn-cancel {
+  background: none;
+  border: 1px solid #d0d4e4;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: #676879;
+  cursor: pointer;
+}
+
+.board-dropdown .btn-cancel:hover {
+  background: #f5f6f8;
+}
+
+.board-dropdown .btn-save {
+  background: #0073ea;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.board-dropdown .btn-save:hover {
+  background: #005bb5;
 }
 
 .board-title-wrapper {

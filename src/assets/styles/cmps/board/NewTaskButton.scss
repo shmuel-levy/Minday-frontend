@@ -44,32 +44,33 @@
       fill: currentColor;
     }
   }
+}
 
-  .new-task-dropdown {
-    position: absolute;
-    top: 36px;
-    left: 0;
-    background: #ffffff;
-    border: 1px solid #d0d4e4;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    min-width: 180px;
+// Move dropdown styles to global scope for portal
+.new-task-dropdown {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  background: #ffffff;
+  border: 1px solid #d0d4e4;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 180px;
+}
 
-    .dropdown-item {
-      padding: 8px 12px; 
-      color: #676879;  // txt: #323338
-      font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+.new-task-dropdown .dropdown-item {
+  padding: 8px 12px;
+  color: #676879;
+  font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-      &:hover {
-        background: #f5f6f8;
-      }
-    }
+  &:hover {
+    background: #f5f6f8;
   }
 }

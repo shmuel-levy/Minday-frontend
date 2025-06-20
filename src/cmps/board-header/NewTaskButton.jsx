@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import { DropdownArrowIcon } from '../svg/DropdownArrowIcon'
 import { NewGroupIcon } from '../svg/NewGroupIcon'
 import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 
 export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' }) {
     const [showDropdown, setShowDropdown] = useState(false)
+    const [dropdownStyles, setDropdownStyles] = useState({})
+    const triggerRef = useRef(null)
 
     const getButtonLabel = () => {
         switch (boardType) {
@@ -51,8 +54,38 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
         setShowDropdown(false)
     }
 
+    // Position dropdown below the trigger
+    useEffect(() => {
+        if (showDropdown && triggerRef.current) {
+            const rect = triggerRef.current.getBoundingClientRect()
+            setDropdownStyles({
+                position: 'absolute',
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+                minWidth: rect.width,
+                zIndex: 2000,
+            })
+        }
+    }, [showDropdown])
+
+    // Close on outside click
+    useEffect(() => {
+        if (!showDropdown) return
+        function handleClick(e) {
+            if (
+                triggerRef.current &&
+                !triggerRef.current.contains(e.target) &&
+                !document.getElementById('new-task-dropdown-portal')?.contains(e.target)
+            ) {
+                setShowDropdown(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClick)
+        return () => document.removeEventListener('mousedown', handleClick)
+    }, [showDropdown])
+
     return (
-        <div className="new-task-split-button">
+        <div className="new-task-split-button" ref={triggerRef}>
             {/* Main New Task Button */}
             <button 
                 className="btn-new-task-main"
@@ -69,9 +102,13 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                 <DropdownArrowIcon />
             </button>
 
-            {/* Dropdown Menu */}
-            {showDropdown && (
-                <div className="new-task-dropdown">
+            {/* Dropdown Menu via Portal */}
+            {showDropdown && ReactDOM.createPortal(
+                <div 
+                    className="new-task-dropdown" 
+                    id="new-task-dropdown-portal"
+                    style={dropdownStyles}
+                >
                     <div className="dropdown-item" onClick={handleNewGroup}>
                         <NewGroupIcon />
                         New group of {boardType.toLowerCase()}
@@ -80,7 +117,8 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                         <ImportTasksIcon />
                         Import {boardType.toLowerCase()}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     )
