@@ -9,6 +9,7 @@ import { BoardTable } from '../cmps/BoardTable'
 import { BoardDashboard } from './BoardDashboard'
 import { TaskDetailModal } from '../cmps/task-detail-modal/TaskDetailModal'
 import { AddWidgetModal } from '../cmps/dashboard/AddWidgetModal'
+import { makeId } from '../services/util.service'
 
 export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const { boardId } = useParams()
@@ -16,9 +17,12 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const boardTableRef = useRef(null)
     const addWidgetBtnRef = useRef(null)
     const [boardForModal, setBoardForModal] = useState(null)
-    const [currentView, setCurrentView] = useState('table')
+    const [views, setViews] = useState([{ id: makeId(), type: 'table', name: 'Main Table' }])
+    const [activeViewId, setActiveViewId] = useState(views[0].id)
     const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false)
     const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null)
+
+    const activeView = views.find(v => v.id === activeViewId) || views[0]
 
     useEffect(() => {
         if (boardId) {
@@ -61,8 +65,23 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
         }
     }
 
-    function handleViewChange(view) {
-        setCurrentView(view)
+    function handleAddView(viewType) {
+        const viewName = viewType.charAt(0).toUpperCase() + viewType.slice(1)
+        const newView = { id: makeId(), type: viewType, name: viewName }
+        setViews(prevViews => [...prevViews, newView])
+        setActiveViewId(newView.id)
+    }
+
+    function handleUpdateView(viewId, newType) {
+        setViews(prevViews =>
+            prevViews.map(view =>
+                view.id === viewId ? { ...view, type: newType, name: newType.charAt(0).toUpperCase() + newType.slice(1) } : view
+            )
+        )
+    }
+
+    function handleSetActiveView(viewId) {
+        setActiveViewId(viewId)
     }
 
     function handleOpenAddWidgetModal(buttonRef) {
@@ -73,25 +92,33 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
     function handleSelectWidget(widget) {
     }
 
+    function handleUpdateViews(newViews) {
+        setViews(newViews)
+    }
+
     if (!board) {
         return <div>Loading board...</div>
     }
 
     return (
-        <section className={`board-details ${openTaskId ? 'with-modal' : ''} ${currentView}`}>
+        <section className={`board-details ${openTaskId ? 'with-modal' : ''} ${activeView.type}`}>
             <BoardHeader
                 board={board}
                 onUpdateBoard={handleUpdateBoard}
                 onAddNewTask={handleAddNewTask}
                 onAddNewGroup={handleAddNewGroup}
-                currentView={currentView}
-                onViewChange={handleViewChange}
+                views={views}
+                activeViewId={activeViewId}
+                onAddView={handleAddView}
+                onUpdateView={handleUpdateView}
+                onSetActiveView={handleSetActiveView}
                 onAddWidget={handleOpenAddWidgetModal}
                 addWidgetBtnRef={addWidgetBtnRef}
+                onUpdateViews={handleUpdateViews}
             />
 
             <div className="board-content-container">
-                {currentView === 'table' ? (
+                {activeView.type === 'table' ? (
                     <div className="board-table-container">
                         <BoardTable
                             ref={boardTableRef}
