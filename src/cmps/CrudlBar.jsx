@@ -19,7 +19,7 @@ export function CrudlBar({ selectedTasks, groups, onDuplicate, onDelete, onMoveT
                 {selectedTasks.flatMap(selectedGroup => {
                     const group = groups.find(g => g.id === selectedGroup.groupId)
                     const groupColor = group?.color || '#ccc'
-                    
+
                     return selectedGroup.taskIds.map((taskId, index) => (
                         <div
                             key={`${selectedGroup.groupId}-${taskId}-${index}`}
@@ -63,7 +63,6 @@ export function CrudlBar({ selectedTasks, groups, onDuplicate, onDelete, onMoveT
             <div className="move-to crud-btn" onClick={() => setShowMoveMenu(!showMoveMenu)}>
                 <MoveArrowRight className="icon" />
                 <span>Move to</span>
-                
                 {showMoveMenu && (
                     <div className="move-menu">
                         {groups.map(group => (
