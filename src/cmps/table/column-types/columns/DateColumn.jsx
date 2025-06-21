@@ -1,4 +1,6 @@
 import { useState, useMemo } from 'react'
+import { CalendarIconDate } from '../../../svg/CalendarIconDate'
+import { DeleteIcon } from '../../../svg/CloseIcon'
 
 export function DateColumn({ value, onUpdate }) {
     const today = new Date()
@@ -11,7 +13,7 @@ export function DateColumn({ value, onUpdate }) {
     const [viewedYear, setViewedYear] = useState(selectedDate?.getFullYear() ?? today.getFullYear())
 
     const formatDisplayDate = () => {
-        if (!selectedDate) return '+ Date'
+        if (!selectedDate) return null
         return selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     }
 
@@ -59,7 +61,26 @@ export function DateColumn({ value, onUpdate }) {
     return (
         <div className="date-column">
             <div className="date-display" onClick={() => setIsOpen(!isOpen)}>
-                {formatDisplayDate()}
+                {selectedDate ? (
+                    <>
+                        <span className="date-text">{formatDisplayDate()}</span>
+                        <button
+                            className="clear-date-btn"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleClearDate()
+                            }}
+                        >
+                            <DeleteIcon />
+                        </button>
+                    </>
+
+                ) : (
+                    <div className="empty-date-cell">
+                        <div className="plus-icon-date"></div>
+                        <CalendarIconDate />
+                    </div>
+                )}
             </div>
 
             {isOpen && (
@@ -68,9 +89,9 @@ export function DateColumn({ value, onUpdate }) {
                         <button className="today-btn" onClick={handleToday}>Today</button>
 
                         <div className="month-header">
-                            <button onClick={() => handleMonthChange(-1)}>{'<'}</button>
+                            <button className= "rotate" onClick={() => handleMonthChange(-1)}>{'➜'}</button>
                             <span>{new Date(viewedYear, viewedMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
-                            <button onClick={() => handleMonthChange(1)}>{'>'}</button>
+                            <button className='arrow-right' onClick={() => handleMonthChange(1)}>{'➜'}</button>
                         </div>
 
                         <div className="weekdays">
@@ -96,10 +117,6 @@ export function DateColumn({ value, onUpdate }) {
                                 )
                             })}
                         </div>
-
-                        <button className="clear-btn" onClick={handleClearDate}>
-                            Clear Date
-                        </button>
                     </div>
 
                     <div className="overlay-due-date" onClick={() => setIsOpen(false)} />

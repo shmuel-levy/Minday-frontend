@@ -15,7 +15,7 @@ export function TableHeader({
         { id: 'task', type: 'text', title: 'Task', width: '360px', editable: false },
         { id: 'owner', type: 'person', title: 'Person', width: '97px', editable: true },
         { id: 'status', type: 'status', title: 'Status', width: '139px', editable: true },
-        { id: 'date', type: 'date', title: 'Due date', width: '139px', editable: true },
+        { id: 'date', type: 'date', title: 'Date', width: '139px', editable: true },
         { id: 'timeline', type: 'timeline', title: 'Timeline', width: '180px', editable: true },
         { id: 'priority', type: 'priority', title: 'Priority', width: '139px', editable: true },
         { id: 'members', type: 'members', title: 'People', width: '100px', editable: true },

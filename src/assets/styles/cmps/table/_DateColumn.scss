@@ -1,5 +1,25 @@
+
+.col-date {
+    cursor: text;
+  &:hover {
+    .date-column {
+        border: 1px solid #c3c6d4;
+        .empty-date-cell{
+        opacity: 1;
+        color:#666666;
+    }
+         .clear-date-btn{
+            opacity: 1;
+        }
+    }
+    
+  }  
+}
+
 .date-column {
     position: relative;
+    width: 90%;
+    border-radius: 4px;
 
     .overlay-due-date {
     position: fixed;
@@ -12,15 +32,50 @@
 }
 
     .date-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding: 4px 10px;
         background: transparent;
         min-width: 70px;
-        border: 1px solid #d0d4e4;
         border-radius: 4px;
-        cursor: pointer;
         font-size: 14px;
         text-align: center;
-        color: #323338;
+        color: #666666;
+
+        &:hover {
+            color: #1f76c2;
+        }
+
+        .clear-date-btn {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 4px;
+        right: 4px;
+        background-color: rgba(103, 104, 121, 0.1);
+        border-radius: 4px;
+        line-height: 0;
+        padding: 0;
+        color: #333;
+        cursor: pointer;
+        opacity: 0;
+
+          &:hover {
+            background-color: rgba(103, 104, 121, 0.2);;
+
+          }
+        }
+
+        .empty-date-cell {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        opacity: 0;
+        transition: opacity .2s ease-in-out;
+    }
+
     }
 
     .date-picker-modal {
@@ -74,6 +129,14 @@
         justify-content: space-between;
         margin-bottom: 8px;
         font-weight: 600;
+
+        .rotate {
+            transform: rotate(180deg);
+            cursor: pointer;
+        }
+        .arrow-right {
+            cursor: pointer;
+        }
     }
 
     .weekdays, .calendar-grid {
@@ -108,5 +171,40 @@
             background: #f0f0f0;
         }
     }
+}
+
+ .plus-icon-date {
+    color: white;
+    background-color: #0073ea; // ← or use var(--primary-color)
+    border-radius: 100%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &::before,
+    &::after {
+        content: '';
+        background-color: currentColor;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+    }
+
+    &::before {
+    width: 1px;
+    height: 7px;
+    box-shadow: 0 0 0 0.5px currentColor;
+}
+
+    &::after {
+    width: 7px;
+    height: 1px;
+    box-shadow: 0 0 0 0.5px currentColor;
+ } 
 }
 
