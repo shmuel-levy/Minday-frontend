@@ -1,5 +1,5 @@
 import React from 'react';
-export function BoardDashboard({ board }) {
+export function BoardDashboard({ board, onAddWidget }) {
     return (
         <div className="dashboard-empty-state">
             <div className="empty-state-content">
@@ -28,6 +28,7 @@ export function BoardDashboard({ board }) {
                         data-testid="button" 
                         aria-disabled="false" 
                         aria-busy="false"
+                        onClick={onAddWidget}
                     >
                         Add your first widget
                     </button>

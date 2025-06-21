@@ -8,13 +8,17 @@ import { BoardHeader } from '../cmps/board-header/BoardHeader'
 import { BoardTable } from '../cmps/BoardTable'
 import { BoardDashboard } from './BoardDashboard'
 import { TaskDetailModal } from '../cmps/task-detail-modal/TaskDetailModal'
+import { AddWidgetModal } from '../cmps/dashboard/AddWidgetModal'
 
 export function BoardDetails({ openTaskId, setOpenTaskId }) {
     const { boardId } = useParams()
     const board = useSelector(storeState => storeState.boardModule.board)
     const boardTableRef = useRef(null)
+    const addWidgetBtnRef = useRef(null)
     const [boardForModal, setBoardForModal] = useState(null)
     const [currentView, setCurrentView] = useState('table')
+    const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false)
+    const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null)
 
     useEffect(() => {
         if (boardId) {
@@ -61,6 +65,14 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
         setCurrentView(view)
     }
 
+    function handleOpenAddWidgetModal(buttonRef) {
+        setAddWidgetButtonRef(buttonRef)
+        setIsAddWidgetModalOpen(true)
+    }
+
+    function handleSelectWidget(widget) {
+    }
+
     if (!board) {
         return <div>Loading board...</div>
     }
@@ -74,6 +86,8 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                 onAddNewGroup={handleAddNewGroup}
                 currentView={currentView}
                 onViewChange={handleViewChange}
+                onAddWidget={handleOpenAddWidgetModal}
+                addWidgetBtnRef={addWidgetBtnRef}
             />
 
             <div className="board-content-container">
@@ -92,6 +106,7 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                         <BoardDashboard
                             board={board}
                             onUpdateBoard={handleUpdateBoard}
+                            onAddWidget={() => handleOpenAddWidgetModal(addWidgetBtnRef)}
                         />
                     </div>
                 )}
@@ -104,6 +119,13 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                     onClose={() => setOpenTaskId(null)}
                 />
             )}
+
+            <AddWidgetModal
+                isOpen={isAddWidgetModalOpen}
+                onClose={() => setIsAddWidgetModalOpen(false)}
+                onSelectWidget={handleSelectWidget}
+                buttonRef={addWidgetButtonRef}
+            />
         </section>
     )
 }

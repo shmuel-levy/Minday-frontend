@@ -3,12 +3,8 @@ import { BoardActions } from './BoardActions'
 import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 
-export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup, currentView, onViewChange }) {
+export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup, currentView, onViewChange, onAddWidget, addWidgetBtnRef }) {
     
-    function handleAddWidget() {
-        console.log('Add widget clicked')
-    }
-
     return (
         <section className="board-header-container grid">
             <div className="board-header-info">
@@ -35,7 +31,8 @@ export function BoardHeader({ board, onUpdateBoard, onAddNewTask, onAddNewGroup,
                     onAddNewGroup={onAddNewGroup}
                     boardType={board.type || 'Items'}
                     currentView={currentView}
-                    onAddWidget={handleAddWidget}
+                    onAddWidget={onAddWidget}
+                    addWidgetBtnRef={addWidgetBtnRef}
                 />
             </div>
         </section>
