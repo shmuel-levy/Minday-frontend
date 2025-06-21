@@ -28,6 +28,19 @@
   .board-header-navigation {
     grid-area: navigation;
     border-bottom: 1px solid #e6e6ea;
+    display: flex;
+    align-items: center;
+
+    .xtPC2 {
+      height: 22px;
+      margin-bottom: 0;
+      width: 22px;
+    }
+    
+    .add-board-subset-picker-component__tabs-v2 {
+      min-width: 22px !important;
+      cursor: pointer;
+    }
   }
 
   .board-header-contextualAction {

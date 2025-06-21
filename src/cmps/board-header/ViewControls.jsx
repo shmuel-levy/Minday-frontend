@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import { ThreeDots } from '../svg/ThreeDots'
 import { PinIcon } from '../svg/PinIcon'
 import { ChartIcon } from '../svg/ChartIcon'
+import { TrashIcon } from '../svg/TrashIcon'
 
-export function ViewControls({ currentView = 'table', onViewChange }) {
+export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemove, canRemove }) {
   const [isPinned, setIsPinned] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [dropdownStyles, setDropdownStyles] = useState({})
@@ -60,16 +61,16 @@ export function ViewControls({ currentView = 'table', onViewChange }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isDropdownOpen])
 
-  const viewDisplayName = currentView === 'dashboard' ? 'Chart' : 'Main table'
-
   return (
-    <div className="view-controls">
-      <button className="main-table-btn" ref={buttonRef}>
+    <div className={`view-controls ${isActive ? 'active' : ''}`}>
+      <button className="main-table-btn" ref={buttonRef} onClick={onSetActive}>
         {isPinned && <span className="pin-icon"><PinIcon /></span>}
-        {viewDisplayName}
-        <span className="btn-more" onClick={handleDotsClick}>
-          <ThreeDots />
-        </span>
+        {view.name}
+        {isActive && (
+          <span className="btn-more" onClick={handleDotsClick}>
+            <ThreeDots />
+          </span>
+        )}
       </button>
 
       {isDropdownOpen && ReactDOM.createPortal(
@@ -81,24 +82,15 @@ export function ViewControls({ currentView = 'table', onViewChange }) {
             <PinIcon />
             {isPinned ? 'Unpin view' : 'Pin view'}
           </button>
-          
-          <div className="dropdown-divider"></div>
-          
-          <button
-            className={`dropdown-item ${currentView === 'table' ? 'active' : ''}`}
-            onClick={handleTableView}
-          >
-            <span className="table-icon">⊞</span>
-            Main Table
-          </button>
-          
-          <button
-            className={`dropdown-item ${currentView === 'dashboard' ? 'active' : ''}`}
-            onClick={handleChartView}
-          >
-            <ChartIcon />
-            Chart
-          </button>
+          {canRemove && (
+            <button
+              className="dropdown-item"
+              onClick={() => { setIsDropdownOpen(false); onRemove && onRemove(); }}
+            >
+              <TrashIcon style={{marginRight: '8px'}} />
+              Remove view
+            </button>
+          )}
         </div>,
         document.body
       )}
