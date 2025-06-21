@@ -5,7 +5,7 @@ import { formatUsersForSelect } from '../../../../services/util.service'
 import { UserAvatar } from '../../../UserAvatar'
 
 const PlusIcon = () => (
-    <div className="plus-icon">
+    <div className="plus-icon-date">
         <div className="icon-dapulse-addbtn"></div>
     </div>
 )

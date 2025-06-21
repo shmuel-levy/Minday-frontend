@@ -6,7 +6,7 @@ import { LinkIcon } from '../../../svg/LinkIcon'
 import { DeleteIcon } from '../../../svg/CloseIcon'
 
 const PlusIcon = () => (
-    <div className="plus-icon">
+    <div className="plus-icon-date">
         <div className="icon-dapulse-addbtn"></div>
     </div>
 )

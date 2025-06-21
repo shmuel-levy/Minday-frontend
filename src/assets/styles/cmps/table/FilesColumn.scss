@@ -66,6 +66,27 @@
         }
     }
     
+    .plus-icon-date {
+        color: white;
+        background-color: #0073ea;
+        border-radius: 100%;
+        width: 14px;
+        height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 10;
+    }
+
+    .files-with-plus:hover .plus-icon-date {
+        opacity: 1;
+    }
+    
     .uploading-spinner {
         width: 16px;
         height: 16px;
