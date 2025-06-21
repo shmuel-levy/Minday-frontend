@@ -20,8 +20,9 @@ export const Avatar = ({ member, size = "30px" }) => (
 )
 
 const PlusIcon = () => (
-    <div className="plus-icon">
-        <div className="icon-dapulse-addbtn"></div>
+    <div className="plus-icon-members">
+        <div className="plus-icon-line-vertical" />
+        <div className="plus-icon-line-horizontal" />
     </div>
 )
 
@@ -101,8 +102,12 @@ export function MembersColumn({ value = [], onUpdate }) {
             onMouseLeave={() => setIsHovered(false)}>
             <div className="members-display" onClick={toggleDialog}>
                 {value.length === 0 ? (
-                    <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={30} height={30} />
+                    <div className="members-with-plus">
+                        {isHovered && <PlusIcon />}
+                        <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={30} height={30} />
+                    </div>
                 ) : (
+
                     <div className="members-with-plus">
                         {isHovered && <PlusIcon />}
                         {value.length === 1 && (
@@ -128,6 +133,7 @@ export function MembersColumn({ value = [], onUpdate }) {
                             </div>
                         )}
                     </div>
+
                 )}
             </div>
             {isOpen && (

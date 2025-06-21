@@ -315,7 +315,7 @@
     }
   }
 
-  .plus-icon-date {
+  .plus-icon-members {
     color: white;
     background-color: #0073ea;
     border-radius: 100%;
@@ -330,9 +330,31 @@
     opacity: 0;
     transition: opacity 0.2s ease;
     z-index: 10;
-  }
 
-  .members-with-plus:hover .plus-icon-date {
-    opacity: 1;
-  }
+    .plus-icon-line-vertical,
+    .plus-icon-line-horizontal {
+        content: '';
+        position: absolute;
+        background-color: currentColor;
+        border-radius: 1px;
+    }
+
+    .plus-icon-line-vertical {
+        width: 2px;
+        height: 8px;
+    }
+
+    .plus-icon-line-horizontal {
+        width: 8px;
+        height: 2px;
+    }
+}
+
+.members-with-plus {
+    position: relative;
+
+    &:hover .plus-icon-members {
+        opacity: 1;
+    }
+}
 }
