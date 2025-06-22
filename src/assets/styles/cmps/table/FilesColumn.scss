@@ -264,12 +264,17 @@
                 cursor: pointer;
                 color: #323338;
                 text-align: left;
+                font-family: 'Figtree';
                 font-size: 14px;
                 border-radius: 4px;
-                transition: background-color 0.2s;
                 
                 &:hover {
-                    background-color: #f5f6f8;
+                    background-color: #0073ea;
+                    color: #fff;
+
+                    svg {
+                        color: #fff;
+                    }
                 }
                 
                 svg {
