@@ -52,7 +52,7 @@ export function Sidebar({ onOpenBoardModal }) {
         <div className="sidebar-header">
           <div
             className={`sidebar-item ${isHomeActive ? 'active' : ''}`}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/board')}
           >
             <HomeIcon />
             {!isCollapsed && <span>Home</span>}

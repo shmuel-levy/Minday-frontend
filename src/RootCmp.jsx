@@ -11,6 +11,7 @@ import { AdminIndex } from './pages/AdminIndex.jsx'
 import { BoardDetails } from './pages/BoardDetails'
 import { UserDetails } from './pages/UserDetails'
 
+import { HomePage } from './pages/HomePage.jsx'
 import { AppHeader } from './cmps/AppHeader'
 import { Sidebar } from './cmps/Sidebar'
 import { FloatingChatIcon } from './cmps/FloatingChatIcon'
@@ -31,37 +32,41 @@ export function RootCmp() {
     function closeBoardModal() {
         setIsCreateBoardOpen(false)
     }
-    
+
     return (
         <>
-            <div className="main-container main-layout">
-                <AppHeader />
-                <div className="app-body">
-                    <Sidebar onOpenBoardModal={openBoardModal} />
-                    <div className="main-content">
-                        <UserMsg />
-                        <main>
-                            <Routes>
-                                <Route path="/" element={<BoardIndex />} />
-                                <Route path="board" element={<BoardIndex />} />
-                                <Route path="board/:boardId" element={<BoardDetails openTaskId={openTaskId} setOpenTaskId={setOpenTaskId} />} />
-                                <Route path="user/:id" element={<UserDetails />} />
-                                <Route path="chat" element={<ChatApp />} />
-                                <Route path="admin" element={
-                                    <AuthGuard checkAdmin={true}>
-                                        <AdminIndex />
-                                    </AuthGuard>
-                                } />
-                                <Route path="login" element={<LoginSignup />}>
-                                    <Route index element={<Login />} />
-                                    <Route path="signup" element={<Signup />} />
-                                </Route>
-                            </Routes>
-                        </main>
+
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+
+                <Route path="/*" element={
+                    <div className="main-container main-layout">
+                        <AppHeader />
+                        <div className="app-body">
+                            <Sidebar onOpenBoardModal={openBoardModal} />
+                            <div className="main-content">
+                                <UserMsg />
+                                <Routes>
+                                    <Route path="board" element={<BoardIndex />} />
+                                    <Route path="board/:boardId" element={<BoardDetails openTaskId={openTaskId} setOpenTaskId={setOpenTaskId} />} />
+                                    <Route path="user/:id" element={<UserDetails />} />
+                                    <Route path="chat" element={<ChatApp />} />
+                                    <Route path="admin" element={
+                                        <AuthGuard checkAdmin={true}>
+                                            <AdminIndex />
+                                        </AuthGuard>
+                                    } />
+                                    <Route path="login" element={<LoginSignup />}>
+                                        <Route index element={<Login />} />
+                                        <Route path="signup" element={<Signup />} />
+                                    </Route>
+                                </Routes>
+                            </div>
+                        </div>
+                        <FloatingChatIcon />
                     </div>
-                </div>
-                <FloatingChatIcon />
-            </div>
+                } />
+            </Routes>
             {openTaskId && (
                 <TaskDetailModal
                     taskId={openTaskId}
