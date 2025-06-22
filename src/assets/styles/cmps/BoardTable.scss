@@ -184,6 +184,16 @@
                 }
             }
 
+            &.selected {
+                .col-checkbox,
+                .col-task,
+                .btn-add-update {
+                    background-color: #cce5ff;
+
+                }
+                background-color: #cce5ff;
+            }
+
             .col-task {
                 padding: 0 0 0 30px;
             }

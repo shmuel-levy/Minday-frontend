@@ -29,18 +29,18 @@ export function DynamicTaskRow({
     const [isTaskClicked, setIsTaskClicked] = useState(false)
 
     const defaultColumns = [
-        { id: 'left-indicator', type: 'left-indicator', width: '6px'},
-        { id: 'checkbox', type: 'checkbox', width: '33px'},
-        { id: 'task', type: 'text', width: '295px'},
-        { id: 'add-update', type: 'add-update', width: '65px'},
-        { id: 'owner', type: 'person', width: '97px'},
-        { id: 'status', type: 'status', width: '139px'},
+        { id: 'left-indicator', type: 'left-indicator', width: '6px' },
+        { id: 'checkbox', type: 'checkbox', width: '33px' },
+        { id: 'task', type: 'text', width: '295px' },
+        { id: 'add-update', type: 'add-update', width: '65px' },
+        { id: 'owner', type: 'person', width: '97px' },
+        { id: 'status', type: 'status', width: '139px' },
         // { id: 'owner', type: 'person', width: '97px'},
-        { id: 'date', type: 'date', width: '139px'},
-        { id: 'timeline', type: 'timeline', width: '180px'},
-        { id: 'priority', type: 'priority', width: '139px'},
-        { id: 'members', type: 'members', width: '100px'},
-        { id: 'files', type: 'files', width: '150px'},
+        { id: 'date', type: 'date', width: '139px' },
+        { id: 'timeline', type: 'timeline', width: '180px' },
+        { id: 'priority', type: 'priority', width: '139px' },
+        { id: 'members', type: 'members', width: '100px' },
+        { id: 'files', type: 'files', width: '150px' },
         { id: 'add-cell', type: 'add-cell', width: 'auto' }
     ]
 
@@ -98,7 +98,7 @@ export function DynamicTaskRow({
         if (isGroupHeader && column.id === 'task') {
             return (
                 <div className="group-header">
-                    <button 
+                    <button
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
                     >
@@ -132,7 +132,7 @@ export function DynamicTaskRow({
 
             case 'task':
                 return (
-                    <div 
+                    <div
                         className={`task-with-icon ${isTaskClicked ? 'clicked' : ''}`}
                         onClick={handleTaskClick}
                     >
@@ -259,7 +259,7 @@ export function DynamicTaskRow({
 
     return (
         <div
-            className={`task-row${isDragging ? ' drag-preview' : ''} ${isTaskClicked ? 'clicked' : ''}`}
+            className={`task-row${isDragging ? ' drag-preview' : ''} ${isTaskClicked ? 'clicked' : ''} ${isSelected ? 'selected' : ''}`}
             style={{ '--group-color': groupColor }}
         >
             <div className="col-left-indicator">
