@@ -217,10 +217,117 @@
                 padding: 24px;
                 border: 1px solid #DCDFEC;
                 font-family: 'Poppins',sans-serif;
-                border-radius: 12px;
-                background: linear-gradient(180deg, #fffc 40%, #f0f3ff4d 80%);
+                border-radius: 18px;
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 40%, rgba(240, 243, 255, 0.3019607843) 80%);
                 box-shadow: 3.977px 3.977px 34.8px #00000026;
+                  
+                .title {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+                .selectors-grid {
+                    display: grid;
+                    grid-template-rows: 1fr 1fr 1fr;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    grid-gap: 12px;
+
+                    .selector {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: var(--space-8);
+                        background-color: #fff;
+                        border: .6px solid #C3C6D4;
+                        border-radius: 12px;
+                        color: #676879;
+                        cursor: pointer;
+                        width: 100px;
+                        height: 100px;
+                        
+
+                        &:hover {
+                            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
+
+                            .project-icon {
+                                color: #6161FF;
+                            }
+                            .task-icon {
+                                color: #0073EA;
+                            }
+                            .marketing-icon {
+                                color: #FF5AC4;
+                            }
+                            .design-icon {
+                                color:#FAA1F1
+
+                            }
+                            .crm-icon{
+                                color:#00D2D2
+
+                            }
+                            .software-icon{
+                                color:#00CA72
+
+                            }
+                            .it-icon {
+                                color: #FB275D;
+
+                            }
+
+                            .operation-icon{
+                                color: #E21277;
+
+                            }
+                            
+                            .product-icon {
+                                color: #FF9900;
+
+                            }
+                        }
+
+                        
+
+                       
+                        .asset-title{
+                            font-size: 14px;
+                        }
+                    }
+                }
               }
+              .get-started-selectors {
+                transition: 0.1s ease background-color;
+                min-width: 130px;
+                height: 40px;
+                padding: 8px 14px 8px 16px;
+                font-family: 'Poppins';
+                font-size: 13px;
+                border-radius: 40px;
+                background-color: #6161ff;
+                color: #fff;
+                text-align: center;
+                line-height: 17px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #5151d5;
+                    .arrow-icon {
+                        padding-left: 12px;
+                        padding-right: 0px;
+                    }
+                    
+                }
+                 .arrow-icon {
+                    padding-left: 8px;
+                    padding-right: 4px;
+                    transition: padding 0.3s ease-in-out;
+
+                     svg {
+                        width: 12px;
+                        height: 10px;
+                     }
+                 }
+                }
             }
         }
     }

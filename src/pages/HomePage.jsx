@@ -5,18 +5,29 @@ import 'ladda/dist/ladda.min.css'
 import logo from '../../src/assets/img/minday-logo-home.png'
 import mindayLogo from '../../src/assets/img/minday-logo.png'
 import { useNavigate } from 'react-router-dom'
+
 import { HomeArrowIcon } from '../cmps/svg/HomeArrowIcon'
+import { CrmIcon } from '../cmps/svg/Homepage/CrmIcon'
+import { SoftwareIcon } from '../cmps/svg/Homepage/SoftwareIcon'
+import { ITIcon } from '../cmps/svg/Homepage/ITIcon'
+import { OperationsIcon } from '../cmps/svg/Homepage/OperationsIcon'
+import { ProductIcon } from '../cmps/svg/Homepage/ProductIcon'
+import { DesignIcon } from '../cmps/svg/Homepage/DesignIcon'
+import { MarketingIcon } from '../cmps/svg/Homepage/MarketingIcon'
+import { TasksIcon } from '../cmps/svg/Homepage/TasksIcon'
+import { ProjectsIcon } from '../cmps/svg/Homepage/ProjectsIcon'
 
 export function HomePage() {
 
     const navigate = useNavigate()
-    const laddaRef = useRef(null)
-    let laddaInstance = useRef(null)
 
     const laddaHeaderRef = useRef(null)
     const laddaHeroRef = useRef(null)
+    const laddaSelectorsRef = useRef(null)
+
     const headerLaddaInstance = useRef(null)
     const heroLaddaInstance = useRef(null)
+    const selectorsLaddaInstance = useRef(null)
 
 
     useEffect(() => {
@@ -25,6 +36,9 @@ export function HomePage() {
         }
         if (laddaHeroRef.current) {
             heroLaddaInstance.current = Ladda.create(laddaHeroRef.current)
+        }
+        if (laddaHeroRef.current) {
+            selectorsLaddaInstance.current = Ladda.create(laddaSelectorsRef.current)
         }
     }, [])
 
@@ -40,6 +54,19 @@ export function HomePage() {
         if (heroLaddaInstance.current) heroLaddaInstance.current.start()
         setTimeout(() => {
             heroLaddaInstance.current?.stop()
+            navigate('/board')
+        }, 1000)
+    }
+
+    function handleSelectorsClick() {
+        if (selectorsLaddaInstance.current) {
+            selectorsLaddaInstance.current.start()
+        }
+
+        setTimeout(() => {
+            if (selectorsLaddaInstance.current) {
+                selectorsLaddaInstance.current.stop()
+            }
             navigate('/board')
         }, 1000)
     }
@@ -110,9 +137,60 @@ export function HomePage() {
                                     <p class="title">What would you like to manage?</p>
                                     <div className="selectors-grid">
                                         <div className="selector project">
-
+                                            <div className="project-icon"><ProjectsIcon /></div>
+                                            <p class="asset-title">Projects</p>
+                                        </div>
+                                        <div className="selector task">
+                                            <div className="task-icon"><TasksIcon /></div>
+                                            <p class="asset-title">Tasks</p>
+                                        </div>
+                                        <div className="selector marketing">
+                                            <div className="marketing-icon"><MarketingIcon /></div>
+                                            <p class="asset-title">Marketing</p>
+                                        </div>
+                                        <div className="selector design">
+                                            <div className="design-icon"><DesignIcon /></div>
+                                            <p class="asset-title">Design</p>
+                                        </div>
+                                        <div className="selector crm">
+                                            <div className="crm-icon"><CrmIcon /></div>
+                                            <p class="asset-title">CRM</p>
+                                        </div>
+                                        <div className="selector software">
+                                            <div className="software-icon"><SoftwareIcon /></div>
+                                            <p class="asset-title">Software</p>
+                                        </div>
+                                        <div className="selector it">
+                                            <div className="it-icon"><ITIcon /></div>
+                                            <p class="asset-title">IT</p>
+                                        </div>
+                                        <div className="selector operation">
+                                            <div className="operation-icon"><OperationsIcon /></div>
+                                            <p class="asset-title">Operations</p>
+                                        </div>
+                                        <div className="selector product">
+                                            <div className="product-icon"><ProductIcon /></div>
+                                            <p class="asset-title">Product</p>
                                         </div>
                                     </div>
+
+
+                                    <button
+                                        ref={laddaSelectorsRef}
+                                        className="get-started-selectors"
+                                        data-style="slide-right"
+                                        onClick={handleSelectorsClick}
+                                    >
+                                        <span className="get-started">
+                                            <span>Get Started</span>
+                                            <span className="arrow-icon">
+                                                <HomeArrowIcon />
+                                            </span>
+                                        </span>
+                                        <span className="ladda-spinner"></span>
+                                    </button>
+
+
                                 </div>
                             </div>
                         </div>
