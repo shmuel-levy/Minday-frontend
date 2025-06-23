@@ -66,7 +66,8 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
     }
 
     function handleAddView(viewType) {
-        const viewName = viewType.charAt(0).toUpperCase() + viewType.slice(1)
+        let viewName = viewType.charAt(0).toUpperCase() + viewType.slice(1)
+        if (viewType === 'dashboard') viewName = 'Chart'
         const newView = { id: makeId(), type: viewType, name: viewName }
         setViews(prevViews => [...prevViews, newView])
         setActiveViewId(newView.id)
@@ -74,9 +75,11 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
 
     function handleUpdateView(viewId, newType) {
         setViews(prevViews =>
-            prevViews.map(view =>
-                view.id === viewId ? { ...view, type: newType, name: newType.charAt(0).toUpperCase() + newType.slice(1) } : view
-            )
+            prevViews.map(view => {
+                let newName = newType.charAt(0).toUpperCase() + newType.slice(1)
+                if (newType === 'dashboard') newName = 'Chart'
+                return view.id === viewId ? { ...view, type: newType, name: newName } : view
+            })
         )
     }
 
