@@ -128,6 +128,10 @@ export function BoardDetails({ openTaskId, setOpenTaskId }) {
                             onOpenUpdates={handleOpenUpdates}
                         />
                     </div>
+                ) : activeView.type === 'kanban' ? (
+                    <div className="kanban-placeholder" style={{padding: '48px', textAlign: 'center', color: '#888', fontSize: '1.5rem'}}>
+                        Kanban view 
+                    </div>
                 ) : (
                     <div className="board-dashboard-container">
                         <BoardDashboard
