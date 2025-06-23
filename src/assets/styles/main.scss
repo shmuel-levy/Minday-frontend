@@ -1,4 +1,6 @@
 // Setup
+@import 'ladda/dist/ladda.min.css';
+
 @import "setup/variables";
 @import "setup/functions";
 @import "setup/mixins";
@@ -76,5 +78,6 @@
 @import "cmps/BoardList";
 @import "cmps/BoardPreview";
 @import "cmps/UserAvatar";
+
 
 

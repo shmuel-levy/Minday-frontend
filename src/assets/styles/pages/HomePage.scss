@@ -29,15 +29,25 @@
             height: 72px;
 
             .login-btn {
-                font-family: 'Figtree';
+                font-family: 'Poppins';
                 font-size: 14px;
                 padding: 8px 10px;
                 color: #535768;
                 border-radius: 8px;
                 cursor: pointer;
+                transition: color 200ms ease;
+
+                &:hover {
+                color: #5034FF;
+                background-color: #F0F3FF;
+                }
             }
 
-            .get-started {
+            .get-started-wraper {
+                padding-left: 8px;
+            }
+
+            .get-started-btn {
                 transition: 0.1s ease background-color;
                 min-width: 130px;
                 height: 40px;
@@ -48,7 +58,27 @@
                 background-color: #6161ff;
                 color: #fff;
                 text-align: center;
+                line-height: 17px;
                 cursor: pointer;
+
+                &:hover {
+                    background-color: #5151d5;
+                    .arrow-icon {
+                        padding-left: 12px;
+                        padding-right: 0px;
+                    }
+                    
+                }
+                 .arrow-icon {
+                    padding-left: 8px;
+                    padding-right: 4px;
+                    transition: padding 0.3s ease-in-out;
+
+                     svg {
+                        width: 12px;
+                        height: 10px;
+                     }
+                 }
             }
         }
     }
