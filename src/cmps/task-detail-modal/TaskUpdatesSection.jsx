@@ -1,9 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import {
+    Bold,
+    Italic,
+    Underline,
+    Link,
+    List,
+    AlignLeft,
+} from 'lucide-react'
 
 export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
     const [text, setText] = useState('')
     const [updates, setUpdates] = useState([])
     const [isEditorOpen, setIsEditorOpen] = useState(false)
+    const editableRef = useRef(null)
 
     useEffect(() => {
         if (task) {
@@ -39,6 +48,13 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
         return new Date(timestamp).toLocaleString()
     }
 
+    function handleFormat(command) {
+        if (editableRef.current) {
+            editableRef.current.focus()
+            document.execCommand(command, false, null)
+        }
+    }
+
     return (
         <>
             <div className="editor-container">
@@ -49,19 +65,32 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
                 ) : (
                     <form onSubmit={handleSubmit} className="rich-editor">
                         <div className="toolbar">
-                            <span>¶</span>
-                            <b>B</b>
-                            <i>I</i>
-                            <u>U</u>
-                            <span>🔗</span>
-                            <span>📋</span>
+                            <button type="button" onClick={() => handleFormat('bold')}>
+                                <Bold size={16} />
+                            </button>
+                            <button type="button" onClick={() => handleFormat('italic')}>
+                                <Italic size={16} />
+                            </button>
+                            <button type="button" onClick={() => handleFormat('underline')}>
+                                <Underline size={16} />
+                            </button>
+                            <button type="button">
+                                <Link size={16} />
+                            </button>
+                            <button type="button">
+                                <List size={16} />
+                            </button>
+                            <button type="button">
+                                <AlignLeft size={16} />
+                            </button>
                         </div>
 
                         <div
                             className="editable"
                             contentEditable
                             suppressContentEditableWarning
-                            onInput={(e) => setText(e.currentTarget.innerText)}
+                            ref={editableRef}
+                            onInput={(e) => setText(e.currentTarget.innerHTML)}
                             placeholder="Write your update here..."
                         ></div>
 
@@ -92,9 +121,7 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
                                         {formatDate(update.createdAt)}
                                     </span>
                                 </div>
-                                <div className="update-content">
-                                    {update.text}
-                                </div>
+                                <div className="update-content" dangerouslySetInnerHTML={{ __html: update.text }} />
                             </li>
                         ))}
                     </ul>
