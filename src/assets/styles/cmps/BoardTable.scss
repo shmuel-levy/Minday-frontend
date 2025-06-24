@@ -206,6 +206,24 @@
                 transition: background-color 0.2s ease;
             }
 
+            .add-update-button {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                margin: 0 auto;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                width: 32px;
+                height: 32px;
+
+                &:hover {
+                    background-color: #dcdfe4;
+                }
+            }
+
             .col-checkbox {
                 left: 46px;
             }
@@ -217,6 +235,17 @@
 
             .btn-add-update {
                 left: 374px;
+            }
+
+            .col-files,
+            .btn-add-update {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .add-update-icon {
+                    margin: 0 auto;
+                }
             }
         }
 

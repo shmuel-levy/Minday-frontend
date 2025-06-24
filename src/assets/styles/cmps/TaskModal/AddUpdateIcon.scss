@@ -5,65 +5,46 @@
   justify-content: center;
   width: 22px;
   height: 22px;
-  border-radius: 0px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  
+
   .update-icon {
     width: 22px;
     height: 22px;
-    color: #676879; 
+    color: #676879;
     transition: color 0.2s ease;
-    font-family: 'Figtree', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
-    font-size: 24px;
-    line-height: 36px;
-    font-weight: 400;
   }
 
   &:hover:not(.has-updates) {
     .update-icon {
-      color: #0073ea; 
+      color: #0073ea;
     }
   }
 
   &.has-updates {
     .update-icon {
-      color: #0073ea; 
+      color: #0073ea;
     }
-    
   }
 
   .update-count-indicator {
     position: absolute;
-    left: 13px;
-    top: 10px;
-    line-height: 9px;
+    top: 60%;
+    left: 60%;
+    transform: translate(-25%, -25%);
+    line-height: 1;
     font-size: 10px;
-    font-weight: 400;
-    border-radius: 10px;
+    font-weight: 500;
+    border-radius: 50%;
     text-align: center;
-    padding: 2px 4px;
+    padding: 3px;
     color: white;
-    background-color: #0073ea; 
-    min-width: 9px;
-    
-    &:has-text {
-      min-width: auto;
-    }
-  }
-}
-
-.btn-add-update {
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  
-  .add-update-icon {
-    margin: 0 auto;
-  }
-
-  &:hover {
-    background: transparent;
+    background-color: #0073ea;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
   }
 }

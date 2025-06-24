@@ -1,4 +1,3 @@
-
 .editor-container {
   margin: 1rem;
 }
@@ -25,9 +24,29 @@
 
   .toolbar {
     display: flex;
-    gap: 0.75rem;
-    font-size: 1rem;
-    color: #333;
+    gap: 4px;
+    padding: 8px;
+    background-color: #fff;
+    margin-bottom: 0;
+    margin-top: 0;
+    position: relative;
+    z-index: 2;
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+
+        &:hover {
+            background-color: #f5f6f8;
+        }
+    }
   }
 
   .editable {

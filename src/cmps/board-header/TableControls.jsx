@@ -8,13 +8,15 @@ import { PlusWidget } from '../svg/PlusWidget'
 export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentView, onAddWidget, addWidgetBtnRef }) {
     return (
         <div className="table-controls">
-            <div className="new-task-split-button">
-                <NewTaskButton 
-                    onAddTask={onAddNewTask} 
-                    onAddNewGroup={onAddNewGroup}
-                    boardType={boardType}
-                />
-            </div>
+            {currentView !== 'kanban' && (
+                <div className="new-task-split-button">
+                    <NewTaskButton 
+                        onAddTask={onAddNewTask} 
+                        onAddNewGroup={onAddNewGroup}
+                        boardType={boardType}
+                    />
+                </div>
+            )}
             
             {currentView === 'dashboard' && (
                 <button 
