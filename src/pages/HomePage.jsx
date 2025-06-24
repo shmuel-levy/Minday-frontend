@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as Ladda from 'ladda'
 import 'ladda/dist/ladda.min.css'
 
@@ -20,6 +20,7 @@ import { ProjectsIcon } from '../cmps/svg/Homepage/ProjectsIcon'
 export function HomePage() {
 
     const navigate = useNavigate()
+    const [selected, setSelected] = useState(null)
 
     const laddaHeaderRef = useRef(null)
     const laddaHeroRef = useRef(null)
@@ -134,43 +135,43 @@ export function HomePage() {
 
                             <div className="assets-container">
                                 <div className="asset-selectors-container">
-                                    <p class="title">What would you like to manage?</p>
+                                    <p className="title">What would you like to manage?</p>
                                     <div className="selectors-grid">
-                                        <div className="selector project">
+                                        <div className="selector project" onMouseEnter={() => setSelected('project')} onMouseLeave={() => setSelected(null)}>
                                             <div className="project-icon"><ProjectsIcon /></div>
-                                            <p class="asset-title">Projects</p>
+                                            <p className="asset-title">Projects</p>
                                         </div>
-                                        <div className="selector task">
+                                        <div className="selector task" onMouseEnter={() => setSelected('task')} onMouseLeave={() => setSelected(null)}>
                                             <div className="task-icon"><TasksIcon /></div>
-                                            <p class="asset-title">Tasks</p>
+                                            <p className="asset-title">Tasks</p>
                                         </div>
-                                        <div className="selector marketing">
+                                        <div className="selector marketing" onMouseEnter={() => setSelected('marketing')} onMouseLeave={() => setSelected(null)}>
                                             <div className="marketing-icon"><MarketingIcon /></div>
-                                            <p class="asset-title">Marketing</p>
+                                            <p className="asset-title">Marketing</p>
                                         </div>
-                                        <div className="selector design">
+                                        <div className="selector design" onMouseEnter={() => setSelected('design')} onMouseLeave={() => setSelected(null)}>
                                             <div className="design-icon"><DesignIcon /></div>
-                                            <p class="asset-title">Design</p>
+                                            <p className="asset-title">Design</p>
                                         </div>
-                                        <div className="selector crm">
+                                        <div className="selector crm" onMouseEnter={() => setSelected('crm')} onMouseLeave={() => setSelected(null)}>
                                             <div className="crm-icon"><CrmIcon /></div>
-                                            <p class="asset-title">CRM</p>
+                                            <p className="asset-title">CRM</p>
                                         </div>
-                                        <div className="selector software">
+                                        <div className="selector software" onMouseEnter={() => setSelected('software')} onMouseLeave={() => setSelected(null)}>
                                             <div className="software-icon"><SoftwareIcon /></div>
-                                            <p class="asset-title">Software</p>
+                                            <p className="asset-title">Software</p>
                                         </div>
-                                        <div className="selector it">
+                                        <div className="selector it" onMouseEnter={() => setSelected('it')} onMouseLeave={() => setSelected(null)}>
                                             <div className="it-icon"><ITIcon /></div>
-                                            <p class="asset-title">IT</p>
+                                            <p className="asset-title">IT</p>
                                         </div>
-                                        <div className="selector operation">
+                                        <div className="selector operation" onMouseEnter={() => setSelected('operation')} onMouseLeave={() => setSelected(null)}>
                                             <div className="operation-icon"><OperationsIcon /></div>
-                                            <p class="asset-title">Operations</p>
+                                            <p className="asset-title">Operations</p>
                                         </div>
-                                        <div className="selector product">
+                                        <div className="selector product" onMouseEnter={() => setSelected('product')} onMouseLeave={() => setSelected(null)}>
                                             <div className="product-icon"><ProductIcon /></div>
-                                            <p class="asset-title">Product</p>
+                                            <p className="asset-title">Product</p>
                                         </div>
                                     </div>
 
@@ -191,6 +192,18 @@ export function HomePage() {
                                     </button>
 
 
+                                </div>
+                                <div>
+                                    <img className="asset-img" src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750767888/Blur_qea9fg.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'project' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769517/projects_wdajw6.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'task' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769918/Task_kgzhnq.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'marketing' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769914/Marketing_yh9fhn.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'design' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769914/Design_cd9nuk.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'crm' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769914/CRM-firstfold-AI_fyut1g.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'software' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769915/software_m3agce.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'it' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769914/IT_aobj1t.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'operation' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769915/Operations_pbhxe1.avif" alt=""></img>
+                                    <img className={`asset-img regular ${selected === 'product' ? 'selected' : ''}`} src="https://res.cloudinary.com/drx3ncwmd/image/upload/v1750769915/product_japvtu.avif" alt=""></img>
                                 </div>
                             </div>
                         </div>
