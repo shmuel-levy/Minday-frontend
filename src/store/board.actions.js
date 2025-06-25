@@ -6,6 +6,7 @@ export async function loadBoards(filterBy) {
     try {
         const boards = await boardService.query(filterBy)
         store.dispatch(getCmdSetBoards(boards))
+        console.log('boards', boards)
     } catch (err) {
         console.log('Cannot load boards', err)
         throw err
@@ -50,22 +51,22 @@ export async function deleteGroup(boardId, groupId) {
 export async function toggleBoardStar(boardId) {
     try {
         const { boards } = store.getState().boardModule
-     
+
         const boardToUpdate = boards.find(board => board._id === boardId)
         if (!boardToUpdate) {
             throw new Error('Board not found')
         }
 
         const updatedBoard = { ...boardToUpdate, isStarred: !boardToUpdate.isStarred }
-       
+
         store.dispatch(getCmdUpdateBoard(updatedBoard))
-        
+
         const recentBoards = JSON.parse(localStorage.getItem('recentBoards')) || []
         const updatedRecentBoards = recentBoards.map(b =>
             b && b._id === updatedBoard._id ? updatedBoard : b
         )
         localStorage.setItem('recentBoards', JSON.stringify(updatedRecentBoards))
-       
+
         return Promise.resolve(updatedBoard)
     } catch (err) {
         console.error('🔴 toggleBoardStar failed:', err)
@@ -86,14 +87,17 @@ export async function addBoard(board) {
 
 export async function updateBoard(board) {
     try {
+
+        console.log('board storee update boardd', board);
         const savedBoard = await boardService.save(board)
+        console.log('savedBoard stroree', savedBoard);
 
         store.dispatch(getCmdUpdateBoard(savedBoard))
 
-        const currentBoard = store.getState().boardModule.board
-        if (currentBoard && currentBoard._id === savedBoard._id) {
-            store.dispatch(getCmdSetBoard(savedBoard))
-        }
+        // const currentBoard = store.getState().boardModule.board
+        // if (currentBoard && currentBoard._id === savedBoard._id) {
+        //     store.dispatch(getCmdSetBoard(savedBoard))
+        // }
 
         return savedBoard
     } catch (err) {

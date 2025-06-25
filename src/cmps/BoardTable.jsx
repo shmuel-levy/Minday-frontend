@@ -1,24 +1,25 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { GroupHeader } from "./GroupHeader";
-import { TableHeader } from "./table/TableHeader";
-import { DynamicTaskRow } from "./table/DynamicTaskRow";
-import { AddBoard } from "./svg/AddBoard";
-import { CrudlBar } from "./CrudlBar";
-import { TaskDetailModal } from "./task-detail-modal/TaskDetailModal";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useBoardState } from "../customHooks/useBoardState";
-import { useTaskSelection } from "../customHooks/useTaskSelection";
-import { TaskCheckbox } from "./TaskCheckbox";
-import { GroupSummaryRow } from "../cmps/GroupSummaryRow"
+import {forwardRef, useImperativeHandle, useState} from "react";
+import {GroupHeader} from "./GroupHeader";
+import {TableHeader} from "./table/TableHeader";
+import {DynamicTaskRow} from "./table/DynamicTaskRow";
+import {AddBoard} from "./svg/AddBoard";
+import {CrudlBar} from "./CrudlBar";
+import {TaskDetailModal} from "./task-detail-modal/TaskDetailModal";
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import {useBoardState} from "../customHooks/useBoardState";
+import {useTaskSelection} from "../customHooks/useTaskSelection";
+import {TaskCheckbox} from "./TaskCheckbox";
+import {GroupSummaryRow} from "../cmps/GroupSummaryRow";
+import {loadBoard, updateBoard} from "../store/board.actions";
 
 export const BoardTable = forwardRef(function BoardTable(
-  { board, onUpdateTask, onAddNewTask, onOpenUpdates },
+  {board, onUpdateTask, onAddNewTask, onOpenUpdates},
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
 
   const {
-    demoBoard,
+    // board,
     setDemoBoard,
     taskDrafts,
     setTaskDrafts,
@@ -44,7 +45,7 @@ export const BoardTable = forwardRef(function BoardTable(
     handleMoveSelectedToGroup,
     handleClearSelection,
     cleanupSelections,
-  } = useTaskSelection(demoBoard, setDemoBoard);
+  } = useTaskSelection(board);
 
   function handleDeleteGroupWithCleanup(groupId) {
     handleDeleteGroup(groupId);
@@ -55,31 +56,32 @@ export const BoardTable = forwardRef(function BoardTable(
     setOpenTaskId(taskId);
   }
 
-  function handleUpdateGroup(updatedGroup) {
-    const updatedGroups = demoBoard.groups.map(group =>
+  //working with store
+  async function handleUpdateGroup(updatedGroup) {
+    const updatedGroups = board.groups.map((group) =>
       group.id === updatedGroup.id ? updatedGroup : group
-    )
-    setDemoBoard(prev => ({ ...prev, groups: updatedGroups }))
+    );
+    await updateBoard({...board, groups: updatedGroups});
   }
 
-  function handleUpdateAdded(taskId, groupId, newUpdate) {
-    setDemoBoard(prevBoard => ({
-      ...prevBoard,
-      groups: prevBoard.groups.map(group =>
+  //updates on task
+  async function handleUpdateAdded(taskId, groupId, newUpdate) {
+    await updateBoard({
+      ...board,
+      groups: board.groups.map((group) =>
         group.id === groupId
           ? {
-            ...group,
-            tasks: group.tasks.map(task =>
-              task.id === taskId
-                ? { ...task, updates: [...(task.updates || []), newUpdate] }
-                : task
-            )
-          }
+              ...group,
+              tasks: group.tasks.map((task) =>
+                task.id === taskId
+                  ? {...task, updates: [...(task.updates || []), newUpdate]}
+                  : task
+              ),
+            }
           : group
-      )
-    }));
+      ),
+    });
   }
-
 
   useImperativeHandle(ref, () => ({
     handleAddNewTask,
@@ -90,7 +92,7 @@ export const BoardTable = forwardRef(function BoardTable(
     <div className="board-table">
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="table-wrapper">
-          {demoBoard.groups?.map((group) => (
+          {board.groups?.map((group) => (
             <Droppable droppableId={group.id} key={group.id}>
               {(provided) => (
                 <div
@@ -116,7 +118,8 @@ export const BoardTable = forwardRef(function BoardTable(
                           groupColor={group.color}
                           isAllSelected={areAllTasksSelected(group.id)}
                           hasSelection={selectedTasks.some(
-                            (sg) => sg.groupId === group.id && sg.taskIds.length > 0
+                            (sg) =>
+                              sg.groupId === group.id && sg.taskIds.length > 0
                           )}
                         />
                       </div>
@@ -132,25 +135,30 @@ export const BoardTable = forwardRef(function BoardTable(
                                 {...provided.dragHandleProps}
                                 style={{
                                   ...provided.draggableProps.style, // keep built-in styles
-                                  width: '100%', // ✅ ensure full width
+                                  width: "100%", // ✅ ensure full width
                                 }}
                               >
                                 <DynamicTaskRow
                                   task={task}
                                   groupColor={group.color}
                                   onUpdateTask={(updatedTask) =>
-                                    handleUpdateTask(group.id, updatedTask)
+                                    handleUpdateTask(updatedTask)
                                   }
                                   shouldFocus={focusTaskId === task.id}
                                   onFocusHandled={() => setFocusTaskId(null)}
                                   isDragging={snapshot.isDragging}
                                   onOpenUpdates={handleOpenUpdates}
                                   onTaskSelection={(isSelected) =>
-                                    handleTaskSelection(task.id, group.id, isSelected)
+                                    handleTaskSelection(
+                                      task.id,
+                                      group.id,
+                                      isSelected
+                                    )
                                   }
                                   isSelected={selectedTasks.some(
                                     (sg) =>
-                                      sg.groupId === group.id && sg.taskIds.includes(task.id)
+                                      sg.groupId === group.id &&
+                                      sg.taskIds.includes(task.id)
                                   )}
                                 />
                               </div>
@@ -165,7 +173,7 @@ export const BoardTable = forwardRef(function BoardTable(
 
                         <div
                           className="add-task-row"
-                          style={{ "--group-color": group.color }}
+                          style={{"--group-color": group.color}}
                         >
                           <div className="col-left-indicator"></div>
                           <div className="col-checkbox">
@@ -208,7 +216,7 @@ export const BoardTable = forwardRef(function BoardTable(
 
       <CrudlBar
         selectedTasks={selectedTasks}
-        groups={demoBoard.groups}
+        groups={board.groups}
         onDuplicate={handleDuplicateSelected}
         onDelete={handleDeleteSelected}
         onMoveToGroup={handleMoveSelectedToGroup}
@@ -218,14 +226,17 @@ export const BoardTable = forwardRef(function BoardTable(
       {openTaskId && (
         <TaskDetailModal
           taskId={openTaskId}
-          board={demoBoard}
+          board={board}
           onClose={() => setOpenTaskId(null)}
           onUpdateAdded={handleUpdateAdded}
         />
       )}
 
       <div className="add-group-container ">
-        <button className="btn-add-group  flex align-center" onClick={handleAddGroup}>
+        <button
+          className="btn-add-group  flex align-center"
+          onClick={handleAddGroup}
+        >
           <AddBoard className="icon" />
           <span>Add new group</span>
         </button>

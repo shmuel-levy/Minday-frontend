@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { loadBoard, updateBoard } from "../store/board.actions";
 
 
-export function useTaskSelection(demoBoard, setDemoBoard) {
+export function useTaskSelection(board) {
   const [selectedTasks, setSelectedTasks] = useState([]);
 
   function handleTaskSelection(taskId, groupId, isSelected) {
@@ -36,15 +37,15 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
   }
 
   function toggleAllInGroup(groupId, isChecked) {
-    const group = demoBoard.groups.find((g) => g.id === groupId);
+    const group = board.groups.find((g) => g.id === groupId);
     if (!group) return;
 
-    const updatedGroups = demoBoard.groups.map((g) =>
+    const updatedGroups = board.groups.map((g) =>
       g.id === groupId
         ? { ...g, tasks: g.tasks.map((task) => ({ ...task, isChecked })) }
         : g
     );
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    updateBoard({ ...board, groups: updatedGroups });
 
     if (isChecked) {
       const taskIds = group.tasks.map((task) => task.id);
@@ -59,7 +60,7 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
   }
 
   function areAllTasksSelected(groupId) {
-    const group = demoBoard.groups.find((g) => g.id === groupId);
+    const group = board.groups.find((g) => g.id === groupId);
     if (!group || group.tasks.length === 0) return false;
 
     const selectedGroup = selectedTasks.find((sg) => sg.groupId === groupId);
@@ -69,7 +70,7 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
   }
 
   function handleDuplicateSelected() {
-    const updatedGroups = [...demoBoard.groups];
+    const updatedGroups = [...board.groups];
 
     selectedTasks.forEach((selectedGroup) => {
       const groupIndex = updatedGroups.findIndex(
@@ -95,12 +96,12 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
       }
     });
 
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    updateBoard({ ...board, groups: updatedGroups });
     setSelectedTasks([]);
   }
 
   function handleDeleteSelected() {
-    const updatedGroups = demoBoard.groups.map((group) => {
+    const updatedGroups = board.groups.map((group) => {
       const selectedGroup = selectedTasks.find((sg) => sg.groupId === group.id);
       if (selectedGroup) {
         return {
@@ -113,13 +114,13 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
       return group;
     });
 
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    updateBoard({ ...board, groups: updatedGroups });
     setSelectedTasks([]);
     showSuccessMsg('Selected tasks successfully deleted');
   }
 
   function handleMoveSelectedToGroup(targetGroupId) {
-    const updatedGroups = [...demoBoard.groups];
+    const updatedGroups = [...board.groups];
     const tasksToMove = [];
 
     selectedTasks.forEach((selectedGroup) => {
@@ -146,7 +147,7 @@ export function useTaskSelection(demoBoard, setDemoBoard) {
       updatedGroups[targetGroupIndex].tasks.push(...tasksToMove);
     }
 
-    setDemoBoard({ ...demoBoard, groups: updatedGroups });
+    updateBoard({ ...board, groups: updatedGroups });
     setSelectedTasks([]);
   }
 
