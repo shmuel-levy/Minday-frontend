@@ -91,53 +91,74 @@
     margin: 0;
 
     .update-item {
-      padding: 0.75rem 0;
-      border-top: 1px solid #eee;
+      padding: 16px;
       font-size: 0.95rem;
-      
-      .update-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 6px;
-        
-        .update-author {
-          font-weight: 500;
-          color: #323338;
-          font-size: 14px;
-        }
-        
-        .update-date {
-          font-size: 12px;
-          color: #676879;
-        }
-      }
-      
-      .update-content {
-        color: #323338;
-        line-height: 1.4;
-        white-space: pre-wrap;
-      }
+      border: 1px solid #d0d4e4;
+      border-radius: 8px;
+      margin-bottom: 20px;
+
+  .update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+
+     .update-delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+
+
+    &:hover {  
+      background-color: #6768791a;       // red on hover
     }
   }
 
-  .no-updates {
+    // 👇 Wrap author + avatar together
+    .update-author-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+
+      .update-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .update-author {
+        color: #323338;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+
+    .update-date {
+      font-size: 14px;
+      color: #676879;
+    }
+  }
+
+  .update-content {
+    color: #323338;
+    line-height: 1.4;
+    white-space: pre-wrap;
+  }
+}
+}
+.no-updates {
     display: grid;
     justify-items: center;
     text-align: center;
-
-    img {
-      width: 182px;
-      height: 182px;
-      padding: 0px 0px 8px;
-    }
-
-    p {
-      margin: 0.25rem 0;
-    }
-
-    strong {
-      font-weight: 700;
-    }
-  }
+}
 }

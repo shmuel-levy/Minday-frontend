@@ -4,6 +4,7 @@ export const REMOVE_BOARD = 'REMOVE_BOARD'
 export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const ADD_BOARD_ACTIVITY = 'ADD_BOARD_ACTIVITY'
+export const REMOVE_TASK_UPDATE = 'REMOVE_TASK_UPDATE'
 
 
 const initialState = {
@@ -26,6 +27,29 @@ export function boardReducer(state = initialState, action) {
             boards = state.boards.filter(board => board._id !== action.boardId)
             newState = { ...state, boards, lastRemovedBoard }
             break
+        case REMOVE_TASK_UPDATE: {
+            const { groupId, taskId, updateId } = action.payload
+
+            const updatedBoard = {
+                ...state.board,
+                groups: state.board.groups.map(group => {
+                    if (group.id !== groupId) return group
+                    return {
+                        ...group,
+                        tasks: group.tasks.map(task => {
+                            if (task.id !== taskId) return task
+                            return {
+                                ...task,
+                                updates: task.updates.filter(u => u.id !== updateId)
+                            }
+                        })
+                    }
+                })
+            }
+
+            newState = { ...state, board: updatedBoard }
+            break
+        }
         case ADD_BOARD:
             newState = { ...state, boards: [...state.boards, action.board] }
             break

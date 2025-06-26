@@ -1,6 +1,7 @@
 import { generateUserColor } from '../services/util.service'
 
 export function UserAvatar({
+  user,
   src,
   fullname = '',
   alt = 'User avatar',
@@ -9,13 +10,21 @@ export function UserAvatar({
   userId,
   ...props
 }) {
-  const getInitials = (name) => {
-    if (!name) return '??';
-    const words = name.trim().split(' ');
-    if (words.length === 1) return words[0][0].toUpperCase();
-    return (words[0][0] + words[1][0]).toUpperCase();
-  };
 
+  if (user) {
+    src = src || user.imgUrl
+    fullname = fullname || user.fullname || user.fullName || ''
+    userId = userId || user._id
+  }
+
+
+  const getInitials = (name = '') => {
+    const words = name.trim().split(' ')
+    if (!words[0]) return '??'
+    if (words.length === 1) return words[0][0].toUpperCase()
+    return (words[0][0] + words[1][0]).toUpperCase()
+  }
+  
   if (src) {
     return (
       <img

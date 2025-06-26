@@ -34,6 +34,22 @@ export async function removeBoard(boardId) {
     }
 }
 
+export async function removeTaskUpdate(boardId, groupId, taskId, updateId) {
+    try {
+        // 1. persist the change in localStorage / backend
+        await boardService.removeTaskUpdate(boardId, groupId, taskId, updateId)
+
+        // 2. reload the board and publish it to the store
+        const board = await boardService.getById(boardId)
+        store.dispatch(getCmdSetBoard(board))
+
+        return updateId
+    } catch (err) {
+        console.error('Cannot remove task update', err)
+        throw err
+    }
+}
+
 export async function deleteGroup(boardId, groupId) {
     try {
         const result = await boardService.deleteGroup(boardId, groupId)

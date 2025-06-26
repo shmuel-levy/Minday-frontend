@@ -1,12 +1,29 @@
-import {useState, useEffect, useRef} from "react";
-import {Bold, Italic, Underline, Link, List, AlignLeft} from "lucide-react";
-import {userService} from "../../services/user";
+import { useState, useEffect, useRef } from "react";
+import { Bold, Italic, Underline, Link, List, AlignLeft, User } from "lucide-react";
+// import { userService } from "../../services/user";
+import { UserAvatar } from "../UserAvatar";
+import { useSelector } from 'react-redux'
+import { Trash } from "lucide-react";
+import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
-export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
+import { useDispatch } from 'react-redux'
+import { removeTaskUpdate } from '../../store/board.actions'
+
+
+
+export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
+
+  
   const [text, setText] = useState("");
   const [updates, setUpdates] = useState([]);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const editableRef = useRef(null);
+
+  const user = useSelector(state => state.userModule.user)
+  const dispatch = useDispatch()
+  const boardId  = useSelector(state => state.boardModule.board?._id)
+
+
 
   useEffect(() => {
     if (task) {
@@ -18,20 +35,17 @@ export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
     ev.preventDefault();
     if (!text.trim()) return;
 
-    //TODO: bring from store
-    const user = userService.getLoggedinUser();
-
-    //TODO: fix current user
     const newUpdate = {
       id: `update_${Date.now()}`,
       text: text.trim(),
       type: "text",
       createdAt: Date.now(),
       byMember: {
-        _id: user?._id || "current user",
-        fullname: user?.fullName || "Current User",
-      },
-    };
+        _id: user?._id || "guest",
+        fullname: user?.fullname || "Guest User",
+        imgUrl: user?.imgUrl || ""
+      }
+    }
 
     setUpdates((prev) => [...prev, newUpdate]);
     setText("");
@@ -42,8 +56,26 @@ export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
     }
   }
 
-  function formatDate(timestamp) {
-    return new Date(timestamp).toLocaleString();
+  function formatDate(ts) {
+    const now = Date.now()
+    const diff = now - ts
+    const sec = diff / 1000
+    const min = sec / 60
+    const hour = min / 60
+    const day = hour / 24
+
+    if (sec < 60) return 'Just now'
+    if (min < 60) return `${Math.floor(min)}m ago`
+    if (hour < 24) return `${Math.floor(hour)}h ago`
+    if (day < 30) return `${Math.floor(day)} days ago`
+
+    // 30+ days → always full format (with year)
+    const dateObj = new Date(ts)
+    return dateObj.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }) // e.g. "May 21, 2025"
   }
 
   function handleFormat(command) {
@@ -52,6 +84,18 @@ export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
       document.execCommand(command, false, null);
     }
   }
+
+    async function handleDelete(updateId) {
+  setUpdates(prev => prev.filter(u => u.id !== updateId))
+
+  try {
+    await removeTaskUpdate(boardId, groupId, task.id, updateId)
+    showSuccessMsg('Update deleted successfully')
+  } catch (err) {
+    console.error('Failed to remove update', err)
+    showErrorMsg('Could not delete update – please try again')
+  }
+}
 
   return (
     <>
@@ -113,7 +157,7 @@ export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
               <strong>No updates yet</strong>
             </h3>
             <div>
-              Share progress, mention a teammate,<br></br> or upload a file to
+              Share progress, mention a teammate,<br /> or upload a file to
               get things moving
             </div>
           </div>
@@ -122,16 +166,43 @@ export function TaskUpdatesSection({task, groupId, onUpdateAdded}) {
             {updates.map((update) => (
               <li key={update.id} className="update-item">
                 <div className="update-header">
-                  <span className="update-author">
-                    {update.byMember?.fullname || "Unknown User"}
-                  </span>
-                  <span className="update-date">
-                    {formatDate(update.createdAt)}
-                  </span>
+                  {/* Left: Avatar, name, date */}
+                  <div className="update-author-container">
+                    {update.byMember?.imgUrl ? (
+                      <img
+                        className="update-avatar"
+                        src={update.byMember.imgUrl}
+                        alt={update.byMember.fullname || "User avatar"}
+                      />
+                    ) : (
+                      <UserAvatar user={update.byMember} size={40} />
+                    )}
+
+                    <span className="update-author">
+                      {update.byMember?.fullname || "Unknown User"}
+                    </span>
+
+                    <span className="update-date">
+                      {formatDate(update.createdAt)}
+                    </span>
+                  </div>
+
+                  {/* Right: Delete button */}
+                  {user?._id === update.byMember?._id && (
+                    <button
+                      type="button"
+                      className="update-delete-btn"
+                      onClick={() => handleDelete(update.id)}
+                    >
+                      Delete&nbsp;
+                      <Trash size={16} strokeWidth={1.5} />
+                    </button>
+                  )}
                 </div>
+
                 <div
                   className="update-content"
-                  dangerouslySetInnerHTML={{__html: update.text}}
+                  dangerouslySetInnerHTML={{ __html: update.text }}
                 />
               </li>
             ))}
