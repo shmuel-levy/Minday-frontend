@@ -65,6 +65,7 @@ async function save(board) {
         savedBoard = await httpService.put(`board/${board._id}`, backendBoard)
     } else {
         savedBoard = await httpService.post('board', backendBoard)
+        savedBoard = await httpService.post('board', backendBoard)
     }
     return transformBoardToFrontend(savedBoard)
 }
