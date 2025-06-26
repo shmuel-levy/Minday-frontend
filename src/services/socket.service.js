@@ -1,95 +1,126 @@
 import io from 'socket.io-client'
-import { userService } from '../user'
-const { VITE_LOCAL, DEV, PROD } = import.meta.env
+import { userService } from './user'
 
-// Socket Events
-export const SOCKET_EVENT_BOARD_UPDATE = 'board-update'
-export const SOCKET_EVENT_MINI_BOARDS_UPDATE = 'mini-boards-update'
-export const SOCKET_EVENT_ACTIVITY_ADDED = 'activity-added' // Added for consistency
+export const SOCKET_EVENT_ADD_MSG = 'chat-add-msg'
+export const SOCKET_EMIT_SEND_MSG = 'chat-send-msg'
+export const SOCKET_EMIT_SET_TOPIC = 'chat-set-topic'
+export const SOCKET_EMIT_USER_WATCH = 'user-watch'
 
-// Socket Emits
+export const SOCKET_EVENT_USER_UPDATED = 'user-updated'
+export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
+export const SOCKET_EVENT_REVIEW_REMOVED = 'review-removed'
+export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
+
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
-const baseUrl = PROD ? '' : '//localhost:3030'
 
-export const socketService = (VITE_LOCAL === 'true') ? createDummySocketService() : createSocketService()
+const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:5173'
+export const socketService = createSocketService()
+// export const socketService = createDummySocketService()
 
 // for debugging from console
-if (DEV) window.socketService = socketService
+window.socketService = socketService
 
 socketService.setup()
 
+
 function createSocketService() {
-  var socket = null
-  const socketService = {
-    setup() {
-      // Re-added try-catch for resilience. If the server is down,
-      // it won't crash the app. You could fall back to the dummy service here if needed.
-      try {
-        socket = io(baseUrl)
-        const user = userService.getLoggedinUser()
-        if (user) this.login(user._id)
-      } catch (err) {
-        console.error('Cannot connect to socket server', err)
-      }
-    },
-    on(eventName, cb) {
-      socket?.on(eventName, cb)
-    },
-    off(eventName, cb = null) {
-      if (!socket) return
-      if (!cb) socket.removeAllListeners(eventName)
-      else socket.off(eventName, cb)
-    },
-    emit(eventName, data) {
-      socket?.emit(eventName, data)
-    },
-    login(userId) {
-      socket?.emit(SOCKET_EMIT_LOGIN, userId)
-    },
-    logout() {
-      socket?.emit(SOCKET_EMIT_LOGOUT)
-    },
-    terminate() {
-      socket = null
-    },
-  }
-  return socketService
+    var socket = null
+    const socketService = {
+       async setup() {
+            try {
+                //agam: Condition if the server is not working
+                const res = await fetch(`${baseUrl}/api/ping`)
+                if (!res.ok) throw new Error('Server not responding')
+                socket = io(baseUrl)
+                const user = userService.getLoggedinUser()
+                if (user) this.login(user._id)
+            } catch (err) {
+                console.warn('Socket server unavailable, using dummy service instead')
+                Object.assign(socketService, createDummySocketService())
+                socketService.setup()
+            }
+        },
+        on(eventName, cb) {
+            socket.on(eventName, cb)
+        },
+        off(eventName, cb = null) {
+            if (!socket) return
+            if (!cb) socket.removeAllListeners(eventName)
+            else socket.off(eventName, cb)
+        },
+        emit(eventName, data) {
+            socket.emit(eventName, data)
+        },
+        login(userId) {
+            socket.emit(SOCKET_EMIT_LOGIN, userId)
+        },
+        logout() {
+            socket.emit(SOCKET_EMIT_LOGOUT)
+        },
+        terminate() {
+            socket = null
+        },
+
+    }
+    return socketService
 }
 
 function createDummySocketService() {
-  var listenersMap = {}
-  const socketService = {
-    listenersMap,
-    setup() {
-      listenersMap = {}
-    },
-    terminate() {
-      this.setup()
-    },
-    login(userId) {
-      console.log('Dummy socket login for user:', userId)
-    },
-    logout() {
-      console.log('Dummy socket logout')
-    },
-    on(eventName, cb) {
-      listenersMap[eventName] = [...(listenersMap[eventName]) || [], cb]
-    },
-    off(eventName, cb) {
-      if (!listenersMap[eventName]) return
-      if (!cb) delete listenersMap[eventName]
-      else listenersMap[eventName] = listenersMap[eventName].filter(l => l !== cb)
-    },
-    emit(eventName, data) {
-      // Cleaned up the old chat logic
-      if (!listenersMap[eventName]) return
+    var listenersMap = {}
+    const socketService = {
+        listenersMap,
+        setup() {
+            listenersMap = {}
+        },
+        terminate() {
+            this.setup()
+        },
+        login() {
+            console.log('Dummy socket service here, login - got it')
+        },
+        logout() {
+            console.log('Dummy socket service here, logout - got it')
+        },
+        on(eventName, cb) {
+            listenersMap[eventName] = [...(listenersMap[eventName]) || [], cb]
+        },
+        off(eventName, cb) {
+            if (!listenersMap[eventName]) return
+            if (!cb) delete listenersMap[eventName]
+            else listenersMap[eventName] = listenersMap[eventName].filter(l => l !== cb)
+        },
+        emit(eventName, data) {
+            var listeners = listenersMap[eventName]
+            if (eventName === SOCKET_EMIT_SEND_MSG) {
+                listeners = listenersMap[SOCKET_EVENT_ADD_MSG]
+            }
 
-      listenersMap[eventName].forEach(listener => {
-        listener(data)
-      })
-    },
-  }
-  return socketService
+            if (!listeners) return
+
+            listeners.forEach(listener => {
+                listener(data)
+            })
+        },
+        // Functions for easy testing of pushed data
+        testChatMsg() {
+            this.emit(SOCKET_EVENT_ADD_MSG, { from: 'Someone', txt: 'Aha it worked!' })
+        },
+        testUserUpdate() {
+            this.emit(SOCKET_EVENT_USER_UPDATED, { ...userService.getLoggedinUser(), score: 555 })
+        }
+    }
+    window.listenersMap = listenersMap
+    return socketService
 }
+
+
+// Basic Tests
+// function cb(x) {console.log('Socket Test - Expected Puk, Actual:', x)}
+// socketService.on('baba', cb)
+// socketService.on('baba', cb)
+// socketService.on('baba', cb)
+// socketService.on('mama', cb)
+// socketService.emit('baba', 'Puk')
+// socketService.off('baba', cb)
