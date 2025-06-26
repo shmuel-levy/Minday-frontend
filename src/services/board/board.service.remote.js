@@ -1,295 +1,226 @@
 import { httpService } from '../http.service'
 
 export const boardService = {
-    // Board CRUDL - exactly matching your local service
+    // Board CRUDL
     query,
-    getDemoDataBoard,
     getById,
     save,
     removeBoard,
-    createGroup,
-    // Group CRUDL
+    
+    // Group CRUDL  
     addGroup,
-    listGroups,
     updateGroup,
     removeGroup,
-    createTask,
+    
     // Task CRUDL
     addTask,
-    listTasks,
     updateTask,
     removeTask,
+    
+    // Helpers
     addBoardActivity,
-    // Helpers - only what you actually use
     toggleStar,
-    addMemberToBoard,
-    getRandomColor,
-    getDemoBoard,
+    getDemoDataBoard,
+    createGroup,
+    createTask,
+    getUsers
 }
 
-// Board CRUDL
-async function query() {
-    const boards = await httpService.get(`board`)
-    return boards.map(transformBoardToFrontend)
+async function query(filterBy = { txt: '', maxMembers: 0 }) {
+    const boards = await httpService.get(`board`, filterBy)
+    
+    // Transform each board from backend to frontend format
+    return boards.map(board => ({
+        ...board,
+        title: board.name || board.title // Backend uses 'name', frontend expects 'title'
+    }))
 }
 
-function getDemoDataBoard(options = {}) {
-    const { title = '', type = 'Tasks', description = '', groups = [] } = options
-    return {
-        title,
-        activities: [],
-        isStarred: false,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        owner: null,
-        members: [],
-        type,
-        description,
-        style: {},
-        labels: [],
-        cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
-        columns: [],
-        groups: []
-    }
-}
-
-async function getById(boardId) {
-    const board = await httpService.get(`board/${boardId}`)
-    return transformBoardToFrontend(board)
-}
-
-async function save(board) {
-    const backendBoard = transformBoardToBackend(board)
-    let savedBoard
-    if (board._id) {
-        savedBoard = await httpService.put(`board/${board._id}`, backendBoard)
-    } else {
-        savedBoard = await httpService.post('board', backendBoard)
-        savedBoard = await httpService.post('board', backendBoard)
-    }
-    return transformBoardToFrontend(savedBoard)
+function getById(boardId) {
+    return httpService.get(`board/${boardId}`).then(board => ({
+        ...board,
+        title: board.name || board.title // Backend uses 'name', frontend expects 'title'
+    }))
 }
 
 async function removeBoard(boardId) {
     return httpService.delete(`board/${boardId}`)
 }
 
-// Group CRUDL
-function createGroup(title = 'New Group') {
+async function save(board) {
+    // Transform frontend format to backend format
+    const backendBoard = {
+        ...board,
+        name: board.title || board.name, // Frontend uses 'title', backend uses 'name'
+    }
+    
+    // Remove title to avoid confusion in backend
+    delete backendBoard.title
+    
+    var savedBoard
+    if (backendBoard._id) {
+        savedBoard = await httpService.put(`board/${backendBoard._id}`, backendBoard)
+    } else {
+        savedBoard = await httpService.post('board', backendBoard)
+    }
+    
+    // Transform backend response back to frontend format
     return {
-        title,
-        color: getRandomColor()[Math.floor(Math.random() * getRandomColor().length)],
-        isCollapse: false,
-        createdAt: Date.now(),
-        owner: null,
-        tasks: []
+        ...savedBoard,
+        title: savedBoard.name // Backend returns 'name', frontend expects 'title'
     }
 }
 
+// Group CRUDL
 async function addGroup(boardId, groupData) {
-    const updatedBoard = await httpService.post(`board/${boardId}/group`, { 
+    return httpService.post(`board/${boardId}/group`, { 
         group: groupData,
         isTop: false,
         idx: null 
     })
-    return transformBoardToFrontend(updatedBoard)
-}
-
-async function listGroups(boardId) {
-    const board = await getById(boardId)
-    return board.groups
 }
 
 async function updateGroup(boardId, groupId, groupToUpdate) {
-    const updatedBoard = await httpService.put(`board/${boardId}/group/${groupId}`, { group: groupToUpdate })
-    return transformBoardToFrontend(updatedBoard)
+    return httpService.put(`board/${boardId}/group/${groupId}`, { group: groupToUpdate })
 }
 
 async function removeGroup(boardId, groupId) {
-    const updatedBoard = await httpService.delete(`board/${boardId}/group/${groupId}`)
-    return transformBoardToFrontend(updatedBoard)
+    return httpService.delete(`board/${boardId}/group/${groupId}`)
 }
 
 // Task CRUDL
+async function addTask(boardId, groupId, taskData) {
+    return httpService.post(`board/${boardId}/group/${groupId}/task`, { 
+        task: taskData,
+        isTop: false 
+    })
+}
+
+async function updateTask(boardId, taskId, taskToUpdate) {
+    // First we need to find which group this task belongs to
+    const board = await getById(boardId)
+    let groupId = null
+    
+    for (const group of board.groups) {
+        if (group.tasks && group.tasks.find(task => task.id === taskId)) {
+            groupId = group.id
+            break
+        }
+    }
+    
+    if (!groupId) {
+        throw new Error('Task not found in any group')
+    }
+    
+    return httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, { task: taskToUpdate })
+}
+
+async function removeTask(boardId, groupId, taskId) {
+    return httpService.delete(`board/${boardId}/group/${groupId}/task/${taskId}`)
+}
+
+// Helpers
+async function addBoardActivity(boardId, txt) {
+    const savedActivity = await httpService.post(`board/${boardId}/activity`, { txt })
+    return savedActivity
+}
+
+async function toggleStar(boardId, isStarred) {
+    return httpService.put(`board/${boardId}/star`, { isStarred })
+}
+
+async function getUsers() {
+    try {
+        return await httpService.get('user')
+    } catch (err) {
+        console.log('Could not get users:', err)
+        return []
+    }
+}
+
+// Create a demo board that matches your backend format
+function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = 'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.', groups = [] } = {}) {
+    return {
+        name: title, // Backend uses 'name' not 'title'
+        activities: [],
+        isStarred: false,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        type,
+        description,
+        style: {},
+        labels: [],
+        cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
+        columns: [
+            {
+                id: 'col-item',
+                name: 'Task',
+                width: 300,
+                type: { variant: 'item' },
+                createdAt: Date.now()
+            },
+            {
+                id: 'col-people',
+                name: 'Person',
+                width: 200,
+                type: { variant: 'people' },
+                createdAt: Date.now()
+            },
+            {
+                id: 'col-status',
+                name: 'Status', 
+                width: 200,
+                type: { 
+                    variant: 'status',
+                    labels: [
+                        { id: 'l1', name: 'Working on it', color: 'orange' },
+                        { id: 'l2', name: 'Done', color: 'green' },
+                        { id: 'l3', name: 'Stuck', color: 'red' }
+                    ]
+                },
+                createdAt: Date.now()
+            }
+        ],
+        groups: groups.length ? groups : [
+            {
+                id: 'g' + Date.now(),
+                title: "New Group",
+                color: "#037F4C",
+                isCollapse: false,
+                tasks: []
+            }
+        ]
+    }
+}
+
+// Alias functions to match local service interface
+function createGroup(title = 'New Group') {
+    return {
+        id: 'g' + Date.now(),
+        title,
+        color: "#037F4C",
+        isCollapse: false,
+        tasks: []
+    }
+}
+
 function createTask(title = 'New Task') {
     return {
+        id: 't' + Date.now(),
         title,
         assignee: '',
         status: '',
         dueDate: '',
-        timeline: { startDate: '', endDate: '' },
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         priority: '',
         isChecked: false,
         updates: [],
         files: [],
         columnValues: [],
         members: [],
-        createdAt: Date.now(),
-        owner: null
-    }
-}
-
-async function addTask(boardId, groupId, taskData) {
-    const updatedBoard = await httpService.post(`board/${boardId}/group/${groupId}/task`, { 
-        task: taskData,
-        isTop: false 
-    })
-    return transformBoardToFrontend(updatedBoard)
-}
-
-async function listTasks(boardId, groupId) {
-    const board = await getById(boardId)
-    const group = board.groups.find(g => g.id === groupId)
-    if (!group) throw new Error('Group not found')
-    return group.tasks
-}
-
-async function updateTask(boardId, taskId, taskToUpdate) {
-    // Find which group contains this task
-    const board = await getById(boardId)
-    let groupId = null
-    
-    for (const group of board.groups) {
-        if (group.tasks.some(task => task.id === taskId)) {
-            groupId = group.id
-            break
-        }
-    }
-    
-    if (!groupId) throw new Error('Group not found')
-    
-    const updatedBoard = await httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, { task: taskToUpdate })
-    return transformBoardToFrontend(updatedBoard)
-}
-
-async function removeTask(boardId, groupId, taskId) {
-    const updatedBoard = await httpService.delete(`board/${boardId}/group/${groupId}/task/${taskId}`)
-    return transformBoardToFrontend(updatedBoard)
-}
-
-// Helpers
-async function addBoardActivity(boardId, txt) {
-    // Use your existing createLog endpoint
-    const activity = { txt, createdAt: Date.now() }
-    return httpService.put(`board/${boardId}/log`, { logObject: activity })
-}
-
-async function toggleStar(boardId, isStarred) {
-    // For now, just return the board - implement later if needed
-    return getById(boardId)
-}
-
-async function addMemberToBoard(boardId, user) {
-    console.log('addMemberToBoard not implemented yet')
-    return null
-}
-
-function getRandomColor() {
-    return ['#037F4C', '#00C875', '#9CD326', '#CAB641', '#FFCB00', '#784BD1', '#9D50DD', '#007EB5', '#579BFC', '#66CCFF', '#BB3354', '#FF007F', '#FF5AC4', '#FF642E', '#FDAB3D', '#7F5347', '#C4C4C4', '#757575']
-}
-
-function getDemoBoard() {
-    return getDemoDataBoard({ 
-        title: "Monday - Sprint 4 - Design Approval",
-        type: "Tasks",
-        description: "Sprint demo"
-    })
-}
-
-// Transform functions
-function transformBoardToFrontend(backendBoard) {
-    if (!backendBoard) return null
-    return {
-        ...backendBoard,
-        title: backendBoard.name || backendBoard.title,
-        groups: (backendBoard.groups || []).map(group => ({
-            ...group,
-            id: group.id || group._id,
-            title: group.name || group.title,
-            tasks: (group.tasks || []).map(transformTaskToFrontend)
-        }))
-    }
-}
-
-function transformBoardToBackend(frontendBoard) {
-    if (!frontendBoard) return null
-    return {
-        ...frontendBoard,
-        name: frontendBoard.title || frontendBoard.name,
-        groups: (frontendBoard.groups || []).map(group => ({
-            ...group,
-            name: group.title || group.name,
-            tasks: (group.tasks || []).map(transformTaskToBackend)
-        }))
-    }
-}
-
-function transformTaskToFrontend(backendTask) {
-    if (!backendTask) return null
-    
-    const task = {
-        id: backendTask.id || backendTask._id,
-        title: '',
-        assignee: '',
-        status: '',
-        dueDate: '',
-        timeline: { startDate: '', endDate: '' },
-        priority: '',
-        isChecked: false,
-        updates: backendTask.updates || [],
-        files: backendTask.files || [],
-        columnValues: backendTask.columnValues || [],
-        members: backendTask.members || [],
-        createdAt: backendTask.createdAt,
-        owner: backendTask.createdBy || backendTask.owner
-    }
-    
-    // Extract values from columnValues
-    if (backendTask.columnValues) {
-        backendTask.columnValues.forEach(cv => {
-            switch (cv.colId) {
-                case 'col-item':
-                    task.title = cv.value
-                    break
-                case 'col-people':
-                    task.assignee = cv.value
-                    break
-                case 'col-priority':
-                    task.status = cv.value
-                    break
-                case 'col-due':
-                    task.dueDate = cv.value
-                    break
-            }
-        })
-    }
-    
-    return task
-}
-
-function transformTaskToBackend(frontendTask) {
-    if (!frontendTask) return null
-    
-    const columnValues = []
-    
-    if (frontendTask.title) {
-        columnValues.push({ colId: 'col-item', value: frontendTask.title })
-    }
-    if (frontendTask.assignee) {
-        columnValues.push({ colId: 'col-people', value: frontendTask.assignee })
-    }
-    if (frontendTask.status) {
-        columnValues.push({ colId: 'col-priority', value: frontendTask.status })
-    }
-    if (frontendTask.dueDate) {
-        columnValues.push({ colId: 'col-due', value: frontendTask.dueDate })
-    }
-    
-    return {
-        columnValues,
-        updates: frontendTask.updates || [],
-        files: frontendTask.files || [],
-        createdAt: frontendTask.createdAt,
-        createdBy: frontendTask.owner
+        createdAt: Date.now()
     }
 }
