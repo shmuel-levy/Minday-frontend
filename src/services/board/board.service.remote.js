@@ -73,8 +73,6 @@ async function addTask(boardId, groupId, taskData) {
 }
 
 async function updateTask(boardId, taskId, taskToUpdate) {
-    // First we need to find which group this task belongs to
-    // For now, we'll need to get the board and find the group
     const board = await getById(boardId)
     let groupId = null
     
@@ -106,10 +104,9 @@ async function toggleStar(boardId, isStarred) {
     return httpService.put(`board/${boardId}/star`, { isStarred })
 }
 
-// Create a demo board that matches your local service format
 function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = 'Managing items', groups = [] } = {}) {
     return {
-        name: title, // Backend uses 'name' not 'title'
+        name: title, 
         activities: [],
         isStarred: false,
         createdAt: Date.now(),
@@ -121,8 +118,8 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
         cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
         columns: [
             {
-                id: 'col-item', // Backend needs IDs
-                name: 'Task', // Backend uses 'name'
+                id: 'col-item', 
+                name: 'Task', 
                 width: 300,
                 type: { variant: 'item' },
                 createdAt: Date.now()
@@ -140,7 +137,6 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
     }
 }
 
-// Alias functions to match local service interface
 function createGroup(title = 'New Group') {
     return {
         title,
