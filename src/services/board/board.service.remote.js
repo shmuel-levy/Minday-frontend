@@ -22,15 +22,26 @@ export const boardService = {
     toggleStar,
     getDemoDataBoard,
     createGroup,
-    createTask
+    createTask,
+        getUsers 
 }
 
 async function query(filterBy = { txt: '', maxMembers: 0 }) {
-    return httpService.get(`board`, filterBy)
+    const boards = await httpService.get(`board`, filterBy)
+    
+    return boards.map(board => ({
+        ...board,
+        title: board.name 
+    }))
 }
 
-function getById(boardId) {
-    return httpService.get(`board/${boardId}`)
+async function getById(boardId) {
+    const board = await httpService.get(`board/${boardId}`)
+    
+    return {
+        ...board,
+        title: board.name 
+    }
 }
 
 async function removeBoard(boardId) {
@@ -38,13 +49,24 @@ async function removeBoard(boardId) {
 }
 
 async function save(board) {
-    var savedBoard
-    if (board._id) {
-        savedBoard = await httpService.put(`board/${board._id}`, board)
-    } else {
-        savedBoard = await httpService.post('board', board)
+    const backendBoard = {
+        ...board,
+        name: board.title || board.name,
     }
-    return savedBoard
+    
+    delete backendBoard.title
+    
+    var savedBoard
+    if (backendBoard._id) {
+        savedBoard = await httpService.put(`board/${backendBoard._id}`, backendBoard)
+    } else {
+        savedBoard = await httpService.post('board', backendBoard)
+    }
+    
+    return {
+        ...savedBoard,
+        title: savedBoard.name 
+    }
 }
 
 // Group CRUDL
@@ -106,7 +128,7 @@ async function toggleStar(boardId, isStarred) {
 
 function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = 'Managing items', groups = [] } = {}) {
     return {
-        name: title, 
+        name: title, // Backend uses 'name' not 'title'
         activities: [],
         isStarred: false,
         createdAt: Date.now(),
@@ -118,10 +140,31 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
         cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
         columns: [
             {
-                id: 'col-item', 
-                name: 'Task', 
+                id: 'col-item',
+                name: 'Task',
                 width: 300,
                 type: { variant: 'item' },
+                createdAt: Date.now()
+            },
+            {
+                id: 'col-people', // Add People column
+                name: 'Person',
+                width: 200,
+                type: { variant: 'people' },
+                createdAt: Date.now()
+            },
+            {
+                id: 'col-status', // Add Status column
+                name: 'Status', 
+                width: 200,
+                type: { 
+                    variant: 'status',
+                    labels: [
+                        { id: 'l1', name: 'Working on it', color: 'orange' },
+                        { id: 'l2', name: 'Done', color: 'green' },
+                        { id: 'l3', name: 'Stuck', color: 'red' }
+                    ]
+                },
                 createdAt: Date.now()
             }
         ],
@@ -163,5 +206,14 @@ function createTask(title = 'New Task') {
         columnValues: [],
         members: [],
         createdAt: Date.now()
+    }
+}
+
+async function getUsers() {
+    try {
+        return await httpService.get('user')
+    } catch (err) {
+        console.log('Could not get users:', err)
+        return []
     }
 }

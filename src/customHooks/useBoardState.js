@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getRandomColor } from "../services/util.service";
 import { loadBoard, updateBoard } from "../store/board.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
+import { boardService } from "../services/board"; 
 
 
 export function useBoardState(board, onAddNewTask) {
@@ -288,15 +289,13 @@ export function useBoardState(board, onAddNewTask) {
   }
 
   async function handleUpdateTask(updatedTask) {
-    console.log("start update task", updatedTask);
-    console.log('board use board state', board)
+
     try {
       const updatedBoard = await boardService.updateTask(
         board._id,
         updatedTask.id,
         updatedTask
       );
-      console.log("handle task update", updatedBoard);
       await updateBoard(updatedBoard);
       showSuccessMsg("Board updated successfully");
     } catch (err) {

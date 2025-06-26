@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { userService } from '../../../../services/user'
-import { formatUsersForSelect } from '../../../../services/util.service'
 import { UserAvatar } from '../../../UserAvatar'
 
 const PlusIcon = () => (
@@ -10,7 +9,7 @@ const PlusIcon = () => (
     </div>
 )
 
-export function PersonColumn({ value, onUpdate }) {
+export function PersonColumn({ value, onUpdate, task }) {
     const [isOpen, setIsOpen] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
     const [availableUsers, setAvailableUsers] = useState([])
@@ -26,8 +25,16 @@ export function PersonColumn({ value, onUpdate }) {
         try {
             setLoading(true)
             const users = await userService.getUsers()
-            const formattedUsers = formatUsersForSelect(users)
-            setAvailableUsers(formattedUsers)
+            
+            const transformedUsers = users.map(user => ({
+                ...user,
+                fullname: user.fullname || `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                username: user.username || user.email,
+                imgUrl: user.imgUrl || user.profileImg,
+                initials: getInitials(user.firstName, user.lastName, user.fullname)
+            }))
+            
+            setAvailableUsers(transformedUsers)
         } catch (error) {
             console.error('Failed to load users:', error)
             setAvailableUsers([])
@@ -36,14 +43,36 @@ export function PersonColumn({ value, onUpdate }) {
         }
     }
 
+    function getInitials(firstName, lastName, fullname) {
+        if (firstName && lastName) {
+            return `${firstName[0]}${lastName[0]}`.toUpperCase()
+        }
+        if (fullname) {
+            const names = fullname.split(' ')
+            return names.length > 1 
+                ? `${names[0][0]}${names[names.length-1][0]}`.toUpperCase()
+                : fullname[0].toUpperCase()
+        }
+        return '?'
+    }
+
+    const currentValue = task?.assignee || value || ''
+    
     const currentUser = availableUsers.find(user =>
-        user.fullname === value ||
-        user._id === value ||
-        user.username === value
+        user.fullname === currentValue ||
+        user._id === currentValue ||
+        user.username === currentValue ||
+        user.email === currentValue
     )
 
     function handlePersonChange(person) {
-        if (onUpdate) {
+        if (onUpdate && task) {
+            const updatedTask = {
+                ...task,
+                assignee: person ? person.fullname : ''
+            }
+            onUpdate(updatedTask)
+        } else if (onUpdate) {
             onUpdate(person ? person.fullname : '')
         }
         setIsOpen(false)
@@ -114,7 +143,9 @@ export function PersonColumn({ value, onUpdate }) {
                                     userId={user._id}
                                     className="person-avatar-large"
                                 />
-                                <span className="person-name">{user.fullname}</span>
+                                <span className="person-name">
+                                    {user.fullname}
+                                </span>
                             </div>
                         ))
                     ) : (
