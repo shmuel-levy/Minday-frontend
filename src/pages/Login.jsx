@@ -19,7 +19,7 @@ export function Login() {
             const users = await userService.getUsers()
             setUsers(users)
         } catch (err) {
-            console.log('Could not load users:', err)
+            // console.log('Could not load users:', err)
         }
     }
 

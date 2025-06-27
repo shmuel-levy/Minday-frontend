@@ -11,6 +11,7 @@ export const boardService = {
     getById,
     save,
     removeBoard,
+    remove: removeBoard,
     createGroup,
     // Group CRUDL
     addGroup,

@@ -25,15 +25,15 @@ export function HeaderActions({ user }) {
   }
 
   function onSearchClick() {
-    console.log('Search clicked')
+    // console.log('Search clicked')
   }
 
   function onNotificationsClick() {
-    console.log('Notifications clicked')
+    // console.log('Notifications clicked')
   }
 
   function onHelpClick() {
-    console.log('Help clicked')
+    // console.log('Help clicked')
   }
 
   return (

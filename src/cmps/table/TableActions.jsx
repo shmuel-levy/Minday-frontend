@@ -126,7 +126,7 @@ export function TableActions({
                     )}
                 </div>
 
-                <button className="btn-control" onClick={() => console.log('Person filter')}>
+                <button className="btn-control" onClick={() => {}}>
                     👤 Person
                 </button>
 

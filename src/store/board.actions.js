@@ -6,9 +6,7 @@ export async function loadBoards(filterBy) {
     try {
         const boards = await boardService.query(filterBy)
         store.dispatch(getCmdSetBoards(boards))
-        console.log('boards', boards)
     } catch (err) {
-        console.log('Cannot load boards', err)
         throw err
     }
 }
@@ -19,7 +17,6 @@ export async function loadBoard(boardId) {
         store.dispatch(getCmdSetBoard(board))
         return board
     } catch (err) {
-        console.log('Cannot load board', err)
         throw err
     }
 }
@@ -29,7 +26,6 @@ export async function removeBoard(boardId) {
         await boardService.remove(boardId)
         store.dispatch(getCmdRemoveBoard(boardId))
     } catch (err) {
-        console.log('Cannot remove board', err)
         throw err
     }
 }
@@ -45,7 +41,6 @@ export async function removeTaskUpdate(boardId, groupId, taskId, updateId) {
 
         return updateId
     } catch (err) {
-        console.error('Cannot remove task update', err)
         throw err
     }
 }
@@ -59,7 +54,6 @@ export async function deleteGroup(boardId, groupId) {
 
         return result
     } catch (err) {
-        console.log('Cannot delete group', err)
         throw err
     }
 }
@@ -85,7 +79,6 @@ export async function toggleBoardStar(boardId) {
 
         return Promise.resolve(updatedBoard)
     } catch (err) {
-        console.error('🔴 toggleBoardStar failed:', err)
         return Promise.reject(err)
     }
 }
@@ -96,28 +89,16 @@ export async function addBoard(board) {
         store.dispatch(getCmdAddBoard(savedBoard))
         return savedBoard
     } catch (err) {
-        console.log('Cannot add board', err)
         throw err
     }
 }
 
 export async function updateBoard(board) {
     try {
-
-        console.log('board storee update boardd', board);
         const savedBoard = await boardService.save(board)
-        console.log('savedBoard stroree', savedBoard);
-
         store.dispatch(getCmdUpdateBoard(savedBoard))
-
-        // const currentBoard = store.getState().boardModule.board
-        // if (currentBoard && currentBoard._id === savedBoard._id) {
-        //     store.dispatch(getCmdSetBoard(savedBoard))
-        // }
-
         return savedBoard
     } catch (err) {
-        console.log('Cannot save board', err)
         throw err
     }
 }
@@ -128,7 +109,6 @@ export async function addBoardActivity(boardId, txt) {
         store.dispatch(getCmdAddBoardActivity(activity))
         return activity
     } catch (err) {
-        console.log('Cannot add board activity', err)
         throw err
     }
 }
@@ -195,7 +175,6 @@ export async function updateTask(boardId, groupId, taskId, taskToUpdate) {
 
         return updatedTask
     } catch (err) {
-        console.log('Cannot update task', err)
         throw err
     }
 }
@@ -213,7 +192,6 @@ export async function addTaskUpdate(boardId, groupId, taskId, updateText) {
 
         return result
     } catch (err) {
-        console.log('Cannot add task update', err)
         throw err
     }
 }
@@ -228,7 +206,7 @@ export async function addTaskFile(boardId, groupId, taskId, fileData) {
 
         return result
     } catch (err) {
-        console.log('Cannot add task file', err)
+        // console.log('Cannot add task file', err)
         throw err
     }
 }
@@ -237,7 +215,6 @@ export async function getTaskActivities(boardId, taskId) {
     try {
         return await boardService.getTaskActivities(boardId, taskId)
     } catch (err) {
-        console.log('Cannot get task activities', err)
         throw err
     }
 }

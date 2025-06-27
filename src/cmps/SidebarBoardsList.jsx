@@ -10,6 +10,8 @@ import {AddBoardDropdown} from "./AddBoardDropdown";
 import {boardService} from "./../services/board";
 import {showSuccessMsg, showErrorMsg} from "../services/event-bus.service";
 import {addBoard, updateBoard} from "../store/board.actions";
+import {TrashIcon} from "./svg/TrashIcon";
+import { useBoardState } from "../customHooks/useBoardState";
 
 export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   // const [localBoards, setLocalBoards] = useState(boards || []);
   const addBoardBtnRef = useRef(null);
+  const { handleRemoveBoard } = useBoardState();
 
   if (favoritesOpen) {
     return (
@@ -118,9 +121,16 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
               location.pathname === `/board/${board?._id}` ? "active" : ""
             }`}
             onClick={() => navigate(`/board/${board?._id}`)}
+            style={{ position: 'relative' }}
           >
             <BoardIconSidebar />
             <span className="board-title">{board?.title}</span>
+            <span className="trash-icon-wrapper" onClick={e => {
+              e.stopPropagation();
+              handleRemoveBoard(board._id);
+            }}>
+              <TrashIcon />
+            </span>
           </div>
         ))}
       </div>

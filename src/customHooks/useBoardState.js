@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getRandomColor } from "../services/util.service";
-import { loadBoard, updateBoard } from "../store/board.actions";
+import { loadBoard, updateBoard, removeBoard as removeBoardAction } from "../store/board.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 import { boardService } from "../services/board"; 
 
@@ -368,6 +368,15 @@ export function useBoardState(board, onAddNewTask) {
     updateBoard({ ...board, groups: updatedGroups });
   }
 
+  async function handleRemoveBoard(boardId) {
+    try {
+      await removeBoardAction(boardId);
+      showSuccessMsg("Board removed successfully");
+    } catch (err) {
+      showErrorMsg("Failed to remove board");
+    }
+  }
+
   return {
     board,
     updateBoard,
@@ -383,5 +392,6 @@ export function useBoardState(board, onAddNewTask) {
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
+    handleRemoveBoard,
   };
 }
