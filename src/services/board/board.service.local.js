@@ -899,7 +899,7 @@ function getBoardsData() {
     return [
         {
             _id: makeId(),
-            title: "🛠️ Minday Project",
+            title: "Minday Project",
             createdAt: Date.now(),
             members: [],
             groups: [
@@ -950,7 +950,6 @@ function getBoardsData() {
                             priority: "Low",
                             dueDate: "2025-03-14",
                             timeline: { startDate: "2025-03-10", endDate: "2025-03-14" },
-                            files: generateFilesFor("Minday Project"),
                             updates: [
                                 {
                                     id: makeId(),
@@ -1018,7 +1017,6 @@ function getBoardsData() {
                             priority: "Medium",
                             dueDate: "2025-09-08",
                             timeline: { startDate: "2025-09-03", endDate: "2025-09-08" },
-                            files: generateFilesFor("Minday Project"),
                             updates: []
                         },
 
@@ -1041,11 +1039,11 @@ function getBoardsData() {
                     title: "🧠 Backend",
                     color: "#abdee6",
                     tasks: [
-                        { id: makeId(), title: "📚 Build REST API", status: "Done", priority: "Low", dueDate: "2025-02-12", timeline: { startDate: "2025-02-07", endDate: "2025-02-12" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "🔐 Auth Middleware", status: "Working on it", priority: "High", dueDate: "2025-04-18", timeline: { startDate: "2025-04-13", endDate: "2025-04-18" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "🗃️ Connect Database", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-06-03", timeline: { startDate: "2025-05-29", endDate: "2025-06-03" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "⚙️ Dockerize API", status: "Done", priority: "Medium", dueDate: "2025-08-11", timeline: { startDate: "2025-08-06", endDate: "2025-08-11" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "📈 CI/CD Pipeline", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-10-15", timeline: { startDate: "2025-10-10", endDate: "2025-10-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() }
+                        { id: makeId(), title: "📚 Build REST API", status: "Done", priority: "Low", dueDate: "2025-02-12", timeline: { startDate: "2025-02-07", endDate: "2025-02-12" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "🔐 Auth Middleware", status: "Working on it", priority: "High", dueDate: "2025-04-18", timeline: { startDate: "2025-04-13", endDate: "2025-04-18" } },
+                        { id: makeId(), title: "🗃️ Connect Database", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-06-03", timeline: { startDate: "2025-05-29", endDate: "2025-06-03" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "⚙️ Dockerize API", status: "Done", priority: "Medium", dueDate: "2025-08-11", timeline: { startDate: "2025-08-06", endDate: "2025-08-11" } },
+                        { id: makeId(), title: "📈 CI/CD Pipeline", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-10-15", timeline: { startDate: "2025-10-10", endDate: "2025-10-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") }
                     ]
                 },
 
@@ -1055,11 +1053,11 @@ function getBoardsData() {
                     title: "🎨 Design",
                     color: "#97c1a9",
                     tasks: [
-                        { id: makeId(), title: "🖌️ Create Logo", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-30", timeline: { startDate: "2025-01-27", endDate: "2025-01-30" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "📐 Style Guide", status: "Working on it", priority: "High", dueDate: "2025-04-08", timeline: { startDate: "2025-04-03", endDate: "2025-04-08" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "🖼️ Export Icon Set", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-05-12", timeline: { startDate: "2025-05-09", endDate: "2025-05-12" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "🗂️ Design 404 Page", status: "Stuck", priority: "Low", dueDate: "2025-07-15", timeline: { startDate: "2025-07-10", endDate: "2025-07-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() },
-                        { id: makeId(), title: "💡 UX Review", status: "Stuck", priority: "Medium", dueDate: "2025-11-20", timeline: { startDate: "2025-11-15", endDate: "2025-11-20" }, files: generateFilesFor("Minday Project"), updates: generateUpdates() }
+                        { id: makeId(), title: "🖌️ Create Logo", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-30", timeline: { startDate: "2025-01-27", endDate: "2025-01-30" } },
+                        { id: makeId(), title: "📐 Style Guide", status: "Working on it", priority: "High", dueDate: "2025-04-08", timeline: { startDate: "2025-04-03", endDate: "2025-04-08" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "🖼️ Export Icon Set", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-05-12", timeline: { startDate: "2025-05-09", endDate: "2025-05-12" } },
+                        { id: makeId(), title: "🗂️ Design 404 Page", status: "Stuck", priority: "Low", dueDate: "2025-07-15", timeline: { startDate: "2025-07-10", endDate: "2025-07-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "💡 UX Review", status: "Stuck", priority: "Medium", dueDate: "2025-11-20", timeline: { startDate: "2025-11-15", endDate: "2025-11-20" } }
                     ]
                 }
             ]
@@ -1070,7 +1068,7 @@ function getBoardsData() {
         ------------------------------------------------------------------ */
         {
             _id: makeId(),
-            title: "🏡 Home Maintenance",
+            title: "Home Maintenance",
             createdAt: Date.now(),
             members: [],
             groups: [
@@ -1079,11 +1077,11 @@ function getBoardsData() {
                     title: "🌿 Garden",
                     color: "#00c875",
                     tasks: [
-                        { id: makeId(), title: "🌻 Plant Sunflowers", status: "Stuck", priority: "Low", dueDate: "2025-02-28", timeline: generateDateRangeObj(2), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "✂️ Trim Hedges", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🚿 Fix Garden Hose", status: "Done", priority: "Medium", dueDate: "2025-05-29", timeline: generateDateRangeObj(5), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🪴 Repot Ficus Tree", status: "Done", priority: "Critical ⚠️", dueDate: "2025-07-06", timeline: generateDateRangeObj(7), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🪚 Build Planter Box", status: "Not Started", priority: "High", dueDate: "2025-09-10", timeline: generateDateRangeObj(9), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() }
+                        { id: makeId(), title: "🌻 Plant Sunflowers", status: "Stuck", priority: "Low", dueDate: "2025-02-28", timeline: generateDateRangeObj(2), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "✂️ Trim Hedges", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🚿 Fix Garden Hose", status: "Done", priority: "Medium", dueDate: "2025-05-29", timeline: generateDateRangeObj(5), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🪴 Repot Ficus Tree", status: "Done", priority: "Critical ⚠️", dueDate: "2025-07-06", timeline: generateDateRangeObj(7), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🪚 Build Planter Box", status: "Not Started", priority: "High", dueDate: "2025-09-10", timeline: generateDateRangeObj(9), files: generateFilesFor("Home Maintenance") }
                     ]
                 },
                 {
@@ -1091,11 +1089,11 @@ function getBoardsData() {
                     title: "🧼 Routine Cleaning",
                     color: "#579bfc",
                     tasks: [
-                        { id: makeId(), title: "🧹 Vacuum Living Room", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🪟 Clean Windows", status: "Working on it", priority: "High", dueDate: "2025-04-30", timeline: generateDateRangeObj(4), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🧽 Scrub Bathrooms", status: "Not Started", priority: "Medium", dueDate: "2025-06-02", timeline: generateDateRangeObj(6), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🗑️ Take Out Recycling", status: "Done", priority: "Low", dueDate: "2025-02-25", timeline: generateDateRangeObj(2), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🧯 Test Smoke Detectors", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-08-07", timeline: generateDateRangeObj(8), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() }
+                        { id: makeId(), title: "🧹 Vacuum Living Room", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🪟 Clean Windows", status: "Working on it", priority: "High", dueDate: "2025-04-30", timeline: generateDateRangeObj(4), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🧽 Scrub Bathrooms", status: "Not Started", priority: "Medium", dueDate: "2025-06-02", timeline: generateDateRangeObj(6), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🗑️ Take Out Recycling", status: "Done", priority: "Low", dueDate: "2025-02-25", timeline: generateDateRangeObj(2), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🧯 Test Smoke Detectors", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-08-07", timeline: generateDateRangeObj(8), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") }
                     ]
                 },
                 {
@@ -1103,11 +1101,11 @@ function getBoardsData() {
                     title: "🔧 Repairs & Upgrades",
                     color: "#ffcb00",
                     tasks: [
-                        { id: makeId(), title: "🚰 Fix Sink Leak", status: "Done", priority: "High", dueDate: "2025-02-29", timeline: generateDateRangeObj(2), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🔌 Replace Hallway Light", status: "Working on it", priority: "Medium", dueDate: "2025-03-31", timeline: generateDateRangeObj(3), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🪜 Clean Gutters", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-10-06", timeline: generateDateRangeObj(10), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🖼️ Paint Bedroom Walls", status: "Done", priority: "Low", dueDate: "2025-07-08", timeline: generateDateRangeObj(7), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() },
-                        { id: makeId(), title: "🔒 Install Doorbell Cam", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-11-09", timeline: generateDateRangeObj(11), files: generateFilesFor("Home Maintenance"), updates: generateUpdates() }
+                        { id: makeId(), title: "🚰 Fix Sink Leak", status: "Done", priority: "High", dueDate: "2025-02-29", timeline: generateDateRangeObj(2), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🔌 Replace Hallway Light", status: "Working on it", priority: "Medium", dueDate: "2025-03-31", timeline: generateDateRangeObj(3), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🪜 Clean Gutters", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-10-06", timeline: generateDateRangeObj(10), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🖼️ Paint Bedroom Walls", status: "Done", priority: "Low", dueDate: "2025-07-08", timeline: generateDateRangeObj(7), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🔒 Install Doorbell Cam", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-11-09", timeline: generateDateRangeObj(11), updates: generateUpdates("Home Maintenance") }
                     ]
                 }
             ]
@@ -1118,32 +1116,68 @@ function getBoardsData() {
         ------------------------------------------------------------------ */
         {
             _id: makeId(),
-            title: "🎉 Party Planner",
+            title: "Party Planner",
             createdAt: Date.now(),
             members: [],
+            cmpsOrder: ["status", "priority", "dueDate", "timeline", "files"],
+            cmps: [
+                {
+                    id: makeId(),
+                    title: "Status",
+                    width: 180,
+                    type: {
+                        variant: "status",
+                        labels: [
+                            { id: makeId(), title: "Done", color: "#00c875" },
+                            { id: makeId(), title: "Working on it", color: "#fdab3d" },
+                            { id: makeId(), title: "Stuck", color: "#e2445c" },
+                            { id: makeId(), title: "Not Started", color: "#c4c4c4" }
+                        ]
+                    }
+                },
+                {
+                    id: makeId(),
+                    title: "Priority",
+                    width: 180,
+                    type: {
+                        variant: "priority",
+                        labels: [
+                            { id: makeId(), title: "Low 🎈", color: "#FDC5F5" },
+                            { id: makeId(), title: "Medium 🎁", color: "#FFB347" },
+                            { id: makeId(), title: "High 🎉", color: "#FF69B4" },
+                            { id: makeId(), title: "Critical ⚠️", color: "#FF3B30" }
+                        ]
+                    }
+                },
+                { id: makeId(), title: "Due Date", width: 150, type: { variant: "date" } },
+                { id: makeId(), title: "Timeline", width: 200, type: { variant: "timeline" } },
+                { id: makeId(), title: "Files", width: 120, type: { variant: "files" } }
+            ],
+
             groups: [
                 {
                     id: makeId(),
                     title: "👥 Guest List",
                     color: "#e0bbe4",
                     tasks: [
-                        { id: makeId(), title: "💌 Send Invites", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-02-02", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "📞 Confirm RSVPs", status: "Stuck", priority: "Medium", dueDate: "2025-03-05", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🎖️ VIP List", status: "Done", priority: "Critical ⚠️", dueDate: "2025-04-04", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🪑 Seating Plan", status: "Not Started", priority: "Low", dueDate: "2025-05-07", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🎁 Party Favors", status: "Done", priority: "High", dueDate: "2025-06-09", timeline: generateDateRangeObj(6), files: generateFilesFor("Party Planner"), updates: generateUpdates() }
+                        { id: makeId(), title: "💌 Send Invites", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-02-02", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "📞 Confirm RSVPs", status: "Stuck", priority: "Medium", dueDate: "2025-03-05", timeline: generateDateRangeObj(3), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🎖️ VIP List", status: "Done", priority: "Critical ⚠️", dueDate: "2025-04-04", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🪑 Seating Plan", status: "Not Started", priority: "Low", dueDate: "2025-05-07", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🎁 Party Favors", status: "Done", priority: "High", dueDate: "2025-06-09", timeline: generateDateRangeObj(6), updates: generateUpdates("Party Planner") }
                     ]
+
                 },
                 {
                     id: makeId(),
                     title: "🍕 Food & Drinks",
                     color: "#ffdfba",
                     tasks: [
-                        { id: makeId(), title: "🍕 Order Pizza", status: "Done", priority: "Medium", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🍹 Stock Bar", status: "Not Started", priority: "High", dueDate: "2025-03-02", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🍿 Buy Snacks", status: "Working on it", priority: "Low", dueDate: "2025-02-01", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🍰 Order Cake", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-04-03", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🧊 Rent Cooler", status: "Not Started", priority: "Low", dueDate: "2025-05-04", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner"), updates: generateUpdates() }
+                        { id: makeId(), title: "🍕 Order Pizza", status: "Done", priority: "Medium", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🍹 Stock Bar", status: "Not Started", priority: "High", dueDate: "2025-03-02", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🍿 Buy Snacks", status: "Working on it", priority: "Low", dueDate: "2025-02-01", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🍰 Order Cake", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-04-03", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🧊 Rent Cooler", status: "Not Started", priority: "Low", dueDate: "2025-05-04", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") }
                     ]
                 },
                 {
@@ -1151,11 +1185,11 @@ function getBoardsData() {
                     title: "🎶 Entertainment",
                     color: "#b6cfb6",
                     tasks: [
-                        { id: makeId(), title: "🎧 Book DJ", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-02-04", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🎈 Buy Decorations", status: "Working on it", priority: "Medium", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "🎤 Rent Karaoke Machine", status: "Not Started", priority: "Low", dueDate: "2025-04-08", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "📸 Hire Photographer", status: "Done", priority: "Critical ⚠️", dueDate: "2025-05-05", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner"), updates: generateUpdates() },
-                        { id: makeId(), title: "💡 Lights & Effects", status: "Done", priority: "High", dueDate: "2025-06-06", timeline: generateDateRangeObj(6), files: generateFilesFor("Party Planner"), updates: generateUpdates() }
+                        { id: makeId(), title: "🎧 Book DJ", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-02-04", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🎈 Buy Decorations", status: "Working on it", priority: "Medium", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🎤 Rent Karaoke Machine", status: "Not Started", priority: "Low", dueDate: "2025-04-08", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "📸 Hire Photographer", status: "Done", priority: "Critical ⚠️", dueDate: "2025-05-05", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "💡 Lights & Effects", status: "Done", priority: "High", dueDate: "2025-06-06", timeline: generateDateRangeObj(6), updates: generateUpdates("Party Planner") }
                     ]
                 }
             ]
@@ -1173,28 +1207,80 @@ function getBoardsData() {
             endDate: endDate.toISOString().slice(0, 10)
         };
     }
-    function generateUpdates() {
+    function generateUpdates(boardTitle) {
+        // ─── 1. Demo users pool ────────────────────────────────────────────────
         const users = [
             { _id: "u101", fullname: "John Doe", imgUrl: "https://i.pravatar.cc/40?img=15" },
             { _id: "u102", fullname: "Shani Cohen", imgUrl: "https://i.pravatar.cc/40?img=30" },
             { _id: "u103", fullname: "Alex Kim", imgUrl: "https://i.pravatar.cc/40?img=12" },
-            { _id: "u104", fullname: "Maya Singh", imgUrl: "https://i.pravatar.cc/40?img=47" }
-        ];
-        const texts = [
-            "Task reviewed and feedback provided ✅",
-            "Performance optimized ⚡",
-            "Code cleanup done 🧹",
-            "Synced with backend updates 🔄"
-        ];
+            { _id: "u104", fullname: "Maya Singh", imgUrl: "https://i.pravatar.cc/40?img=47" },
+            { _id: "u105", fullname: "Carlos Ortiz", imgUrl: "https://i.pravatar.cc/40?img=22" },
+            { _id: "u106", fullname: "Ella Levy", imgUrl: "https://i.pravatar.cc/40?img=21" },
+            { _id: "u107", fullname: "Mark Brown", imgUrl: "https://i.pravatar.cc/40?img=64" },
+            { _id: "u108", fullname: "Rina Adler", imgUrl: "https://i.pravatar.cc/40?img=33" }
+        ]
+
+        // ─── 2. Board-specific text templates ─────────────────────────────────
+        const boardTexts = {
+            "Minday Project": [
+                "Task reviewed and feedback provided ✅",
+                "Performance optimized ⚡",
+                "Refactored to hooks 🔄",
+                "Unit tests passing 🧪",
+                "Integrated with backend API 🌐",
+                "Fixed ESLint warnings 🧹",
+                "Styled components added 🎨",
+                "Component extracted into reusable piece ♻️",
+                "Dark mode implemented 🌙",
+                "User feedback applied 💬",
+                "Merged PR and resolved conflicts ✅"
+            ],
+            "Home Maintenance": [
+                "All tools packed away 🧰",
+                "Watered the seedlings 🌱",
+                "Replaced air-con filter ❄️",
+                "Leak patched and tested ✅",
+                "Garden looks great! 🌼",
+                "Scheduled next cleaning 🗓️",
+                "Cleared out storage area 📦",
+                "Repainted hallway 🎨",
+                "Ordered new sink parts 🚰",
+                "Roof inspected and no issues 🏠",
+                "Vacuumed and mopped 🧼"
+            ],
+            "Party Planner": [
+                "Cake confirmed with bakery 🎂",
+                "DJ playlist updated 🎶",
+                "50 RSVPs received 📩",
+                "Balloons ordered 🎈",
+                "Lighting test successful ✨",
+                "Menu approved by client 👍",
+                "Photographer booked 📸",
+                "Welcome banner delivered 🎉",
+                "Drinks chilled and ready 🍾",
+                "Table arrangements finalized 🍽️",
+                "Theme decor arrived 🎭"
+            ]
+        }
+
+        const texts = boardTexts[boardTitle] || [
+            "General update logged ✍️",
+            "Progress made 📊",
+            "Discussion initiated 💬",
+            "Waiting for approval 🕒"
+        ]
+
+        // ─── 3. Build 2 random updates ────────────────────────────────────────
         return Array.from({ length: 2 }, () => {
-            const user = users[Math.floor(Math.random() * users.length)];
+            const user = users[Math.floor(Math.random() * users.length)]
+            const text = texts[Math.floor(Math.random() * texts.length)]
             return {
                 id: makeId(),
-                text: texts[Math.floor(Math.random() * texts.length)],
+                text,
                 type: "text",
-                createdAt: Date.now() - Math.floor(Math.random() * 5) * 86400000,
+                createdAt: Date.now() - Math.floor(Math.random() * 5) * 86_400_000, // up to 5 days ago
                 byMember: user
-            };
-        });
+            }
+        })
     }
 }
