@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export function Modal({ isOpen, onClose, title, children, className = '' }) {
+export function Modal({ isOpen, onClose, title, children, className = '', hideDefaultHeader = false }) {
     
     useEffect(() => {
         function handleEscape(e) {
@@ -26,12 +26,12 @@ export function Modal({ isOpen, onClose, title, children, className = '' }) {
                 className={`modal-content ${className}`} 
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="modal-header">
-                    <h2 className="modal-title">{title}</h2>
-                    <button className="modal-close" onClick={onClose}>
-                        ✕
-                    </button>
-                </div>
+                {!hideDefaultHeader && (
+                    <div className="modal-header">
+                        <h2 className="modal-title">{title}</h2>
+                       
+                    </div>
+                )}
                 <div className="modal-body">
                     {children}
                 </div>
