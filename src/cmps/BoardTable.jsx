@@ -11,9 +11,10 @@ import {useTaskSelection} from "../customHooks/useTaskSelection";
 import {TaskCheckbox} from "./TaskCheckbox";
 import {GroupSummaryRow} from "../cmps/GroupSummaryRow";
 import {loadBoard, updateBoard} from "../store/board.actions";
+import { SearchEmptyState } from './SearchEmptyState';
 
 export const BoardTable = forwardRef(function BoardTable(
-  {board, onUpdateTask, onAddNewTask, onOpenUpdates},
+  {board, filteredTasks, onUpdateTask, onAddNewTask, onOpenUpdates},
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
@@ -88,11 +89,18 @@ export const BoardTable = forwardRef(function BoardTable(
     handleAddGroupAtTop,
   }));
 
+  const groupsToShow = (filteredTasks && filteredTasks.length > 0) ? filteredTasks : board.groups;
+
+  // Show empty state if searching and no results
+  if (filteredTasks && filteredTasks.length === 0) {
+    return <SearchEmptyState />;
+  }
+
   return (
     <div className="board-table">
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="table-wrapper">
-          {board.groups?.map((group) => (
+          {groupsToShow.map((group) => (
             <Droppable droppableId={group.id} key={group.id}>
               {(provided) => (
                 <div

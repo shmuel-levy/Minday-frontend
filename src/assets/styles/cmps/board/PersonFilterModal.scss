@@ -1,0 +1,91 @@
+.person-filter-modal {
+  .modal-content {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    min-width: 320px;
+    max-width: 360px;
+    padding: 0;
+  }
+  .modal-header {
+    border-bottom: 1px solid #f0f1f3;
+    padding: 20px 24px 12px 24px;
+    border-radius: 16px 16px 0 0;
+    background: #fff;
+  }
+  .modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #323338;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    padding: 0;
+  }
+  .modal-body {
+    padding: 16px 24px 24px 24px;
+  }
+  .person-filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .person-filter-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+    &:hover, &.selected {
+      background: #f0f1f3;
+    }
+    .person-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e0e1e3;
+      background: #f8f8fa;
+    }
+    .person-name {
+      font-size: 16px;
+      color: #323338;
+      font-weight: 500;
+    }
+    .selected-indicator {
+      margin-left: auto;
+      color: #00c875;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .clear-all-btn {
+    display: block;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    color: #0073ea;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 0;
+    border-radius: 6px;
+    transition: background 0.15s;
+    &:hover {
+      background: #f0f1f3;
+    }
+  }
+} 

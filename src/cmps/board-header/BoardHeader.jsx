@@ -9,7 +9,8 @@ import { AddBoardDropdown } from '../AddBoardDropdown'
 export function BoardHeader({ 
     board, onUpdateBoard, onAddNewTask, onAddNewGroup, 
     views, activeViewId, onAddView, onUpdateView, onSetActiveView, 
-    onAddWidget, addWidgetBtnRef, onUpdateViews 
+    onAddWidget, addWidgetBtnRef, onUpdateViews, searchText, setSearchText, 
+    selectedPersonId, setSelectedPersonId
 }) {
     const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false)
     const plusBtnRef = useRef(null)
@@ -122,6 +123,11 @@ export function BoardHeader({
                     currentView={activeView?.type}
                     onAddWidget={onAddWidget}
                     addWidgetBtnRef={addWidgetBtnRef}
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    members={board.members || []}
+                    selectedPersonId={selectedPersonId}
+                    setSelectedPersonId={setSelectedPersonId}
                 />
             </div>
         </section>
