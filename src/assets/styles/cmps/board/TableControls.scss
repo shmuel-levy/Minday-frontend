@@ -1,4 +1,3 @@
-
 .table-controls {
   display: flex;
   align-items: center;
@@ -17,8 +16,6 @@
     height: 32px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-
-
   }
 
   .btn-control {
@@ -38,6 +35,7 @@
     align-items: center;
     gap: 6px;
     white-space: nowrap; 
+    position: relative;
 
     &:hover {
       background: #f5f6f8;
@@ -46,7 +44,10 @@
     &:active,
     &.active {
       background: #e6f0fb;
-
+    }
+    &.selected {
+      background: #e6f0fb;
+      color: #0073ea;
     }
     svg {
       color: #676879;
@@ -86,5 +87,54 @@
       color: #323338;
       font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
     }
+
+    .search-clear-btn {
+      background: none;
+      border: none;
+      color: #676879;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f0f1f3;
+        color: #323338;
+      }
+    }
+  }
+
+  .person-clear-btn,
+  .sort-clear-btn {
+    background: none;
+    border: none;
+    color: #676879;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-left: 4px;
+
+    &:hover {
+      background: #f0f1f3;
+      color: #323338;
+    }
+  }
+
+  .person-btn-avatar {
+    border-radius: 50%;
+    object-fit: cover;
   }
 }

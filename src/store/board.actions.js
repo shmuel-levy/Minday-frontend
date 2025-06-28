@@ -173,7 +173,7 @@ export async function updateTask(boardId, groupId, taskId, taskToUpdate) {
     try {
         const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskToUpdate)
 
-        // Reload the board to get the updated state
+        // Reload the board to get tupdated state
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
 
@@ -191,7 +191,7 @@ export async function addTaskUpdate(boardId, groupId, taskId, updateText) {
             type: 'text'
         })
 
-        // Reload the board to get the updated state
+       
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
 
@@ -206,7 +206,7 @@ export async function addTaskFile(boardId, groupId, taskId, fileData) {
     try {
         const result = await boardService.addTaskFile(boardId, groupId, taskId, fileData)
 
-        // Reload the board to get the updated state
+       
         const board = await boardService.getById(boardId)
         store.dispatch(getCmdSetBoard(board))
 

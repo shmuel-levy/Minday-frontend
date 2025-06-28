@@ -1,0 +1,33 @@
+.search-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  min-height: 400px;
+
+  .search-empty-state__image {
+    width: 200px;
+    height: 150px;
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .search-empty-state__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #323338;
+    margin: 0 0 12px 0;
+    font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+  }
+
+  .search-empty-state__subtitle {
+    font-size: 16px;
+    color: #676879;
+    margin: 0;
+    max-width: 400px;
+    line-height: 1.5;
+    font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+  }
+} 

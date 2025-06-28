@@ -10,7 +10,8 @@ export function BoardHeader({
     board, onUpdateBoard, onAddNewTask, onAddNewGroup, 
     views, activeViewId, onAddView, onUpdateView, onSetActiveView, 
     onAddWidget, addWidgetBtnRef, onUpdateViews, searchText, setSearchText, 
-    selectedPersonId, setSelectedPersonId
+    selectedPersonId, setSelectedPersonId, selectedSortField, setSelectedSortField,
+    sortDirection, setSortDirection, members = [], onApplyFilters
 }) {
     const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false)
     const plusBtnRef = useRef(null)
@@ -125,9 +126,15 @@ export function BoardHeader({
                     addWidgetBtnRef={addWidgetBtnRef}
                     searchText={searchText}
                     setSearchText={setSearchText}
-                    members={board.members || []}
+                    members={members}
                     selectedPersonId={selectedPersonId}
                     setSelectedPersonId={setSelectedPersonId}
+                    selectedSortField={selectedSortField}
+                    setSelectedSortField={setSelectedSortField}
+                    sortDirection={sortDirection}
+                    setSortDirection={setSortDirection}
+                    board={board}
+                    onApplyFilters={onApplyFilters}
                 />
             </div>
         </section>

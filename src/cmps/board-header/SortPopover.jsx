@@ -1,21 +1,6 @@
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-const SORT_FIELDS = [
-  { key: 'date', label: 'Date' },
-  { key: 'name', label: 'Name' },
-  { key: 'status', label: 'Status' },
-  { key: 'timeline', label: 'Timeline' },
-  { key: 'priority', label: 'Priority' },
-  { key: 'person', label: 'Person' },
-  { key: 'file', label: 'File' },
-];
-
-const SORT_DIRECTIONS = [
-  { key: 'asc', label: 'Ascending' },
-  { key: 'desc', label: 'Descending' },
-];
-
 export function SortPopover({
   isOpen,
   onClose,
@@ -26,7 +11,23 @@ export function SortPopover({
   onClear,
   anchorRef,
 }) {
-  const popoverRef = useRef();
+  const popoverRef = useRef()
+  
+  const SORT_FIELDS = [
+    { key: 'title', label: 'Name' },
+    { key: 'status', label: 'Status' },
+    { key: 'priority', label: 'Priority' },
+    { key: 'assignee', label: 'Person' },
+    { key: 'dueDate', label: 'Date' },
+    { key: 'timeline', label: 'Timeline' },
+    { key: 'members', label: 'Members' },
+    { key: 'files', label: 'Files' }
+  ];
+  
+  const SORT_DIRECTIONS = [
+    { key: 'asc', label: 'Ascending' },
+    { key: 'desc', label: 'Descending' },
+  ];
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -79,14 +80,18 @@ export function SortPopover({
           <span>Sort by</span>
           <span className="sort-popover-help" title="Sort your board by any column">?</span>
         </div>
-        <button className="sort-popover-clear" onClick={onClear} title="Clear all" type="button">×</button>
+        <button className="sort-popover-clear" onClick={() => {
+          onClear();
+        }} title="Clear all" type="button">×</button>
       </div>
       <div className="sort-popover-dropdowns">
         <div className="sort-popover-dropdown sort-popover-field-dropdown">
           <select
             className="sort-popover-select"
             value={selectedField || ''}
-            onChange={e => onSelectField(e.target.value)}
+            onChange={e => {
+              onSelectField(e.target.value);
+            }}
           >
             <option value="">Choose column</option>
             {SORT_FIELDS.map(field => (
@@ -98,7 +103,9 @@ export function SortPopover({
           <select
             className="sort-popover-select"
             value={sortDirection}
-            onChange={e => onSelectDirection(e.target.value)}
+            onChange={e => {
+              onSelectDirection(e.target.value);
+            }}
           >
             {SORT_DIRECTIONS.map(dir => (
               <option key={dir.key} value={dir.key}>{dir.label}</option>

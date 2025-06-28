@@ -14,7 +14,7 @@ import {loadBoard, updateBoard} from "../store/board.actions";
 import { SearchEmptyState } from './SearchEmptyState';
 
 export const BoardTable = forwardRef(function BoardTable(
-  {board, filteredTasks, onUpdateTask, onAddNewTask, onOpenUpdates},
+  {board, onUpdateTask, onAddNewTask, onOpenUpdates},
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
@@ -89,10 +89,10 @@ export const BoardTable = forwardRef(function BoardTable(
     handleAddGroupAtTop,
   }));
 
-  const groupsToShow = (filteredTasks && filteredTasks.length > 0) ? filteredTasks : board.groups;
+  const groupsToShow = (board.groups && board.groups.length > 0) ? board.groups : board.groups;
 
   // Show empty state if searching and no results
-  if (filteredTasks && filteredTasks.length === 0) {
+  if (board.groups && board.groups.length === 0) {
     return <SearchEmptyState />;
   }
 

@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, useMemo} from "react";
+import {useState, useEffect, useRef} from "react";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 
@@ -10,6 +10,7 @@ import {BoardDashboard} from "./BoardDashboard";
 import {TaskDetailModal} from "../cmps/task-detail-modal/TaskDetailModal";
 import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {makeId} from "../services/util.service";
+import {BoardFilters} from "../cmps/BoardFilters";
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
   const {boardId} = useParams();
@@ -29,30 +30,28 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [selectedPersonId, setSelectedPersonId] = useState(null);
   const [selectedSortField, setSelectedSortField] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
-
-  const activeView = views.find((v) => v.id === activeViewId) || views[0];
+  const [filteredBoard, setFilteredBoard] = useState(null);
 
   useEffect(() => {
     if (boardId) {
-      _loadBoard(boardId);
+      _loadBoard(boardId)
     }
-  }, [boardId, boards]);
+  }, [boardId, boards])
 
   async function _loadBoard() {
     try {
-      const currBoard = await loadBoard(boardId);
-      console.log("currBoard", currBoard);
+      const currBoard = await loadBoard(boardId)
     } catch (err) {
-      console.error("Error loading board:", err);
+      console.error("Error loading board:", err)
     }
   }
 
   async function handleUpdateBoard(updatedBoard) {
     try {
       await updateBoard(updatedBoard);
-      showSuccessMsg("Board updated successfully");
+      showSuccessMsg("Board updated successfully")
     } catch (err) {
-      showErrorMsg("Cannot update board");
+      showErrorMsg("Cannot update board")
     }
   }
 
@@ -108,109 +107,67 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     setViews(newViews);
   }
 
-  // --- FILTER BY PERSON LOGIC ---
-  function getFilteredByPerson() {
+  function handleFiltersChange(filters) {
+    // Handle filters change if needed
+  }
+
+  function handleFilteredBoardChange(newFilteredBoard) {
+    setFilteredBoard(newFilteredBoard);
+  }
+
+  function handleApplyFilters(filters) {
+    console.log('Applied filters:', filters);
+    // כאן נוכל להוסיף לוגיקה נוספת לטיפול בפילטרים המתקדמים
+  }
+
+  // Extract all unique members from board tasks
+  const extractMembers = () => {
     if (!board) return [];
-    if (!selectedPersonId) return board.groups;
-    return board.groups
-      .map(group => ({
-        ...group,
-        tasks: group.tasks.filter(task =>
-          (Array.isArray(task.members) && task.members.some(m => m._id === selectedPersonId)) ||
-          (task.assignee && (task.assignee._id === selectedPersonId || task.assignee === selectedPersonId))
-        )
-      }))
-      .filter(group => group.tasks.length > 0);
-  }
-
-  // --- FILTER BY SEARCH LOGIC ---
-  function getFilteredBySearch(groupsToFilter) {
-    if (!searchText.trim()) return groupsToFilter;
     
-    const searchLower = searchText.toLowerCase();
-    return groupsToFilter
-      .map(group => ({
-        ...group,
-        tasks: group.tasks.filter(task => {
-          // Search in task title
-          if (task.title && task.title.toLowerCase().includes(searchLower)) return true;
-          
-          // Search in task description
-          if (task.description && task.description.toLowerCase().includes(searchLower)) return true;
-          
-          // Search in task status
-          if (task.status && task.status.toLowerCase().includes(searchLower)) return true;
-          
-          // Search in task priority
-          if (task.priority && task.priority.toLowerCase().includes(searchLower)) return true;
-          
-          // Search in task assignee name
-          if (task.assignee) {
-            const assigneeName = typeof task.assignee === 'string' ? task.assignee : 
-              (task.assignee.fullname || task.assignee.firstName || task.assignee.name || '');
-            if (assigneeName.toLowerCase().includes(searchLower)) return true;
-          }
-          
-          // Search in task members names
-          if (Array.isArray(task.members)) {
-            const hasMatchingMember = task.members.some(member => {
-              const memberName = member.fullname || member.firstName || member.name || '';
-              return memberName.toLowerCase().includes(searchLower);
-            });
-            if (hasMatchingMember) return true;
-          }
-          
-          // Search in task updates/comments
-          if (Array.isArray(task.updates)) {
-            const hasMatchingUpdate = task.updates.some(update => {
-              const updateText = update.text || update.comment || '';
-              return updateText.toLowerCase().includes(searchLower);
-            });
-            if (hasMatchingUpdate) return true;
-          }
-          
-          return false;
-        })
-      }))
-      .filter(group => group.tasks.length > 0);
-  }
-
-  // --- SORT LOGIC ---
-  function getSortedGroups(groupsToSort) {
-    if (!selectedSortField) return groupsToSort;
-    const dir = sortDirection === 'desc' ? -1 : 1;
-    const getValue = (task) => {
-      switch (selectedSortField) {
-        case 'name': return task.title || '';
-        case 'person': return task.assignee || '';
-        case 'status': return task.status || '';
-        case 'date': return task.dueDate || '';
-        case 'timeline': return task.timeline?.startDate || '';
-        case 'priority': return task.priority || '';
-        case 'file': return Array.isArray(task.files) ? task.files.length : 0;
-        default: return '';
-      }
-    };
-    return groupsToSort.map(group => ({
-      ...group,
-      tasks: [...group.tasks].sort((a, b) => {
-        const aVal = getValue(a);
-        const bVal = getValue(b);
-        if (selectedSortField === 'date' || selectedSortField === 'timeline') {
-          return (new Date(aVal) - new Date(bVal)) * dir;
+    const allMembers = new Map();
+    
+    // First add board members
+    if (board.members && board.members.length > 0) {
+      board.members.forEach(member => {
+        if (member._id) {
+          allMembers.set(member._id, {
+            _id: member._id,
+            fullname: member.fullname || member.firstName,
+            firstName: member.firstName,
+            imgUrl: member.imgUrl || member.profileImg,
+            profileImg: member.profileImg || member.imgUrl
+          });
         }
-        if (selectedSortField === 'file') {
-          return (aVal - bVal) * dir;
-        }
-        return aVal.localeCompare(bVal, undefined, { numeric: true }) * dir;
-      })
-    }));
-  }
+      });
+    }
+    
+    // Then add task members
+    if (board.groups) {
+      board.groups.forEach(group => {
+        group.tasks.forEach(task => {
+          if (task.members && task.members.length > 0) {
+            task.members.forEach(member => {
+              if (member._id) {
+                allMembers.set(member._id, {
+                  _id: member._id,
+                  fullname: member.name || member.fullname || member.firstName,
+                  firstName: member.firstName || member.name,
+                  imgUrl: member.imgUrl || member.profileImg,
+                  profileImg: member.profileImg || member.imgUrl
+                });
+              }
+            });
+          }
+        });
+      });
+    }
+    
+    return Array.from(allMembers.values());
+  };
 
-  // --- COMBINE FILTERS & SORT ---
-  const filteredByPerson = useMemo(() => board ? getFilteredByPerson() : [], [selectedPersonId, board]);
-  const filteredBySearch = useMemo(() => getFilteredBySearch(filteredByPerson), [searchText, filteredByPerson]);
-  const sortedGroups = useMemo(() => getSortedGroups(filteredBySearch), [filteredBySearch, selectedSortField, sortDirection]);
+  const members = extractMembers();
+
+  const activeView = views.find((v) => v.id === activeViewId) || views[0];
 
   if (!board) {
     return <div>Loading board...</div>;
@@ -243,6 +200,19 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
         setSelectedSortField={setSelectedSortField}
         sortDirection={sortDirection}
         setSortDirection={setSortDirection}
+        members={members}
+        onApplyFilters={handleApplyFilters}
+      />
+
+   
+      <BoardFilters 
+        board={board}
+        onFiltersChange={handleFiltersChange}
+        onFilteredBoardChange={handleFilteredBoardChange}
+        searchText={searchText}
+        selectedPersonId={selectedPersonId}
+        selectedSortField={selectedSortField}
+        sortDirection={sortDirection}
       />
 
       <div className="board-content-container">
@@ -250,8 +220,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
           <div className="board-table-container">
             <BoardTable
               ref={boardTableRef}
-              board={board}
-              filteredTasks={sortedGroups}
+              board={filteredBoard || board}
               onUpdateTask={handleUpdateBoard}
               onAddNewTask={(task, groupId) => {}}
               onOpenUpdates={handleOpenUpdates}
@@ -295,5 +264,5 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
         buttonRef={addWidgetButtonRef}
       />
     </section>
-  );
+  )
 }

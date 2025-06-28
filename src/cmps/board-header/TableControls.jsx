@@ -8,16 +8,35 @@ import { PlusWidget } from '../svg/PlusWidget'
 import { PersonFilterPopover } from './PersonFilterPopover'
 import { UserAvatar } from '../UserAvatar'
 import { SortPopover } from './SortPopover'
+import { FilterPopover } from './FilterPopover'
 
-export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentView, onAddWidget, addWidgetBtnRef, searchText, setSearchText, members = [], selectedPersonId, setSelectedPersonId }) {
+export function TableControls({ 
+    onAddNewTask, 
+    onAddNewGroup, 
+    boardType, 
+    currentView, 
+    onAddWidget, 
+    addWidgetBtnRef, 
+    searchText, 
+    setSearchText, 
+    members = [], 
+    selectedPersonId, 
+    setSelectedPersonId,
+    selectedSortField,
+    setSelectedSortField,
+    sortDirection,
+    setSortDirection,
+    board,
+    onApplyFilters
+}) {
     const [openDropdown, setOpenDropdown] = useState(null)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [isPersonPopoverOpen, setIsPersonPopoverOpen] = useState(false)
     const [isSortPopoverOpen, setIsSortPopoverOpen] = useState(false)
-    const [selectedSortField, setSelectedSortField] = useState('')
-    const [sortDirection, setSortDirection] = useState('asc')
+    const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState(false)
     const personBtnRef = useRef(null)
     const sortBtnRef = useRef(null)
+    const filterBtnRef = useRef(null)
     const clearButtonClickedRef = useRef(false)
 
     const selectedPerson = members.find(m => m._id === selectedPersonId) || null;
@@ -32,7 +51,7 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
     }
 
     const handleSelectPerson = (personId) => {
-        setSelectedPersonId(prev => prev === personId ? null : personId)
+        setSelectedPersonId(prev => prev === personId ? null : personId);
         setIsPersonPopoverOpen(false);
     }
 
@@ -60,14 +79,23 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
         setIsSortPopoverOpen(false);
     }
 
+    const handleFilterClick = () => {
+        setIsFilterPopoverOpen((prev) => !prev);
+    }
+
+    const handleApplyFilters = (filters) => {
+        if (onApplyFilters) {
+            onApplyFilters(filters);
+        }
+    }
+
     const handleSearchClear = () => {
         clearButtonClickedRef.current = true;
         setSearchText('');
-        // Don't close the search input when clearing
+        setIsSearchOpen(false);
     }
 
     const handleSearchBlur = () => {
-        // Only close if the clear button wasn't clicked
         if (!clearButtonClickedRef.current) {
             if (!searchText) {
                 setIsSearchOpen(false);
@@ -75,7 +103,6 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
                 setTimeout(() => setIsSearchOpen(false), 180);
             }
         }
-        // Reset the flag
         clearButtonClickedRef.current = false;
     }
 
@@ -175,7 +202,7 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
                 anchorRef={personBtnRef}
             />
             <button
-                className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}`}
+                className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
                 onClick={handleSortClick}
                 aria-pressed={isSortPopoverOpen}
                 type="button"
@@ -183,6 +210,17 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
             >
                 <SortIcon />
                 Sort
+                {selectedSortField && (
+                    <button
+                        className="sort-clear-btn"
+                        onClick={handleSortClear}
+                        tabIndex={-1}
+                        type="button"
+                        aria-label="Clear sort"
+                    >
+                        ×
+                    </button>
+                )}
             </button>
             <SortPopover
                 isOpen={isSortPopoverOpen}
@@ -195,17 +233,22 @@ export function TableControls({ onAddNewTask, onAddNewGroup, boardType, currentV
                 anchorRef={sortBtnRef}
             />
             <button
-                className={`btn-control filter-btn${openDropdown === 'filter' ? ' active' : ''}`}
-                onClick={() => handleToggle('filter')}
-                aria-pressed={openDropdown === 'filter'}
+                className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
+                onClick={handleFilterClick}
+                aria-pressed={isFilterPopoverOpen}
                 type="button"
+                ref={filterBtnRef}
             >
                 <FilterIcon />
                 Filter
             </button>
-            {openDropdown === 'filter' && (
-                <div className="dropdown">Filter dropdown</div>
-            )}
+            <FilterPopover
+                isOpen={isFilterPopoverOpen}
+                onClose={() => setIsFilterPopoverOpen(false)}
+                onApplyFilters={handleApplyFilters}
+                anchorRef={filterBtnRef}
+                board={board}
+            />
         </div>
     )
 }
