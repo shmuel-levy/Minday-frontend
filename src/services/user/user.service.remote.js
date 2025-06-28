@@ -29,22 +29,31 @@ function remove(userId) {
 async function update({ _id, score }) {
 	const user = await httpService.put(`user/${_id}`, { _id, score })
 
-	// When admin updates other user's details, do not update loggedinUser
-    const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
+	const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) _saveLocalUser(user)
 
 	return user
 }
 
 async function login(userCred) {
-	const user = await httpService.post('auth/login', userCred)
+    // Send in backend format: {email, password}
+	const user = await httpService.post('auth/login', {
+        email: userCred.email,
+        password: userCred.password
+    })
 	if (user) return _saveLocalUser(user)
 }
 
 async function signup(userCred) {
-	userCred.score = 10000
-
-    const user = await httpService.post('auth/signup', userCred)
+    // Send in backend format: {email, firstName, lastName, profileImg, password, role}
+    const user = await httpService.post('auth/signup', {
+        email: userCred.email,
+        firstName: userCred.firstName,
+        lastName: userCred.lastName,
+        profileImg: userCred.profileImg || '',
+        password: userCred.password,
+        role: userCred.role || 'user'
+    })
 	return _saveLocalUser(user)
 }
 
@@ -58,7 +67,21 @@ function getLoggedinUser() {
 }
 
 function _saveLocalUser(user) {
-	user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin: user.isAdmin }
-	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-	return user
+    // Store user exactly as backend sends it, but ensure compatibility
+	const userToStore = { 
+        _id: user._id, 
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullname: `${user.firstName} ${user.lastName}`, // Add fullname for compatibility
+        account: user.account,
+        profileImg: user.profileImg,
+        imgUrl: user.profileImg, // Add imgUrl for compatibility
+        score: user.score || 10000, 
+        isAdmin: user.isAdmin,
+        role: user.role
+    }
+    
+	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToStore))
+	return userToStore
 }

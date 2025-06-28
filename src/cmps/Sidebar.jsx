@@ -34,7 +34,7 @@ export function Sidebar({onOpenBoardModal}) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isHomeActive = location.pathname === "/";
+  const isHomeActive = location.pathname === "/board";
 
   useEffect(() => {
     document.documentElement.style.setProperty(

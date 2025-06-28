@@ -11,7 +11,7 @@ export function Signup() {
     const navigate = useNavigate()
 
     function clearState() {
-        setCredentials({ username: '', password: '', fullname: '', imgUrl: '', score: 100 })
+        setCredentials(userService.getEmptyUser())
     }
 
     function handleChange(ev) {
@@ -23,31 +23,39 @@ export function Signup() {
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.username || !credentials.password || !credentials.fullname) return
+        if (!credentials.email || !credentials.password || !credentials.firstName) return
         await signup(credentials)
         clearState()
         navigate('/')
     }
 
     function onUploaded(imgUrl) {
-        setCredentials(credentials => ({ ...credentials, imgUrl }))
+        setCredentials(credentials => ({ ...credentials, profileImg: imgUrl }))
     }
 
     return (
         <form className="signup-form" onSubmit={onSignup}>
             <input
                 type="text"
-                name="fullname"
-                value={credentials.fullname}
-                placeholder="Fullname"
+                name="firstName"
+                value={credentials.firstName}
+                placeholder="First Name"
                 onChange={handleChange}
                 required
             />
             <input
                 type="text"
-                name="username"
-                value={credentials.username}
-                placeholder="Username"
+                name="lastName"
+                value={credentials.lastName}
+                placeholder="Last Name"
+                onChange={handleChange}
+                required
+            />
+            <input
+                type="email"
+                name="email"
+                value={credentials.email}
+                placeholder="Email"
                 onChange={handleChange}
                 required
             />
@@ -59,6 +67,14 @@ export function Signup() {
                 onChange={handleChange}
                 required
             />
+            <select
+                name="role"
+                value={credentials.role}
+                onChange={handleChange}
+            >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
             <ImgUploader onUploaded={onUploaded} />
             <button>Signup</button>
         </form>

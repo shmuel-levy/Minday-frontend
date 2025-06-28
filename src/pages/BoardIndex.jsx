@@ -13,6 +13,7 @@ import { DropdownHome } from '../cmps/svg/DropdownButtonHome.jsx'
 import { DropdownButtonRight } from '../cmps/svg/DropdownButtonRight.jsx'
 import { HomeWorkspaceIcon } from '../cmps/svg/HomeIconWorkspace.jsx'
 
+
 export function BoardIndex() {
     const boards = useSelector(storeState => storeState.boardModule.boards) || []
     const navigate = useNavigate()
@@ -28,6 +29,18 @@ export function BoardIndex() {
             return []
         }
     })
+
+    useEffect(() => {
+        function syncRecent(e) {
+            if (e.key === 'recentBoards') {
+                try {
+                    setRecentBoards(JSON.parse(e.newValue) || [])
+                } catch { /* ignore */ }
+            }
+        }
+        window.addEventListener('storage', syncRecent)
+        return () => window.removeEventListener('storage', syncRecent)
+    }, [])
 
 
     useEffect(() => {
@@ -75,6 +88,8 @@ export function BoardIndex() {
         if (hour >= 17 && hour < 21) return 'Good evening'
         return 'Good night'
     }
+
+
 
     return (
         <div className="board-index">

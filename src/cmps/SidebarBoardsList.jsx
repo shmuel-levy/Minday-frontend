@@ -10,6 +10,10 @@ import {AddBoardDropdown} from "./AddBoardDropdown";
 import {boardService} from "./../services/board";
 import {showSuccessMsg, showErrorMsg} from "../services/event-bus.service";
 import {addBoard, updateBoard} from "../store/board.actions";
+import {TrashIcon} from "./svg/TrashIcon";
+import { useBoardState } from "../customHooks/useBoardState";
+import { Modal } from "./Modal";
+import "../assets/styles/cmps/DeleteConfirmationModal.scss";
 
 export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const navigate = useNavigate();
@@ -18,6 +22,8 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   // const [localBoards, setLocalBoards] = useState(boards || []);
   const addBoardBtnRef = useRef(null);
+  const { handleRemoveBoard } = useBoardState();
+  const [pendingDeleteBoard, setPendingDeleteBoard] = useState(null);
 
   if (favoritesOpen) {
     return (
@@ -118,9 +124,16 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
               location.pathname === `/board/${board?._id}` ? "active" : ""
             }`}
             onClick={() => navigate(`/board/${board?._id}`)}
+            style={{ position: 'relative' }}
           >
             <BoardIconSidebar />
             <span className="board-title">{board?.title}</span>
+            <span className="trash-icon-wrapper" onClick={e => {
+              e.stopPropagation();
+              setPendingDeleteBoard(board);
+            }}>
+              <TrashIcon />
+            </span>
           </div>
         ))}
       </div>
@@ -130,6 +143,59 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
         onClose={() => setIsCreateModalOpen(false)}
         onCreateBoard={handleCreateBoard}
       />
+
+      <Modal
+        isOpen={!!pendingDeleteBoard}
+        onClose={() => setPendingDeleteBoard(null)}
+        className="delete-confirmation-modal"
+        hideDefaultHeader={true}
+      >
+        <div className="modal-component default-overlay-style system-modal delete-object-wrapper" style={{position: 'relative'}}>
+          <button
+            className="delete-modal-close"
+            onClick={() => setPendingDeleteBoard(null)}
+            aria-label="Close"
+            style={{position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', fontSize: 24, color: '#676879', cursor: 'pointer'}}
+          >
+            &times;
+          </button>
+          <div className="modal-component-content">
+            <div className="delete-object-warning-dialog">
+              <div className="delete-object-warning-title-wrapper">
+                <h2 className="want-to-delete-title">Delete this board?</h2>
+              </div>
+              <p className="want-to-delete-bottom-note">We'll keep it in your trash for 30 days, and then permanently delete it.</p>
+              <span className="delete-object-warning-dialog-button-section">
+                <button
+                  type="button"
+                  className="want-to-delete-secondary-button button_179ab51c11 sizeMedium_58824a014d kindTertiary_08f8117bdb colorPrimary_1e1fb85d38 marginRight_a08cb551e8"
+                  onClick={() => setPendingDeleteBoard(null)}
+                  data-testid="button"
+                  data-vibe="Button"
+                  aria-disabled="false"
+                  aria-busy="false"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="button_179ab51c11 sizeMedium_58824a014d kindPrimary_6478670b5e colorPrimary_1e1fb85d38"
+                  onClick={async () => {
+                    await handleRemoveBoard(pendingDeleteBoard._id);
+                    setPendingDeleteBoard(null);
+                  }}
+                  data-testid="button"
+                  data-vibe="Button"
+                  aria-disabled="false"
+                  aria-busy="false"
+                >
+                  Delete board
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }

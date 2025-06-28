@@ -11,6 +11,7 @@ export const boardService = {
     getById,
     save,
     removeBoard,
+    remove: removeBoard,
     createGroup,
     // Group CRUDL
     addGroup,
@@ -30,8 +31,10 @@ export const boardService = {
     addTaskFile,
     getTaskActivities,
     getRandomColor,
+    removeTaskUpdate,
     addTaskUpdate,
     getDemoBoard,
+    recordRecentBoard,
 
 }
 
@@ -416,6 +419,20 @@ async function save(board) {
         // }
     }
 }
+  //Update recent boards
+export function recordRecentBoard(board) {
+  if (!board?._id || !board.title) return
+
+  const prev = JSON.parse(localStorage.getItem('recentBoards') || '[]')
+                .filter(b => b && b._id && b.title)
+
+  const updated = [
+    { _id: board._id, title: board.title, isStarred: board.isStarred },
+    ...prev.filter(b => b._id !== board._id)
+  ].slice(0, 4)                            // keep only 4
+
+  localStorage.setItem('recentBoards', JSON.stringify(updated))
+}
 
 // remove board
 async function removeBoard(boardId) {
@@ -542,26 +559,22 @@ function findGroupByTaskId(board, taskId) {
 }
 
 // update task in group (returns board)
-async function updateTask(boardId, taskId, taskToUpdate) {
-    try {
+export async function updateTask(board, taskId, patch) {
+    // locate task
+    const group = board.groups.find(g => g.tasks.some(t => t.id === taskId));
+    if (!group) throw new Error('Group not found');
 
-        const board = await getById(boardId)
-        console.log('board:', board, boardId, taskId, taskToUpdate);
+    const idx = group.tasks.findIndex(t => t.id === taskId);
+    if (idx === -1) throw new Error('Task not found');
 
-        if (!board) console.error('Board not found')
-        const group = findGroupByTaskId(board, taskId)
-        if (!group) console.error('Group not found')
-        const taskIdx = group.tasks.findIndex(t => t.id === taskId)
-        if (taskIdx === -1) console.error('Task not found')
-        group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskToUpdate }
-        // await storageService.put(STORAGE_KEY, board)
-        console.log('Task updated successfully:', group.tasks[taskIdx]);
+    // mutate in-memory copy
+    group.tasks[idx] = { ...group.tasks[idx], ...patch };
 
-        return board
-    } catch (err) {
-        console.error('Error updating task:', err)
-        throw new Error('Failed to update task')
-    }
+    // persist in the background – don’t block the UI
+    storageService.put(STORAGE_KEY, board).catch(console.error);
+
+    // return immediately so callers can re-render
+    return board;
 }
 
 // remove task from group (returns board)
@@ -576,6 +589,23 @@ async function removeTask(boardId, groupId, taskId) {
     await storageService.put(STORAGE_KEY, board)
     return board
 }
+
+export async function removeTaskUpdate(boardId, groupId, taskId, updateId) {
+    const board = await getById(boardId)
+    if (!board) throw new Error('Board not found')
+
+    const group = board.groups.find(g => g.id === groupId)
+    if (!group) throw new Error('Group not found')
+
+    const task = group.tasks.find(t => t.id === taskId)
+    if (!task) throw new Error('Task not found')
+
+    task.updates = task.updates.filter(u => u.id !== updateId)
+
+    await storageService.put(STORAGE_KEY, board)
+    return updateId
+}
+
 
 // Helpers
 
@@ -830,850 +860,439 @@ function _initBoards() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(gBoards))
 }
 
+function generateFilesFor(boardTitle) {
+    const sources = {
+        "Minday Project": [
+            "https://cdn.pixabay.com/photo/2024/05/15/20/57/developer-8764524_1280.jpg",
+            "https://cdn.pixabay.com/photo/2024/06/14/12/15/developer-8829735_1280.jpg",
+            "https://cdn.pixabay.com/photo/2023/10/20/14/25/ai-generated-8329596_1280.jpg",
+            "https://cdn.pixabay.com/photo/2024/06/14/12/15/developer-8829711_1280.jpg",
+            "https://cdn.pixabay.com/photo/2020/04/11/18/05/red-matrix-5031496_1280.jpg",
+            "https://cdn.pixabay.com/photo/2017/11/16/09/31/matrix-2953863_1280.jpg"
+        ],
+        "Home Maintenance": [
+            "https://cdn.pixabay.com/photo/2022/05/19/13/47/gardening-7207419_1280.jpg",
+            "https://cdn.pixabay.com/photo/2021/04/04/20/30/plant-6151414_1280.jpg",
+            "https://cdn.pixabay.com/photo/2025/06/16/12/52/cleaning-services-9663247_1280.jpg",
+            "https://cdn.pixabay.com/photo/2017/09/15/10/24/painter-2751666_1280.jpg",
+            "https://cdn.pixabay.com/photo/2022/05/05/20/01/australian-shepherd-7176981_1280.jpg",
+            "https://cdn.pixabay.com/photo/2023/10/25/09/54/bee-8339991_1280.jpg",
+            "https://cdn.pixabay.com/photo/2018/09/15/07/55/dahlia-3678831_1280.jpg",
+
+
+        ],
+        "Party Planner": [
+            "https://cdn.pixabay.com/photo/2023/07/13/14/55/cake-8125059_1280.jpg",
+            "https://cdn.pixabay.com/photo/2017/04/21/03/27/party-2247504_1280.jpg",
+            "https://cdn.pixabay.com/photo/2023/05/02/18/25/birthday-7965797_1280.jpg",
+            "https://cdn.pixabay.com/photo/2016/11/29/13/20/balloons-1869790_1280.jpg",
+            "https://cdn.pixabay.com/photo/2020/01/20/02/44/candles-4779351_1280.jpg",
+            "https://cdn.pixabay.com/photo/2014/12/01/19/23/pink-553149_1280.jpg"
+        ]
+    };
+
+    const list = sources[boardTitle] || [];
+    const url = list[Math.floor(Math.random() * list.length)];
+
+    return [
+        {
+            _id: makeId(),
+            name: url.split("/").pop(), // e.g. developer-8764524_1280.jpg
+            url,
+            type: "image/jpeg",
+            size: 100000 + Math.floor(Math.random() * 100000),
+            createdAt: Date.now()
+        }
+    ];
+}
+
 
 function getBoardsData() {
     return [
         {
-            "title": "New Board",
-            "activities": [],
-            "isStarred": false,
-            "createdAt": 1750785932536,
-            "updatedAt": 1750785932536,
-            "owner": {
-                "_id": "guest",
-                "fullname": "Guest",
-                "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                "isGuest": true
-            },
-            "members": [
+            _id: makeId(),
+            title: "Minday Project",
+            createdAt: Date.now(),
+            members: [],
+            groups: [
+                /* ---------- 💻 Frontend ---------- */
                 {
-                    "_id": "guest",
-                    "fullname": "Guest",
-                    "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                    "isGuest": true
-                }
-            ],
-            "type": "Items",
-            "description": "Managing items",
-            "style": {},
-            "labels": [],
-            "cmpsOrder": [
-                "StatusPicker",
-                "MemberPicker",
-                "DatePicker"
-            ],
-            "columns": [
-                {
-                    "id": makeId(),
-                    "title": "Item",
-                    "width": 400,
-                    "type": {
-                        "variant": "item"
-                    },
-                    "createdAt": 1750785932536,
-                    "owner": "guest"
-                },
-                {
-                    "id": "l208qE7jYjDOu6V",
-                    "title": "Person",
-                    "width": 200,
-                    "type": {
-                        "variant": "people"
-                    },
-                    "createdAt": 1750785932536,
-                    "owner": "guest"
-                },
-                {
-                    "id": "XHW7xaLHwKwGsUR",
-                    "title": "Status",
-                    "width": 200,
-                    "type": {
-                        "variant": "status",
-                        "labels": []
-                    },
-                    "createdAt": 1750785932536,
-                    "owner": "guest"
-                },
-                {
-                    "id": "P8GDlytcN8bTUCx",
-                    "title": "Date",
-                    "width": 200,
-                    "type": {
-                        "variant": "date"
-                    },
-                    "createdAt": 1750785932536,
-                    "owner": "guest"
-                }
-            ],
-            "groups": [
-                {
-                    "id": "Q9yl5tFJUFDkgjn",
-                    "title": "Group 1",
-                    "color": "#037F4C",
-                    "isCollapse": false,
-                    "createdAt": 1750785932536,
-                    "owner": "guest",
-                    "tasks": [
+                    id: makeId(),
+                    title: "💻 Frontend",
+                    color: "#f59e0b",
+                    tasks: [
                         {
-                            "id": "ToMqzhJPyYtJPkK",
-                            "title": "Task 1asdssa",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750785932536,
-                            "owner": "guest"
+                            id: makeId(),
+                            title: "⚛️ Setup React App",
+                            status: "Done",
+                            priority: "High",
+                            dueDate: "2025-01-10",
+                            timeline: { startDate: "2025-01-05", endDate: "2025-01-10" },
+                            files: generateFilesFor("Minday Project"),
+                            updates: [
+                                {
+                                    id: makeId(),
+                                    text: "Scaffolded with **Vite** 🚀",
+                                    type: "text",
+                                    createdAt: Date.now() - 6 * 60 * 60 * 1000,
+                                    byMember: {
+                                        _id: "u101",
+                                        fullname: "John Doe",
+                                        imgUrl: "https://i.pravatar.cc/40?img=15"
+                                    }
+                                },
+                                {
+                                    id: makeId(),
+                                    text: "ESLint + Prettier integrated ✔️",
+                                    type: "text",
+                                    createdAt: Date.now() - 2 * 60 * 60 * 1000,
+                                    byMember: {
+                                        _id: "u102",
+                                        fullname: "Shani Cohen",
+                                        imgUrl: "https://i.pravatar.cc/40?img=30"
+                                    }
+                                }
+                            ]
                         },
+
                         {
-                            "id": "E4TVWahYwxbdj44",
-                            "title": "Task 2ddd",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750785932536,
-                            "owner": "guest"
+                            id: makeId(),
+                            title: "🔍 Implement Search Bar",
+                            status: "Working on it",
+                            priority: "Low",
+                            dueDate: "2025-03-14",
+                            timeline: { startDate: "2025-03-10", endDate: "2025-03-14" },
+                            updates: [
+                                {
+                                    id: makeId(),
+                                    text: "Debounce logic added.",
+                                    type: "text",
+                                    createdAt: Date.now() - 4 * 60 * 60 * 1000,
+                                    byMember: {
+                                        _id: "u103",
+                                        fullname: "Alex Kim",
+                                        imgUrl: "https://i.pravatar.cc/40?img=12"
+                                    }
+                                },
+                                {
+                                    id: makeId(),
+                                    text: "Pending styling tweaks.",
+                                    type: "text",
+                                    createdAt: Date.now() - 1 * 60 * 60 * 1000,
+                                    byMember: {
+                                        _id: "u104",
+                                        fullname: "Maya Singh",
+                                        imgUrl: "https://i.pravatar.cc/40?img=47"
+                                    }
+                                }
+                            ]
                         },
+
                         {
-                            "id": "P0DgVyO86nQSbFl",
-                            "title": "Ta",
-                            "assignee": "",
-                            "status": "Done",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750785932536,
-                            "owner": "guest"
+                            id: makeId(),
+                            title: "♿ A11y Audit",
+                            status: "Stuck",
+                            priority: "Critical ⚠️",
+                            dueDate: "2025-05-22",
+                            timeline: { startDate: "2025-05-18", endDate: "2025-05-22" },
+                            files: generateFilesFor("Minday Project"),
+                            updates: [
+                                {
+                                    id: makeId(),
+                                    text: "Missing ARIA roles on modals.",
+                                    type: "text",
+                                    createdAt: Date.now() - 86400000,
+                                    byMember: {
+                                        _id: "u105",
+                                        fullname: "Mark Brown",
+                                        imgUrl: "https://i.pravatar.cc/40?img=64"
+                                    }
+                                },
+                                {
+                                    id: makeId(),
+                                    text: "Color contrast issue on buttons.",
+                                    type: "text",
+                                    createdAt: Date.now() - 82800000,
+                                    byMember: {
+                                        _id: "u106",
+                                        fullname: "Ella Levy",
+                                        imgUrl: "https://i.pravatar.cc/40?img=21"
+                                    }
+                                }
+                            ]
                         },
+
                         {
-                            "id": "DSQD24HL3nMJAlQ",
-                            "title": "New Task",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786349468,
-                            "owner": "guest"
+                            id: makeId(),
+                            title: "🧪 Add Unit Tests",
+                            status: "Not Started",
+                            priority: "Medium",
+                            dueDate: "2025-09-08",
+                            timeline: { startDate: "2025-09-03", endDate: "2025-09-08" },
+                            updates: []
                         },
+
                         {
-                            "id": "1DJRduaN1vob3Dv",
-                            "title": "xxvxcvxzzxc",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786891695,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "65HR5ZsuMaFxHW6",
-                            "title": "xxvxcv",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786892921,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "NTen8Jdceopraya",
-                            "title": "xxvxcv",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": true,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786903663,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "Sst3tw2pA3xRGAq",
-                            "title": "xxvxcv",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786922641,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "uVKxP36s8coBd2W",
-                            "title": "New Task",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750788454922,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "278qQPKvxwVySkz",
-                            "title": "dd",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750788468621,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "qXdHFEpIP6E59Ru",
-                            "title": "dd",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750788470521,
-                            "owner": "guest"
+                            id: makeId(),
+                            title: "🌛 Dark-mode Theme",
+                            status: "Done",
+                            priority: "Critical ⚠️",
+                            dueDate: "2025-11-02",
+                            timeline: { startDate: "2025-10-28", endDate: "2025-11-02" },
+                            files: generateFilesFor("Minday Project"),
+                            updates: []
                         }
                     ]
                 },
+
+                /* ---------- 🧠 Backend ---------- */
                 {
-                    "id": "YKlOE0siMdJF8Of",
-                    "title": "Group 2",
-                    "color": "#9D50DD",
-                    "isCollapse": false,
-                    "createdAt": 1750785932536,
-                    "owner": "guest",
-                    "tasks": [
-                        {
-                            "id": "MZsQIhxWwsShWHv",
-                            "title": "Task 4",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750785932536,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "qngXXDQmGGY0Nqy",
-                            "title": "Task 5",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750785932536,
-                            "owner": "guest"
-                        }
+                    id: makeId(),
+                    title: "🧠 Backend",
+                    color: "#abdee6",
+                    tasks: [
+                        { id: makeId(), title: "📚 Build REST API", status: "Done", priority: "Low", dueDate: "2025-02-12", timeline: { startDate: "2025-02-07", endDate: "2025-02-12" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "🔐 Auth Middleware", status: "Working on it", priority: "High", dueDate: "2025-04-18", timeline: { startDate: "2025-04-13", endDate: "2025-04-18" } },
+                        { id: makeId(), title: "🗃️ Connect Database", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-06-03", timeline: { startDate: "2025-05-29", endDate: "2025-06-03" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "⚙️ Dockerize API", status: "Done", priority: "Medium", dueDate: "2025-08-11", timeline: { startDate: "2025-08-06", endDate: "2025-08-11" } },
+                        { id: makeId(), title: "📈 CI/CD Pipeline", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-10-15", timeline: { startDate: "2025-10-10", endDate: "2025-10-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") }
+                    ]
+                },
+
+                /* ---------- 🎨 Design ---------- */
+                {
+                    id: makeId(),
+                    title: "🎨 Design",
+                    color: "#97c1a9",
+                    tasks: [
+                        { id: makeId(), title: "🖌️ Create Logo", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-30", timeline: { startDate: "2025-01-27", endDate: "2025-01-30" } },
+                        { id: makeId(), title: "📐 Style Guide", status: "Working on it", priority: "High", dueDate: "2025-04-08", timeline: { startDate: "2025-04-03", endDate: "2025-04-08" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "🖼️ Export Icon Set", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-05-12", timeline: { startDate: "2025-05-09", endDate: "2025-05-12" } },
+                        { id: makeId(), title: "🗂️ Design 404 Page", status: "Stuck", priority: "Low", dueDate: "2025-07-15", timeline: { startDate: "2025-07-10", endDate: "2025-07-15" }, files: generateFilesFor("Minday Project"), updates: generateUpdates("Minday Project") },
+                        { id: makeId(), title: "💡 UX Review", status: "Stuck", priority: "Medium", dueDate: "2025-11-20", timeline: { startDate: "2025-11-15", endDate: "2025-11-20" } }
                     ]
                 }
-            ],
-            "_id": "xC1vT",
-            "account": "guest"
+            ]
         },
+
+        /* ------------------------------------------------------------------
+           2) 🏡  HOME MAINTENANCE
+        ------------------------------------------------------------------ */
         {
-            "title": "New Boardz",
-            "activities": [],
-            "isStarred": false,
-            "createdAt": 1750786468313,
-            "updatedAt": 1750786468313,
-            "owner": {
-                "_id": "guest",
-                "fullname": "Guest",
-                "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                "isGuest": true
-            },
-            "members": [
+            _id: makeId(),
+            title: "Home Maintenance",
+            createdAt: Date.now(),
+            members: [],
+            groups: [
                 {
-                    "_id": "guest",
-                    "fullname": "Guest",
-                    "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                    "isGuest": true
-                }
-            ],
-            "type": "Items",
-            "description": "Managing items",
-            "style": {},
-            "labels": [],
-            "cmpsOrder": [
-                "StatusPicker",
-                "MemberPicker",
-                "DatePicker"
-            ],
-            "columns": [
-                {
-                    "id": "eAOgFhpDebUhez3",
-                    "title": "Item",
-                    "width": 400,
-                    "type": {
-                        "variant": "item"
-                    },
-                    "createdAt": 1750786468313,
-                    "owner": "guest"
-                },
-                {
-                    "id": "J2osiYK4gAlb5K6",
-                    "title": "Person",
-                    "width": 200,
-                    "type": {
-                        "variant": "people"
-                    },
-                    "createdAt": 1750786468313,
-                    "owner": "guest"
-                },
-                {
-                    "id": "NRwMfo8CctN0W34",
-                    "title": "Status",
-                    "width": 200,
-                    "type": {
-                        "variant": "status",
-                        "labels": []
-                    },
-                    "createdAt": 1750786468313,
-                    "owner": "guest"
-                },
-                {
-                    "id": "8rBa1j1aOn5cBDH",
-                    "title": "Date",
-                    "width": 200,
-                    "type": {
-                        "variant": "date"
-                    },
-                    "createdAt": 1750786468313,
-                    "owner": "guest"
-                }
-            ],
-            "groups": [
-                {
-                    "id": "T4Qw1iebEHiVlW2",
-                    "title": "Group 1",
-                    "color": "#9CD326",
-                    "isCollapse": false,
-                    "createdAt": 1750786468314,
-                    "owner": "guest",
-                    "tasks": [
-                        {
-                            "id": "kRRaxArtRcrFoCB",
-                            "title": "Task 4SAדשדג",
-                            "assignee": "shani",
-                            "status": "Working on it",
-                            "dueDate": "2025-06-04T21:00:00.000Z",
-                            "timeline": {
-                                "startDate": "2025-06-10",
-                                "endDate": "2025-06-12"
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786468314,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "yuWQQvpbwx8MeEE",
-                            "title": "Task asdשדדגכג",
-                            "assignee": "shani",
-                            "status": "Done",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786468314,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "VnrixQ4CEZ5vLVj",
-                            "title": "Task 1",
-                            "assignee": "",
-                            "status": "Done",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786468314,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "fWIvtTjsQwqroiM",
-                            "title": "zfdsfsdsd",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750843841733,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "L91BPCrzNGatz9b",
-                            "title": "New Task",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750843848217,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "bBu8U6j1M0VBOVd",
-                            "title": "שגגדשגדשדג",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844846128,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "AOWyX9YV96va8EE",
-                            "title": "New Task",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844853216,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "tf0m7tPNLPNfJhV",
-                            "title": "New Task",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844932214,
-                            "owner": "guest"
-                        }
+                    id: makeId(),
+                    title: "🌿 Garden",
+                    color: "#00c875",
+                    tasks: [
+                        { id: makeId(), title: "🌻 Plant Sunflowers", status: "Stuck", priority: "Low", dueDate: "2025-02-28", timeline: generateDateRangeObj(2), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "✂️ Trim Hedges", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🚿 Fix Garden Hose", status: "Done", priority: "Medium", dueDate: "2025-05-29", timeline: generateDateRangeObj(5), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🪴 Repot Ficus Tree", status: "Done", priority: "Critical ⚠️", dueDate: "2025-07-06", timeline: generateDateRangeObj(7), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🪚 Build Planter Box", status: "Not Started", priority: "High", dueDate: "2025-09-10", timeline: generateDateRangeObj(9), files: generateFilesFor("Home Maintenance") }
                     ]
                 },
                 {
-                    "id": "jinmdDH0QnINPse",
-                    "title": "Group 2",
-                    "color": "#BB3354",
-                    "isCollapse": false,
-                    "createdAt": 1750786468314,
-                    "owner": "guest",
-                    "tasks": [
-                        {
-                            "id": "A5pDFEeuWMSx5Hz",
-                            "title": "Task 4",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786468314,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "En4E1I7fftJP7e1",
-                            "title": "Task 5",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750786468314,
-                            "owner": "guest"
-                        }
+                    id: makeId(),
+                    title: "🧼 Routine Cleaning",
+                    color: "#579bfc",
+                    tasks: [
+                        { id: makeId(), title: "🧹 Vacuum Living Room", status: "Done", priority: "Critical ⚠️", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🪟 Clean Windows", status: "Working on it", priority: "High", dueDate: "2025-04-30", timeline: generateDateRangeObj(4), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🧽 Scrub Bathrooms", status: "Not Started", priority: "Medium", dueDate: "2025-06-02", timeline: generateDateRangeObj(6), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🗑️ Take Out Recycling", status: "Done", priority: "Low", dueDate: "2025-02-25", timeline: generateDateRangeObj(2), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🧯 Test Smoke Detectors", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-08-07", timeline: generateDateRangeObj(8), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") }
+                    ]
+                },
+                {
+                    id: makeId(),
+                    title: "🔧 Repairs & Upgrades",
+                    color: "#ffcb00",
+                    tasks: [
+                        { id: makeId(), title: "🚰 Fix Sink Leak", status: "Done", priority: "High", dueDate: "2025-02-29", timeline: generateDateRangeObj(2), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🔌 Replace Hallway Light", status: "Working on it", priority: "Medium", dueDate: "2025-03-31", timeline: generateDateRangeObj(3), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🪜 Clean Gutters", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-10-06", timeline: generateDateRangeObj(10), files: generateFilesFor("Home Maintenance"), updates: generateUpdates("Home Maintenance") },
+                        { id: makeId(), title: "🖼️ Paint Bedroom Walls", status: "Done", priority: "Low", dueDate: "2025-07-08", timeline: generateDateRangeObj(7), files: generateFilesFor("Home Maintenance") },
+                        { id: makeId(), title: "🔒 Install Doorbell Cam", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-11-09", timeline: generateDateRangeObj(11), updates: generateUpdates("Home Maintenance") }
                     ]
                 }
-            ],
-            "_id": "6Ox1E",
-            "account": "guest"
+            ]
         },
+
+        /* ------------------------------------------------------------------
+           3) 🎉  PARTY PLANNER
+        ------------------------------------------------------------------ */
         {
-            "title": "New Board",
-            "activities": [],
-            "isStarred": false,
-            "createdAt": 1750844349556,
-            "updatedAt": 1750844349556,
-            "owner": {
-                "_id": "guest",
-                "fullname": "Guest",
-                "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                "isGuest": true
-            },
-            "members": [
+            _id: makeId(),
+            title: "Party Planner",
+            createdAt: Date.now(),
+            members: [],
+            cmpsOrder: ["status", "priority", "dueDate", "timeline", "files"],
+            cmps: [
                 {
-                    "_id": "guest",
-                    "fullname": "Guest",
-                    "imgUrl": "https://cdn-icons-png.flaticon.com/512/1144/1144709.png",
-                    "isGuest": true
-                }
-            ],
-            "type": "Items",
-            "description": "Managing items",
-            "style": {},
-            "labels": [],
-            "cmpsOrder": [
-                "StatusPicker",
-                "MemberPicker",
-                "DatePicker"
-            ],
-            "columns": [
-                {
-                    "id": "IBfQ5NDfzwlEN6p",
-                    "title": "Item",
-                    "width": 400,
-                    "type": {
-                        "variant": "item"
-                    },
-                    "createdAt": 1750844349556,
-                    "owner": "guest"
+                    id: makeId(),
+                    title: "Status",
+                    width: 180,
+                    type: {
+                        variant: "status",
+                        labels: [
+                            { id: makeId(), title: "Done", color: "#00c875" },
+                            { id: makeId(), title: "Working on it", color: "#fdab3d" },
+                            { id: makeId(), title: "Stuck", color: "#e2445c" },
+                            { id: makeId(), title: "Not Started", color: "#c4c4c4" }
+                        ]
+                    }
                 },
                 {
-                    "id": "dgqnRIjnPsnQWBO",
-                    "title": "Person",
-                    "width": 200,
-                    "type": {
-                        "variant": "people"
-                    },
-                    "createdAt": 1750844349556,
-                    "owner": "guest"
+                    id: makeId(),
+                    title: "Priority",
+                    width: 180,
+                    type: {
+                        variant: "priority",
+                        labels: [
+                            { id: makeId(), title: "Low 🎈", color: "#FDC5F5" },
+                            { id: makeId(), title: "Medium 🎁", color: "#FFB347" },
+                            { id: makeId(), title: "High 🎉", color: "#FF69B4" },
+                            { id: makeId(), title: "Critical ⚠️", color: "#FF3B30" }
+                        ]
+                    }
                 },
-                {
-                    "id": "0R7IpxY1cJfAgjn",
-                    "title": "Status",
-                    "width": 200,
-                    "type": {
-                        "variant": "status",
-                        "labels": []
-                    },
-                    "createdAt": 1750844349556,
-                    "owner": "guest"
-                },
-                {
-                    "id": "eXonm9kqH8JNSkD",
-                    "title": "Date",
-                    "width": 200,
-                    "type": {
-                        "variant": "date"
-                    },
-                    "createdAt": 1750844349556,
-                    "owner": "guest"
-                }
+                { id: makeId(), title: "Due Date", width: 150, type: { variant: "date" } },
+                { id: makeId(), title: "Timeline", width: 200, type: { variant: "timeline" } },
+                { id: makeId(), title: "Files", width: 120, type: { variant: "files" } }
             ],
-            "groups": [
+
+            groups: [
                 {
-                    "id": "3oyeSff9Gxy2VGw",
-                    "title": "Group 1",
-                    "color": "#007EB5",
-                    "isCollapse": false,
-                    "createdAt": 1750844349556,
-                    "owner": "guest",
-                    "tasks": [
-                        {
-                            "id": "VYpreCz2THB8a2g",
-                            "title": "sdfsdfsdf",
-                            "assignee": "",
-                            "status": "Done",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844349556,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "7QNGxYSGhuniUth",
-                            "title": "Task 2sdadffdssdf",
-                            "assignee": "shani",
-                            "status": "Done",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "2025-06-16",
-                                "endDate": "2025-06-19"
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844349556,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "5IbPWNipiVMbm8a",
-                            "title": "Task 3",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "2025-06-10",
-                                "endDate": "2025-06-11"
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844349556,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "5eyUfboEJGrZDoO",
-                            "title": "שדגשדג",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": true,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844614724,
-                            "owner": "guest"
-                        }
+                    id: makeId(),
+                    title: "👥 Guest List",
+                    color: "#e0bbe4",
+                    tasks: [
+                        { id: makeId(), title: "💌 Send Invites", status: "Working on it", priority: "Critical ⚠️", dueDate: "2025-02-02", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "📞 Confirm RSVPs", status: "Stuck", priority: "Medium", dueDate: "2025-03-05", timeline: generateDateRangeObj(3), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🎖️ VIP List", status: "Done", priority: "Critical ⚠️", dueDate: "2025-04-04", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🪑 Seating Plan", status: "Not Started", priority: "Low", dueDate: "2025-05-07", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🎁 Party Favors", status: "Done", priority: "High", dueDate: "2025-06-09", timeline: generateDateRangeObj(6), updates: generateUpdates("Party Planner") }
+                    ]
+
+                },
+                {
+                    id: makeId(),
+                    title: "🍕 Food & Drinks",
+                    color: "#ffdfba",
+                    tasks: [
+                        { id: makeId(), title: "🍕 Order Pizza", status: "Done", priority: "Medium", dueDate: "2025-01-26", timeline: generateDateRangeObj(1), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🍹 Stock Bar", status: "Not Started", priority: "High", dueDate: "2025-03-02", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🍿 Buy Snacks", status: "Working on it", priority: "Low", dueDate: "2025-02-01", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🍰 Order Cake", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-04-03", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🧊 Rent Cooler", status: "Not Started", priority: "Low", dueDate: "2025-05-04", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") }
                     ]
                 },
                 {
-                    "id": "odW5c7XUKlpk2Qh",
-                    "title": "Group 2",
-                    "color": "#9CD326",
-                    "isCollapse": false,
-                    "createdAt": 1750844349556,
-                    "owner": "guest",
-                    "tasks": [
-                        {
-                            "id": "aW5YIYFeXrlj6Cu",
-                            "title": "Task 4",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844349556,
-                            "owner": "guest"
-                        },
-                        {
-                            "id": "2H06O9XCS2TB85e",
-                            "title": "Task 5",
-                            "assignee": "",
-                            "status": "",
-                            "dueDate": "",
-                            "timeline": {
-                                "startDate": "",
-                                "endDate": ""
-                            },
-                            "priority": "",
-                            "isChecked": false,
-                            "updates": [],
-                            "files": [],
-                            "columnValues": [],
-                            "members": [],
-                            "createdAt": 1750844349556,
-                            "owner": "guest"
-                        }
+                    id: makeId(),
+                    title: "🎶 Entertainment",
+                    color: "#b6cfb6",
+                    tasks: [
+                        { id: makeId(), title: "🎧 Book DJ", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-02-04", timeline: generateDateRangeObj(2), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "🎈 Buy Decorations", status: "Working on it", priority: "Medium", dueDate: "2025-03-03", timeline: generateDateRangeObj(3), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "🎤 Rent Karaoke Machine", status: "Not Started", priority: "Low", dueDate: "2025-04-08", timeline: generateDateRangeObj(4), files: generateFilesFor("Party Planner"), updates: generateUpdates("Party Planner") },
+                        { id: makeId(), title: "📸 Hire Photographer", status: "Done", priority: "Critical ⚠️", dueDate: "2025-05-05", timeline: generateDateRangeObj(5), files: generateFilesFor("Party Planner") },
+                        { id: makeId(), title: "💡 Lights & Effects", status: "Done", priority: "High", dueDate: "2025-06-06", timeline: generateDateRangeObj(6), updates: generateUpdates("Party Planner") }
                     ]
                 }
-            ],
-            "_id": "nraqt",
-            "account": "guest"
+            ]
         }
-    ]
+    ];
+
+    /* ---------- helper generators (copy once) ---------- */
+    function generateDateRangeObj(month) {
+        const start = new Date(`2025-${String(month).padStart(2, "0")}-01`);
+        const offset = Math.floor(Math.random() * 25);
+        const startDate = new Date(start.getTime() + offset * 86400000);
+        const endDate = new Date(startDate.getTime() + (3 + Math.random() * 2) * 86400000);
+        return {
+            startDate: startDate.toISOString().slice(0, 10),
+            endDate: endDate.toISOString().slice(0, 10)
+        };
+    }
+    function generateUpdates(boardTitle) {
+        // ─── 1. Demo users pool ────────────────────────────────────────────────
+        const users = [
+            { _id: "u101", fullname: "John Doe", imgUrl: "https://i.pravatar.cc/40?img=15" },
+            { _id: "u102", fullname: "Shani Cohen", imgUrl: "https://i.pravatar.cc/40?img=30" },
+            { _id: "u103", fullname: "Alex Kim", imgUrl: "https://i.pravatar.cc/40?img=12" },
+            { _id: "u104", fullname: "Maya Singh", imgUrl: "https://i.pravatar.cc/40?img=47" },
+            { _id: "u105", fullname: "Carlos Ortiz", imgUrl: "https://i.pravatar.cc/40?img=22" },
+            { _id: "u106", fullname: "Ella Levy", imgUrl: "https://i.pravatar.cc/40?img=21" },
+            { _id: "u107", fullname: "Mark Brown", imgUrl: "https://i.pravatar.cc/40?img=64" },
+            { _id: "u108", fullname: "Rina Adler", imgUrl: "https://i.pravatar.cc/40?img=33" }
+        ]
+
+        // ─── 2. Board-specific text templates ─────────────────────────────────
+        const boardTexts = {
+            "Minday Project": [
+                "Task reviewed and feedback provided ✅",
+                "Performance optimized ⚡",
+                "Refactored to hooks 🔄",
+                "Unit tests passing 🧪",
+                "Integrated with backend API 🌐",
+                "Fixed ESLint warnings 🧹",
+                "Styled components added 🎨",
+                "Component extracted into reusable piece ♻️",
+                "Dark mode implemented 🌙",
+                "User feedback applied 💬",
+                "Merged PR and resolved conflicts ✅"
+            ],
+            "Home Maintenance": [
+                "All tools packed away 🧰",
+                "Watered the seedlings 🌱",
+                "Replaced air-con filter ❄️",
+                "Leak patched and tested ✅",
+                "Garden looks great! 🌼",
+                "Scheduled next cleaning 🗓️",
+                "Cleared out storage area 📦",
+                "Repainted hallway 🎨",
+                "Ordered new sink parts 🚰",
+                "Roof inspected and no issues 🏠",
+                "Vacuumed and mopped 🧼"
+            ],
+            "Party Planner": [
+                "Cake confirmed with bakery 🎂",
+                "DJ playlist updated 🎶",
+                "50 RSVPs received 📩",
+                "Balloons ordered 🎈",
+                "Lighting test successful ✨",
+                "Menu approved by client 👍",
+                "Photographer booked 📸",
+                "Welcome banner delivered 🎉",
+                "Drinks chilled and ready 🍾",
+                "Table arrangements finalized 🍽️",
+                "Theme decor arrived 🎭"
+            ]
+        }
+
+        const texts = boardTexts[boardTitle] || [
+            "General update logged ✍️",
+            "Progress made 📊",
+            "Discussion initiated 💬",
+            "Waiting for approval 🕒"
+        ]
+
+        // ─── 3. Build 2 random updates ────────────────────────────────────────
+        return Array.from({ length: 2 }, () => {
+            const user = users[Math.floor(Math.random() * users.length)]
+            const text = texts[Math.floor(Math.random() * texts.length)]
+            return {
+                id: makeId(),
+                text,
+                type: "text",
+                createdAt: Date.now() - Math.floor(Math.random() * 5) * 86_400_000, // up to 5 days ago
+                byMember: user
+            }
+        })
+    }
 }

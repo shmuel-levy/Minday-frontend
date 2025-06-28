@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getRandomColor } from "../services/util.service";
-import { loadBoard, updateBoard } from "../store/board.actions";
+import { loadBoard, updateBoard, removeBoard as removeBoardAction } from "../store/board.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
+import { boardService } from "../services/board";
 
 
 export function useBoardState(board, onAddNewTask) {
@@ -287,24 +288,20 @@ export function useBoardState(board, onAddNewTask) {
     setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }));
   }
 
-  async function handleUpdateTask(updatedTask) {
-    console.log("start update task", updatedTask);
-    console.log('board use board state', board)
-    try {
-      const updatedBoard = await boardService.updateTask(
-        board._id,
-        updatedTask.id,
-        updatedTask
-      );
-      console.log("handle task update", updatedBoard);
-      await updateBoard(updatedBoard);
-      showSuccessMsg("Board updated successfully");
-    } catch (err) {
-      console.log("error task handle update");
-
-      showErrorMsg("Cannot update board");
-    }
+ async function handleUpdateTask(updatedTask) {
+  try {
+    const updatedBoard = await boardService.updateTask(
+      board._id,  
+      updatedTask.id,
+      updatedTask
+    );
+    await updateBoard(updatedBoard);
+    showSuccessMsg("Board updated successfully");
+  } catch (err) {
+    console.log("error task handle update");
+    showErrorMsg("Cannot update board");
   }
+}
 
   function handleAddGroup() {
     const newGroup = {
@@ -369,6 +366,15 @@ export function useBoardState(board, onAddNewTask) {
     updateBoard({ ...board, groups: updatedGroups });
   }
 
+  async function handleRemoveBoard(boardId) {
+    try {
+      await removeBoardAction(boardId);
+      showSuccessMsg("Board removed successfully");
+    } catch (err) {
+      showErrorMsg("Failed to remove board");
+    }
+  }
+
   return {
     board,
     updateBoard,
@@ -384,5 +390,6 @@ export function useBoardState(board, onAddNewTask) {
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
+    handleRemoveBoard,
   };
 }
