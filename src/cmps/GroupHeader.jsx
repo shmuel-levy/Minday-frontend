@@ -214,15 +214,7 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                     className="delete-confirmation-modal"
                     hideDefaultHeader={true}
                 >
-                    <div className="modal-component default-overlay-style system-modal delete-object-wrapper" style={{position: 'relative'}}>
-                        <button
-                            className="delete-modal-close"
-                            onClick={() => setShowDeleteModal(false)}
-                            aria-label="Close"
-                            style={{position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', fontSize: 24, color: '#676879', cursor: 'pointer'}}
-                        >
-                            &times;
-                        </button>
+                    <div className="modal-component default-overlay-style system-modal delete-object-wrapper" style={{ position: 'relative' }}>
                         <div className="modal-component-content">
                             <div className="delete-object-warning-dialog">
                                 <div className="delete-object-warning-title-wrapper">
