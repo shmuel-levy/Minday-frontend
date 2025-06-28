@@ -34,6 +34,7 @@ export const boardService = {
     removeTaskUpdate,
     addTaskUpdate,
     getDemoBoard,
+    recordRecentBoard,
 
 }
 
@@ -417,6 +418,20 @@ async function save(board) {
         //   return await stoבrageService.post(STORAGE_KEY, board, accountId)
         // }
     }
+}
+  //Update recent boards
+export function recordRecentBoard(board) {
+  if (!board?._id || !board.title) return
+
+  const prev = JSON.parse(localStorage.getItem('recentBoards') || '[]')
+                .filter(b => b && b._id && b.title)
+
+  const updated = [
+    { _id: board._id, title: board.title, isStarred: board.isStarred },
+    ...prev.filter(b => b._id !== board._id)
+  ].slice(0, 4)                            // keep only 4
+
+  localStorage.setItem('recentBoards', JSON.stringify(updated))
 }
 
 // remove board

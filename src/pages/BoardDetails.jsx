@@ -10,11 +10,17 @@ import {BoardDashboard} from "./BoardDashboard";
 import {TaskDetailModal} from "../cmps/task-detail-modal/TaskDetailModal";
 import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {makeId} from "../services/util.service";
+import { recordRecentBoard } from '../services/board/board.service.local'
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
+
+  
+
   const {boardId} = useParams();
   const board = useSelector((storeState) => storeState.boardModule.board);
   const boards = useSelector((storeState) => storeState.boardModule.boards);
+
+  
 
   const boardTableRef = useRef(null);
   const addWidgetBtnRef = useRef(null);
@@ -27,6 +33,10 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
 
   const activeView = views.find((v) => v.id === activeViewId) || views[0];
+
+  useEffect(() => {
+  if (board) recordRecentBoard(board)
+}, [board?._id]) 
 
   useEffect(() => {
     if (boardId) {
