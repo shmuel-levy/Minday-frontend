@@ -80,6 +80,7 @@ export function TableControls({
     }
 
     const handleFilterClick = () => {
+        console.log('Filter button clicked, current state:', isFilterPopoverOpen);
         setIsFilterPopoverOpen((prev) => !prev);
     }
 

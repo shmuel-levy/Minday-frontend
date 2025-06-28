@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef, useCallback} from "react";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 
@@ -31,6 +31,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [selectedSortField, setSelectedSortField] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
   const [filteredBoard, setFilteredBoard] = useState(null);
+  const [advancedFilters, setAdvancedFilters] = useState([]);
 
   useEffect(() => {
     if (boardId) {
@@ -107,26 +108,24 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     setViews(newViews);
   }
 
-  function handleFiltersChange(filters) {
+  const handleFiltersChange = useCallback((filters) => {
     // Handle filters change if needed
-  }
+  }, []);
 
-  function handleFilteredBoardChange(newFilteredBoard) {
+  const handleFilteredBoardChange = useCallback((newFilteredBoard) => {
     setFilteredBoard(newFilteredBoard);
-  }
+  }, []);
 
-  function handleApplyFilters(filters) {
+  const handleApplyFilters = useCallback((filters) => {
     console.log('Applied filters:', filters);
-    // כאן נוכל להוסיף לוגיקה נוספת לטיפול בפילטרים המתקדמים
-  }
+    setAdvancedFilters(filters);
+  }, []);
 
-  // Extract all unique members from board tasks
   const extractMembers = () => {
     if (!board) return [];
     
     const allMembers = new Map();
     
-    // First add board members
     if (board.members && board.members.length > 0) {
       board.members.forEach(member => {
         if (member._id) {
@@ -141,7 +140,6 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
       });
     }
     
-    // Then add task members
     if (board.groups) {
       board.groups.forEach(group => {
         group.tasks.forEach(task => {
@@ -213,6 +211,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
         selectedPersonId={selectedPersonId}
         selectedSortField={selectedSortField}
         sortDirection={sortDirection}
+        advancedFilters={advancedFilters}
       />
 
       <div className="board-content-container">
