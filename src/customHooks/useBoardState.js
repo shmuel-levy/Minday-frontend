@@ -288,23 +288,20 @@ export function useBoardState(board, onAddNewTask) {
     setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }));
   }
 
-  async function handleUpdateTask(updatedTask) {
-
-    try {
-      
-      const updatedBoard = await boardService.updateTask(
-        board,
-        updatedTask.id,
-        updatedTask
-      );
-      await updateBoard(updatedBoard);
-      showSuccessMsg("Board updated successfully");
-    } catch (err) {
-      console.log("error task handle update");
-
-      showErrorMsg("Cannot update board");
-    }
+ async function handleUpdateTask(updatedTask) {
+  try {
+    const updatedBoard = await boardService.updateTask(
+      board._id,  // ✅ TO THIS
+      updatedTask.id,
+      updatedTask
+    );
+    await updateBoard(updatedBoard);
+    showSuccessMsg("Board updated successfully");
+  } catch (err) {
+    console.log("error task handle update");
+    showErrorMsg("Cannot update board");
   }
+}
 
   function handleAddGroup() {
     const newGroup = {
