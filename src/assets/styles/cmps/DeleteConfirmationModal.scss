@@ -29,7 +29,7 @@
   width: 100%;
   min-width: 540px;
   max-width: 600px;
-  padding: 16px 81px 1px 0px;
+  padding: 24px 81px 1px 0px;
 }
 
 .delete-object-warning-title-wrapper {
@@ -38,21 +38,22 @@
 }
 
 .want-to-delete-title {
-  font-size: 24px;
-  font-weight: 600;
+  font-family: 'Figtree';
+  font-size: 18px;
+  font-weight: 500;
   margin: 0 0 8px 0;
   color: var(--primary-text-color, #323338);
 }
 
 .want-to-delete-bottom-note {
-  font-size: 16px;
-  color: #676879;
+  font-family: 'Figtree';
+  font-size: 14px;
+  color: #323338;
   margin-bottom: 24px;
 }
 
 .delete-object-warning-dialog-button-section {
   display: flex;
-  gap: 8px;
   width: 100%;
   justify-content: flex-end;
 }
@@ -69,20 +70,22 @@
   font-weight: 500;
 }
 .want-to-delete-secondary-button:hover {
-  background: #f5f6f8;
+  background: rgba(103, 104, 121, 0.1);
 }
 
 .button_179ab51c11.sizeMedium_58824a014d.kindPrimary_6478670b5e.colorPrimary_1e1fb85d38 {
   background: #0073ea;
   color: #fff;
   border: none;
+  font-family: 'Figtree';
   font-size: 16px;
-  padding: 8px 24px;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 400;
   transition: background 0.2s;
   box-shadow: none;
+  height: 40px;
 }
 .button_179ab51c11.sizeMedium_58824a014d.kindPrimary_6478670b5e.colorPrimary_1e1fb85d38:hover {
   background: #005bb5;
