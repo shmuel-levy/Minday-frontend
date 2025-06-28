@@ -1,46 +1,61 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { useSelector } from "react-redux";
+
+/* palettes --------------------------------------------------------- */
+const palettes = {
+  default: [
+    { label: "Critical ⚠️", bg: "rgb(51,51,51)",  color: "#F7F7F8" },
+    { label: "High",        bg: "rgb(64,22,148)", color: "#F7F7F8" },
+    { label: "Medium",      bg: "rgb(85,89,223)", color: "#F7F7F8" },
+    { label: "Low",         bg: "rgb(87,155,252)",color: "#F7F7F8" }
+  ],
+  party: [
+    { label: "Critical ⚠️", bg: "#6420AA", color: "#fff"      },
+    { label: "High ",     bg: "#FF3EA5", color: "#fff"      },
+    { label: "Medium ",   bg: "#FF7ED4", color: "#fff"   },
+    { label: "Low ",      bg: "#FFB5DA", color: "#fff"   }
+  ]
+};
 
 export function PriorityDistribution({ tasks }) {
-    const priorityOptions = [
-        { label: 'Critical ⚠️', cssClass: 'critical', bg: 'rgb(51 ,51, 51)', color: 'rgb(247, 247, 248)' },
-        { label: 'High', cssClass: 'high', bg: 'rgb(64, 22, 148)', color: 'rgb(247, 247, 248)' },
-        { label: 'Medium', cssClass: 'medium', bg: 'rgb(85, 89, 223)', color: 'rgb(247, 247, 248)' },
-        { label: 'Low', cssClass: 'low', bg: 'rgb(87, 155, 252)', color: 'rgb(247, 247, 248)' }
-    ]
+  /* 1. pick palette based on board title */
+  const boardTitle =
+    useSelector(state => state.boardModule?.board?.title) || "";
+  const priorityOptions =
+    boardTitle.includes("Party") ? palettes.party : palettes.default;
 
-    const [hovered, setHovered] = useState(null);
+  /* 2. count tasks – use base label */
+  const plain = s => s.split(" ")[0];                          // strip emoji
+  const counts = tasks.reduce((acc, t) => {
+    const key = plain(t.priority || "Medium");
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+  const total = tasks.length;
 
-    const priorityCounts = tasks.reduce((acc, task) => {
-        const priority = task.priority || 'Medium'
-        acc[priority] = (acc[priority] || 0) + 1
-        return acc
-    }, {})
+  const [hovered, setHovered] = useState(null);
 
-    const totalTasks = tasks.length
-
-    return (
-        <div className="priority-distribution-container">
-            {priorityOptions.map(option => {
-                const count = priorityCounts[option.label] || 0
-                const percentage = totalTasks > 0 ? (count / totalTasks) * 100 : 0
-                return (
-                    <div
-                        key={option.label}
-                        className="priority-segment"
-                        style={{
-                            backgroundColor: option.bg, width: `${percentage}%`
-                        }}
-                        onMouseEnter={() => setHovered({ label: option.label, count, percentage })}
-                        onMouseLeave={() => setHovered(null)}
-                    >
-                        {hovered?.label === option.label && (
-                            <div className="tooltip">
-                                {`${option.label} ${count}/${totalTasks}  ${percentage.toFixed(1)}%`}
-                            </div>
-                        )}
-                    </div>
-                )
-            })}
-        </div>
-    )
-} 
+  return (
+    <div className="priority-distribution-container">
+      {priorityOptions.map(opt => {
+        const count = counts[plain(opt.label)] || 0;
+        const pct   = total ? (count / total) * 100 : 0;
+        return (
+          <div
+            key={opt.label}
+            className="priority-segment"
+            style={{ backgroundColor: opt.bg, width: `${pct}%` }}
+            onMouseEnter={() => setHovered({ label: opt.label, count, pct })}
+            onMouseLeave={() => setHovered(null)}
+          >
+            {hovered?.label === opt.label && (
+              <div className="tooltip">
+                {`${opt.label}  ${count}/${total}  ${pct.toFixed(1)}%`}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
