@@ -30,17 +30,11 @@ async function query(filterBy = { txt: '', maxMembers: 0 }) {
     const boards = await httpService.get(`board`, filterBy)
     
     // Transform each board from backend to frontend format
-    return boards.map(board => ({
-        ...board,
-        title: board.name || board.title // Backend uses 'name', frontend expects 'title'
-    }))
+    return boards.map(board => transformBoardToFrontend(board))
 }
 
 function getById(boardId) {
-    return httpService.get(`board/${boardId}`).then(board => ({
-        ...board,
-        title: board.name || board.title // Backend uses 'name', frontend expects 'title'
-    }))
+    return httpService.get(`board/${boardId}`).then(board => transformBoardToFrontend(board))
 }
 
 async function removeBoard(boardId) {
@@ -49,13 +43,7 @@ async function removeBoard(boardId) {
 
 async function save(board) {
     // Transform frontend format to backend format
-    const backendBoard = {
-        ...board,
-        name: board.title || board.name, // Frontend uses 'title', backend uses 'name'
-    }
-    
-    // Remove title to avoid confusion in backend
-    delete backendBoard.title
+    const backendBoard = transformBoardToBackend(board)
     
     var savedBoard
     if (backendBoard._id) {
@@ -65,10 +53,7 @@ async function save(board) {
     }
     
     // Transform backend response back to frontend format
-    return {
-        ...savedBoard,
-        title: savedBoard.name // Backend returns 'name', frontend expects 'title'
-    }
+    return transformBoardToFrontend(savedBoard)
 }
 
 // Group CRUDL
@@ -97,6 +82,20 @@ async function addTask(boardId, groupId, taskData) {
 }
 
 async function updateTask(boardId, taskId, taskToUpdate) {
+    // Ensure boardId is a string
+    if (typeof boardId !== 'string') {
+        console.error('updateTask: boardId must be a string, got:', typeof boardId, boardId)
+        console.error('This usually means you passed the whole board object instead of board._id')
+        console.error('Call stack:', new Error().stack)
+        throw new Error('Invalid boardId: must be a string')
+    }
+    
+    // Ensure taskId is a string
+    if (typeof taskId !== 'string') {
+        console.error('updateTask: taskId must be a string, got:', typeof taskId, taskId)
+        throw new Error('Invalid taskId: must be a string')
+    }
+    
     // First we need to find which group this task belongs to
     const board = await getById(boardId)
     let groupId = null
@@ -136,6 +135,84 @@ async function getUsers() {
         console.log('Could not get users:', err)
         return []
     }
+}
+
+// Transform backend board format to frontend format
+function transformBoardToFrontend(board) {
+    if (!board) return null
+    
+    return {
+        ...board,
+        title: board.name || board.title, // Backend uses 'name', frontend expects 'title'
+        groups: board.groups?.map(group => ({
+            ...group,
+            title: group.name || group.title, // Backend uses 'name', frontend expects 'title'
+            tasks: group.tasks?.map(task => ({
+                ...task,
+                title: task.title || getTaskTitleFromColumnValues(task), // Get title from columnValues if not present
+                status: getTaskStatusFromColumnValues(task), // Extract status from columnValues
+                assignee: getTaskAssigneeFromColumnValues(task), // Extract assignee from columnValues
+                dueDate: getTaskDueDateFromColumnValues(task) // Extract due date from columnValues
+            })) || []
+        })) || []
+    }
+}
+
+// Transform frontend board format to backend format
+function transformBoardToBackend(board) {
+    if (!board) return null
+    
+    const backendBoard = {
+        ...board,
+        name: board.title || board.name, // Frontend uses 'title', backend uses 'name'
+        groups: board.groups?.map(group => ({
+            ...group,
+            name: group.title || group.name // Frontend uses 'title', backend uses 'name'
+        })) || []
+    }
+    
+    // Remove title to avoid confusion in backend
+    delete backendBoard.title
+    
+    return backendBoard
+}
+
+// Helper functions to extract task data from columnValues
+function getTaskTitleFromColumnValues(task) {
+    if (!task.columnValues) return task.title || 'New Task'
+    
+    const itemColumn = task.columnValues.find(cv => cv.colId?.includes('item') || cv.colId?.includes('task'))
+    return itemColumn?.value || task.title || 'New Task'
+}
+
+function getTaskStatusFromColumnValues(task) {
+    if (!task.columnValues) return task.status || ''
+    
+    const statusColumn = task.columnValues.find(cv => cv.colId?.includes('status'))
+    if (!statusColumn?.value) return task.status || ''
+    
+    // Map status label IDs to readable names
+    const statusMap = {
+        'lbl_working_001': 'Working on it',
+        'lbl_stuck_001': 'Stuck', 
+        'lbl_done_001': 'Done'
+    }
+    
+    return statusMap[statusColumn.value] || statusColumn.value
+}
+
+function getTaskAssigneeFromColumnValues(task) {
+    if (!task.columnValues) return task.assignee || ''
+    
+    const personColumn = task.columnValues.find(cv => cv.colId?.includes('person') || cv.colId?.includes('people'))
+    return personColumn?.value || task.assignee || ''
+}
+
+function getTaskDueDateFromColumnValues(task) {
+    if (!task.columnValues) return task.dueDate || ''
+    
+    const dateColumn = task.columnValues.find(cv => cv.colId?.includes('date'))
+    return dateColumn?.value || task.dueDate || ''
 }
 
 // Create a demo board that matches your backend format
@@ -184,7 +261,7 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
         groups: groups.length ? groups : [
             {
                 id: 'g' + Date.now(),
-                title: "New Group",
+                name: "New Group", // Use 'name' to match backend format
                 color: "#037F4C",
                 isCollapse: false,
                 tasks: []
@@ -197,7 +274,7 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
 function createGroup(title = 'New Group') {
     return {
         id: 'g' + Date.now(),
-        title,
+        name: title, // Use 'name' to match backend format
         color: "#037F4C",
         isCollapse: false,
         tasks: []
@@ -223,4 +300,4 @@ function createTask(title = 'New Task') {
         members: [],
         createdAt: Date.now()
     }
-}
+} 
