@@ -117,7 +117,6 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   }, []);
 
   const handleApplyFilters = useCallback((filters) => {
-    console.log('Applied filters:', filters);
     setAdvancedFilters(filters);
   }, []);
 
