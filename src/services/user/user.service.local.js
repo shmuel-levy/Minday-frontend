@@ -30,7 +30,7 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-	// When admin updates other user's details, do not update loggedinUser
+    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) _saveLocalUser(user)
 
@@ -60,7 +60,19 @@ function getLoggedinUser() {
 }
 
 function _saveLocalUser(user) {
-    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin : user.isAdmin }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    return user
+    const userToStore = {
+        _id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullname: user.fullname || `${user.firstName} ${user.lastName}`,
+        profileImg: user.profileImg || '',
+        imgUrl: user.profileImg || user.imgUrl || '',
+        role: user.role || 'user',
+        score: user.score || 0,
+        isAdmin: user.isAdmin || false
+    }
+
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToStore))
+    return userToStore
 }
