@@ -544,26 +544,22 @@ function findGroupByTaskId(board, taskId) {
 }
 
 // update task in group (returns board)
-async function updateTask(boardId, taskId, taskToUpdate) {
-    try {
+export async function updateTask(board, taskId, patch) {
+    // locate task
+    const group = board.groups.find(g => g.tasks.some(t => t.id === taskId));
+    if (!group) throw new Error('Group not found');
 
-        const board = await getById(boardId)
-        console.log('board:', board, boardId, taskId, taskToUpdate);
+    const idx = group.tasks.findIndex(t => t.id === taskId);
+    if (idx === -1) throw new Error('Task not found');
 
-        if (!board) console.error('Board not found')
-        const group = findGroupByTaskId(board, taskId)
-        if (!group) console.error('Group not found')
-        const taskIdx = group.tasks.findIndex(t => t.id === taskId)
-        if (taskIdx === -1) console.error('Task not found')
-        group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskToUpdate }
-        // await storageService.put(STORAGE_KEY, board)
-        console.log('Task updated successfully:', group.tasks[taskIdx]);
+    // mutate in-memory copy
+    group.tasks[idx] = { ...group.tasks[idx], ...patch };
 
-        return board
-    } catch (err) {
-        console.error('Error updating task:', err)
-        throw new Error('Failed to update task')
-    }
+    // persist in the background – don’t block the UI
+    storageService.put(STORAGE_KEY, board).catch(console.error);
+
+    // return immediately so callers can re-render
+    return board;
 }
 
 // remove task from group (returns board)

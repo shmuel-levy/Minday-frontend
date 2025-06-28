@@ -53,10 +53,20 @@ export function boardReducer(state = initialState, action) {
         case ADD_BOARD:
             newState = { ...state, boards: [...state.boards, action.board] }
             break
-        case UPDATE_BOARD:
-            boards = state.boards.map(board => (board._id === action.board._id) ? action.board : board)
-            newState = { ...state, boards }
+        case UPDATE_BOARD: {
+            const boards = state.boards.map(b =>
+                b._id === action.board._id ? action.board : b
+            )
+            newState = {
+                ...state,
+                boards,
+                board:
+                    state.board && state.board._id === action.board._id
+                        ? action.board         // <- keep the screen in sync
+                        : state.board
+            }
             break
+        }
         case ADD_BOARD_ACTIVITY:
             newState = { ...state, board: { ...state.board, activities: [...state.board.activities || [], action.activity] } }
             break

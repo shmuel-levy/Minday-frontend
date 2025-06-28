@@ -94,12 +94,19 @@ export async function addBoard(board) {
 }
 
 export async function updateBoard(board) {
+    // ----- 1️⃣ Optimistically update Redux -----
+    store.dispatch(getCmdUpdateBoard(board));
+    store.dispatch(getCmdSetBoard(board));
+
+    // The UI re-renders immediately 👆
+
     try {
-        const savedBoard = await boardService.save(board)
-        store.dispatch(getCmdUpdateBoard(savedBoard))
-        return savedBoard
+        // ----- 2️⃣ Persist without blocking the UI -----
+        await boardService.save(board);
     } catch (err) {
-        throw err
+        // optional: show toast + rollback if save failed
+        console.error('Save failed, restoring previous board', err);
+        // reload fresh copy, or keep optimistic state
     }
 }
 
