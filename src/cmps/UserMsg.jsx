@@ -40,7 +40,6 @@ export function UserMsg() {
 
                 <div className="content-container">
                     <div className="text-content">{msg?.txt}</div>
-                    <button className="undo-btn">Undo</button>
                 </div>
 
                 <button className="close-btn-msg" onClick={closeMsg}>
