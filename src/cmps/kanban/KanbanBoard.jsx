@@ -8,7 +8,7 @@ export function KanbanBoard({
   onUpdateTask, 
   onOpenTaskDetails 
 }) {
-  const { handleUpdateTask } = useBoardState(board);
+  const { handleUpdateTask, handleKanbanDragEnd } = useBoardState(board);
 
   // Define status columns for Kanban view
   const statusColumns = useMemo(() => [
@@ -42,41 +42,8 @@ export function KanbanBoard({
     return grouped;
   }, [board, statusColumns]);
 
-  const handleDragEnd = async (result) => {
-    const { source, destination, draggableId } = result;
-
-    // Drop outside the list
-    if (!destination) return;
-
-    // Same position
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    // Find the task being moved
-    const sourceColumnId = source.droppableId;
-    const task = tasksByStatus[sourceColumnId][source.index];
-    
-    if (!task) return;
-
-    // Find the new status based on destination column
-    const destinationColumn = statusColumns.find(col => col.id === destination.droppableId);
-    const newStatus = destinationColumn ? destinationColumn.status : 'Not Started';
-
-    // Update the task status
-    const updatedTask = {
-      ...task,
-      status: newStatus
-    };
-
-    try {
-      await handleUpdateTask(updatedTask);
-    } catch (error) {
-      console.error('Error updating task:', error);
-    }
+  const handleDragEnd = (result) => {
+    handleKanbanDragEnd(result);
   };
 
   if (!board) {
