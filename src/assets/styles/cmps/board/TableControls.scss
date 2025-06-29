@@ -4,6 +4,118 @@
   gap: 12px;
   padding: 16px 0px;
 
+  .view-selector-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .view-selector-wrapper {
+      position: relative;
+
+      .view-selector-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border: 1px solid #d0d4e4;
+        border-radius: 4px;
+        background: #fff;
+        color: #323338;
+        font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 120px;
+
+        &:hover {
+          background: #f5f6f8;
+          border-color: #c3c6d4;
+        }
+
+        .view-name {
+          flex: 1;
+          text-align: left;
+        }
+
+        .arrow-icon {
+          width: 16px;
+          height: 16px;
+          transition: transform 0.2s ease;
+          fill: #676879;
+
+          &.rotated {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      .view-selector-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #d0d4e4;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        margin-top: 4px;
+        overflow: hidden;
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          border: none;
+          background: none;
+          width: 100%;
+          text-align: left;
+          font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+          font-size: 14px;
+          color: #323338;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background: #f5f6f8;
+          }
+
+          &.active {
+            background: #e6f0fb;
+            color: #0073ea;
+            font-weight: 500;
+          }
+
+          &.add-view-item {
+            color: #0073ea;
+            font-weight: 500;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              fill: #0073ea;
+            }
+          }
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background: #e6e9ef;
+          margin: 4px 0;
+        }
+      }
+    }
+
+    .separator {
+      width: 1px;
+      height: 24px;
+      background: #e6e9ef;
+      margin: 0 8px;
+    }
+  }
+
   .btn-new-task {
     background: #0073ea;
     color: #ffffff;
@@ -16,6 +128,8 @@
     height: 32px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    min-width: 100px;
+    white-space: nowrap;
   }
 
   .btn-control {
@@ -51,6 +165,29 @@
     }
     svg {
       color: #676879;
+    }
+
+    &.collapse-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f5f6f8;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+
+      &:hover {
+        background: #e6e9ef;
+      }
+
+      .arrow-icon {
+        width: 12px;
+        height: 12px;
+        fill: #676879;
+      }
     }
   }
 

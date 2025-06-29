@@ -98,8 +98,7 @@ const FIELD_FILTERS = {
   status: matchesStatusFilter,
   priority: matchesPriorityFilter,
   files: matchesFilesFilter,
-  timeline_start: matchesTimelineStartFilter,
-  timeline_end: matchesTimelineEndFilter,
+  timeline: matchesTimelineFilter,
   date: matchesDateFilter,
 };
 
@@ -208,19 +207,20 @@ function matchesFilesFilter(task, condition) {
   }
 }
 
-function matchesTimelineStartFilter(task, condition, value) {
+function matchesTimelineFilter(task, condition, value) {
   const startDate = task.timeline?.startDate || '';
+  const endDate = task.timeline?.endDate || '';
   const actualValue = convertRelativeDateToActualDate(value);
 
   switch (condition) {
     case 'is':
-      return startDate === actualValue;
+      return startDate === actualValue || endDate === actualValue;
     case 'is_not':
-      return startDate !== actualValue;
+      return startDate !== actualValue && endDate !== actualValue;
     case 'is_empty':
-      return !startDate;
+      return !startDate && !endDate;
     case 'is_not_empty':
-      return !!startDate;
+      return !!startDate || !!endDate;
     case 'starts_on':
       return startDate === actualValue;
     case 'starts_after':
@@ -229,32 +229,6 @@ function matchesTimelineStartFilter(task, condition, value) {
       return startDate >= actualValue;
     case 'starts_before':
       return startDate < actualValue;
-    case 'is_before':
-      return startDate < actualValue;
-    case 'is_after':
-      return startDate > actualValue;
-    case 'is_on_or_before':
-      return startDate <= actualValue;
-    case 'is_on_or_after':
-      return startDate >= actualValue;
-    default:
-      return true;
-  }
-}
-
-function matchesTimelineEndFilter(task, condition, value) {
-  const endDate = task.timeline?.endDate || '';
-  const actualValue = convertRelativeDateToActualDate(value);
-
-  switch (condition) {
-    case 'is':
-      return endDate === actualValue;
-    case 'is_not':
-      return endDate !== actualValue;
-    case 'is_empty':
-      return !endDate;
-    case 'is_not_empty':
-      return !!endDate;
     case 'ends_on':
       return endDate === actualValue;
     case 'ends_after':
@@ -266,13 +240,13 @@ function matchesTimelineEndFilter(task, condition, value) {
     case 'ends_on_or_before':
       return endDate <= actualValue;
     case 'is_before':
-      return endDate < actualValue;
+      return startDate < actualValue;
     case 'is_after':
-      return endDate > actualValue;
+      return startDate > actualValue;
     case 'is_on_or_before':
-      return endDate <= actualValue;
+      return startDate <= actualValue;
     case 'is_on_or_after':
-      return endDate >= actualValue;
+      return startDate >= actualValue;
     default:
       return true;
   }

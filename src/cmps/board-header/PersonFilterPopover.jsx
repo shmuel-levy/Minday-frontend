@@ -17,15 +17,9 @@ export function PersonFilterPopover({ isOpen, onClose, members = [], selectedId,
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, onClose, anchorRef]);
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
-  // Positioning logic
-  let style = { 
-    position: 'fixed',
-    zIndex: 10000, 
-    minWidth: 260,
-    maxWidth: 320,
-  };
+  let style = {};
 
   if (anchorRef && anchorRef.current) {
     const rect = anchorRef.current.getBoundingClientRect();

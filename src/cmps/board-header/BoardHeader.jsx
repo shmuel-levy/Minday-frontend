@@ -35,6 +35,7 @@ export function BoardHeader({
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [isAddDropdownOpen])
 
+    // Close view dropdown on outside click
     useEffect(() => {
         if (!showViewDropdown) return
         function handleClickOutside(e) {
@@ -111,35 +112,37 @@ export function BoardHeader({
             </div>
 
             {!isCollapsed && (
-            <div className="board-header-navigation">
+                <div className="board-header-navigation">
                     <div className="views-wrapper">
-                    <ViewControls
-                            views={views}
-                            activeViewId={activeViewId}
-                            onViewChange={onUpdateView}
-                            onSetActiveView={onSetActiveView}
-                            onRemoveView={handleRemoveView}
-                        canRemove={views.length > 1}
-                    />
-                <button
-                    type="button"
+                        {views.map(view => (
+                            <ViewControls
+                                key={view.id}
+                                view={view}
+                                isActive={view.id === activeViewId}
+                                onViewChange={(newType) => onUpdateView(view.id, newType)}
+                                onSetActive={() => onSetActiveView(view.id)}
+                                onRemove={() => handleRemoveView(view.id)}
+                                canRemove={views.length > 1}
+                            />
+                        ))}
+                        <button
+                            type="button"
                             className="add-view-btn"
-                    ref={plusBtnRef}
-                    onClick={handlePlusClick}
+                            ref={plusBtnRef}
+                            onClick={handlePlusClick}
                             aria-label="Add view"
-                    style={{ marginLeft: '8px' }}
+                            style={{ marginLeft: '8px' }}
                         >
-                        >
-                        <Plus />
-                </button>
-                {isAddDropdownOpen && (
-                    <AddBoardDropdown
-                        onClose={handleDropdownClose}
-                        onSelect={handleDropdownSelect}
-                        triggerRef={plusBtnRef}
-                    />
-                )}
-            </div>
+                            <Plus />
+                        </button>
+                        {isAddDropdownOpen && (
+                            <AddBoardDropdown
+                                onClose={handleDropdownClose}
+                                onSelect={handleDropdownSelect}
+                                triggerRef={plusBtnRef}
+                            />
+                        )}
+                    </div>
                 </div>
             )}
 

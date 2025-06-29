@@ -26,13 +26,12 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
         }
     }, [isOpen, board])
 
-    // Position dropdown below the anchorEl
     useEffect(() => {
         if (isOpen && anchorEl) {
             const rect = anchorEl.getBoundingClientRect()
             setDropdownStyles({
                 position: 'absolute',
-                top: rect.bottom + window.scrollY + 4, // +4 for margin
+                top: rect.bottom + window.scrollY + 4, 
                 left: rect.left + window.scrollX,
                 zIndex: 2000,
             })

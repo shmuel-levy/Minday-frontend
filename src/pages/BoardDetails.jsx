@@ -26,10 +26,9 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const boardTableRef = useRef(null);
   const addWidgetBtnRef = useRef(null);
   const [boardForModal, setBoardForModal] = useState(null);
-  const [views, setViews] = useState([
-    {id: makeId(), type: "table", name: "Main Table"},
-  ]);
-  const [activeViewId, setActiveViewId] = useState(views[0].id);
+  const initialView = {id: makeId(), type: "table", name: "Main Table"};
+  const [views, setViews] = useState([initialView]);
+  const [activeViewId, setActiveViewId] = useState(initialView.id);
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -41,13 +40,13 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   useEffect(() => {
   if (board) recordRecentBoard(board)
-}, [board?._id]) 
+}, [board?._id])
 
   useEffect(() => {
     if (boardId) {
       _loadBoard(boardId)
     }
-  }, [boardId, boards])
+  }, [])
 
   async function _loadBoard() {
     try {
@@ -116,6 +115,22 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   function handleUpdateViews(newViews) {
     setViews(newViews);
+  }
+
+  function handlePinView(viewId) {
+    setViews((prevViews) =>
+      prevViews.map((view) =>
+        view.id === viewId ? { ...view, isPinned: true } : view
+      )
+    );
+  }
+
+  function handleUnpinView(viewId) {
+    setViews((prevViews) =>
+      prevViews.map((view) =>
+        view.id === viewId ? { ...view, isPinned: false } : view
+      )
+    );
   }
 
   const handleFiltersChange = useCallback((filters) => {
