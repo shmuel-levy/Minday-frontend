@@ -1,0 +1,99 @@
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+
+  .kanban-column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e1e5e9;
+    border-top-left-radius: var(--border-radius-medium);
+    border-top-right-radius: var(--border-radius-medium);
+    color: var(--text-color-on-inverted);
+    min-height: 40px;
+
+    .kanban-column-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-snow_white);
+      font-size: var(--font-size-30);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .kanban-column-count {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--text-color-on-inverted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 16px;
+      text-align: center;
+      margin-left: 8px;
+    }
+  }
+
+  // Status-specific background colors
+  &.status-not-started .kanban-column-header {
+    background: rgb(196, 196, 196);
+  }
+
+  &.status-working-on-it .kanban-column-header {
+    background: rgb(253, 171, 61);
+  }
+
+  &.status-stuck .kanban-column-header {
+    background: rgb(223, 47, 74);
+  }
+
+  &.status-done .kanban-column-header {
+    background: rgb(0, 200, 117);
+  }
+
+  .kanban-column-content {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    min-height: 400px;
+    max-height: calc(100vh - 200px);
+
+    &.dragging-over {
+      background-color: #f0f7ff;
+      border: 2px dashed #0073ea;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
+  }
+} 

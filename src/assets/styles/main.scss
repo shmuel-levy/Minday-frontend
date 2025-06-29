@@ -68,8 +68,10 @@
 @import "cmps/table/GroupSummaryRow.scss";
 @import "cmps/AddWidgetModal";
 
-
-
+// Kanban Components
+@import "cmps/KanbanBoard";
+@import "cmps/KanbanColumn";
+@import "cmps/TaskCard";
 
 //scss
 @import "cmps/board/BoardDetails.scss";
