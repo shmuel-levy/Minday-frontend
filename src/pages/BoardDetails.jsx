@@ -47,7 +47,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     if (boardId) {
       _loadBoard(boardId)
     }
-  }, [boardId, boards])
+  }, [])
 
   async function _loadBoard() {
     try {
