@@ -5,7 +5,7 @@ export const boardService = {
     query,
     getById,
     save,
-    removeBoard,
+    remove,
     
     // Group CRUDL  
     addGroup,
@@ -37,13 +37,15 @@ function getById(boardId) {
     return httpService.get(`board/${boardId}`).then(board => transformBoardToFrontend(board))
 }
 
-async function removeBoard(boardId) {
-    return httpService.delete(`board/${boardId}`)
+async function remove(boardId) {
+    return httpService.delete(`board/${boardId}` )
 }
 
 async function save(board) {
     // Transform frontend format to backend format
     const backendBoard = transformBoardToBackend(board)
+    console.log(backendBoard._id ? 'Updating board' : 'Creating new board', backendBoard._id);
+    
     
     var savedBoard
     if (backendBoard._id) {
