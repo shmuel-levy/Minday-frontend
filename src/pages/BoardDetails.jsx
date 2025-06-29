@@ -12,7 +12,7 @@ import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
-import { recordRecentBoard } from '../services/board/board.service.local'
+import { recordRecentBoard, saveBoardViews, loadBoardViews } from '../services/board/board.service.local'
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
 
@@ -27,10 +27,9 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const boardTableRef = useRef(null);
   const addWidgetBtnRef = useRef(null);
   const [boardForModal, setBoardForModal] = useState(null);
-  const [views, setViews] = useState([
-    {id: makeId(), type: "table", name: "Main Table"},
-  ]);
-  const [activeViewId, setActiveViewId] = useState(views[0].id);
+  const { views: initialViews, activeViewId: initialActiveViewId } = loadBoardViews(boardId);
+  const [views, setViews] = useState(initialViews);
+  const [activeViewId, setActiveViewId] = useState(initialActiveViewId);
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -41,12 +40,15 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [advancedFilters, setAdvancedFilters] = useState([]);
 
   useEffect(() => {
-  if (board) recordRecentBoard(board)
-}, [board?._id]) 
+    if (board) recordRecentBoard(board)
+  }, [board?._id]) 
 
   useEffect(() => {
     if (boardId) {
-      _loadBoard(boardId)
+      _loadBoard(boardId);
+      const { views: loadedViews, activeViewId: loadedActiveViewId } = loadBoardViews(boardId);
+      setViews(loadedViews);
+      setActiveViewId(loadedActiveViewId);
     }
   }, [boardId])
 
@@ -88,24 +90,27 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     let viewName = viewType.charAt(0).toUpperCase() + viewType.slice(1);
     if (viewType === "dashboard") viewName = "Chart";
     const newView = {id: makeId(), type: viewType, name: viewName};
-    setViews((prevViews) => [...prevViews, newView]);
+    const updatedViews = [...views, newView];
+    setViews(updatedViews);
     setActiveViewId(newView.id);
+    saveBoardViews(boardId, updatedViews, newView.id);
   }
 
   function handleUpdateView(viewId, newType) {
-    setViews((prevViews) =>
-      prevViews.map((view) => {
-        let newName = newType.charAt(0).toUpperCase() + newType.slice(1);
-        if (newType === "dashboard") newName = "Chart";
-        return view.id === viewId
-          ? {...view, type: newType, name: newName}
-          : view;
-      })
-    );
+    const updatedViews = views.map((view) => {
+      let newName = newType.charAt(0).toUpperCase() + newType.slice(1);
+      if (newType === "dashboard") newName = "Chart";
+      return view.id === viewId
+        ? {...view, type: newType, name: newName}
+        : view;
+    });
+    setViews(updatedViews);
+    saveBoardViews(boardId, updatedViews, activeViewId);
   }
 
   function handleSetActiveView(viewId) {
     setActiveViewId(viewId);
+    saveBoardViews(boardId, views, viewId);
   }
 
   function handleOpenAddWidgetModal(buttonRef) {
@@ -117,6 +122,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   function handleUpdateViews(newViews) {
     setViews(newViews);
+    saveBoardViews(boardId, newViews, activeViewId);
   }
 
   const handleFiltersChange = useCallback((filters) => {
