@@ -17,6 +17,24 @@
     &.collapsed {
         grid-template-areas: "info info action"
         "contextualAction contextualAction contextualAction";
+        
+        .board-header-navigation {
+            display: none;
+        }
+        
+        .board-header-contextualAction {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            
+            .view-selector-section {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                border-right: 1px solid #e6e6ea;
+                padding-right: 16px;
+            }
+        }
     }
 
   .board-header-info {
