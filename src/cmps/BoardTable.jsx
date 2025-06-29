@@ -57,7 +57,6 @@ export const BoardTable = forwardRef(function BoardTable(
     setOpenTaskId(taskId);
   }
 
-  //working with store
   async function handleUpdateGroup(updatedGroup) {
     const updatedGroups = board.groups.map((group) =>
       group.id === updatedGroup.id ? updatedGroup : group
@@ -65,7 +64,6 @@ export const BoardTable = forwardRef(function BoardTable(
     await updateBoard({...board, groups: updatedGroups});
   }
 
-  //updates on task
   async function handleUpdateAdded(taskId, groupId, newUpdate) {
     await updateBoard({
       ...board,
@@ -91,7 +89,6 @@ export const BoardTable = forwardRef(function BoardTable(
 
   const groupsToShow = (board.groups && board.groups.length > 0) ? board.groups : board.groups;
 
-  // Show empty state if searching and no results
   if (board.groups && board.groups.length === 0) {
     return <SearchEmptyState />;
   }
