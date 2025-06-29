@@ -291,7 +291,7 @@ export function useBoardState(board, onAddNewTask) {
  async function handleUpdateTask(updatedTask) {
   try {
     const updatedBoard = await boardService.updateTask(
-      board._id,  
+      board,
       updatedTask.id,
       updatedTask
     );
