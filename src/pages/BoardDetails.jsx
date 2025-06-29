@@ -9,6 +9,7 @@ import {BoardTable} from "../cmps/BoardTable";
 import {BoardDashboard} from "./BoardDashboard";
 import {TaskDetailModal} from "../cmps/task-detail-modal/TaskDetailModal";
 import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
+import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
 import { recordRecentBoard } from '../services/board/board.service.local'
@@ -127,7 +128,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   }, []);
 
   const handleApplyFilters = useCallback((filters) => {
-    setAdvancedFilters(filters);
+    // setAdvancedFilters(filters);
   }, []);
 
   const extractMembers = () => {
@@ -235,16 +236,12 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
             />
           </div>
         ) : activeView.type === "kanban" ? (
-          <div
-            className="kanban-placeholder"
-            style={{
-              padding: "48px",
-              textAlign: "center",
-              color: "#888",
-              fontSize: "1.5rem",
-            }}
-          >
-            Kanban view
+          <div className="kanban-container">
+            <KanbanBoard
+              board={filteredBoard || board}
+              onUpdateTask={handleUpdateBoard}
+              onOpenTaskDetails={handleOpenUpdates}
+            />
           </div>
         ) : (
           <div className="board-dashboard-container">

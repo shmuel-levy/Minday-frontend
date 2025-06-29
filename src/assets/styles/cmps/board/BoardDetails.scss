@@ -33,3 +33,9 @@
     }
 }
 
+.kanban-container {
+  height: calc(100vh - 200px);
+  overflow: hidden;
+  background-color: #f6f7fb;
+}
+
