@@ -10,6 +10,7 @@ export function useBoardState(board, onAddNewTask) {
   const currentBoard =
     board || useSelector((storeState) => storeState.boardModule.board);
 
+  
 
   const [taskDrafts, setTaskDrafts] = useState({});
   const [focusTaskId, setFocusTaskId] = useState(null);
@@ -82,20 +83,29 @@ export function useBoardState(board, onAddNewTask) {
     setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }));
   }
 
- async function handleUpdateTask(updatedTask) {
-  try {
-    const updatedBoard = await boardService.updateTask(
-      board,  
-      updatedTask.id,
-      updatedTask
-    );
-    await updateBoard(updatedBoard);
-    showSuccessMsg("Board updated successfully");
-  } catch (err) {
-    console.log("error task handle update");
-    showErrorMsg("Cannot update board");
+  function handleUpdateTask(updatedTask) {
+    try {
+      const updatedGroups = board.groups.map(group => ({
+        ...group,
+        tasks: group.tasks.map(taskItem => 
+          taskItem.id === updatedTask.id 
+            ? { ...taskItem, ...updatedTask }
+            : taskItem
+        )
+      }));
+
+      const updatedBoard = { ...board, groups: updatedGroups };
+
+      // Use the same pattern as other functions
+      updateBoard(updatedBoard);
+      
+      showSuccessMsg("Task updated successfully");
+      
+    } catch (err) {
+      console.error("Error updating task:", err);
+      showErrorMsg("Cannot update task");
+    }
   }
-}
 
   function handleAddGroup() {
     const newGroup = {
@@ -160,6 +170,58 @@ export function useBoardState(board, onAddNewTask) {
     updateBoard({ ...board, groups: updatedGroups });
   }
 
+  function handleKanbanDragEnd(result) {
+    const { source, destination, draggableId } = result;
+
+    if (!destination) return;
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    try {
+      const task = board.groups
+        .flatMap(group => group.tasks)
+        .find(task => task.id === draggableId);
+      
+      if (!task) {
+        console.error('Task not found:', draggableId);
+        return;
+      }
+
+      const statusMap = {
+        'not-started': 'Not Started',
+        'working-on-it': 'Working on it',
+        'stuck': 'Stuck',
+        'done': 'Done'
+      };
+
+      const newStatus = statusMap[destination.droppableId] || 'Not Started';
+
+      const updatedGroups = board.groups.map(group => ({
+        ...group,
+        tasks: group.tasks.map(taskItem => 
+          taskItem.id === draggableId 
+            ? { ...taskItem, status: newStatus }
+            : taskItem
+        )
+      }));
+
+      const updatedBoard = { ...board, groups: updatedGroups };
+
+      updateBoard(updatedBoard);
+      
+      showSuccessMsg("Task moved successfully");
+      
+    } catch (error) {
+      console.error('Error in Kanban drag-and-drop:', error);
+      showErrorMsg('Failed to update task position');
+    }
+  }
+
   async function handleRemoveBoard(boardId) {
     try {
       await removeBoardAction(boardId);
@@ -184,6 +246,7 @@ export function useBoardState(board, onAddNewTask) {
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
+    handleKanbanDragEnd,
     handleRemoveBoard,
   };
 }
