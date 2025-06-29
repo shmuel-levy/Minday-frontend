@@ -35,14 +35,15 @@ export const boardService = {
     addTaskUpdate,
     getDemoBoard,
     recordRecentBoard,
-
+    verifyKanbanPersistence,
+    saveBoardViews,
+    loadBoardViews,
 }
 
 const gBoards = getBoardsData()
 _initBoards()
 
 
-// list all boards (query)
 async function query() {
     const user = userService.getLoggedinUser()
     const accountId = user?._id || 'guest'
@@ -51,7 +52,6 @@ async function query() {
     return boards
 }
 
-// create board object
 function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups = [] } = {}) {
     const currentUser = userService.getLoggedinUser()
     const colIdItem = makeId()
@@ -570,8 +570,13 @@ export async function updateTask(board, taskId, patch) {
     // mutate in-memory copy
     group.tasks[idx] = { ...group.tasks[idx], ...patch };
 
-    // persist in the background – don’t block the UI
-    storageService.put(STORAGE_KEY, board).catch(console.error);
+    // persist immediately to localStorage
+    try {
+        await storageService.put(STORAGE_KEY, board);
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        throw error;
+    }
 
     // return immediately so callers can re-render
     return board;
@@ -1295,4 +1300,57 @@ function getBoardsData() {
             }
         })
     }
+}
+
+// Helper function to verify localStorage persistence
+export function verifyKanbanPersistence(boardId) {
+    const user = userService.getLoggedinUser()
+    const accountId = user?._id || 'guest'
+    
+    try {
+        const storedBoards = JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${accountId}`) || '[]');
+        const board = storedBoards.find(b => b._id === boardId);
+        
+        if (board) {
+            console.log('✅ Board found in localStorage:', board.title);
+            console.log('📊 Board data:', {
+                groups: board.groups?.length || 0,
+                totalTasks: board.groups?.reduce((sum, group) => sum + group.tasks.length, 0) || 0
+            });
+            return true;
+        } else {
+            console.log('❌ Board not found in localStorage');
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Error checking localStorage:', error);
+        return false;
+    }
+}
+
+// Save views and active view for a board
+export function saveBoardViews(boardId, views, activeViewId) {
+    localStorage.setItem(`board_views_${boardId}`, JSON.stringify(views));
+    localStorage.setItem(`board_active_view_${boardId}`, activeViewId);
+}
+
+// Load views and active view for a board
+export function loadBoardViews(boardId) {
+    const savedViews = localStorage.getItem(`board_views_${boardId}`);
+    const savedActiveViewId = localStorage.getItem(`board_active_view_${boardId}`);
+    let views = [{ id: Date.now().toString(), type: 'table', name: 'Main Table' }];
+    let activeViewId = views[0].id;
+    if (savedViews) {
+        try {
+            views = JSON.parse(savedViews);
+            if (views.length > 0) {
+                activeViewId = savedActiveViewId && views.find(v => v.id === savedActiveViewId)
+                    ? savedActiveViewId
+                    : views[0].id;
+            }
+        } catch (e) {
+            // fallback to default
+        }
+    }
+    return { views, activeViewId };
 }
