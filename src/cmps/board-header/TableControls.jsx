@@ -131,13 +131,11 @@ export function TableControls({
     const handleAddViewClick = (e) => {
         e.stopPropagation();
         setIsAddViewDropdownOpen(prev => {
-            console.log('Setting isAddViewDropdownOpen from', prev, 'to', !prev);
             return !prev;
         });
     }
 
     const handleAddViewSelect = (type) => {
-        console.log('handleAddViewSelect called with type:', type);
         handleViewAdd(type);
         setIsAddViewDropdownOpen(false);
     }
@@ -191,35 +189,33 @@ export function TableControls({
                                     >
                                         <Plus />
                                         Add View
-                                        <ArrowDownUpIcon direction={isAddViewDropdownOpen ? 'up' : 'down'} className="arrow-icon" />
                                     </button>
-                                    {isAddViewDropdownOpen && (
-                                        <div className="add-view-dropdown">
-                                            {console.log('Rendering add-view-dropdown INSIDE add-view-container, isAddViewDropdownOpen:', isAddViewDropdownOpen)}
-                                            <button
-                                                className="dropdown-item"
-                                                onClick={() => handleAddViewSelect('table')}
-                                            >
-                                                <MainTableIcon />
-                                                Table
-                                            </button>
-                                            <button
-                                                className="dropdown-item"
-                                                onClick={() => handleAddViewSelect('dashboard')}
-                                            >
-                                                <DashboardIcon />
-                                                Dashboard
-                                            </button>
-                                            <button
-                                                className="dropdown-item"
-                                                onClick={() => handleAddViewSelect('kanban')}
-                                            >
-                                                <KanbanIcon />
-                                                Kanban
-                                            </button>
-                                        </div>
-                                    )}
                                 </div>
+                            </div>
+                        )}
+                        {isAddViewDropdownOpen && (
+                            <div className="add-view-dropdown">
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => handleAddViewSelect('table')}
+                                >
+                                    <MainTableIcon />
+                                    Table
+                                </button>
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => handleAddViewSelect('dashboard')}
+                                >
+                                    <DashboardIcon />
+                                    Dashboard
+                                </button>
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => handleAddViewSelect('kanban')}
+                                >
+                                    <KanbanIcon />
+                                    Kanban
+                                </button>
                             </div>
                         )}
                     </div>
