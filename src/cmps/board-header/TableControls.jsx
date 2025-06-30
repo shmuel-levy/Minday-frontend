@@ -14,8 +14,7 @@ import { Plus } from '../svg/Plus'
 import { MainTableIcon } from '../svg/MainTableIcon'
 import { ChartIcon } from '../svg/ChartIcon'
 import { KanbanIcon } from '../svg/KanbanIcon'
-import { ViewControls } from './ViewControls'
-import { AddBoardDropdown } from '../AddBoardDropdown'
+import { DashboardIcon } from '../svg/DashboardIcon'
 
 export function TableControls({ 
     onAddNewTask, 
@@ -37,26 +36,31 @@ export function TableControls({
     onApplyFilters,
     isCollapsed = false,
     onCollapseToggle,
+    activeView,
     views = [],
-    activeViewId,
-    onSetActiveView,
-    onUpdateView,
-    onRemoveView,
+    onViewSelect,
+    showViewDropdown,
+    onViewSelectorClick,
+    viewSelectorRef,
     onAddView
 }) {
+    const [openDropdown, setOpenDropdown] = useState(null)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [isPersonPopoverOpen, setIsPersonPopoverOpen] = useState(false)
     const [isSortPopoverOpen, setIsSortPopoverOpen] = useState(false)
     const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState(false)
-    const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false)
+    const [isAddViewDropdownOpen, setIsAddViewDropdownOpen] = useState(false)
     const personBtnRef = useRef(null)
     const sortBtnRef = useRef(null)
     const filterBtnRef = useRef(null)
-    const plusBtnRef = useRef(null)
     const clearButtonClickedRef = useRef(false)
+    const addViewBtnRef = useRef(null)
 
     const selectedPerson = members.find(m => m._id === selectedPersonId) || null;
-    const activeView = views.find(v => v.id === activeViewId);
+
+    const handleToggle = (type) => {
+        setOpenDropdown(openDropdown === type ? null : type)
+    }
 
     const handlePersonClick = (e) => {
         if (e.target.closest('.person-clear-btn')) return;
@@ -119,53 +123,107 @@ export function TableControls({
         setSearchText('');
     }
 
-    const handlePlusClick = () => {
-        setIsAddDropdownOpen(prev => !prev);
-    }
-
-    const handleDropdownClose = () => {
-        setIsAddDropdownOpen(false);
-    }
-
-    const handleDropdownSelect = (type) => {
+    const handleViewAdd = (type) => {
         onAddView(type);
-        setIsAddDropdownOpen(false);
+    }
+
+    const handleAddViewClick = (e) => {
+        e.stopPropagation();
+        setIsAddViewDropdownOpen(prev => {
+            console.log('Setting isAddViewDropdownOpen from', prev, 'to', !prev);
+            return !prev;
+        });
+    }
+
+    const handleAddViewSelect = (type) => {
+        console.log('handleAddViewSelect called with type:', type);
+        handleViewAdd(type);
+        setIsAddViewDropdownOpen(false);
+    }
+
+    const getViewIcon = (viewType) => {
+        switch (viewType) {
+            case 'table':
+                return <MainTableIcon />
+            case 'dashboard':
+                return <DashboardIcon />
+            case 'kanban':
+                return <KanbanIcon />
+            default:
+                return <MainTableIcon />
+        }
     }
 
     return (
         <div className="table-controls">
+            {console.log('TableControls render - isCollapsed:', isCollapsed, 'showViewDropdown:', showViewDropdown, 'isAddViewDropdownOpen:', isAddViewDropdownOpen)}
             {isCollapsed && (
                 <div className="view-selector-section">
-                    <div className="views-wrapper">
-                        {views.map(view => (
-                            <ViewControls
-                                key={view.id}
-                                view={view}
-                                isActive={view.id === activeViewId}
-                                onViewChange={(newType) => onUpdateView(view.id, newType)}
-                                onSetActive={() => onSetActiveView(view.id)}
-                                onRemove={() => onRemoveView(view.id)}
-                                canRemove={views.length > 1}
-                            />
-                        ))}
+                    <div className="view-selector-wrapper" ref={viewSelectorRef}>
                         <button
-                            type="button"
-                            className="add-view-btn"
-                            ref={plusBtnRef}
-                            onClick={handlePlusClick}
-                            aria-label="Add view"
-                            style={{ marginLeft: '8px' }}
+                            className="view-selector-btn"
+                            onClick={onViewSelectorClick}
                         >
-                            <Plus />
+                            <span className="view-icon">
+                                {getViewIcon(activeView?.type)}
+                            </span>
+                            <span className="view-name">{activeView?.name || 'Table'}</span>
+                            <ArrowDownUpIcon direction={showViewDropdown ? 'up' : 'down'} className="arrow-icon" />
                         </button>
-                        {isAddDropdownOpen && (
-                            <AddBoardDropdown
-                                onClose={handleDropdownClose}
-                                onSelect={handleDropdownSelect}
-                                triggerRef={plusBtnRef}
-                            />
+                        {showViewDropdown && (
+                            <div className="view-selector-dropdown">
+                                {views.map(view => (
+                                    <button
+                                        key={view.id}
+                                        className={`dropdown-item${view.id === activeView?.id ? ' active' : ''}`}
+                                        onClick={() => onViewSelect(view.id)}
+                                    >
+                                        {getViewIcon(view.type)}
+                                        {view.name}
+                                    </button>
+                                ))}
+                                <div className="dropdown-divider"></div>
+                                <div className="add-view-container">
+                                    <button
+                                        ref={addViewBtnRef}
+                                        className="dropdown-item add-view-btn"
+                                        onClick={handleAddViewClick}
+                                    >
+                                        <Plus />
+                                        Add View
+                                        <ArrowDownUpIcon direction={isAddViewDropdownOpen ? 'up' : 'down'} className="arrow-icon" />
+                                    </button>
+                                    {isAddViewDropdownOpen && (
+                                        <div className="add-view-dropdown">
+                                            {console.log('Rendering add-view-dropdown INSIDE add-view-container, isAddViewDropdownOpen:', isAddViewDropdownOpen)}
+                                            <button
+                                                className="dropdown-item"
+                                                onClick={() => handleAddViewSelect('table')}
+                                            >
+                                                <MainTableIcon />
+                                                Table
+                                            </button>
+                                            <button
+                                                className="dropdown-item"
+                                                onClick={() => handleAddViewSelect('dashboard')}
+                                            >
+                                                <DashboardIcon />
+                                                Dashboard
+                                            </button>
+                                            <button
+                                                className="dropdown-item"
+                                                onClick={() => handleAddViewSelect('kanban')}
+                                            >
+                                                <KanbanIcon />
+                                                Kanban
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         )}
                     </div>
+                    <div className="separator"></div>
                 </div>
             )}
 
@@ -196,9 +254,9 @@ export function TableControls({
                     onClick={() => setIsSearchOpen(true)}
                     type="button"
                 >
-                    <SearchIcon />
-                    Search
-                </button>
+                <SearchIcon />
+                Search
+            </button>
             ) : (
                 <div className="search-input-wrapper">
                     <SearchIcon />
@@ -237,10 +295,9 @@ export function TableControls({
                         fullname={selectedPerson.fullname || selectedPerson.firstName}
                         userId={selectedPerson._id}
                         className="person-btn-avatar"
-                        style={{ width: 24, height: 24, marginRight: 6 }}
                     />
                 ) : (
-                    <PersonIcon />
+                <PersonIcon />
                 )}
                 Person
                 {selectedPerson && (
@@ -286,14 +343,15 @@ export function TableControls({
                     </button>
                 )}
             </button>
-
+            
             <SortPopover
                 isOpen={isSortPopoverOpen}
                 onClose={() => setIsSortPopoverOpen(false)}
                 selectedField={selectedSortField}
-                selectedDirection={sortDirection}
-                onFieldSelect={handleSortField}
-                onDirectionSelect={handleSortDirection}
+                onSelectField={handleSortField}
+                sortDirection={sortDirection}
+                onSelectDirection={handleSortDirection}
+                onClear={handleSortClear}
                 anchorRef={sortBtnRef}
             />
 
@@ -307,13 +365,13 @@ export function TableControls({
                 <FilterIcon />
                 Filter
             </button>
-
+            
             <FilterPopover
                 isOpen={isFilterPopoverOpen}
                 onClose={() => setIsFilterPopoverOpen(false)}
-                board={board}
-                onApply={handleApplyFilters}
+                onApplyFilters={handleApplyFilters}
                 anchorRef={filterBtnRef}
+                board={board}
             />
 
             <button
@@ -322,8 +380,8 @@ export function TableControls({
                 type="button"
                 aria-label={isCollapsed ? "Expand header" : "Collapse header"}
             >
-                <ArrowDownUpIcon direction={isCollapsed ? "up" : "down"} />
+                <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
             </button>
         </div>
     )
-} 
+}

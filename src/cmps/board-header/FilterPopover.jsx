@@ -250,59 +250,6 @@ export function FilterPopover({
     return !conditionOption?.requiresValue;
   }
 
-  function getPopoverStyle() {
-    const baseStyle = {
-      position: 'fixed',
-      zIndex: 10000,
-      minWidth: 600,
-      maxWidth: 700,
-    };
-
-    if (!anchorRef?.current) {
-      return { ...baseStyle, top: 100, left: 100 };
-    }
-
-    const rect = anchorRef.current.getBoundingClientRect();
-    const popoverWidth = 600;
-    const popoverHeight = 400; // Estimated height
-    
-    // Calculate position
-    let left = rect.left + window.scrollX + (rect.width / 2) - (popoverWidth / 2);
-    let top = rect.bottom + window.scrollY + 8;
-    
-    // Check if popover would go off the right edge
-    const rightEdge = left + popoverWidth;
-    const viewportWidth = window.innerWidth;
-    if (rightEdge > viewportWidth - 8) {
-      left = viewportWidth - popoverWidth - 8;
-    }
-    
-    // Check if popover would go off the left edge
-    if (left < 8) {
-      left = 8;
-    }
-    
-    // Check if popover would go off the bottom edge
-    const bottomEdge = top + popoverHeight;
-    const viewportHeight = window.innerHeight;
-    if (bottomEdge > viewportHeight - 8) {
-      // Show above the button instead
-      top = rect.top + window.scrollY - popoverHeight - 8;
-    }
-    
-    // Ensure top is not negative
-    if (top < 8) {
-      top = 8;
-    }
-
-    return {
-      ...baseStyle,
-      top: top,
-      left: left,
-      width: popoverWidth,
-    };
-  }
-
   function renderFilterRow(filter) {
     const fieldConfig = FIELD_CONFIGS[filter.field];
     const conditions = fieldConfig?.conditions || [];

@@ -112,38 +112,43 @@ export function BoardHeader({
             </div>
 
             {!isCollapsed && (
-                <div className="board-header-navigation">
-                    <div className="views-wrapper">
-                        {views.map(view => (
-                            <ViewControls
-                                key={view.id}
-                                view={view}
-                                isActive={view.id === activeViewId}
-                                onViewChange={(newType) => onUpdateView(view.id, newType)}
-                                onSetActive={() => onSetActiveView(view.id)}
-                                onRemove={() => handleRemoveView(view.id)}
-                                canRemove={views.length > 1}
-                            />
-                        ))}
-                        <button
-                            type="button"
-                            className="add-view-btn"
-                            ref={plusBtnRef}
-                            onClick={handlePlusClick}
-                            aria-label="Add view"
-                            style={{ marginLeft: '8px' }}
-                        >
-                            <Plus />
-                        </button>
-                        {isAddDropdownOpen && (
-                            <AddBoardDropdown
-                                onClose={handleDropdownClose}
-                                onSelect={handleDropdownSelect}
-                                triggerRef={plusBtnRef}
-                            />
-                        )}
-                    </div>
-                </div>
+            <div className="board-header-navigation">
+                {views.map(view => (
+                    <ViewControls
+                        key={view.id}
+                        view={view}
+                        isActive={view.id === activeViewId}
+                        onViewChange={(newType) => onUpdateView(view.id, newType)}
+                        onSetActive={() => onSetActiveView(view.id)}
+                        onRemove={() => handleRemoveView(view.id)}
+                        canRemove={views.length > 1}
+                            showIcons={false}
+                    />
+                ))}
+                <button
+                    type="button"
+                    className="add-board-subset-picker-component__button add-board-subset-picker-component__tabs-v2 xtPC2 button_179ab51c11 sizeMedium_58824a014d kindTertiary_08f8117bdb colorPrimary_1e1fb85d38 insetFocusStyle_be5d86065f"
+                    id="add-board-subset-button"
+                    data-testid="add-board-subset-picker-component"
+                    data-vibe="Button"
+                    aria-disabled="false"
+                    aria-busy="false"
+                    aria-label="Add view"
+                    ref={plusBtnRef}
+                    onClick={handlePlusClick}
+                >
+                    <span aria-hidden="true" className="icon_7f7b2e32a9 noFocusStyle_ae47567b36 fa icon icon-v2-plus-simple" role="img" data-testid="icon" data-vibe="Icon">
+                        <Plus />
+                    </span>
+                </button>
+                {isAddDropdownOpen && (
+                    <AddBoardDropdown
+                        onClose={handleDropdownClose}
+                        onSelect={handleDropdownSelect}
+                        triggerRef={plusBtnRef}
+                    />
+                )}
+            </div>
             )}
 
             <div className="board-header-contextualAction">

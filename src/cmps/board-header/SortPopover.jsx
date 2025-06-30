@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 
 export function SortPopover({
   isOpen,
@@ -47,34 +46,8 @@ export function SortPopover({
 
   if (!isOpen) return null;
 
-  // Positioning logic
-  let style = {
-    position: 'fixed',
-    zIndex: 10000,
-    minWidth: 320,
-    maxWidth: 400,
-  };
-  if (anchorRef && anchorRef.current) {
-    const rect = anchorRef.current.getBoundingClientRect();
-    const popoverWidth = 360;
-    const left = rect.left + window.scrollX + (rect.width / 2) - (popoverWidth / 2);
-    const top = rect.bottom + window.scrollY + 8;
-    const adjustedLeft = Math.max(8, left);
-    const rightEdge = adjustedLeft + popoverWidth;
-    const viewportWidth = window.innerWidth;
-    const finalLeft = rightEdge > viewportWidth - 8 ? viewportWidth - popoverWidth - 8 : adjustedLeft;
-    style = {
-      ...style,
-      top: top,
-      left: finalLeft,
-      width: popoverWidth,
-    };
-  } else {
-    style = { ...style, top: 100, left: 100 };
-  }
-
-  return ReactDOM.createPortal(
-    <div className="sort-popover" ref={popoverRef} style={style}>
+  return (
+    <div className="sort-popover" ref={popoverRef}>
       <div className="sort-popover-header">
         <div className="sort-popover-title">
           <span>Sort by</span>
@@ -113,7 +86,6 @@ export function SortPopover({
           </select>
         </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 } 

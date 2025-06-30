@@ -117,7 +117,7 @@ export const BoardTable = forwardRef(function BoardTable(
 
                   {!group.isCollapsed && (
                     <div className="tasks-container">
-                      <div className="row-with-spacer">
+                      <div className={`row-with-spacer ${group.isCollapsed ? 'collapsed' : ''}`}>
                         <div className="row-left-spacer"></div>
                         <TableHeader
                           onToggleAll={(checked) =>
@@ -142,8 +142,8 @@ export const BoardTable = forwardRef(function BoardTable(
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 style={{
-                                  ...provided.draggableProps.style, // keep built-in styles
-                                  width: "100%", // ✅ ensure full width
+                                  ...provided.draggableProps.style, 
+                                  width: "100%",
                                 }}
                               >
                                 <DynamicTaskRow

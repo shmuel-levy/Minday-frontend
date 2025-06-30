@@ -7,7 +7,7 @@ export function TableHeader({
     onToggleAll, 
     groupColor, 
     isAllSelected = false,
-    onAddColumn 
+    onAddColumn
 }) {
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', title: '', width: '6px', editable: false },
@@ -40,7 +40,7 @@ export function TableHeader({
     const columnsToRender = columns.length ? columns : defaultColumns
 
     return (
-        <div className="table-header" style={{ '--group-color': groupColor }}>
+        <div className={`table-header`} style={{ '--group-color': groupColor }}>
             {columnsToRender.map(column => (
                 <div
                     key={column.id}

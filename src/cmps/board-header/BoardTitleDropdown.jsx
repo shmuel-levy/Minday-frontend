@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import { useSelector } from 'react-redux'
 import { MainTableIcon } from '../svg/MainTableIcon'
 import { NotificationIcon } from '../svg/NotificationIcon'
@@ -11,7 +10,6 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
     const [isFavorited, setIsFavorited] = useState(board?.isFavorited || false)
     const [isEditingDescription, setIsEditingDescription] = useState(false)
     const dropdownRef = useRef(null)
-    const [dropdownStyles, setDropdownStyles] = useState({})
     
     const { user: loggedinUser } = useSelector(state => state.userModule)
     const owner = board?.createdBy || loggedinUser
@@ -25,18 +23,6 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
             setDescriptionDraft(board?.description || 'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.')
         }
     }, [isOpen, board])
-
-    useEffect(() => {
-        if (isOpen && anchorEl) {
-            const rect = anchorEl.getBoundingClientRect()
-            setDropdownStyles({
-                position: 'absolute',
-                top: rect.bottom + window.scrollY + 4, 
-                left: rect.left + window.scrollX,
-                zIndex: 2000,
-            })
-        }
-    }, [isOpen, anchorEl])
 
     // Close on outside click
     useEffect(() => {
@@ -81,9 +67,9 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
 
     if (!isOpen) return null
 
-    // Render dropdown via portal
-    return ReactDOM.createPortal(
-        <div className="board-dropdown" ref={dropdownRef} style={dropdownStyles} onClick={(e) => e.stopPropagation()}>
+    // Render dropdown
+    return (
+        <div className="board-dropdown" ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
             <div className="board-dropdown-content">
                 <div className="board-header">
                     <div className="title-star">
@@ -172,7 +158,6 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                     <button className="btn-save" onClick={handleSave}>Save</button>
                 </div>
             </div>
-        </div>,
-        document.body
+        </div>
     )
 }

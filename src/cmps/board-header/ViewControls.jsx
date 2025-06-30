@@ -1,16 +1,30 @@
 import { useState, useRef, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import { ThreeDots } from '../svg/ThreeDots'
 import { PinIcon } from '../svg/PinIcon'
 import { ChartIcon } from '../svg/ChartIcon'
+import { DashboardIcon } from '../svg/DashboardIcon'
 import { TrashIcon } from '../svg/TrashIcon'
+import { MainTableIcon } from '../svg/MainTableIcon'
+import { KanbanIcon } from '../svg/KanbanIcon'
 
-export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemove, canRemove }) {
+export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemove, canRemove, showIcons = false }) {
   const [isPinned, setIsPinned] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [dropdownStyles, setDropdownStyles] = useState({})
   const buttonRef = useRef(null)
   const dropdownRef = useRef(null)
+
+  const getViewIcon = (viewType) => {
+    switch (viewType) {
+      case 'table':
+        return <MainTableIcon />
+      case 'dashboard':
+        return <DashboardIcon />
+      case 'kanban':
+        return <KanbanIcon />
+      default:
+        return <MainTableIcon />
+    }
+  }
 
   function handleDotsClick(e) {
     e.stopPropagation()
@@ -32,39 +46,11 @@ export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemo
     setIsDropdownOpen(false)
   }
 
-  useEffect(() => {
-    if (isDropdownOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect()
-      setDropdownStyles({
-        position: 'absolute',
-        top: rect.bottom + window.scrollY + 4, 
-        left: rect.left + window.scrollX,
-        minWidth: rect.width,
-        zIndex: 2000,
-      })
-    }
-  }, [isDropdownOpen])
-
-  useEffect(() => {
-    if (!isDropdownOpen) return
-    function handleClickOutside(e) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(e.target)
-      ) {
-        setIsDropdownOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isDropdownOpen])
-
   return (
     <div className={`view-controls ${isActive ? 'active' : ''}`}>
       <button className="main-table-btn" ref={buttonRef} onClick={onSetActive}>
         {isPinned && <span className="pin-icon"><PinIcon /></span>}
+        {showIcons && <span className="view-icon">{getViewIcon(view.type)}</span>}
         {view.name}
         {isActive && (
           <span className="btn-more" onClick={handleDotsClick}>
@@ -73,8 +59,8 @@ export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemo
         )}
       </button>
 
-      {isDropdownOpen && ReactDOM.createPortal(
-        <div className="view-dropdown" ref={dropdownRef} style={dropdownStyles}>
+      {isDropdownOpen && (
+        <div className="view-dropdown" ref={dropdownRef}>
           <button
             className="dropdown-item"
             onClick={handlePinToggle}
@@ -87,12 +73,11 @@ export function ViewControls({ view, isActive, onViewChange, onSetActive, onRemo
               className="dropdown-item"
               onClick={() => { setIsDropdownOpen(false); onRemove && onRemove(); }}
             >
-              <TrashIcon style={{marginRight: '8px'}} />
+              <TrashIcon className="dropdown-icon" />
               Remove view
             </button>
           )}
-        </div>,
-        document.body
+        </div>
       )}
     </div>
   )
