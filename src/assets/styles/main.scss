@@ -75,7 +75,6 @@
 @import "cmps/board/BoardDetails.scss";
 
 @import "cmps/BoardTable";
-@import "cmps/BoardList";
 @import "cmps/BoardPreview";
 @import "cmps/UserAvatar";
 
@@ -86,5 +85,6 @@
 @import './cmps/board/FilterPopover.scss';
 @import './cmps/Loader.scss';
 
+@import './cmps/board/BoardList.scss';
 
 
