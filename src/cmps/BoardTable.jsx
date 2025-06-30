@@ -12,16 +12,16 @@ import {TaskCheckbox} from "./TaskCheckbox";
 import {GroupSummaryRow} from "../cmps/GroupSummaryRow";
 import {loadBoard, updateBoard} from "../store/board.actions";
 import { SearchEmptyState } from './SearchEmptyState';
-import { AddColumnPopover } from './table/column-types/AddColumnPopover';
+import { AddColumnPopover } from "./table/column-types/AddColumnPopover";
 
 export const BoardTable = forwardRef(function BoardTable(
   {board, onUpdateTask, onAddNewTask, onOpenUpdates},
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
-  const [isAddColumnPopoverOpen, setAddColumnPopoverOpen] = useState(false);
   const addColumnBtnRef = useRef(null)
-
+  const [isAddColumnPopoverOpen, setAddColumnPopoverOpen] = useState(false);
+  const [addColumnAnchorEl, setAddColumnAnchorEl] = useState(null);
   const {
     // board,
     setDemoBoard,
@@ -84,6 +84,15 @@ export const BoardTable = forwardRef(function BoardTable(
       ),
     });
   }
+      function handleAddColumn(type) {
+    setAddColumnPopoverOpen(false);
+    setAddColumnAnchorEl(null);
+  }
+
+  function handleAddColumnClick(e) {
+    setAddColumnPopoverOpen(true);
+    setAddColumnAnchorEl(e.currentTarget);
+  }
 
   useImperativeHandle(ref, () => ({
     handleAddNewTask,
@@ -96,9 +105,6 @@ export const BoardTable = forwardRef(function BoardTable(
     return <div style={{height: 'calc(100% - var(--board-header-height))'}}><SearchEmptyState /></div>;
   }
 
-  function handleAddColumn(type) {
-    setAddColumnPopoverOpen(false);
-  }
 
   return (
     <div className="board-table" style={{position: 'relative'}}>
@@ -133,8 +139,8 @@ export const BoardTable = forwardRef(function BoardTable(
                             (sg) =>
                               sg.groupId === group.id && sg.taskIds.length > 0
                           )}
-                          onAddColumnBtnClick={() => setAddColumnPopoverOpen(true)}
                           addColumnBtnRef={addColumnBtnRef}
+                          onAddColumnClick={handleAddColumnClick}
                         />
                       </div>
                       {group.tasks?.map((task, idx) => (
@@ -256,12 +262,12 @@ export const BoardTable = forwardRef(function BoardTable(
         </button>
       </div>
 
-      <AddColumnPopover
-        isOpen={isAddColumnPopoverOpen}
-        anchorRef={addColumnBtnRef}
-        onClose={() => setAddColumnPopoverOpen(false)}
-        onAddColumn={handleAddColumn}
-      />
+              <AddColumnPopover
+                isOpen={isAddColumnPopoverOpen}
+                anchorRef={{ current: addColumnAnchorEl }}
+                onClose={() => { setAddColumnPopoverOpen(false); setAddColumnAnchorEl(null); }}
+                onAddColumn={handleAddColumn}
+            />
     </div>
   );
 });

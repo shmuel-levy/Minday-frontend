@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { TaskCheckbox } from '../TaskCheckbox'
 
+
 export function TableHeader({ 
     columns = [], 
     onToggleAll, 
     groupColor, 
     isAllSelected = false,
-    onAddColumnBtnClick,
-    addColumnBtnRef
+    addColumnBtnRef,
+    onAddColumnClick
 }) {
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', title: '', width: '6px', editable: false },
@@ -23,6 +24,7 @@ export function TableHeader({
         { id: 'add-cell', type: 'add-cell', title: '', width: 'auto', editable: false }
     ]
 
+
     const [headerTitles, setHeaderTitles] = useState(
         Object.fromEntries(defaultColumns.map(col => [col.id, col.title]))
     )
@@ -30,6 +32,8 @@ export function TableHeader({
     function handleTitleChange(id, value) {
         setHeaderTitles(prev => ({ ...prev, [id]: value }))
     }
+
+
 
     const columnsToRender = columns.length ? columns : defaultColumns
 
@@ -47,10 +51,11 @@ export function TableHeader({
                             onChange={(value) => onToggleAll?.(value)}
                         />
                     ) : column.id === 'add-cell' ? (
+                   
                         <button
                             ref={addColumnBtnRef}
                             className="add-column-btn"
-                            onClick={onAddColumnBtnClick}
+                            onClick={e => onAddColumnClick?.(e)}
                             title="Add column"
                         >
                             +
@@ -72,3 +77,5 @@ export function TableHeader({
         </div>
     )
 }
+
+                   

@@ -65,24 +65,26 @@ export function AddColumnPopover({ isOpen, anchorRef, onClose, onAddColumn }) {
         }
     }, [isOpen, onClose])
 
-    // Position popover below anchor
-    const [popoverStyle, setPopoverStyle] = React.useState({})
-    useEffect(() => {
-        if (isOpen && anchorRef?.current) {
-            const rect = anchorRef.current.getBoundingClientRect()
-            setPopoverStyle({
-                position: 'absolute',
-                top: rect.bottom + window.scrollY + 4,
-                left: rect.left + window.scrollX,
-                zIndex: 2000
-            })
-        }
-    }, [isOpen, anchorRef])
+     const anchorRect = anchorRef.current?.getBoundingClientRect();
+     let style = { display: 'none' };
+     if (anchorRect) {
+         const popoverWidth = 220;
+         const popoverHeight = 320; 
+         let left = anchorRect.left - popoverWidth - 24;
+         let top = anchorRect.top + window.scrollY - 4; 
+
+         style = {
+             position: 'fixed',
+             top: `${top}px`,
+             left: `${left}px`,
+             zIndex: 9999,
+         };
+     }
 
     if (!isOpen) return null
 
     return (
-        <div ref={popoverRef} className="add-column-popover" style={popoverStyle}>
+        <div ref={popoverRef} className="add-column-popover" style={style}>
             <div className="popover-search">
                 <input
                     type="text"

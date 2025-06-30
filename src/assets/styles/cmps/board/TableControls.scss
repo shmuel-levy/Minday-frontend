@@ -233,35 +233,9 @@
     &.active {
       background: #e6f0fb;
     }
-    &.selected {
-      background: #e6f0fb;
-      color: #0073ea;
-    }
+    
     svg {
       color: #676879;
-    }
-
-    &.collapse-btn {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #f5f6f8;
-      border: none;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 24px;
-
-      &:hover {
-      background: #e6e9ef;
-    }
-
-      .arrow-icon {
-        width: 12px;
-        height: 12px;
-        fill: #676879;
-      }
     }
   }
 
@@ -348,5 +322,10 @@
   .person-btn-avatar {
     border-radius: 50%;
     object-fit: cover;
+  }
+
+
+  .filter-container{
+    position: relative;
   }
 }

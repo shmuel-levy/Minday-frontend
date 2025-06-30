@@ -5,6 +5,7 @@ import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 import { Plus } from '../svg/Plus'
 import { AddBoardDropdown } from '../AddBoardDropdown'
+import { ArrowDownUpIcon } from '../svg/ArrowDownUpIcon'
 
 export function BoardHeader({ 
     board, onUpdateBoard, onAddNewTask, onAddNewGroup, 
@@ -178,6 +179,14 @@ export function BoardHeader({
                     viewSelectorRef={viewSelectorRef}
                     onAddView={onAddView}
                 />
+                    <button
+                                className="collapse-btn"
+                                onClick={handleCollapseToggle}
+                                type="button"
+                                aria-label={isCollapsed ? "Expand header" : "Collapse header"}
+                            >
+                                <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
+                            </button>
             </div>
         </section>
     )

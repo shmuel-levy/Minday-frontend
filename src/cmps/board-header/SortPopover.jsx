@@ -53,9 +53,6 @@ export function SortPopover({
           <span>Sort by</span>
           <span className="sort-popover-help" title="Sort your board by any column">?</span>
         </div>
-        <button className="sort-popover-clear" onClick={() => {
-          onClear();
-        }} title="Clear all" type="button">×</button>
       </div>
       <div className="sort-popover-dropdowns">
         <div className="sort-popover-dropdown sort-popover-field-dropdown">
@@ -85,6 +82,7 @@ export function SortPopover({
             ))}
           </select>
         </div>
+        <button className="sort-popover-clear" onClick={(e) => {onClear(e);}} title="Clear all" type="button">×</button>
       </div>
     </div>
   );

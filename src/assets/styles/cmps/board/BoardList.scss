@@ -1,16 +1,9 @@
 .add-column-btn {
-  background: #eaf4ff;
-  border: 1.5px solid #0073ea;
-  color: #0073ea;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: background 0.15s, border 0.15s, color 0.15s;
+    font-size: 22px;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    color: #676879;
 
   &:hover, &:focus {
     background: #d2e7fa;

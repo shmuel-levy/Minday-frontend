@@ -280,6 +280,7 @@ export function TableControls({
                     </div>
                 )}
 
+    <div className='filter-container'>
                 <button
                     className={`btn-control person-btn${isPersonPopoverOpen ? ' active' : ''}${selectedPerson ? ' selected' : ''}`}
                     onClick={handlePersonClick}
@@ -319,7 +320,9 @@ export function TableControls({
                     onSelect={handleSelectPerson}
                     anchorRef={personBtnRef}
                 />
+                </div>
 
+            <div className='filter-container'>
                 <button
                     className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
                     onClick={handleSortClick}
@@ -340,8 +343,7 @@ export function TableControls({
                             ×
                         </button>
                     )}
-                </button>
-            
+                         </button>
                 <SortPopover
                     isOpen={isSortPopoverOpen}
                     onClose={() => setIsSortPopoverOpen(false)}
@@ -352,7 +354,9 @@ export function TableControls({
                     onClear={handleSortClear}
                     anchorRef={sortBtnRef}
                 />
+            </div>
 
+   <div className='filter-container'>
                 <button
                     className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
                     onClick={handleFilterClick}
@@ -372,19 +376,22 @@ export function TableControls({
                     board={board}
                 />
 
-            <button
+</div>
+            {/* <button
                 className="btn-control collapse-btn"
                 onClick={onCollapseToggle}
                 type="button"
                 aria-label={isCollapsed ? "Expand header" : "Collapse header"}
             >
                 <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
-            </button>
+            </button> */}
             {currentView === 'kanban' && board && board.groups && (
                 <div style={{ marginLeft: 'auto', minWidth: 180, maxWidth: 320, flex: 'none', display: 'flex', alignItems: 'center' }}>
                     <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)} />
                 </div>
             )}
+
+            
         </div>
     )
 }
