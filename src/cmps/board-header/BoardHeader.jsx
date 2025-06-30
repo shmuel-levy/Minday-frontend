@@ -5,6 +5,7 @@ import { ViewControls } from './ViewControls'
 import { TableControls } from './TableControls'
 import { Plus } from '../svg/Plus'
 import { AddBoardDropdown } from '../AddBoardDropdown'
+import { ArrowDownUpIcon } from '../svg/ArrowDownUpIcon'
 
 export function BoardHeader({ 
     board, onUpdateBoard, onAddNewTask, onAddNewGroup, 
@@ -14,9 +15,11 @@ export function BoardHeader({
     sortDirection, setSortDirection, members = [], onApplyFilters
 }) {
     const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false)
+    const [isCollapsed, setIsCollapsed] = useState(false)
+    const [showViewDropdown, setShowViewDropdown] = useState(false)
     const plusBtnRef = useRef(null)
+    const viewSelectorRef = useRef(null)
 
-    // Close dropdown on outside click
     useEffect(() => {
         if (!isAddDropdownOpen) return
         function handleClickOutside(e) {
@@ -31,6 +34,21 @@ export function BoardHeader({
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [isAddDropdownOpen])
+
+    useEffect(() => {
+        if (!showViewDropdown) return
+        function handleClickOutside(e) {
+            if (
+                viewSelectorRef.current &&
+                !viewSelectorRef.current.contains(e.target) &&
+                !document.querySelector('.view-selector-dropdown')?.contains(e.target)
+            ) {
+                setShowViewDropdown(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [showViewDropdown])
 
     function handlePlusClick(e) {
         e.stopPropagation()
@@ -63,10 +81,24 @@ export function BoardHeader({
         if (typeof onUpdateViews === 'function') onUpdateViews(newViews);
     }
 
+    function handleCollapseToggle() {
+        setIsCollapsed(prev => !prev)
+        setShowViewDropdown(false)
+    }
+
+    function handleViewSelectorClick() {
+        setShowViewDropdown(prev => !prev)
+    }
+
+    function handleViewSelect(viewId) {
+        onSetActiveView(viewId)
+        setShowViewDropdown(false)
+    }
+
     const activeView = views.find(v => v.id === activeViewId)
 
     return (
-        <section className="board-header-container grid">
+        <section className={`board-header-container${isCollapsed ? ' collapsed' : ''}`}>
             <div className="board-header-info">
                 <BoardTitleSection 
                     board={board} 
@@ -78,43 +110,45 @@ export function BoardHeader({
                 <BoardActions />
             </div>
 
-            <div className="board-header-navigation">
-                {views.map(view => (
-                    <ViewControls
-                        key={view.id}
-                        view={view}
-                        isActive={view.id === activeViewId}
-                        onViewChange={(newType) => onUpdateView(view.id, newType)}
-                        onSetActive={() => onSetActiveView(view.id)}
-                        onRemove={() => handleRemoveView(view.id)}
-                        canRemove={views.length > 1}
-                    />
-                ))}
-                <button
-                    type="button"
-                    className="add-board-subset-picker-component__button add-board-subset-picker-component__tabs-v2 xtPC2 button_179ab51c11 sizeMedium_58824a014d kindTertiary_08f8117bdb colorPrimary_1e1fb85d38 insetFocusStyle_be5d86065f"
-                    id="add-board-subset-button"
-                    data-testid="add-board-subset-picker-component"
-                    data-vibe="Button"
-                    aria-disabled="false"
-                    aria-busy="false"
-                    aria-label="Add view"
-                    ref={plusBtnRef}
-                    onClick={handlePlusClick}
-                    style={{ marginLeft: '8px' }}
-                >
-                    <span aria-hidden="true" className="icon_7f7b2e32a9 noFocusStyle_ae47567b36 fa icon icon-v2-plus-simple" role="img" data-testid="icon" data-vibe="Icon">
-                        <Plus />
-                    </span>
-                </button>
-                {isAddDropdownOpen && (
-                    <AddBoardDropdown
-                        onClose={handleDropdownClose}
-                        onSelect={handleDropdownSelect}
-                        triggerRef={plusBtnRef}
-                    />
-                )}
-            </div>
+            {!isCollapsed && (
+                <div className="board-header-navigation">
+                    {views.map(view => (
+                        <ViewControls
+                            key={view.id}
+                            view={view}
+                            isActive={view.id === activeViewId}
+                            onViewChange={(newType) => onUpdateView(view.id, newType)}
+                            onSetActive={() => onSetActiveView(view.id)}
+                            onRemove={() => handleRemoveView(view.id)}
+                            canRemove={views.length > 1}
+                            showIcons={false}
+                        />
+                    ))}
+                    <button
+                        type="button"
+                        className="add-board-subset-picker-component__button add-board-subset-picker-component__tabs-v2 xtPC2 button_179ab51c11 sizeMedium_58824a014d kindTertiary_08f8117bdb colorPrimary_1e1fb85d38 insetFocusStyle_be5d86065f"
+                        id="add-board-subset-button"
+                        data-testid="add-board-subset-picker-component"
+                        data-vibe="Button"
+                        aria-disabled="false"
+                        aria-busy="false"
+                        aria-label="Add view"
+                        ref={plusBtnRef}
+                        onClick={handlePlusClick}
+                    >
+                        <span aria-hidden="true" className="icon_7f7b2e32a9 noFocusStyle_ae47567b36 fa icon icon-v2-plus-simple" role="img" data-testid="icon" data-vibe="Icon">
+                            <Plus />
+                        </span>
+                    </button>
+                    {isAddDropdownOpen && (
+                        <AddBoardDropdown
+                            onClose={handleDropdownClose}
+                            onSelect={handleDropdownSelect}
+                            triggerRef={plusBtnRef}
+                        />
+                    )}
+                </div>
+            )}
 
             <div className="board-header-contextualAction">
                 <TableControls 
@@ -135,7 +169,24 @@ export function BoardHeader({
                     setSortDirection={setSortDirection}
                     board={board}
                     onApplyFilters={onApplyFilters}
+                    isCollapsed={isCollapsed}
+                    onCollapseToggle={handleCollapseToggle}
+                    activeView={activeView}
+                    views={views}
+                    onViewSelect={handleViewSelect}
+                    showViewDropdown={showViewDropdown}
+                    onViewSelectorClick={handleViewSelectorClick}
+                    viewSelectorRef={viewSelectorRef}
+                    onAddView={onAddView}
                 />
+                    <button
+                                className="collapse-btn"
+                                onClick={handleCollapseToggle}
+                                type="button"
+                                aria-label={isCollapsed ? "Expand header" : "Collapse header"}
+                            >
+                                <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
+                            </button>
             </div>
         </section>
     )

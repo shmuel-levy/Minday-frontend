@@ -92,6 +92,8 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
                 )}
             </div>
 
+            <div className="group-spacer"></div>
+
             <button
                 className={`collapse-btn ${group.isCollapsed ? 'collapsed' : ''}`}
                 style={{ color: group.color }}

@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { UserAvatar } from '../UserAvatar';
 
 export function PersonFilterPopover({ isOpen, onClose, members = [], selectedId, onSelect, anchorRef }) {
@@ -17,36 +16,10 @@ export function PersonFilterPopover({ isOpen, onClose, members = [], selectedId,
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen, onClose, anchorRef]);
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
-  // Positioning logic
-  let style = { 
-    position: 'fixed',
-    zIndex: 10000, 
-    minWidth: 260,
-    maxWidth: 320,
-  };
-
-  if (anchorRef && anchorRef.current) {
-    const rect = anchorRef.current.getBoundingClientRect();
-    const popoverWidth = 260;
-    const left = rect.left + window.scrollX + (rect.width / 2) - (popoverWidth / 2);
-    const top = rect.bottom + window.scrollY + 8;
-    const adjustedLeft = Math.max(8, left);
-    const rightEdge = adjustedLeft + popoverWidth;
-    const viewportWidth = window.innerWidth;
-    const finalLeft = rightEdge > viewportWidth - 8 ? viewportWidth - popoverWidth - 8 : adjustedLeft;
-    style = {
-      ...style,
-      top: top,
-      left: finalLeft,
-    };
-  } else {
-    style = { ...style, top: 100, left: 100 };
-  }
-
-  return ReactDOM.createPortal(
-    <div className="person-filter-popover" ref={popoverRef} style={style}>
+  return (
+    <div className="person-filter-popover" ref={popoverRef}>
       <div className="popover-title">
         Filter this board by person
       </div>
@@ -71,7 +44,6 @@ export function PersonFilterPopover({ isOpen, onClose, members = [], selectedId,
           </button>
         ))}
       </div>
-    </div>,
-    document.body
+    </div>
   );
 } 

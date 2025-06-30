@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
-import { Plus } from '../../svg/Plus'
+import React, { useRef, useEffect } from 'react'
 import { 
     StatusSvg, 
     PrioritySvg, 
@@ -12,11 +11,9 @@ import {
     PersonSvg 
 } from '../../svg/TaskSvg'
 
-export function AddColumnPopover({ onAddColumn }) {
-    const [isOpen, setIsOpen] = useState(false)
-    const [searchTerm, setSearchTerm] = useState('')
-    const buttonRef = useRef(null)
+export function AddColumnPopover({ isOpen, anchorRef, onClose, onAddColumn }) {
     const popoverRef = useRef(null)
+    const [searchTerm, setSearchTerm] = React.useState('')
 
     const columnOptions = [
         { id: 'status', label: 'Status', icon: StatusSvg, type: 'status' },
@@ -35,109 +32,89 @@ export function AddColumnPopover({ onAddColumn }) {
         option.label.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    function handleToggle() {
-        setIsOpen(!isOpen)
-        if (!isOpen) {
-            setSearchTerm('')
-        }
-    }
-
-    function handleClose() {
-        setIsOpen(false)
-        setSearchTerm('')
-    }
-
-    function handleOptionSelect(option) {
-        if (onAddColumn) {
-            onAddColumn(option.type)
-        }
-        handleClose()
-    }
-
     useEffect(() => {
         function handleClickOutside(event) {
             if (
                 popoverRef.current && 
                 !popoverRef.current.contains(event.target) &&
-                buttonRef.current &&
-                !buttonRef.current.contains(event.target)
+                anchorRef?.current &&
+                !anchorRef.current.contains(event.target)
             ) {
-                handleClose()
+                onClose?.()
             }
         }
-
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside)
         }
-
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [isOpen])
+    }, [isOpen, onClose, anchorRef])
 
     useEffect(() => {
         function handleEscape(event) {
             if (event.key === 'Escape') {
-                handleClose()
+                onClose?.()
             }
         }
-
         if (isOpen) {
             document.addEventListener('keydown', handleEscape)
         }
-
         return () => {
             document.removeEventListener('keydown', handleEscape)
         }
-    }, [isOpen])
+    }, [isOpen, onClose])
+
+     const anchorRect = anchorRef.current?.getBoundingClientRect();
+     let style = { display: 'none' };
+     if (anchorRect) {
+         const popoverWidth = 220;
+         const popoverHeight = 320; 
+         let left = anchorRect.left - popoverWidth - 24;
+         let top = anchorRect.top + window.scrollY - 4; 
+
+         style = {
+             position: 'fixed',
+             top: `${top}px`,
+             left: `${left}px`,
+             zIndex: 9999,
+         };
+     }
+
+    if (!isOpen) return null
 
     return (
-        <div className="add-column-container">
-            <button 
-                ref={buttonRef}
-                className={`add-column-btn ${isOpen ? 'open' : ''}`}
-                onClick={handleToggle}
-                title="Add column"
-            >
-                <Plus size={16} />
-            </button>
-
-            {isOpen && (
-                <div ref={popoverRef} className="add-column-popover">
-                    
-                    <div className="popover-search">
-                        <input
-                            type="text"
-                            placeholder="Search column types..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
-                            autoFocus
-                        />
-                    </div>
-
-                    <div className="popover-options">
-                        {filteredOptions.length > 0 ? (
-                            filteredOptions.map(option => (
-                                <button
-                                    key={option.id}
-                                    className="option-item"
-                                    onClick={() => handleOptionSelect(option)}
-                                >
-                                    <div className="option-icon">
-                                        <option.icon size={20} />
-                                    </div>
-                                    <span className="option-label">{option.label}</span>
-                                </button>
-                            ))
-                        ) : (
-                            <div className="no-results">
-                                No column types found
+        <div ref={popoverRef} className="add-column-popover" style={style}>
+            <div className="popover-search">
+                <input
+                    type="text"
+                    placeholder="Search column types..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                    autoFocus
+                />
+            </div>
+            <div className="popover-options">
+                {filteredOptions.length > 0 ? (
+                    filteredOptions.map(option => (
+                        <button
+                            key={option.id}
+                            className="option-item"
+                            onClick={() => { onAddColumn(option.type); onClose?.(); }}
+                        >
+                            <div className="option-icon">
+                                <option.icon size={20} />
                             </div>
-                        )}
+                            <span className="option-label">{option.label}</span>
+                        </button>
+                    ))
+                ) : (
+                    <div className="no-results">
+                        No column types found
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     )
 }

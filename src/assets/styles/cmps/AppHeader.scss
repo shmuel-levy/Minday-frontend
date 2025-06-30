@@ -1,9 +1,15 @@
 .app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
   background-color: #ECEFF8;
   padding: 0 rem(24px) 0 rem(4px);
   grid-column: 1 / -1;
   height: 48px;
   cursor: pointer;
+
   
   .logo-container {
     display: grid;

@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import { DropdownArrowIcon } from '../svg/DropdownArrowIcon'
 import { NewGroupIcon } from '../svg/NewGroupIcon'
 import { ImportTasksIcon } from '../svg/ImportTasksIcon'
 
 export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' }) {
     const [showDropdown, setShowDropdown] = useState(false)
-    const [dropdownStyles, setDropdownStyles] = useState({})
     const triggerRef = useRef(null)
 
     const getButtonLabel = () => {
@@ -54,20 +52,6 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
         setShowDropdown(false)
     }
 
-    // Position dropdown below the trigger
-    useEffect(() => {
-        if (showDropdown && triggerRef.current) {
-            const rect = triggerRef.current.getBoundingClientRect()
-            setDropdownStyles({
-                position: 'absolute',
-                top: rect.bottom + window.scrollY,
-                left: rect.left + window.scrollX,
-                minWidth: rect.width,
-                zIndex: 2000,
-            })
-        }
-    }, [showDropdown])
-
     // Close on outside click
     useEffect(() => {
         if (!showDropdown) return
@@ -102,12 +86,11 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                 <DropdownArrowIcon />
             </button>
 
-            {/* Dropdown Menu via Portal */}
-            {showDropdown && ReactDOM.createPortal(
+            {/* Dropdown Menu */}
+            {showDropdown && (
                 <div 
                     className="new-task-dropdown" 
                     id="new-task-dropdown-portal"
-                    style={dropdownStyles}
                 >
                     <div className="dropdown-item" onClick={handleNewGroup}>
                         <NewGroupIcon />
@@ -117,8 +100,7 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                         <ImportTasksIcon />
                         Import {boardType.toLowerCase()}
                     </div>
-                </div>,
-                document.body
+                </div>
             )}
         </div>
     )

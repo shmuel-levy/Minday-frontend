@@ -138,13 +138,8 @@ export function FilterPopover({
       label: 'Files',
       conditions: EMPTY_CONDITIONS
     },
-    timeline_start: {
-      label: 'Timeline Start',
-      conditions: [...BASE_CONDITIONS, ...EMPTY_CONDITIONS, ...TIME_CONDITIONS],
-      staticValues: DATE_VALUES
-    },
-    timeline_end: {
-      label: 'Timeline End',
+    timeline: {
+      label: 'Timeline',
       conditions: [...BASE_CONDITIONS, ...EMPTY_CONDITIONS, ...TIME_CONDITIONS],
       staticValues: DATE_VALUES
     },
@@ -196,18 +191,26 @@ export function FilterPopover({
   }
 
   function updateFilter(filterId, field, value) {
-    setFilters(prev => prev.map(f => {
-      if (f.id === filterId) {
-        if (field === 'field') {
-          return { ...f, field: value, condition: '', value: '' };
-        } else if (field === 'condition') {
-          return { ...f, condition: value, value: '' };
-        } else {
-          return { ...f, [field]: value };
+    setFilters(prev => {
+      const newFilters = prev.map(f => {
+        if (f.id === filterId) {
+          if (field === 'field') {
+            return { ...f, field: value, condition: '', value: '' };
+          } else if (field === 'condition') {
+            return { ...f, condition: value, value: '' };
+          } else {
+            return { ...f, [field]: value };
+          }
         }
-      }
-      return f;
-    }));
+        return f;
+      });
+      
+      // Apply filters immediately when user makes changes
+      const validFilters = newFilters.filter(f => f.field && f.condition);
+      onApplyFilters(validFilters);
+      
+      return newFilters;
+    });
   }
 
   function clearAllFilters() {
@@ -224,12 +227,6 @@ export function FilterPopover({
     const validFilters = filters.filter(f => f.field && f.condition);
     onApplyFilters(validFilters);
   }
-
-  // Auto-apply filters when any filter changes
-  useEffect(() => {
-    const validFilters = filters.filter(f => f.field && f.condition);
-    onApplyFilters(validFilters);
-  }, [filters, onApplyFilters]);
 
   function getValueOptions(field) {
     const fieldConfig = FIELD_CONFIGS[field];
@@ -253,128 +250,75 @@ export function FilterPopover({
     return !conditionOption?.requiresValue;
   }
 
-  function getPopoverStyle() {
-    const baseStyle = {
-      position: 'fixed',
-      zIndex: 10000,
-      minWidth: 600,
-      maxWidth: 700,
-    };
-
-    if (!anchorRef?.current) {
-      return { ...baseStyle, top: 100, left: 100 };
-    }
-
-    const rect = anchorRef.current.getBoundingClientRect();
-    const popoverWidth = 600;
-    const popoverHeight = 400; // Estimated height
-    
-    // Calculate position
-    let left = rect.left + window.scrollX + (rect.width / 2) - (popoverWidth / 2);
-    let top = rect.bottom + window.scrollY + 8;
-    
-    // Check if popover would go off the right edge
-    const rightEdge = left + popoverWidth;
-    const viewportWidth = window.innerWidth;
-    if (rightEdge > viewportWidth - 8) {
-      left = viewportWidth - popoverWidth - 8;
-    }
-    
-    // Check if popover would go off the left edge
-    if (left < 8) {
-      left = 8;
-    }
-    
-    // Check if popover would go off the bottom edge
-    const bottomEdge = top + popoverHeight;
-    const viewportHeight = window.innerHeight;
-    if (bottomEdge > viewportHeight - 8) {
-      // Show above the button instead
-      top = rect.top + window.scrollY - popoverHeight - 8;
-    }
-    
-    // Ensure top is not negative
-    if (top < 8) {
-      top = 8;
-    }
-
-    return {
-      ...baseStyle,
-      top: top,
-      left: left,
-      width: popoverWidth,
-    };
-  }
-
   function renderFilterRow(filter) {
     const fieldConfig = FIELD_CONFIGS[filter.field];
     const conditions = fieldConfig?.conditions || [];
 
     return (
-      <div className="filter-row-container">
+      <div key={filter.id} className="filter-row-container">
           <div className="filter-where-label">
       {filters[0].id === filter.id && (
       <span>Where</span>
       )}
       </div>
-      <div key={filter.id} className="filter-row">
-        <div className="filter-field-selector">
-        <select
-          value={filter.field}
-          onChange={(e) => updateFilter(filter.id, 'field', e.target.value)}
-          className="filter-select"
-        >
-          <option value="">column</option>
-          {Object.entries(FIELD_CONFIGS).map(([key, config]) => (
-          <option key={key} value={key}>
-            {config.label}
-          </option>
-          ))}
-        </select>
+        <div className="filter-row">
+          <div className="filter-field-selector">
+            <select
+              value={filter.field}
+              onChange={(e) => updateFilter(filter.id, 'field', e.target.value)}
+              className="filter-select"
+            >
+              <option value="">column</option>
+              {Object.entries(FIELD_CONFIGS).map(([key, config]) => (
+                <option key={key} value={key}>
+                  {config.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="filter-condition-selector">
+            <select
+              value={filter.condition}
+              onChange={(e) => updateFilter(filter.id, 'condition', e.target.value)}
+              className="filter-select"
+              disabled={!filter.field}
+            >
+              <option value="">condition</option>
+              {conditions.map(option => (
+                <option key={option.key} value={option.key}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="filter-value-selector">
+            <select
+              value={filter.value}
+              onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
+              className="filter-select"
+              disabled={isValueDisabled(filter.field, filter.condition)}
+            >
+              <option value="">value</option>
+              {!isValueDisabled(filter.field, filter.condition) && 
+                getValueOptions(filter.field).map(option => (
+                  <option key={option.key} value={option.key}>
+                    {option.label}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          
+          <button
+            className="filter-remove-btn"
+            onClick={() => removeFilter(filter.id)}
+            type="button"
+          >
+            ×
+          </button>
         </div>
-        
-        <div className="filter-condition-selector">
-        <select
-          value={filter.condition}
-          onChange={(e) => updateFilter(filter.id, 'condition', e.target.value)}
-          className="filter-select"
-          disabled={!filter.field}
-        >
-          <option value="">condition</option>
-          {conditions.map(option => (
-          <option key={option.key} value={option.key}>
-            {option.label}
-          </option>
-          ))}
-        </select>
-        </div>
-        
-        <div className="filter-value-selector">
-        <select
-          value={filter.value}
-          onChange={(e) => updateFilter(filter.id, 'value', e.target.value)}
-          className="filter-select"
-          disabled={isValueDisabled(filter.field, filter.condition)}
-        >
-          <option value="">value</option>
-          {!isValueDisabled(filter.field, filter.condition) && 
-          getValueOptions(filter.field).map(option => (
-            <option key={option.key} value={option.key}>
-            {option.label}
-            </option>
-          ))
-          }
-        </select>
-        </div>
-        
-        <button
-        className="filter-remove-btn"
-        onClick={() => removeFilter(filter.id)}
-        type="button"
-        >
-        ×
-        </button>
-      </div>
       </div>
     );
   }

@@ -1,0 +1,13 @@
+.add-column-btn {
+    font-size: 22px;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    color: #676879;
+
+  &:hover, &:focus {
+    background: #d2e7fa;
+    border-color: #005bb5;
+    color: #005bb5;
+  }
+} 

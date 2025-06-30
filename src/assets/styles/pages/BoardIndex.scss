@@ -7,6 +7,8 @@
     overflow: auto;
     border-top-left-radius:12px;
     padding-bottom: 50px;
+    height: calc(100vh - 48px);
+
 
    .board-index-header{ 
     display: flex;

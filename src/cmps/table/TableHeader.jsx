@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { TaskCheckbox } from '../TaskCheckbox'
-import { AddColumnPopover } from './column-types/AddColumnPopover'
+
 
 export function TableHeader({ 
     columns = [], 
     onToggleAll, 
     groupColor, 
     isAllSelected = false,
-    onAddColumn 
+    addColumnBtnRef,
+    onAddColumnClick
 }) {
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', title: '', width: '6px', editable: false },
@@ -23,6 +24,7 @@ export function TableHeader({
         { id: 'add-cell', type: 'add-cell', title: '', width: 'auto', editable: false }
     ]
 
+
     const [headerTitles, setHeaderTitles] = useState(
         Object.fromEntries(defaultColumns.map(col => [col.id, col.title]))
     )
@@ -31,16 +33,12 @@ export function TableHeader({
         setHeaderTitles(prev => ({ ...prev, [id]: value }))
     }
 
-    function handleAddColumn(columnType) {
-        if (onAddColumn) {
-            onAddColumn(columnType)
-        }
-    }
+
 
     const columnsToRender = columns.length ? columns : defaultColumns
 
     return (
-        <div className="table-header" style={{ '--group-color': groupColor }}>
+        <div className={`table-header`} style={{ '--group-color': groupColor }}>
             {columnsToRender.map(column => (
                 <div
                     key={column.id}
@@ -53,7 +51,15 @@ export function TableHeader({
                             onChange={(value) => onToggleAll?.(value)}
                         />
                     ) : column.id === 'add-cell' ? (
-                        <AddColumnPopover onAddColumn={handleAddColumn} />
+                   
+                        <button
+                            ref={addColumnBtnRef}
+                            className="add-column-btn"
+                            onClick={e => onAddColumnClick?.(e)}
+                            title="Add column"
+                        >
+                            +
+                        </button>
                     ) : column.editable ? (
                         <div
                             contentEditable
@@ -71,3 +77,5 @@ export function TableHeader({
         </div>
     )
 }
+
+                   

@@ -3,51 +3,45 @@
 .add-column-container {
     position: relative;
     display: inline-block;
-    z-index: 2000;
+    z-index: 40;
 }
 
-.add-column-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: $border-radius-sm;
-    background-color: transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: $dark-gray;
+// .add-column-btn {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 32px;
+//     height: 32px;
+//     border: none;
+//     border-radius: $border-radius-sm;
+//     background-color: transparent;
+//     cursor: pointer;
+//     transition: all 0.2s ease;
+//     color: $dark-gray;
 
-    &:hover {
-        background-color: $light-gray;
-        color: $darker-gray;
-    }
+//     &:hover {
+//         background-color: $light-gray;
+//         color: $darker-gray;
+//     }
 
-    &.open {
-        background-color: $light-gray;
-        color: $primary-color;
-    }
+//     &.open {
+//         background-color: $light-gray;
+//         color: $primary-color;
+//     }
 
-    svg {
-        pointer-events: none;
-    }
-}
+//     svg {
+//         pointer-events: none;
+//     }
+// }
 
 .add-column-popover {
-    position: absolute;
-    top: -12%;
-    right: 33px;
-    z-index: 2000;
     min-width: 250px;
     max-width: 320px;
     background-color: $white;
     border: 1px solid $border-light;
     border-radius: $border-radius-md;
     box-shadow: $shadow-lg;
-    margin-top: $spacing-xs;
-    animation: popoverFadeIn 0.2s ease-out;
-    transform: translateZ(0);
+
 
     .popover-header {
         padding: $spacing-md $spacing-md $spacing-sm;

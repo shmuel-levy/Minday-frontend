@@ -4,6 +4,176 @@
   gap: 12px;
   padding: 16px 0px;
 
+  .view-selector-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .view-selector-wrapper {
+      position: relative;
+
+      .view-selector-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border: 1px solid #d0d4e4;
+        border-radius: 4px;
+        background: #fff;
+        color: #323338;
+        font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 120px;
+
+        &:hover {
+          background: #f5f6f8;
+          border-color: #c3c6d4;
+        }
+
+        .view-icon {
+          display: flex;
+          align-items: center;
+          
+          svg {
+            width: 16px;
+            height: 16px;
+            fill: #676879;
+          }
+        }
+
+        .view-name {
+          flex: 1;
+          text-align: left;
+        }
+
+        .arrow-icon {
+          width: 16px;
+          height: 16px;
+          transition: transform 0.2s ease;
+          fill: #676879;
+
+          &.rotated {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      .view-selector-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #c3c6d4;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 40;
+    min-width: 200px;
+    overflow: hidden;
+    margin: 8px 0;
+    padding: 12px 20px;
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          border: none;
+          background: none;
+          width: 100%;
+          text-align: left;
+          font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+          font-size: 14px;
+          color: #323338;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          svg {
+            width: 16px;
+            height: 16px;
+            fill: #676879;
+          }
+
+          &:hover {
+            background: #f5f6f8;
+          }
+
+          &.active {
+            background-color: #cce5ff;
+            font-weight: 500;
+            border-radius: 4px;
+          }
+
+          &.add-view-item {
+            font-weight: 500;
+          }
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background: #e6e9ef;
+          margin: 4px 0;
+        }
+
+        .add-view-container {
+          position: relative;
+
+          .add-view-btn {
+            font-weight: 500;
+          }
+
+        }
+      }
+    }
+    .add-view-dropdown {
+    position: absolute;
+    top: 52px;
+    left: 207px;
+    background: white;
+    border: 1px solid #c3c6d4;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 40;
+    min-width: 200px;
+    overflow: hidden;
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+        font-size: 14px;
+        color: #323338;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        svg {
+          width: 16px;
+          height: 16px;
+          fill: #676879;
+        }
+
+        &:hover {
+          background: #f5f6f8;
+        }
+      }
+    }
+
+    .separator {
+      width: 1px;
+      height: 24px;
+      background: #e6e9ef;
+      margin: 0 8px;
+    }
+  }
+
   .btn-new-task {
     background: #0073ea;
     color: #ffffff;
@@ -16,6 +186,8 @@
     height: 32px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    min-width: 100px;
+    white-space: nowrap;
   }
 
   .btn-control {
@@ -45,10 +217,7 @@
     &.active {
       background: #e6f0fb;
     }
-    &.selected {
-      background: #e6f0fb;
-      color: #0073ea;
-    }
+    
     svg {
       color: #676879;
     }
@@ -137,5 +306,10 @@
   .person-btn-avatar {
     border-radius: 50%;
     object-fit: cover;
+  }
+
+
+  .filter-container{
+    position: relative;
   }
 }

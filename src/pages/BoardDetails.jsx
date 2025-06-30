@@ -13,6 +13,7 @@ import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
 import { recordRecentBoard, saveBoardViews, loadBoardViews } from '../services/board/board.service.local'
+import { Loader } from '../cmps/Loader';
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
 
@@ -125,6 +126,22 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     saveBoardViews(boardId, newViews, activeViewId);
   }
 
+  function handlePinView(viewId) {
+    setViews((prevViews) =>
+      prevViews.map((view) =>
+        view.id === viewId ? { ...view, isPinned: true } : view
+      )
+    );
+  }
+
+  function handleUnpinView(viewId) {
+    setViews((prevViews) =>
+      prevViews.map((view) =>
+        view.id === viewId ? { ...view, isPinned: false } : view
+      )
+    );
+  }
+
   const handleFiltersChange = useCallback((filters) => {
     // Handle filters change if needed
   }, []);
@@ -134,7 +151,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   }, []);
 
   const handleApplyFilters = useCallback((filters) => {
-    // setAdvancedFilters(filters);
+    setAdvancedFilters(filters);
   }, []);
 
   const extractMembers = () => {
@@ -183,8 +200,8 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   const activeView = views.find((v) => v.id === activeViewId) || views[0];
 
-  if (!board) {
-    return <div>Loading board...</div>;
+  if (!board || board._id !== boardId) {
+    return <Loader text="Loading board..." />
   }
 
   return (

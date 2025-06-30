@@ -75,17 +75,18 @@
 
 //scss
 @import "cmps/board/BoardDetails.scss";
-// @import "cmps/BoardFilter";
+
 @import "cmps/BoardTable";
-@import "cmps/BoardList";
 @import "cmps/BoardPreview";
 @import "cmps/UserAvatar";
 
 @import './cmps/board/PersonFilterModal.scss';
 @import './cmps/board/PersonFilterPopover.scss';
 @import './cmps/board/SortPopover.scss';
-@import './cmps/board/SearchEmptyState.scss';
+@import './cmps/SearchEmptyState.scss';
 @import './cmps/board/FilterPopover.scss';
+@import './cmps/Loader.scss';
 
+@import './cmps/board/BoardList.scss';
 
 
