@@ -9,7 +9,9 @@ import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 import { useDispatch } from 'react-redux'
 import { removeTaskUpdate } from '../../store/board.actions'
 
-
+import { socketService } from '../../services/socket.service'
+const SOCKET_EVENT_ADD_UPDATE = 'task-add-update'
+const SOCKET_EMIT_ADD_UPDATE = 'task-add-update'
 
 export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
 
@@ -23,7 +25,17 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
   const dispatch = useDispatch()
   const boardId  = useSelector(state => state.boardModule.board?._id)
 
-
+  useEffect(() => {
+    function handleSocketNewUpdate(newUpdate) {
+      if (newUpdate.taskId === task.id) {
+        setUpdates(prev => [...prev, newUpdate])
+      }
+    }
+    socketService.on(SOCKET_EVENT_ADD_UPDATE, handleSocketNewUpdate)
+    return () => {
+      socketService.off(SOCKET_EVENT_ADD_UPDATE, handleSocketNewUpdate)
+    }
+  }, [task?.id])
 
   useEffect(() => {
     if (task) {
@@ -44,12 +56,17 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
         _id: user?._id || "guest",
         fullname: user?.fullname || "Guest User",
         imgUrl: user?.imgUrl || ""
-      }
+      },
+      taskId: task.id, 
+      groupId,
+      boardId
     }
 
     setUpdates((prev) => [...prev, newUpdate]);
     setText("");
     setIsEditorOpen(false);
+
+    socketService.emit(SOCKET_EMIT_ADD_UPDATE, newUpdate)
 
     if (onUpdateAdded && task && groupId) {
       onUpdateAdded(task.id, groupId, newUpdate);
