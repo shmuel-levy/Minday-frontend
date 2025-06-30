@@ -35,14 +35,15 @@ export const boardService = {
     addTaskUpdate,
     getDemoBoard,
     recordRecentBoard,
-
+    verifyKanbanPersistence,
+    saveBoardViews,
+    loadBoardViews,
 }
 
 const gBoards = getBoardsData()
 _initBoards()
 
 
-// list all boards (query)
 async function query() {
     const user = userService.getLoggedinUser()
     const accountId = user?._id || 'guest'
@@ -51,7 +52,6 @@ async function query() {
     return boards
 }
 
-// create board object
 function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups = [] } = {}) {
     const currentUser = userService.getLoggedinUser()
     const colIdItem = makeId()
@@ -119,15 +119,15 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                 "tasks": [
                     {
                         "id": makeId(),
-                        "title": "Task 1asdssa",
+                        "title": "Task 1",
                         "assignee": "",
-                        "status": "",
+                        "status": "Working on it",
                         "dueDate": "",
                         "timeline": {
                             "startDate": "",
                             "endDate": ""
                         },
-                        "priority": "",
+                        "priority": "High",
                         "isChecked": false,
                         "updates": [],
                         "files": [],
@@ -138,26 +138,7 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                     },
                     {
                         "id": makeId(),
-                        "title": "Task 2ddd",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750785932536,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "Ta",
+                        "title": "Task 2",
                         "assignee": "",
                         "status": "Done",
                         "dueDate": "",
@@ -165,7 +146,7 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                             "startDate": "",
                             "endDate": ""
                         },
-                        "priority": "",
+                        "priority": "Medium",
                         "isChecked": false,
                         "updates": [],
                         "files": [],
@@ -176,7 +157,7 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                     },
                     {
                         "id": makeId(),
-                        "title": "New Task",
+                        "title": "Task 3",
                         "assignee": "",
                         "status": "",
                         "dueDate": "",
@@ -184,148 +165,15 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                             "startDate": "",
                             "endDate": ""
                         },
-                        "priority": "",
+                        "priority": "Low",
                         "isChecked": false,
                         "updates": [],
                         "files": [],
                         "columnValues": [],
                         "members": [],
-                        "createdAt": 1750786349468,
+                        "createdAt": 1750785932536,
                         "owner": "guest"
                     },
-                    {
-                        "id": makeId(),
-                        "title": "xxvxcvxzzxc",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750786891695,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "xxvxcv",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750786892921,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "xxvxcv",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": true,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750786903663,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "xxvxcv",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750786922641,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "New Task",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750788454922,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "dd",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750788468621,
-                        "owner": "guest"
-                    },
-                    {
-                        "id": makeId(),
-                        "title": "dd",
-                        "assignee": "",
-                        "status": "",
-                        "dueDate": "",
-                        "timeline": {
-                            "startDate": "",
-                            "endDate": ""
-                        },
-                        "priority": "",
-                        "isChecked": false,
-                        "updates": [],
-                        "files": [],
-                        "columnValues": [],
-                        "members": [],
-                        "createdAt": 1750788470521,
-                        "owner": "guest"
-                    }
                 ]
             },
             {
@@ -346,7 +194,7 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                             "startDate": "",
                             "endDate": ""
                         },
-                        "priority": "",
+                        "priority": "Critical ⚠️",
                         "isChecked": false,
                         "updates": [],
                         "files": [],
@@ -365,7 +213,7 @@ function getDemoDataBoard({ title = '', type = 'Tasks', description = '', groups
                             "startDate": "",
                             "endDate": ""
                         },
-                        "priority": "",
+                        "priority": "High",
                         "isChecked": false,
                         "updates": [],
                         "files": [],
@@ -419,19 +267,19 @@ async function save(board) {
         // }
     }
 }
-  //Update recent boards
+//Update recent boards
 export function recordRecentBoard(board) {
-  if (!board?._id || !board.title) return
+    if (!board?._id || !board.title) return
 
-  const prev = JSON.parse(localStorage.getItem('recentBoards') || '[]')
-                .filter(b => b && b._id && b.title)
+    const prev = JSON.parse(localStorage.getItem('recentBoards') || '[]')
+        .filter(b => b && b._id && b.title)
 
-  const updated = [
-    { _id: board._id, title: board.title, isStarred: board.isStarred },
-    ...prev.filter(b => b._id !== board._id)
-  ].slice(0, 4)                            // keep only 4
+    const updated = [
+        { _id: board._id, title: board.title, isStarred: board.isStarred },
+        ...prev.filter(b => b._id !== board._id)
+    ].slice(0, 4)                            // keep only 4
 
-  localStorage.setItem('recentBoards', JSON.stringify(updated))
+    localStorage.setItem('recentBoards', JSON.stringify(updated))
 }
 
 // remove board
@@ -570,8 +418,13 @@ export async function updateTask(board, taskId, patch) {
     // mutate in-memory copy
     group.tasks[idx] = { ...group.tasks[idx], ...patch };
 
-    // persist in the background – don’t block the UI
-    storageService.put(STORAGE_KEY, board).catch(console.error);
+    // persist immediately to localStorage
+    try {
+        await storageService.put(STORAGE_KEY, board);
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        throw error;
+    }
 
     // return immediately so callers can re-render
     return board;
@@ -888,22 +741,31 @@ function generateFilesFor(boardTitle) {
             "https://cdn.pixabay.com/photo/2016/11/29/13/20/balloons-1869790_1280.jpg",
             "https://cdn.pixabay.com/photo/2020/01/20/02/44/candles-4779351_1280.jpg",
             "https://cdn.pixabay.com/photo/2014/12/01/19/23/pink-553149_1280.jpg"
-        ]
+        ],
+        "Marketing Campaign": [
+            "https://cdn.pixabay.com/photo/2020/09/14/07/31/social-media-5570211_1280.jpg",
+            "https://cdn.pixabay.com/photo/2015/06/01/09/05/facebook-793048_960_720.jpg",
+            "https://cdn.pixabay.com/photo/2020/06/21/02/26/tiktok-5323005_1280.jpg",
+            "https://cdn.pixabay.com/photo/2015/09/22/17/17/socialmedia-952091_1280.jpg",
+            "https://cdn.pixabay.com/photo/2021/09/19/02/19/businessman-6636602_1280.png",
+            "https://cdn.pixabay.com/photo/2018/05/17/15/10/social-3408791_1280.jpg",
+            "https://cdn.pixabay.com/photo/2015/12/09/14/07/seo-1084769_1280.jpg"
+        ],
     };
 
-    const list = sources[boardTitle] || [];
-    const url = list[Math.floor(Math.random() * list.length)];
+    const list = sources[boardTitle] || []
+    const howMany = Math.random() < 0.5 ? 1 : 2   // 50 % chance each
+    const shuffled = list.sort(() => 0.5 - Math.random())      // quick shuffle
+    const chosen = shuffled.slice(0, howMany)
 
-    return [
-        {
-            _id: makeId(),
-            name: url.split("/").pop(), // e.g. developer-8764524_1280.jpg
-            url,
-            type: "image/jpeg",
-            size: 100000 + Math.floor(Math.random() * 100000),
-            createdAt: Date.now()
-        }
-    ];
+    return chosen.map(url => ({
+        _id: makeId(),
+        name: url.split('/').pop(),      // e.g. "developer-8764524_1280.jpg"
+        url,
+        type: 'image/jpeg',
+        size: 100_000 + Math.floor(Math.random() * 100_000),
+        createdAt: Date.now()
+    }))
 }
 
 
@@ -1205,7 +1067,55 @@ function getBoardsData() {
                     ]
                 }
             ]
-        }
+        },
+
+        /* ------------------------------------------------------------------
+           4) 💼  Marketing Campaign
+        ------------------------------------------------------------------ */
+
+        {
+            _id: makeId(),
+            title: "Marketing Campaign",
+            createdAt: Date.now(),
+            members: [],     // ← you can pre-fill if you like
+            groups: [
+                /* ---------- 🔍 Research ---------- */
+                {
+                    id: makeId(),
+                    title: "🔍 Research",
+                    color: "#7BD3EA",
+                    tasks: [
+                        { id: makeId(), title: "🗣️ Audience Personas", status: "Working on it", priority: "High", dueDate: "2025-02-18", timeline: generateDateRangeObj(2), files: '', updates: generateUpdates("Marketing Campaign") },
+                        { id: makeId(), title: "📊 Competitor Audit", status: "Not Started", priority: "Medium", dueDate: "2025-02-25", timeline: generateDateRangeObj(2), files: generateFilesFor("Marketing Campaign"), },
+                        { id: makeId(), title: "🧠 Brainstorm Slogans", status: "Done", priority: "Low", dueDate: "2025-02-05", timeline: generateDateRangeObj(1), updates: generateUpdates("Marketing Campaign") }
+                    ]
+                },
+
+                /* ---------- ✏️  Content Creation ---------- */
+                {
+                    id: makeId(),
+                    title: "✏️ Content",
+                    color: "#F7A072",
+                    tasks: [
+                        { id: makeId(), title: "✍️ Blog Draft #1", status: "Working on it", priority: "High", dueDate: "2025-03-01", timeline: generateDateRangeObj(3), files: generateFilesFor("Marketing Campaign"), updates: generateUpdates("Marketing Campaign") },
+                        { id: makeId(), title: "🎬 Video Script", status: "Stuck", priority: "Critical ⚠️", dueDate: "2025-03-04", timeline: generateDateRangeObj(3), files: generateFilesFor("Marketing Campaign"), },
+                        { id: makeId(), title: "📸 Social Media Set", status: "Not Started", priority: "Medium", dueDate: "2025-03-08", timeline: generateDateRangeObj(3), updates: generateUpdates("Marketing Campaign") }
+                    ]
+                },
+
+                /* ---------- 🚀  Launch ---------- */
+                {
+                    id: makeId(),
+                    title: "🚀 Launch",
+                    color: "#FFD56B",
+                    tasks: [
+                        { id: makeId(), title: "📧 Email Blast", status: "Done", priority: "High", dueDate: "2025-03-15", timeline: generateDateRangeObj(4), files: generateFilesFor("Marketing Campaign"), updates: generateUpdates("Marketing Campaign") },
+                        { id: makeId(), title: "💬 Press Release", status: "Working on it", priority: "Medium", dueDate: "2025-03-16", timeline: generateDateRangeObj(4), updates: generateUpdates("Marketing Campaign") },
+                        { id: makeId(), title: "📈 Ad-Spend Setup", status: "Not Started", priority: "Critical ⚠️", dueDate: "2025-03-12", timeline: generateDateRangeObj(4), files: generateFilesFor("Marketing Campaign") }
+                    ]
+                }
+            ]
+        },
     ];
 
     /* ---------- helper generators (copy once) ---------- */
@@ -1272,6 +1182,24 @@ function getBoardsData() {
                 "Drinks chilled and ready 🍾",
                 "Table arrangements finalized 🍽️",
                 "Theme decor arrived 🎭"
+            ],
+            "Marketing Campaign": [
+                "CTA variant A/B scheduled 🎯",
+                "Keyword list refined for SEO 🔍",
+                "Influencer shortlist approved 🤝",
+                "Draft copy pushed to Grammarly ✍️",
+                "Headline variations finalized 🧠",
+                "New tagline draft submitted ✍️",
+                "Ad copy A/B test scheduled 📊",
+                "Instagram story designed 📱",
+                "Landing page wireframe ready ✏️",
+                "Tracking pixels verified 🔍",
+                "Google Ads conversion goals set 🎯",
+                "Campaign ROI analysis shared 📈",
+                "Email campaign draft tested ✉️",
+                "Press release finalized 📰",
+                "Social media calendar approved 📆",
+                "Meta & LinkedIn ads activated 📣",
             ]
         }
 
@@ -1282,10 +1210,13 @@ function getBoardsData() {
             "Waiting for approval 🕒"
         ]
 
+        const howMany = 2 + Math.floor(Math.random() * 3)   // 2, 3 or 4
+
         // ─── 3. Build 2 random updates ────────────────────────────────────────
-        return Array.from({ length: 2 }, () => {
+        return Array.from({ length: howMany }, () => {
             const user = users[Math.floor(Math.random() * users.length)]
             const text = texts[Math.floor(Math.random() * texts.length)]
+
             return {
                 id: makeId(),
                 text,
@@ -1295,4 +1226,57 @@ function getBoardsData() {
             }
         })
     }
+}
+
+// Helper function to verify localStorage persistence
+export function verifyKanbanPersistence(boardId) {
+    const user = userService.getLoggedinUser()
+    const accountId = user?._id || 'guest'
+
+    try {
+        const storedBoards = JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${accountId}`) || '[]');
+        const board = storedBoards.find(b => b._id === boardId);
+
+        if (board) {
+            console.log('✅ Board found in localStorage:', board.title);
+            console.log('📊 Board data:', {
+                groups: board.groups?.length || 0,
+                totalTasks: board.groups?.reduce((sum, group) => sum + group.tasks.length, 0) || 0
+            });
+            return true;
+        } else {
+            console.log('❌ Board not found in localStorage');
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Error checking localStorage:', error);
+        return false;
+    }
+}
+
+// Save views and active view for a board
+export function saveBoardViews(boardId, views, activeViewId) {
+    localStorage.setItem(`board_views_${boardId}`, JSON.stringify(views));
+    localStorage.setItem(`board_active_view_${boardId}`, activeViewId);
+}
+
+// Load views and active view for a board
+export function loadBoardViews(boardId) {
+    const savedViews = localStorage.getItem(`board_views_${boardId}`);
+    const savedActiveViewId = localStorage.getItem(`board_active_view_${boardId}`);
+    let views = [{ id: Date.now().toString(), type: 'table', name: 'Main Table' }];
+    let activeViewId = views[0].id;
+    if (savedViews) {
+        try {
+            views = JSON.parse(savedViews);
+            if (views.length > 0) {
+                activeViewId = savedActiveViewId && views.find(v => v.id === savedActiveViewId)
+                    ? savedActiveViewId
+                    : views[0].id;
+            }
+        } catch (e) {
+            // fallback to default
+        }
+    }
+    return { views, activeViewId };
 }

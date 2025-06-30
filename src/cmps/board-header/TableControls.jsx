@@ -15,6 +15,7 @@ import { MainTableIcon } from '../svg/MainTableIcon'
 import { ChartIcon } from '../svg/ChartIcon'
 import { KanbanIcon } from '../svg/KanbanIcon'
 import { DashboardIcon } from '../svg/DashboardIcon'
+import { StatusDistribution } from '../table/column-types/distributions/StatusDistribution'
 
 export function TableControls({ 
     onAddNewTask, 
@@ -155,7 +156,8 @@ export function TableControls({
     }
 
     return (
-        <div className="table-controls">
+        <div className="table-controls" >
+            <div>
             {console.log('TableControls render - isCollapsed:', isCollapsed, 'showViewDropdown:', showViewDropdown, 'isAddViewDropdownOpen:', isAddViewDropdownOpen)}
             {isCollapsed && (
                 <div className="view-selector-section">
@@ -227,152 +229,150 @@ export function TableControls({
                 </div>
             )}
 
-            {currentView !== 'kanban' && (
-                <div className="new-task-split-button">
-                    <NewTaskButton 
-                        onAddTask={onAddNewTask} 
-                        onAddNewGroup={onAddNewGroup}
-                        boardType={boardType}
-                    />
-                </div>
-            )}
-            
-            {currentView === 'dashboard' && (
-                <button 
-                    ref={addWidgetBtnRef}
-                    className="btn-add-widget" 
-                    onClick={() => onAddWidget(addWidgetBtnRef)}
-                >
-                    <PlusWidget className="plus-icon" />
-                    Add Widget
-                </button>
-            )}
-            
-            {!isSearchOpen ? (
-                <button
-                    className="btn-control search-btn"
-                    onClick={() => setIsSearchOpen(true)}
-                    type="button"
-                >
-                <SearchIcon />
-                Search
-            </button>
-            ) : (
-                <div className="search-input-wrapper">
+                {currentView !== 'kanban' && (
+                    <div className="new-task-split-button">
+                        <NewTaskButton 
+                            onAddTask={onAddNewTask} 
+                            onAddNewGroup={onAddNewGroup}
+                            boardType={boardType}
+                        />
+                    </div>
+                )}
+                {currentView === 'dashboard' && (
+                    <button 
+                        ref={addWidgetBtnRef}
+                        className="btn-add-widget" 
+                        onClick={() => onAddWidget(addWidgetBtnRef)}
+                    >
+                        <PlusWidget className="plus-icon" />
+                        Add Widget
+                    </button>
+                )}
+                {!isSearchOpen ? (
+                    <button
+                        className="btn-control search-btn"
+                        onClick={() => setIsSearchOpen(true)}
+                        type="button"
+                    >
                     <SearchIcon />
-                    <input
-                        className="search-input"
-                        placeholder="Search this board"
-                        value={searchText}
-                        onChange={e => setSearchText(e.target.value)}
-                        autoFocus
-                        onBlur={handleSearchBlur}
-                    />
-                    {searchText && (
+                    Search
+                </button>
+                ) : (
+                    <div className="search-input-wrapper">
+                        <SearchIcon />
+                        <input
+                            className="search-input"
+                            placeholder="Search this board"
+                            value={searchText}
+                            onChange={e => setSearchText(e.target.value)}
+                            autoFocus
+                            onBlur={handleSearchBlur}
+                        />
+                        {searchText && (
+                            <button
+                                className="search-clear-btn"
+                                onClick={handleSearchClear}
+                                tabIndex={-1}
+                                type="button"
+                                aria-label="Clear search"
+                            >
+                                ×
+                            </button>
+                        )}
+                    </div>
+                )}
+
+                <button
+                    className={`btn-control person-btn${isPersonPopoverOpen ? ' active' : ''}${selectedPerson ? ' selected' : ''}`}
+                    onClick={handlePersonClick}
+                    aria-pressed={isPersonPopoverOpen}
+                    type="button"
+                    ref={personBtnRef}
+                >
+                    {selectedPerson ? (
+                        <UserAvatar
+                            src={selectedPerson.imgUrl || selectedPerson.profileImg}
+                            fullname={selectedPerson.fullname || selectedPerson.firstName}
+                            userId={selectedPerson._id}
+                            className="person-btn-avatar"
+                            />
+                    ) : (
+                    <PersonIcon />
+                    )}
+                    Person
+                    {selectedPerson && (
                         <button
-                            className="search-clear-btn"
-                            onClick={handleSearchClear}
+                            className="person-clear-btn"
+                            onClick={handleClearPerson}
                             tabIndex={-1}
                             type="button"
-                            aria-label="Clear search"
+                            aria-label="Clear person filter"
                         >
                             ×
                         </button>
                     )}
-                </div>
-            )}
+                </button>
 
-            <button
-                className={`btn-control person-btn${isPersonPopoverOpen ? ' active' : ''}${selectedPerson ? ' selected' : ''}`}
-                onClick={handlePersonClick}
-                aria-pressed={isPersonPopoverOpen}
-                type="button"
-                ref={personBtnRef}
-            >
-                {selectedPerson ? (
-                    <UserAvatar
-                        src={selectedPerson.imgUrl || selectedPerson.profileImg}
-                        fullname={selectedPerson.fullname || selectedPerson.firstName}
-                        userId={selectedPerson._id}
-                        className="person-btn-avatar"
-                    />
-                ) : (
-                <PersonIcon />
-                )}
-                Person
-                {selectedPerson && (
-                    <button
-                        className="person-clear-btn"
-                        onClick={handleClearPerson}
-                        tabIndex={-1}
-                        type="button"
-                        aria-label="Clear person filter"
-                    >
-                        ×
-                    </button>
-                )}
-            </button>
+                <PersonFilterPopover
+                    isOpen={isPersonPopoverOpen}
+                    onClose={() => setIsPersonPopoverOpen(false)}
+                    members={members}
+                    selectedId={selectedPersonId}
+                    onSelect={handleSelectPerson}
+                    anchorRef={personBtnRef}
+                />
 
-            <PersonFilterPopover
-                isOpen={isPersonPopoverOpen}
-                onClose={() => setIsPersonPopoverOpen(false)}
-                members={members}
-                selectedId={selectedPersonId}
-                onSelect={handleSelectPerson}
-                anchorRef={personBtnRef}
-            />
-
-            <button
-                className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
-                onClick={handleSortClick}
-                aria-pressed={isSortPopoverOpen}
-                type="button"
-                ref={sortBtnRef}
-            >
-                <SortIcon />
-                Sort
-                {selectedSortField && (
-                    <button
-                        className="sort-clear-btn"
-                        onClick={handleSortClear}
-                        tabIndex={-1}
-                        type="button"
-                        aria-label="Clear sort"
-                    >
-                        ×
-                    </button>
-                )}
-            </button>
+                <button
+                    className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
+                    onClick={handleSortClick}
+                    aria-pressed={isSortPopoverOpen}
+                    type="button"
+                    ref={sortBtnRef}
+                >
+                    <SortIcon />
+                    Sort
+                    {selectedSortField && (
+                        <button
+                            className="sort-clear-btn"
+                            onClick={handleSortClear}
+                            tabIndex={-1}
+                            type="button"
+                            aria-label="Clear sort"
+                        >
+                            ×
+                        </button>
+                    )}
+                </button>
             
-            <SortPopover
-                isOpen={isSortPopoverOpen}
-                onClose={() => setIsSortPopoverOpen(false)}
-                selectedField={selectedSortField}
-                onSelectField={handleSortField}
-                sortDirection={sortDirection}
-                onSelectDirection={handleSortDirection}
-                onClear={handleSortClear}
-                anchorRef={sortBtnRef}
-            />
+                <SortPopover
+                    isOpen={isSortPopoverOpen}
+                    onClose={() => setIsSortPopoverOpen(false)}
+                    selectedField={selectedSortField}
+                    onSelectField={handleSortField}
+                    sortDirection={sortDirection}
+                    onSelectDirection={handleSortDirection}
+                    onClear={handleSortClear}
+                    anchorRef={sortBtnRef}
+                />
 
-            <button
-                className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
-                onClick={handleFilterClick}
-                aria-pressed={isFilterPopoverOpen}
-                type="button"
-                ref={filterBtnRef}
-            >
-                <FilterIcon />
-                Filter
-            </button>
+                <button
+                    className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
+                    onClick={handleFilterClick}
+                    aria-pressed={isFilterPopoverOpen}
+                    type="button"
+                    ref={filterBtnRef}
+                >
+                    <FilterIcon />
+                    Filter
+                </button>
             
-            <FilterPopover
-                isOpen={isFilterPopoverOpen}
-                onClose={() => setIsFilterPopoverOpen(false)}
-                onApplyFilters={handleApplyFilters}
-                anchorRef={filterBtnRef}
-                board={board}
-            />
+                <FilterPopover
+                    isOpen={isFilterPopoverOpen}
+                    onClose={() => setIsFilterPopoverOpen(false)}
+                    onApplyFilters={handleApplyFilters}
+                    anchorRef={filterBtnRef}
+                    board={board}
+                />
 
             <button
                 className="btn-control collapse-btn"
@@ -382,6 +382,12 @@ export function TableControls({
             >
                 <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
             </button>
+            </div>
+            {currentView === 'kanban' && board && board.groups && (
+                <div style={{ marginLeft: 'auto', minWidth: 180, maxWidth: 320, flex: 'none', display: 'flex', alignItems: 'center' }}>
+                    <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)} />
+                </div>
+            )}
         </div>
     )
 }

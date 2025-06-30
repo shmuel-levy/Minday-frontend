@@ -9,10 +9,15 @@ import {BoardTable} from "../cmps/BoardTable";
 import {BoardDashboard} from "./BoardDashboard";
 import {TaskDetailModal} from "../cmps/task-detail-modal/TaskDetailModal";
 import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
+import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
+<<<<<<< HEAD
 import { recordRecentBoard } from '../services/board/board.service.local'
 import { Loader } from '../cmps/Loader';
+=======
+import { recordRecentBoard, saveBoardViews, loadBoardViews } from '../services/board/board.service.local'
+>>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
 
@@ -27,9 +32,15 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const boardTableRef = useRef(null);
   const addWidgetBtnRef = useRef(null);
   const [boardForModal, setBoardForModal] = useState(null);
+<<<<<<< HEAD
   const initialView = {id: makeId(), type: "table", name: "Main Table"};
   const [views, setViews] = useState([initialView]);
   const [activeViewId, setActiveViewId] = useState(initialView.id);
+=======
+  const { views: initialViews, activeViewId: initialActiveViewId } = loadBoardViews(boardId);
+  const [views, setViews] = useState(initialViews);
+  const [activeViewId, setActiveViewId] = useState(initialActiveViewId);
+>>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -40,14 +51,26 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [advancedFilters, setAdvancedFilters] = useState([]);
 
   useEffect(() => {
+<<<<<<< HEAD
   if (board) recordRecentBoard(board)
 }, [board?._id])
+=======
+    if (board) recordRecentBoard(board)
+  }, [board?._id]) 
+>>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
 
   useEffect(() => {
     if (boardId) {
-      _loadBoard(boardId)
+      _loadBoard(boardId);
+      const { views: loadedViews, activeViewId: loadedActiveViewId } = loadBoardViews(boardId);
+      setViews(loadedViews);
+      setActiveViewId(loadedActiveViewId);
     }
+<<<<<<< HEAD
   }, [])
+=======
+  }, [boardId])
+>>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
 
   async function _loadBoard() {
     try {
@@ -87,24 +110,27 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     let viewName = viewType.charAt(0).toUpperCase() + viewType.slice(1);
     if (viewType === "dashboard") viewName = "Chart";
     const newView = {id: makeId(), type: viewType, name: viewName};
-    setViews((prevViews) => [...prevViews, newView]);
+    const updatedViews = [...views, newView];
+    setViews(updatedViews);
     setActiveViewId(newView.id);
+    saveBoardViews(boardId, updatedViews, newView.id);
   }
 
   function handleUpdateView(viewId, newType) {
-    setViews((prevViews) =>
-      prevViews.map((view) => {
-        let newName = newType.charAt(0).toUpperCase() + newType.slice(1);
-        if (newType === "dashboard") newName = "Chart";
-        return view.id === viewId
-          ? {...view, type: newType, name: newName}
-          : view;
-      })
-    );
+    const updatedViews = views.map((view) => {
+      let newName = newType.charAt(0).toUpperCase() + newType.slice(1);
+      if (newType === "dashboard") newName = "Chart";
+      return view.id === viewId
+        ? {...view, type: newType, name: newName}
+        : view;
+    });
+    setViews(updatedViews);
+    saveBoardViews(boardId, updatedViews, activeViewId);
   }
 
   function handleSetActiveView(viewId) {
     setActiveViewId(viewId);
+    saveBoardViews(boardId, views, viewId);
   }
 
   function handleOpenAddWidgetModal(buttonRef) {
@@ -116,6 +142,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   function handleUpdateViews(newViews) {
     setViews(newViews);
+    saveBoardViews(boardId, newViews, activeViewId);
   }
 
   function handlePinView(viewId) {
@@ -143,7 +170,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   }, []);
 
   const handleApplyFilters = useCallback((filters) => {
-    setAdvancedFilters(filters);
+    // setAdvancedFilters(filters);
   }, []);
 
   const extractMembers = () => {
@@ -251,16 +278,12 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
             />
           </div>
         ) : activeView.type === "kanban" ? (
-          <div
-            className="kanban-placeholder"
-            style={{
-              padding: "48px",
-              textAlign: "center",
-              color: "#888",
-              fontSize: "1.5rem",
-            }}
-          >
-            Kanban view
+          <div className="kanban-container">
+            <KanbanBoard
+              board={filteredBoard || board}
+              onUpdateTask={handleUpdateBoard}
+              onOpenTaskDetails={handleOpenUpdates}
+            />
           </div>
         ) : (
           <div className="board-dashboard-container">

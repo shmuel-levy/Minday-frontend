@@ -10,212 +10,7 @@ export function useBoardState(board, onAddNewTask) {
   const currentBoard =
     board || useSelector((storeState) => storeState.boardModule.board);
 
-  // const [board, updateBoard] = useState(() => currentBoard
-  //   // currentBoard?.groups?.length
-  //   //   ? currentBoard
-  //   //   : {
-  //   //     ...currentBoard,
-  //   //     title: currentBoard?.title || "Monday - Sprint 4 - Design Approval",
-  //   //     groups: [
-  //   //       {
-  //   //         id: "g1",
-  //   //         title: "Frontend",
-  //   //         color: getRandomColor(),
-  //   //         isCollapsed: false,
-  //   //         tasks: [
-  //   //           {
-  //   //             id: "t1",
-  //   //             title: "Implement Task Preview UI 2",
-  //   //             assignee: "John",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 26",
-  //   //             timeline: { startDate: "2025-06-10", endDate: "2025-06-15" },
-  //   //             priority: "High",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t2",
-  //   //             title: "Build Board List component",
-  //   //             assignee: "SS",
-  //   //             status: "Done",
-  //   //             dueDate: "May 25",
-  //   //             timeline: { startDate: "2025-06-01", endDate: "2025-06-08" },
-  //   //             priority: "Medium",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t3",
-  //   //             title: "Create Task Details modal",
-  //   //             assignee: "Mike",
-  //   //             status: "Stuck",
-  //   //             dueDate: "May 27",
-  //   //             timeline: { startDate: "2025-06-12", endDate: "2025-06-20" },
-  //   //             priority: "Critical ⚠️",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t4",
-  //   //             title: "Add drag & drop for tasks",
-  //   //             assignee: "SS",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 28",
-  //   //             timeline: { startDate: "", endDate: "" },
-  //   //             priority: "Low",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //       {
-  //   //         id: "g2",
-  //   //         title: "Backend",
-  //   //         color: getRandomColor(),
-  //   //         isCollapsed: false,
-  //   //         tasks: [
-  //   //           {
-  //   //             id: "t5",
-  //   //             title: "Set up Express server",
-  //   //             assignee: "SS",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 30",
-  //   //             timeline: { startDate: "2025-06-15", endDate: "2025-06-25" },
-  //   //             priority: "High",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t6",
-  //   //             title: "Create MongoDB schema files",
-  //   //             assignee: "John",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 30",
-  //   //             timeline: { startDate: "2025-06-20", endDate: "2025-06-30" },
-  //   //             priority: "Medium",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t7",
-  //   //             title: "Build Login & Signup pages",
-  //   //             assignee: "Mike",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 31",
-  //   //             timeline: { startDate: "", endDate: "" },
-  //   //             priority: "Low",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //       {
-  //   //         id: "g3",
-  //   //         title: "UI/UX Design",
-  //   //         color: getRandomColor(),
-  //   //         isCollapsed: false,
-  //   //         tasks: [
-  //   //           {
-  //   //             id: "t8",
-  //   //             title: "Wireframes",
-  //   //             assignee: "Anna",
-  //   //             status: "Done",
-  //   //             dueDate: "May 15",
-  //   //             timeline: { startDate: "2025-05-01", endDate: "2025-05-10" },
-  //   //             priority: "Low",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t9",
-  //   //             title: "Prototypes",
-  //   //             assignee: "Mike",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 18",
-  //   //             timeline: { startDate: "2025-05-11", endDate: "2025-05-20" },
-  //   //             priority: "High",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //       {
-  //   //         id: "g4",
-  //   //         title: "Deployment",
-  //   //         color: getRandomColor(),
-  //   //         isCollapsed: false,
-  //   //         tasks: [
-  //   //           {
-  //   //             id: "t10",
-  //   //             title: "Prepare Docker Images",
-  //   //             assignee: "John",
-  //   //             status: "Done",
-  //   //             dueDate: "May 12",
-  //   //             timeline: { startDate: "2025-05-01", endDate: "2025-05-10" },
-  //   //             priority: "Medium",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t11",
-  //   //             title: "Deploy to Production",
-  //   //             assignee: "SS",
-  //   //             status: "Not Started",
-  //   //             dueDate: "May 20",
-  //   //             timeline: { startDate: "2025-05-15", endDate: "2025-05-30" },
-  //   //             priority: "Critical ⚠️",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //       {
-  //   //         id: "g5",
-  //   //         title: "QA Testing",
-  //   //         color: getRandomColor(),
-  //   //         isCollapsed: false,
-  //   //         tasks: [
-  //   //           {
-  //   //             id: "t12",
-  //   //             title: "Write Test Cases",
-  //   //             assignee: "Anna",
-  //   //             status: "Done",
-  //   //             dueDate: "May 17",
-  //   //             timeline: { startDate: "2025-05-05", endDate: "2025-05-12" },
-  //   //             priority: "Medium",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //           {
-  //   //             id: "t13",
-  //   //             title: "Run Regression Tests",
-  //   //             assignee: "Mike",
-  //   //             status: "Working on it",
-  //   //             dueDate: "May 19",
-  //   //             timeline: { startDate: "2025-05-13", endDate: "2025-05-20" },
-  //   //             priority: "Low",
-  //   //             isChecked: false,
-  //   //             updates: [],
-  //   //             files: [],
-  //   //           },
-  //   //         ],
-  //   //       },
-  //   //     ],
-  //   //   }
-  // );
+  
 
   const [taskDrafts, setTaskDrafts] = useState({});
   const [focusTaskId, setFocusTaskId] = useState(null);
@@ -288,20 +83,29 @@ export function useBoardState(board, onAddNewTask) {
     setTaskDrafts((prev) => ({ ...prev, [groupId]: "" }));
   }
 
- async function handleUpdateTask(updatedTask) {
-  try {
-    const updatedBoard = await boardService.updateTask(
-      board._id,  
-      updatedTask.id,
-      updatedTask
-    );
-    await updateBoard(updatedBoard);
-    showSuccessMsg("Board updated successfully");
-  } catch (err) {
-    console.log("error task handle update");
-    showErrorMsg("Cannot update board");
+  function handleUpdateTask(updatedTask) {
+    try {
+      const updatedGroups = board.groups.map(group => ({
+        ...group,
+        tasks: group.tasks.map(taskItem => 
+          taskItem.id === updatedTask.id 
+            ? { ...taskItem, ...updatedTask }
+            : taskItem
+        )
+      }));
+
+      const updatedBoard = { ...board, groups: updatedGroups };
+
+      // Use the same pattern as other functions
+      updateBoard(updatedBoard);
+      
+      showSuccessMsg("Task updated successfully");
+      
+    } catch (err) {
+      console.error("Error updating task:", err);
+      showErrorMsg("Cannot update task");
+    }
   }
-}
 
   function handleAddGroup() {
     const newGroup = {
@@ -366,6 +170,58 @@ export function useBoardState(board, onAddNewTask) {
     updateBoard({ ...board, groups: updatedGroups });
   }
 
+  function handleKanbanDragEnd(result) {
+    const { source, destination, draggableId } = result;
+
+    if (!destination) return;
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    try {
+      const task = board.groups
+        .flatMap(group => group.tasks)
+        .find(task => task.id === draggableId);
+      
+      if (!task) {
+        console.error('Task not found:', draggableId);
+        return;
+      }
+
+      const statusMap = {
+        'not-started': 'Not Started',
+        'working-on-it': 'Working on it',
+        'stuck': 'Stuck',
+        'done': 'Done'
+      };
+
+      const newStatus = statusMap[destination.droppableId] || 'Not Started';
+
+      const updatedGroups = board.groups.map(group => ({
+        ...group,
+        tasks: group.tasks.map(taskItem => 
+          taskItem.id === draggableId 
+            ? { ...taskItem, status: newStatus }
+            : taskItem
+        )
+      }));
+
+      const updatedBoard = { ...board, groups: updatedGroups };
+
+      updateBoard(updatedBoard);
+      
+      showSuccessMsg("Task moved successfully");
+      
+    } catch (error) {
+      console.error('Error in Kanban drag-and-drop:', error);
+      showErrorMsg('Failed to update task position');
+    }
+  }
+
   async function handleRemoveBoard(boardId) {
     try {
       await removeBoardAction(boardId);
@@ -390,6 +246,7 @@ export function useBoardState(board, onAddNewTask) {
     handleDeleteGroup,
     handleToggleCollapse,
     handleDragEnd,
+    handleKanbanDragEnd,
     handleRemoveBoard,
   };
 }

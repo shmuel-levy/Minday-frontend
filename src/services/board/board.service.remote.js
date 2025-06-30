@@ -5,7 +5,7 @@ export const boardService = {
     query,
     getById,
     save,
-    removeBoard,
+    remove,
     
     // Group CRUDL  
     addGroup,
@@ -37,13 +37,15 @@ function getById(boardId) {
     return httpService.get(`board/${boardId}`).then(board => transformBoardToFrontend(board))
 }
 
-async function removeBoard(boardId) {
-    return httpService.delete(`board/${boardId}`)
+async function remove(boardId) {
+    return httpService.delete(`board/${boardId}` )
 }
 
 async function save(board) {
     // Transform frontend format to backend format
     const backendBoard = transformBoardToBackend(board)
+    console.log(backendBoard._id ? 'Updating board' : 'Creating new board', backendBoard._id);
+    
     
     var savedBoard
     if (backendBoard._id) {
@@ -81,22 +83,33 @@ async function addTask(boardId, groupId, taskData) {
     })
 }
 
-async function updateTask(boardId, taskId, taskToUpdate) {
-    // Ensure boardId is a string
-    if (typeof boardId !== 'string') {
-        console.error('updateTask: boardId must be a string, got:', typeof boardId, boardId)
-        console.error('This usually means you passed the whole board object instead of board._id')
+async function updateTask(boardOrId, taskId, taskToUpdate) {
+    let boardId
+    
+    if (typeof boardOrId === 'string') {
+        boardId = boardOrId
+    } else if (boardOrId && typeof boardOrId === 'object' && boardOrId._id) {
+        boardId = boardOrId._id
+        console.log('📝 Extracted boardId from board object:', boardId)
+    } else {
+        console.error('updateTask: Invalid first parameter. Expected string (boardId) or object with _id property')
+        console.error('Received:', typeof boardOrId, boardOrId)
         console.error('Call stack:', new Error().stack)
+        throw new Error('Invalid boardId parameter: must be a string or board object with _id')
+    }
+    
+    if (typeof boardId !== 'string') {
+        console.error('updateTask: Extracted boardId is not a string:', typeof boardId, boardId)
         throw new Error('Invalid boardId: must be a string')
     }
     
-    // Ensure taskId is a string
     if (typeof taskId !== 'string') {
         console.error('updateTask: taskId must be a string, got:', typeof taskId, taskId)
         throw new Error('Invalid taskId: must be a string')
     }
     
-    // First we need to find which group this task belongs to
+    console.log('🔄 Updating task:', taskId, 'in board:', boardId)
+    
     const board = await getById(boardId)
     let groupId = null
     
@@ -111,7 +124,11 @@ async function updateTask(boardId, taskId, taskToUpdate) {
         throw new Error('Task not found in any group')
     }
     
-    return httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, { task: taskToUpdate })
+    console.log('📍 Found task in group:', groupId)
+    
+    return httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, { 
+        task: taskToUpdate 
+    })
 }
 
 async function removeTask(boardId, groupId, taskId) {
