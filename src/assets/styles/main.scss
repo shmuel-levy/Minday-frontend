@@ -84,12 +84,7 @@
 @import './cmps/board/SortPopover.scss';
 @import './cmps/board/SearchEmptyState.scss';
 @import './cmps/board/FilterPopover.scss';
-
-:root {
-  --board-header-height: 150px;
-  --group-header-height: 40px;
-}
-
+@import './cmps/board/Loader.scss';
 
 
 

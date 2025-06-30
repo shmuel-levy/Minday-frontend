@@ -12,6 +12,7 @@ import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
 import { recordRecentBoard } from '../services/board/board.service.local'
+import { Loader } from '../cmps/Loader';
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
 
@@ -191,8 +192,8 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
 
   const activeView = views.find((v) => v.id === activeViewId) || views[0];
 
-  if (!board) {
-    return <div>Loading board...</div>;
+  if (!board || board._id !== boardId) {
+    return <Loader text="Loading board..." />
   }
 
   return (
