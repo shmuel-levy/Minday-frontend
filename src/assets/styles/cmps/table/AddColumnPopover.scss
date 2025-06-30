@@ -3,7 +3,7 @@
 .add-column-container {
     position: relative;
     display: inline-block;
-    z-index: 2000;
+    z-index: 40;
 }
 
 .add-column-btn {
@@ -38,7 +38,7 @@
     position: absolute;
     top: -12%;
     right: 33px;
-    z-index: 2000;
+    z-index: 40;
     min-width: 250px;
     max-width: 320px;
     background-color: $white;

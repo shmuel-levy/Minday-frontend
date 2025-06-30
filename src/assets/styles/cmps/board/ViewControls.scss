@@ -74,14 +74,14 @@
 
 .view-dropdown {
   position: absolute;
-  top: 36px;
+  top: 100%;
   left: 0;
-  background-color: #fff;
+  background: white;
+  border: 1px solid #c3c6d4;
   border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  padding: 4px 0;
-  z-index: 1000;
-  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 40;
+  min-width: 200px;
 
   .dropdown-item {
     display: flex;

@@ -4,18 +4,20 @@
 }
 
 .person-filter-popover {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  min-width: 260px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #c3c6d4;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 40;
+  min-width: 300px;
   max-width: 320px;
   padding: 18px 20px 16px 20px;
-  position: fixed;
-  z-index: 10000;
   font-family: inherit;
   pointer-events: auto;
   overflow: visible;
-  border: 1px solid #e0e1e3;
 
   .popover-title {
     font-weight: 600;
@@ -72,11 +74,11 @@
   max-width: 280px;
   padding: 12px 0 8px 0;
   position: fixed;
-  z-index: 10000; 
+  z-index: 40; 
   font-family: inherit;
   pointer-events: auto;
   overflow: visible;
-  border: 1px solid #e0e1e3; 
+  border: 1px solid #e0e1e3;
 
   transform: translateZ(0); 
   will-change: transform; 

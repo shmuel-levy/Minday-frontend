@@ -19,7 +19,7 @@
     &.collapsed {
         grid-template-areas: "info info action"
         "contextualAction contextualAction contextualAction";
-        --board-header-height: 117px;
+        padding-bottom: 33px;
     }
 
   .board-header-info {

@@ -12,12 +12,10 @@
     min-height: 100vh;
 
     .app-header { 
-        position: fixed;
+        position: sticky;
          top: 0; 
-        left: 0;
-        right: 0;
-        z-index: 40;
-        height: 48px;
+        z-index: 100;
+   
         }
 
     .app-body {     
@@ -30,7 +28,7 @@
         flex: 1; 
         min-width: 0;
         transition: margin-left 0.3s; 
-        background-color: #ffffff;
+        // background-color: #ffffff;
     }
 }
 
