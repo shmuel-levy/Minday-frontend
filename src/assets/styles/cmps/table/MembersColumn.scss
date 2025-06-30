@@ -46,7 +46,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     border: 1px solid transparent;
-    padding: 0 8px;
+    padding: 0 0 0 4px;
   }
 
   .counter {
@@ -75,10 +75,11 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     z-index: 1001;
-    max-height: 300px;
+    max-height: 350px;
     display: flex;
     flex-direction: column;
     padding: 12px;
+    cursor: default;
   }
 
   .selected-members-box {
@@ -90,7 +91,7 @@
   .selected-members-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 4px;
     margin: 0;
     overflow: visible;
   }
@@ -98,20 +99,18 @@
   .member-chip {
     display: flex;
     align-items: center;
-    gap: 3px;
     padding: 1px 4px;
-    background-color: var(--primary-selected-color, #e6f4ff);
+    background-color: #cce5ff;
     border-radius: 3px;
     animation: fadeIn 0.2s ease-in-out;
 
     .member-info {
       display: flex;
       align-items: center;
-      gap: 3px;
 
       span {
-        font-size: 11px;
-        color: #333;
+        font-size: 14px;
+        color: #323338;
       }
     }
 
@@ -127,8 +126,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background-color: #e1e1e1;
-        color: #333;
+        backdrop-filter: brightness(85%);
       }
 
       .icon-button {
@@ -256,8 +254,8 @@
     .member-info {
       display: flex;
       align-items: center;
-      gap: 8px;
       flex: 1;
+
     }
 
     button {

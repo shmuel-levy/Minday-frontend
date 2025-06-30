@@ -32,11 +32,13 @@
   }
   .popover-members-row {
     display: flex;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 4px;
     margin-bottom: 2px;
     align-items: center;
     justify-content: flex-start;
     min-height: 38px;
+    margin-right: 12px;
   }
   .popover-member-avatar {
     border: 2px solid transparent;
