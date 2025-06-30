@@ -12,12 +12,8 @@ import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
 import {makeId} from "../services/util.service";
 import {BoardFilters} from "../cmps/BoardFilters";
-<<<<<<< HEAD
-import { recordRecentBoard } from '../services/board/board.service.local'
-import { Loader } from '../cmps/Loader';
-=======
 import { recordRecentBoard, saveBoardViews, loadBoardViews } from '../services/board/board.service.local'
->>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
+import { Loader } from '../cmps/Loader';
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
 
@@ -32,15 +28,9 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const boardTableRef = useRef(null);
   const addWidgetBtnRef = useRef(null);
   const [boardForModal, setBoardForModal] = useState(null);
-<<<<<<< HEAD
-  const initialView = {id: makeId(), type: "table", name: "Main Table"};
-  const [views, setViews] = useState([initialView]);
-  const [activeViewId, setActiveViewId] = useState(initialView.id);
-=======
   const { views: initialViews, activeViewId: initialActiveViewId } = loadBoardViews(boardId);
   const [views, setViews] = useState(initialViews);
   const [activeViewId, setActiveViewId] = useState(initialActiveViewId);
->>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -51,13 +41,8 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [advancedFilters, setAdvancedFilters] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-  if (board) recordRecentBoard(board)
-}, [board?._id])
-=======
     if (board) recordRecentBoard(board)
   }, [board?._id]) 
->>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
 
   useEffect(() => {
     if (boardId) {
@@ -66,11 +51,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
       setViews(loadedViews);
       setActiveViewId(loadedActiveViewId);
     }
-<<<<<<< HEAD
-  }, [])
-=======
   }, [boardId])
->>>>>>> 2e7c29984a5714dae18d218e4d7fd90823bc6107
 
   async function _loadBoard() {
     try {
@@ -170,7 +151,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   }, []);
 
   const handleApplyFilters = useCallback((filters) => {
-    // setAdvancedFilters(filters);
+    setAdvancedFilters(filters);
   }, []);
 
   const extractMembers = () => {

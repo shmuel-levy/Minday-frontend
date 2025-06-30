@@ -157,8 +157,6 @@ export function TableControls({
 
     return (
         <div className="table-controls" >
-            <div>
-            {console.log('TableControls render - isCollapsed:', isCollapsed, 'showViewDropdown:', showViewDropdown, 'isAddViewDropdownOpen:', isAddViewDropdownOpen)}
             {isCollapsed && (
                 <div className="view-selector-section">
                     <div className="view-selector-wrapper" ref={viewSelectorRef}>
@@ -382,7 +380,6 @@ export function TableControls({
             >
                 <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
             </button>
-            </div>
             {currentView === 'kanban' && board && board.groups && (
                 <div style={{ marginLeft: 'auto', minWidth: 180, maxWidth: 320, flex: 'none', display: 'flex', alignItems: 'center' }}>
                     <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)} />
