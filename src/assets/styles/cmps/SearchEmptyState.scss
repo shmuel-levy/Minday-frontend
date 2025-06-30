@@ -4,8 +4,9 @@
   align-items: center;
   justify-content: center;
   padding: 80px 20px;
+  background-color: white;
   text-align: center;
-  min-height: 400px;
+  height: calc(100vh - 150px);
 
   .search-empty-state__image {
     width: 200px;

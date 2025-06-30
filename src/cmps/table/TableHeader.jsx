@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { TaskCheckbox } from '../TaskCheckbox'
-import { AddColumnPopover } from './column-types/AddColumnPopover'
 
 export function TableHeader({ 
     columns = [], 
     onToggleAll, 
     groupColor, 
     isAllSelected = false,
-    onAddColumn
+    onAddColumnBtnClick,
+    addColumnBtnRef
 }) {
     const defaultColumns = [
         { id: 'left-indicator', type: 'left-indicator', title: '', width: '6px', editable: false },
@@ -31,12 +31,6 @@ export function TableHeader({
         setHeaderTitles(prev => ({ ...prev, [id]: value }))
     }
 
-    function handleAddColumn(columnType) {
-        if (onAddColumn) {
-            onAddColumn(columnType)
-        }
-    }
-
     const columnsToRender = columns.length ? columns : defaultColumns
 
     return (
@@ -53,7 +47,14 @@ export function TableHeader({
                             onChange={(value) => onToggleAll?.(value)}
                         />
                     ) : column.id === 'add-cell' ? (
-                        <AddColumnPopover onAddColumn={handleAddColumn} />
+                        <button
+                            ref={addColumnBtnRef}
+                            className="add-column-btn"
+                            onClick={onAddColumnBtnClick}
+                            title="Add column"
+                        >
+                            +
+                        </button>
                     ) : column.editable ? (
                         <div
                             contentEditable

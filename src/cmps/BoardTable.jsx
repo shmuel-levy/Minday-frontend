@@ -1,4 +1,4 @@
-import {forwardRef, useImperativeHandle, useState} from "react";
+import {forwardRef, useImperativeHandle, useState, useRef} from "react";
 import {GroupHeader} from "./GroupHeader";
 import {TableHeader} from "./table/TableHeader";
 import {DynamicTaskRow} from "./table/DynamicTaskRow";
@@ -12,12 +12,15 @@ import {TaskCheckbox} from "./TaskCheckbox";
 import {GroupSummaryRow} from "../cmps/GroupSummaryRow";
 import {loadBoard, updateBoard} from "../store/board.actions";
 import { SearchEmptyState } from './SearchEmptyState';
+import { AddColumnPopover } from './table/column-types/AddColumnPopover';
 
 export const BoardTable = forwardRef(function BoardTable(
   {board, onUpdateTask, onAddNewTask, onOpenUpdates},
   ref
 ) {
   const [openTaskId, setOpenTaskId] = useState(null);
+  const [isAddColumnPopoverOpen, setAddColumnPopoverOpen] = useState(false);
+  const addColumnBtnRef = useRef(null)
 
   const {
     // board,
@@ -57,7 +60,6 @@ export const BoardTable = forwardRef(function BoardTable(
     setOpenTaskId(taskId);
   }
 
-  //working with store
   async function handleUpdateGroup(updatedGroup) {
     const updatedGroups = board.groups.map((group) =>
       group.id === updatedGroup.id ? updatedGroup : group
@@ -65,7 +67,6 @@ export const BoardTable = forwardRef(function BoardTable(
     await updateBoard({...board, groups: updatedGroups});
   }
 
-  //updates on task
   async function handleUpdateAdded(taskId, groupId, newUpdate) {
     await updateBoard({
       ...board,
@@ -91,13 +92,16 @@ export const BoardTable = forwardRef(function BoardTable(
 
   const groupsToShow = (board.groups && board.groups.length > 0) ? board.groups : board.groups;
 
-  // Show empty state if searching and no results
   if (board.groups && board.groups.length === 0) {
-    return <SearchEmptyState />;
+    return <div style={{height: 'calc(100% - var(--board-header-height))'}}><SearchEmptyState /></div>;
+  }
+
+  function handleAddColumn(type) {
+    setAddColumnPopoverOpen(false);
   }
 
   return (
-    <div className="board-table">
+    <div className="board-table" style={{position: 'relative'}}>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="table-wrapper">
           {groupsToShow.map((group) => (
@@ -129,6 +133,8 @@ export const BoardTable = forwardRef(function BoardTable(
                             (sg) =>
                               sg.groupId === group.id && sg.taskIds.length > 0
                           )}
+                          onAddColumnBtnClick={() => setAddColumnPopoverOpen(true)}
+                          addColumnBtnRef={addColumnBtnRef}
                         />
                       </div>
                       {group.tasks?.map((task, idx) => (
@@ -249,6 +255,13 @@ export const BoardTable = forwardRef(function BoardTable(
           <span>Add new group</span>
         </button>
       </div>
+
+      <AddColumnPopover
+        isOpen={isAddColumnPopoverOpen}
+        anchorRef={addColumnBtnRef}
+        onClose={() => setAddColumnPopoverOpen(false)}
+        onAddColumn={handleAddColumn}
+      />
     </div>
   );
 });
