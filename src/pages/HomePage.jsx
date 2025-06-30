@@ -29,6 +29,17 @@ export function HomePage() {
     const headerLaddaInstance = useRef(null)
     const heroLaddaInstance = useRef(null)
     const selectorsLaddaInstance = useRef(null)
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
 
 
     useEffect(() => {
@@ -74,7 +85,7 @@ export function HomePage() {
 
     return (
         <>
-            <section className="app-header-wraper">
+            <section className={`app-header-wraper ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="home-app-header">
                     <img src={mindayLogo} alt="Minday Logo" className="logo-img" />
                     <nav className="navbar">
