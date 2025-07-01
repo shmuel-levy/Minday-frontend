@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import React, { useMemo, useEffect, useState } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { KanbanColumn } from './KanbanColumn';
 import { useBoardState } from '../../customHooks/useBoardState';
 
@@ -9,6 +9,18 @@ export function KanbanBoard({
   onOpenTaskDetails 
 }) {
   const { handleUpdateTask, handleKanbanDragEnd } = useBoardState(board);
+
+  // Persisted column order (from board or fallback)
+  const defaultOrder = ['not-started', 'working-on-it', 'stuck', 'done'];
+  const [columnOrder, setColumnOrder] = useState(
+    (board && board.kanbanColumnOrder) || defaultOrder
+  );
+
+  useEffect(() => {
+    if (board && board.kanbanColumnOrder) {
+      setColumnOrder(board.kanbanColumnOrder);
+    }
+  }, [board]);
 
   // Define status columns for Kanban view
   const statusColumns = useMemo(() => [
@@ -43,6 +55,20 @@ export function KanbanBoard({
   }, [board, statusColumns]);
 
   const handleDragEnd = (result) => {
+    if (result.type === 'COLUMN') {
+      const { source, destination } = result;
+      if (!destination) return;
+      const newOrder = Array.from(columnOrder);
+      const [removed] = newOrder.splice(source.index, 1);
+      newOrder.splice(destination.index, 0, removed);
+      setColumnOrder(newOrder);
+      // Persist to board and storage
+      if (onUpdateTask && board) {
+        const updatedBoard = { ...board, kanbanColumnOrder: newOrder };
+        onUpdateTask(updatedBoard);
+      }
+      return;
+    }
     handleKanbanDragEnd(result);
   };
 
@@ -53,18 +79,41 @@ export function KanbanBoard({
   return (
     <div className="kanban-board">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="kanban-columns">
-          {statusColumns.map(column => (
-            <KanbanColumn
-              key={column.id}
-              column={column}
-              tasks={tasksByStatus[column.id] || []}
-              onUpdateTask={onUpdateTask}
-              onOpenTaskDetails={onOpenTaskDetails}
-              board={board}
-            />
-          ))}
-        </div>
+        <Droppable droppableId="kanban-columns" direction="horizontal" type="COLUMN">
+          {(provided, snapshot) => (
+            <div
+              className="kanban-columns"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {columnOrder.map((columnId, index) => {
+                const column = statusColumns.find(col => col.id === columnId);
+                if (!column) return null;
+                return (
+                  <Draggable key={column.id} draggableId={column.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="kanban-column-draggable"
+                      >
+                        <KanbanColumn
+                          column={column}
+                          tasks={tasksByStatus[column.id] || []}
+                          onUpdateTask={onUpdateTask}
+                          onOpenTaskDetails={onOpenTaskDetails}
+                          board={board}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </div>
   );
