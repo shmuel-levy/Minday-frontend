@@ -137,7 +137,10 @@ async function removeTask(boardId, groupId, taskId) {
 }
 
 async function removeTaskUpdate(boardId, groupId, taskId, updateId) {
-    return httpService.post(`board/${boardId}/group/${groupId}/task/${taskId}/update/${updateId}`)
+    console.log('[Service] removeTaskUpdate called with:', { boardId, groupId, taskId, updateId });
+    const response = await httpService.post(`board/${boardId}/group/${groupId}/task/${taskId}/update/${updateId}`, {});
+    console.log('[Service] removeTaskUpdate: Response from backend:', response);
+    return response;
 }
 
 // Helpers
