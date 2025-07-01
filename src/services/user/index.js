@@ -12,7 +12,7 @@ function getEmptyUser() {
         profileImg: '',
         role: 'user',
         isAdmin: false,
-        score: 10000,
+       
     }
 }
 

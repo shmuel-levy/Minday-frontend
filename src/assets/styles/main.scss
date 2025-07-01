@@ -17,12 +17,11 @@
 // pages
 @import "pages/HomePage";
 @import "RootCmp";
-@import "BoardDashboard";
+@import "./pages/BoardDashboard";
 @import "pages/BoardIndex";
 @import "pages/UserDetails";
 @import "pages/AdminIndex";
 @import "pages/TaskDetails";
-@import "pages/LoginSignup";
 @import "pages/Chat";
 
 
@@ -88,5 +87,5 @@
 @import './cmps/Loader.scss';
 
 @import './cmps/board/BoardList.scss';
-
+@import './cmps/LoginSignup.scss';
 
