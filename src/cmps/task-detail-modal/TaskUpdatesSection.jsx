@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { removeTaskUpdate } from '../../store/board.actions'
 
 import { socketService } from '../../services/socket.service'
-import { canDeleteDemoData } from '../../services/permission.service'
+// import { canDeleteDemoData } from '../../services/permission.service'
 const SOCKET_EVENT_ADD_UPDATE = 'task-add-update'
 const SOCKET_EMIT_ADD_UPDATE = 'task-add-update'
 
@@ -206,7 +206,7 @@ export function TaskUpdatesSection({ task, groupId, onUpdateAdded }) {
                   </div>
 
                   {/* Right: Delete button */}
-                  {user?._id === update.byMember?._id && (!task.isDemo || user?.isAdmin) && (
+                  {user?._id === update.byMember?._id && (
                     <button
                       type="button"
                       className="update-delete-btn"

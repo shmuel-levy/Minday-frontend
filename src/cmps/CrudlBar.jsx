@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import { Delete, Duplicate, MoveArrowRight, Close, Upload } from "@vibe/icons"
-import { userService } from '../services/user'
-import { canDeleteDemoData } from '../services/permission.service'
 
 export function CrudlBar({ selectedTasks, groups, onDuplicate, onDelete, onMoveToGroup, onClearSelection }) {
     const [showMoveMenu, setShowMoveMenu] = useState(false)
-    const user = userService.getLoggedinUser();
 
     function getTotalSelected() {
         return selectedTasks.reduce((total, group) => total + group.taskIds.length, 0)
@@ -42,16 +39,6 @@ export function CrudlBar({ selectedTasks, groups, onDuplicate, onDelete, onMoveT
 
     if (getTotalSelected() === 0) return null
 
-    // Check if any selected task is demo and user is not admin
-    const isDemoDeleteNotAllowed = selectedTasks.some(selectedGroup => {
-        const group = groups.find(g => g.id === selectedGroup.groupId)
-        if (!group) return false;
-        return selectedGroup.taskIds.some(taskId => {
-            const task = group.tasks.find(t => t.id === taskId)
-            return task && task.isDemo && !user?.isAdmin;
-        })
-    });
-
     return (
         <section className="crudl-bar">
             <section className="select-count">
@@ -68,12 +55,7 @@ export function CrudlBar({ selectedTasks, groups, onDuplicate, onDelete, onMoveT
                 <span>Duplicate</span>
             </section>
 
-            <section
-                onClick={!isDemoDeleteNotAllowed ? onDelete : undefined}
-                className={`delete crud-btn${isDemoDeleteNotAllowed ? ' disabled' : ''}`}
-                title={isDemoDeleteNotAllowed ? 'Only admins can delete demo tasks.' : ''}
-                style={isDemoDeleteNotAllowed ? { pointerEvents: 'none', opacity: 0.5 } : {}}
-            >
+            <section onClick={onDelete} className="delete crud-btn">
                 <Delete className="icon" />
                 <span>Delete</span>
             </section>

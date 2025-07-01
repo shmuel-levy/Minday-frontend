@@ -10,7 +10,6 @@ import { Modal } from "./Modal";
 import "../assets/styles/cmps/DeleteConfirmationModal.scss";
 import ReactDOM from "react-dom";
 import { userService } from '../services/user'
-import { canEditOrDelete } from '../services/permission.service'
 
 export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGroup }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -31,7 +30,6 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
         '#7F5347', '#C4C4C4', '#757575'
     ]
 
-    const user = userService.getLoggedinUser();
 
     useEffect(() => {
         function handleMouseDown(e) {
@@ -86,14 +84,12 @@ export function GroupHeader({ group, onDeleteGroup, onToggleCollapse, onUpdateGr
 
                 {showMenu && (
                     <div className="group-menu">
-                        {canEditOrDelete(group, user) && (
-                            <button className="group-menu-item delete" onClick={handleDeleteGroup}>
-                                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-                                    <path d="M8.3 1.86c-.52 0-1.01.23-1.35.6a1.89 1.89 0 00-.53 1.38v.48H4.9H2.63a.63.63 0 000 1.26H4.15v10.33c0 .5.18.99.53 1.37.35.38.83.6 1.35.6h7.93c.52 0 1-.22 1.34-.6.35-.38.53-.87.53-1.37V5.83h1.52a.63.63 0 000-1.26h-2.27h-1.52v-.48c0-.52-.18-1-.53-1.38a1.89-1.89 0 00-1.34-.6H8.3zm-1.14 3.96h6.83v10.33c0 .15-.05.28-.13.36a.46.46 0 01-.35.15H6.03a.46.46 0 01-.35-.15.53.53 0 01-.14-.36V5.83h1.6zm4.92-1.5v-.48c0-.15-.05-.28-.13-.36a.46.46 0 00-.35-.15H8.3a.46.46 0 00-.35.15.53.53 0 00-.14.36v.48h4.92z" />
-                                </svg>
-                                Delete group
-                            </button>
-                        )}
+                                               <button className="group-menu-item delete" onClick={handleDeleteGroup}>
+                            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                <path d="M8.3 1.86c-.52 0-1.01.23-1.35.6a1.89 1.89 0 00-.53 1.38v.48H4.9H2.63a.63.63 0 000 1.26H4.15v10.33c0 .5.18.99.53 1.37.35.38.83.6 1.35.6h7.93c.52 0 1-.22 1.34-.6.35-.38.53-.87.53-1.37V5.83h1.52a.63.63 0 000-1.26h-2.27h-1.52v-.48c0-.52-.18-1-.53-1.38a1.89-1.89 0 00-1.34-.6H8.3zm-1.14 3.96h6.83v10.33c0 .15-.05.28-.13.36a.46.46 0 01-.35.15H6.03a.46.46 0 01-.35-.15.53.53 0 01-.14-.36V5.83h1.6zm4.92-1.5v-.48c0-.15-.05-.28-.13-.36a.46.46 0 00-.35-.15H8.3a.46.46 0 00-.35.15.53.53 0 00-.14.36v.48h4.92z" />
+                            </svg>
+                            Delete group
+                        </button>
                     </div>
                 )}
             </div>
