@@ -1,9 +1,11 @@
 .board-details {
     position: relative;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 48px);
     display: flex;
+    background-color: white;
     flex-direction: column;
     overflow: auto;
+    border-radius: 12px 0 0 0;
     transition: margin-right 0.3s ease;
 
      &::-webkit-scrollbar {
@@ -29,6 +31,9 @@
 
     .board-table-container {
         flex: 1;
+        background-color: white;
+        height: 100
+;
     }
 }
 

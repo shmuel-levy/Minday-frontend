@@ -7,10 +7,12 @@ import { uploadService } from '../services/upload.service'
 import { login, signup } from '../store/user.actions'
 import { socketService } from '../services/socket.service'
 import mindayLogo from '../assets/img/minday-logo.png'
+import { ProfileIcon } from '../cmps/svg/ProfileIcon'
 
 export function LoginSignup() {
     const [isSignup, setIsSignup] = useState(false)
     const [credentials, setCredentials] = useState(userService.getEmptyUser())
+    const [errorMsg, setErrorMsg] = useState('')
     const navigate = useNavigate()
 
     function handleChange({ target }) {
@@ -32,11 +34,10 @@ export function LoginSignup() {
             const user = await login(credentials)
             socketService.login(user._id)
             showSuccessMsg(`Welcome back, ${user.fullName || user.email}`)
-        } catch (err) {
-            console.log('Login -> Has issues login', err)
-            showErrorMsg('Could not login, try again later.')
-        } finally {
             navigate('/board')
+        } catch (err) {
+            setErrorMsg(err.message || 'Could not login, try again later.')
+            showErrorMsg(err.message || 'Could not login, try again later.')
         }
     }
 
@@ -44,11 +45,10 @@ export function LoginSignup() {
         try {
             const user = await signup(credentials)
             showSuccessMsg(`Welcome, ${user.fullName || user.email}`)
-        } catch (err) {
-            console.log('Signup -> Has issues signup', err)
-            showErrorMsg('Could not sign-in, try again later.')
-        } finally {
             navigate('/board')
+        } catch (err) {
+            setErrorMsg(err.message || 'Could not sign-in, try again later.')
+            showErrorMsg(err.message || 'Could not sign-in, try again later.')
         }
     }
 
@@ -63,7 +63,7 @@ export function LoginSignup() {
     }
 
     function getImage() {
-        return credentials?.imgUrl ? credentials.imgUrl : '/assets/img/user-avatar.svg'
+        return credentials?.imgUrl ? credentials.imgUrl : null
     }
 
     return (
@@ -81,6 +81,7 @@ export function LoginSignup() {
                                 : 'Log in to your account'
                         }`}
                     </h3>
+                    {errorMsg && <div className="login-error-msg">{errorMsg}</div>}
 
                     <form onSubmit={handleSubmit} className="login-form flex column align-center">
                         <input
@@ -149,7 +150,11 @@ export function LoginSignup() {
                                 <span>Add profile picture</span>
 
                                 <label htmlFor="img" className="label-container">
-                                    <img src={getImage()} alt="User default image" />
+                                    {getImage() ? (
+                                        <img src={getImage()} alt="User profile" />
+                                    ) : (
+                                        <ProfileIcon style={{ width: 48, height: 48, color: '#b3d6f7' }} />
+                                    )}
                                 </label>
 
                                 <input
