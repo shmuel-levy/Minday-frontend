@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { UserAvatar } from '../UserAvatar';
 
@@ -9,6 +9,9 @@ export function TaskCard({
   onOpenTaskDetails,
   board 
 }) {
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editTitle, setEditTitle] = useState(task.title || '');
+
   const getStatusColor = (status) => {
     const statusColors = {
       'Not Started': '#c4c4c4',
@@ -44,6 +47,39 @@ export function TaskCard({
     }
   };
 
+  function handleTitleSave() {
+    if (editTitle !== task.title && onUpdateTask && board) {
+      // Find the group containing this task
+      const groupIdx = board.groups.findIndex(group => group.id === task.groupId);
+      if (groupIdx !== -1) {
+        const group = board.groups[groupIdx];
+        const taskIdx = group.tasks.findIndex(t => t.id === task.id);
+        if (taskIdx !== -1) {
+          // Create updated group and board
+          const updatedTask = { ...task, title: editTitle };
+          const updatedTasks = [...group.tasks];
+          updatedTasks[taskIdx] = updatedTask;
+          const updatedGroup = { ...group, tasks: updatedTasks };
+          const updatedGroups = [...board.groups];
+          updatedGroups[groupIdx] = updatedGroup;
+          const updatedBoard = { ...board, groups: updatedGroups };
+          onUpdateTask(updatedBoard);
+        }
+      }
+    }
+    setIsEditingTitle(false);
+  }
+
+  function handleTitleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleTitleSave();
+    }
+    if (e.key === 'Escape') {
+      setEditTitle(task.title || '');
+      setIsEditingTitle(false);
+    }
+  }
+
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => (
@@ -55,7 +91,28 @@ export function TaskCard({
           onClick={handleCardClick}
         >
           <div className="task-card-header">
-            <h4 className="task-title">{task.title}</h4>
+            {isEditingTitle ? (
+              <input
+                type="text"
+                value={editTitle}
+                onChange={e => setEditTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={handleTitleKeyDown}
+                className="task-title-input"
+                autoFocus
+              />
+            ) : (
+              <h4
+                className="task-title"
+                onClick={e => {
+                  e.stopPropagation();
+                  setIsEditingTitle(true);
+                }}
+                style={{ cursor: 'text' }}
+              >
+                {task.title}
+              </h4>
+            )}
             {task.isChecked && (
               <span className="task-checked">✓</span>
             )}
