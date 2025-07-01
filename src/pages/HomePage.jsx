@@ -78,7 +78,7 @@ export function HomePage() {
                 <div className="home-app-header">
                     <img src={mindayLogo} alt="Minday Logo" className="logo-img" />
                     <nav className="navbar">
-                        <button className="login-btn">Log in</button>
+                        <button className="login-btn" onClick={() => navigate('/new-login')}>Log in</button>
                         <div className="get-started-wraper">
                             <button
                                 ref={laddaHeaderRef}
