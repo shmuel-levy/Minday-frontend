@@ -1,0 +1,75 @@
+.statusCompactField--w32gf {
+  height: 24px;
+  max-width: 100%;
+  width: fit-content;
+  cursor: pointer;
+  color: var(--primary-text-color);
+  background-color: var(--primary-background-hover-color);
+  border-radius: var(--border-radius-small);
+  overflow: hidden;
+  position: relative;
+  transition: color .1s ease, background-color .1s ease;
+}
+.statusCompactField--w32gf.editing--Qp2aQ,
+.statusCompactField--w32gf:hover {
+  color: var(--color-snow_white);
+}
+.statusLabelIndication--DCHYN {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  z-index: 1;
+  transition: width .1s ease, color .1s ease;
+}
+.statusCompactFieldLabel--A89u8 {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  margin-left: 8px;
+}
+.fieldLabel--kE1F1 {
+  display: flex;
+  align-items: center;
+}
+.label--mO2WT {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
+.priorityCompactField--w32gf {
+  height: 24px;
+  max-width: 100%;
+  width: fit-content;
+  cursor: pointer;
+  color: var(--primary-text-color);
+  background-color: var(--primary-background-hover-color);
+  border-radius: var(--border-radius-small);
+  overflow: hidden;
+  position: relative;
+  transition: color .1s ease, background-color .1s ease;
+}
+.priorityCompactField--w32gf.editing--Qp2aQ,
+.priorityCompactField--w32gf:hover {
+  color: var(--color-snow_white);
+}
+.priorityLabelIndication--DCHYN {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  z-index: 1;
+  transition: width .1s ease, color .1s ease;
+}
+.priorityCompactFieldLabel--A89u8 {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  margin-left: 8px;
+} 

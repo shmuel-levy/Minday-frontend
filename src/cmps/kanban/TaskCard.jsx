@@ -22,15 +22,19 @@ export function TaskCard({
     return statusColors[status] || '#c4c4c4';
   };
 
-  const getPriorityColor = (priority) => {
-    const priorityColors = {
-      'Low': '#00c875',
-      'Medium': '#fdab3d',
-      'High': '#e2445c',
-      'Critical ⚠️': '#ff3b30'
-    };
-    return priorityColors[priority] || '#c4c4c4';
+  const priorityPalettes = {
+    default: [
+      { label: "Critical ⚠️", bg: "rgb(51,51,51)", color: "#F7F7F8" },
+      { label: "High",        bg: "rgb(64,22,148)", color: "#F7F7F8" },
+      { label: "Medium",      bg: "rgb(85,89,223)", color: "#F7F7F8" },
+      { label: "Low",         bg: "rgb(87,155,252)",color: "#F7F7F8" }
+    ]
   };
+
+  function getPriorityColor(priority) {
+    const opt = priorityPalettes.default.find(opt => priority && priority.startsWith(opt.label.split(" ")[0]));
+    return opt ? opt.bg : '#c4c4c4';
+  }
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -120,22 +124,30 @@ export function TaskCard({
 
           <div className="task-card-content">
             {task.status && (
-              <div className="task-status">
-                <span 
-                  className="status-indicator"
-                  style={{ backgroundColor: getStatusColor(task.status) }}
-                ></span>
-                <span className="status-text">{task.status}</span>
+              <div className={`statusCompactField--w32gf`} style={{position: 'relative'}}>
+                <div
+                  className="statusLabelIndication--DCHYN"
+                  style={{ backgroundColor: getStatusColor(task.status), position: 'absolute', top: 0, left: 0, width: 4, height: '100%', zIndex: 1, transition: 'width .1s ease, color .1s ease' }}
+                ></div>
+                <div className="statusCompactFieldLabel--A89u8" style={{position: 'relative', zIndex: 2, marginLeft: 8}}>
+                  <div className="fieldLabel--kE1F1">
+                    <span className="label--mO2WT">{task.status}</span>
+                  </div>
+                </div>
               </div>
             )}
 
             {task.priority && (
-              <div className="task-priority">
-                <span 
-                  className="priority-indicator"
-                  style={{ backgroundColor: getPriorityColor(task.priority) }}
-                ></span>
-                <span className="priority-text">{task.priority}</span>
+              <div className={`priorityCompactField--w32gf`} style={{position: 'relative'}}>
+                <div
+                  className="priorityLabelIndication--DCHYN"
+                  style={{ backgroundColor: getPriorityColor(task.priority), position: 'absolute', top: 0, left: 0, width: 4, height: '100%', zIndex: 1, transition: 'width .1s ease, color .1s ease' }}
+                ></div>
+                <div className="priorityCompactFieldLabel--A89u8" style={{position: 'relative', zIndex: 2, marginLeft: 8}}>
+                  <div className="fieldLabel--kE1F1">
+                    <span className="label--mO2WT">{task.priority}</span>
+                  </div>
+                </div>
               </div>
             )}
 
