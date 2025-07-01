@@ -14,6 +14,8 @@ import {TrashIcon} from "./svg/TrashIcon";
 import { useBoardState } from "../customHooks/useBoardState";
 import { Modal } from "./Modal";
 import "../assets/styles/cmps/DeleteConfirmationModal.scss";
+import { userService } from '../services/user';
+import { canDeleteDemoData } from '../services/permission.service';
 
 export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const addBoardBtnRef = useRef(null);
   const { handleRemoveBoard } = useBoardState();
   const [pendingDeleteBoard, setPendingDeleteBoard] = useState(null);
+  const user = userService.getLoggedinUser();
 
   if (favoritesOpen) {
     return (
@@ -117,25 +120,33 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
       </div>
 
       <div className="workspace-boards">
-        {boards.map((board) => (
-          <div
-            key={board?._id}
-            className={`board-item ${
-              location.pathname === `/board/${board?._id}` ? "active" : ""
-            }`}
-            onClick={() => navigate(`/board/${board?._id}`)}
-            style={{ position: 'relative' }}
-          >
-            <BoardIconSidebar />
-            <span className="board-title">{board?.title}</span>
-            <span className="trash-icon-wrapper" onClick={e => {
-              e.stopPropagation();
-              setPendingDeleteBoard(board);
-            }}>
-              <TrashIcon />
-            </span>
-          </div>
-        ))}
+        {boards.map((board) => {
+          const isDemoDeleteNotAllowed = board.isDemo && !user?.isAdmin;
+          return (
+            <div
+              key={board?._id}
+              className={`board-item ${
+                location.pathname === `/board/${board?._id}` ? "active" : ""
+              }`}
+              onClick={() => navigate(`/board/${board?._id}`)}
+              style={{ position: 'relative' }}
+            >
+              <BoardIconSidebar />
+              <span className="board-title">{board?.title}</span>
+              <span
+                className="trash-icon-wrapper"
+                onClick={e => {
+                  e.stopPropagation();
+                  if (!isDemoDeleteNotAllowed) setPendingDeleteBoard(board);
+                }}
+                title={isDemoDeleteNotAllowed ? 'Only admins can delete demo boards.' : ''}
+                style={isDemoDeleteNotAllowed ? { pointerEvents: 'none', opacity: 0.5 } : {}}
+              >
+                <TrashIcon />
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       <CreateBoardModal
