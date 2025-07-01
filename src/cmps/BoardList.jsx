@@ -1,14 +1,12 @@
 import { userService } from '../services/user'
 import { BoardPreview } from './BoardPreview.jsx'
+import { canEditOrDelete } from '../services/permission.service'
 
 export function BoardList({ boards, onRemoveBoard, onUpdateBoard }) {
 
     function shouldShowActionBtns(board) {
         const user = userService.getLoggedinUser()
-
-        if (!user) return false
-        if (user.isAdmin) return true
-        return board.createdBy?._id === user._id
+        return canEditOrDelete(board, user)
     }
 
     return <section>
