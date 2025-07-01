@@ -72,4 +72,23 @@
   position: relative;
   z-index: 2;
   margin-left: 8px;
+}
+
+.kanban-date-display {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px 10px;
+  background: transparent;
+  min-width: 70px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  color: #666666;
+  margin: 4px 0;
+}
+
+.kanban-date-text {
+  font-size: 14px;
+  color: #666666;
 } 

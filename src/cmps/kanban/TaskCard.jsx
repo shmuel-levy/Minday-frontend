@@ -152,8 +152,10 @@ export function TaskCard({
             )}
 
             {task.dueDate && (
-              <div className="task-due-date">
-                📅 {formatDate(task.dueDate)}
+              <div className="kanban-date-display">
+                <span className="kanban-date-text">
+                  {new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </span>
               </div>
             )}
 
@@ -167,18 +169,6 @@ export function TaskCard({
                   className="small-avatar"
                 />
                 <span className="assignee-name">{task.assignee}</span>
-              </div>
-            )}
-
-            {task.files && task.files.length > 0 && (
-              <div className="task-files">
-                📎 {task.files.length} file{task.files.length > 1 ? 's' : ''}
-              </div>
-            )}
-
-            {task.updates && task.updates.length > 0 && (
-              <div className="task-updates">
-                💬 {task.updates.length} update{task.updates.length > 1 ? 's' : ''}
               </div>
             )}
           </div>
