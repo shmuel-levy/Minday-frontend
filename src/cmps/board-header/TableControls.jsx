@@ -17,17 +17,17 @@ import { KanbanIcon } from '../svg/KanbanIcon'
 import { DashboardIcon } from '../svg/DashboardIcon'
 import { StatusDistribution } from '../table/column-types/distributions/StatusDistribution'
 
-export function TableControls({ 
-    onAddNewTask, 
-    onAddNewGroup, 
-    boardType, 
-    currentView, 
-    onAddWidget, 
-    addWidgetBtnRef, 
-    searchText, 
-    setSearchText, 
-    members = [], 
-    selectedPersonId, 
+export function TableControls({
+    onAddNewTask,
+    onAddNewGroup,
+    boardType,
+    currentView,
+    onAddWidget,
+    addWidgetBtnRef,
+    searchText,
+    setSearchText,
+    members = [],
+    selectedPersonId,
     setSelectedPersonId,
     selectedSortField,
     setSelectedSortField,
@@ -154,88 +154,89 @@ export function TableControls({
     }
 
     return (
-        <div className="table-controls" >
-            {isCollapsed && (
-                <div className="view-selector-section">
-                    <div className="view-selector-wrapper" ref={viewSelectorRef}>
-                        <button
-                            className="view-selector-btn"
-                            onClick={onViewSelectorClick}
-                        >
-                            <span className="view-icon">
-                                {getViewIcon(activeView?.type)}
-                            </span>
-                            <span className="view-name">{activeView?.name || 'Table'}</span>
-                            <ArrowDownUpIcon direction={showViewDropdown ? 'up' : 'down'} className="arrow-icon" />
-                        </button>
-                        {showViewDropdown && (
-                            <div className="view-selector-dropdown">
-                                {views.map(view => (
+        <>
+            <div className="table-controls" >
+                {isCollapsed && (
+                    <div className="view-selector-section">
+                        <div className="view-selector-wrapper" ref={viewSelectorRef}>
+                            <button
+                                className="view-selector-btn"
+                                onClick={onViewSelectorClick}
+                            >
+                                <span className="view-icon">
+                                    {getViewIcon(activeView?.type)}
+                                </span>
+                                <span className="view-name">{activeView?.name || 'Table'}</span>
+                                <ArrowDownUpIcon direction={showViewDropdown ? 'up' : 'down'} className="arrow-icon" />
+                            </button>
+                            {showViewDropdown && (
+                                <div className="view-selector-dropdown">
+                                    {views.map(view => (
+                                        <button
+                                            key={view.id}
+                                            className={`dropdown-item${view.id === activeView?.id ? ' active' : ''}`}
+                                            onClick={() => onViewSelect(view.id)}
+                                        >
+                                            {getViewIcon(view.type)}
+                                            {view.name}
+                                        </button>
+                                    ))}
+                                    <div className="dropdown-divider"></div>
+                                    <div className="add-view-container">
+                                        <button
+                                            ref={addViewBtnRef}
+                                            className="dropdown-item add-view-btn"
+                                            onClick={handleAddViewClick}
+                                        >
+                                            <Plus />
+                                            Add View
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            {isAddViewDropdownOpen && (
+                                <div className="add-view-dropdown">
                                     <button
-                                        key={view.id}
-                                        className={`dropdown-item${view.id === activeView?.id ? ' active' : ''}`}
-                                        onClick={() => onViewSelect(view.id)}
+                                        className="dropdown-item"
+                                        onClick={() => handleAddViewSelect('table')}
                                     >
-                                        {getViewIcon(view.type)}
-                                        {view.name}
+                                        <MainTableIcon />
+                                        Table
                                     </button>
-                                ))}
-                                <div className="dropdown-divider"></div>
-                                <div className="add-view-container">
                                     <button
-                                        ref={addViewBtnRef}
-                                        className="dropdown-item add-view-btn"
-                                        onClick={handleAddViewClick}
+                                        className="dropdown-item"
+                                        onClick={() => handleAddViewSelect('dashboard')}
                                     >
-                                        <Plus />
-                                        Add View
+                                        <DashboardIcon />
+                                        Dashboard
+                                    </button>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => handleAddViewSelect('kanban')}
+                                    >
+                                        <KanbanIcon />
+                                        Kanban
                                     </button>
                                 </div>
-                            </div>
-                        )}
-                        {isAddViewDropdownOpen && (
-                            <div className="add-view-dropdown">
-                                <button
-                                    className="dropdown-item"
-                                    onClick={() => handleAddViewSelect('table')}
-                                >
-                                    <MainTableIcon />
-                                    Table
-                                </button>
-                                <button
-                                    className="dropdown-item"
-                                    onClick={() => handleAddViewSelect('dashboard')}
-                                >
-                                    <DashboardIcon />
-                                    Dashboard
-                                </button>
-                                <button
-                                    className="dropdown-item"
-                                    onClick={() => handleAddViewSelect('kanban')}
-                                >
-                                    <KanbanIcon />
-                                    Kanban
-                                </button>
-                            </div>
-                        )}
+                            )}
+                        </div>
+                        <div className="separator"></div>
                     </div>
-                    <div className="separator"></div>
-                </div>
-            )}
+                )}
 
                 {currentView !== 'kanban' && (
                     <div className="new-task-split-button">
-                        <NewTaskButton 
-                            onAddTask={onAddNewTask} 
+                        <NewTaskButton
+                            onAddTask={onAddNewTask}
                             onAddNewGroup={onAddNewGroup}
                             boardType={boardType}
                         />
                     </div>
                 )}
                 {currentView === 'dashboard' && (
-                    <button 
+                    <button
                         ref={addWidgetBtnRef}
-                        className="btn-add-widget" 
+                        className="btn-add-widget"
                         onClick={() => onAddWidget(addWidgetBtnRef)}
                     >
                         <PlusWidget className="plus-icon" />
@@ -248,9 +249,9 @@ export function TableControls({
                         onClick={() => setIsSearchOpen(true)}
                         type="button"
                     >
-                    <SearchIcon />
-                    Search
-                </button>
+                        <SearchIcon />
+                        Search
+                    </button>
                 ) : (
                     <div className="search-input-wrapper">
                         <SearchIcon />
@@ -276,104 +277,104 @@ export function TableControls({
                     </div>
                 )}
 
-    <div className='filter-container'>
-                <button
-                    className={`btn-control person-btn${isPersonPopoverOpen ? ' active' : ''}${selectedPerson ? ' selected' : ''}`}
-                    onClick={handlePersonClick}
-                    aria-pressed={isPersonPopoverOpen}
-                    type="button"
-                    ref={personBtnRef}
-                >
-                    {selectedPerson ? (
-                        <UserAvatar
-                            src={selectedPerson.imgUrl || selectedPerson.profileImg}
-                            fullname={selectedPerson.fullname || selectedPerson.firstName}
-                            userId={selectedPerson._id}
-                            className="person-btn-avatar"
+                <div className='filter-container'>
+                    <button
+                        className={`btn-control person-btn${isPersonPopoverOpen ? ' active' : ''}${selectedPerson ? ' selected' : ''}`}
+                        onClick={handlePersonClick}
+                        aria-pressed={isPersonPopoverOpen}
+                        type="button"
+                        ref={personBtnRef}
+                    >
+                        {selectedPerson ? (
+                            <UserAvatar
+                                src={selectedPerson.imgUrl || selectedPerson.profileImg}
+                                fullname={selectedPerson.fullname || selectedPerson.firstName}
+                                userId={selectedPerson._id}
+                                className="person-btn-avatar"
                             />
-                    ) : (
-                    <PersonIcon />
-                    )}
-                    Person
-                    {selectedPerson && (
-                        <button
-                            className="person-clear-btn"
-                            onClick={handleClearPerson}
-                            tabIndex={-1}
-                            type="button"
-                            aria-label="Clear person filter"
-                        >
-                            ×
-                        </button>
-                    )}
-                </button>
+                        ) : (
+                            <PersonIcon />
+                        )}
+                        Person
+                        {selectedPerson && (
+                            <button
+                                className="person-clear-btn"
+                                onClick={handleClearPerson}
+                                tabIndex={-1}
+                                type="button"
+                                aria-label="Clear person filter"
+                            >
+                                ×
+                            </button>
+                        )}
+                    </button>
 
-                <PersonFilterPopover
-                    isOpen={isPersonPopoverOpen}
-                    onClose={() => setIsPersonPopoverOpen(false)}
-                    members={members}
-                    selectedId={selectedPersonId}
-                    onSelect={handleSelectPerson}
-                    anchorRef={personBtnRef}
-                />
+                    <PersonFilterPopover
+                        isOpen={isPersonPopoverOpen}
+                        onClose={() => setIsPersonPopoverOpen(false)}
+                        members={members}
+                        selectedId={selectedPersonId}
+                        onSelect={handleSelectPerson}
+                        anchorRef={personBtnRef}
+                    />
                 </div>
 
-            <div className='filter-container'>
-                <button
-                    className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
-                    onClick={handleSortClick}
-                    aria-pressed={isSortPopoverOpen}
-                    type="button"
-                    ref={sortBtnRef}
-                >
-                    <SortIcon />
-                    Sort
-                    {selectedSortField && (
-                        <button
-                            className="sort-clear-btn"
-                            onClick={handleSortClear}
-                            tabIndex={-1}
-                            type="button"
-                            aria-label="Clear sort"
-                        >
-                            ×
-                        </button>
-                    )}
-                         </button>
-                <SortPopover
-                    isOpen={isSortPopoverOpen}
-                    onClose={() => setIsSortPopoverOpen(false)}
-                    selectedField={selectedSortField}
-                    onSelectField={handleSortField}
-                    sortDirection={sortDirection}
-                    onSelectDirection={handleSortDirection}
-                    onClear={handleSortClear}
-                    anchorRef={sortBtnRef}
-                />
-            </div>
+                <div className='filter-container'>
+                    <button
+                        className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
+                        onClick={handleSortClick}
+                        aria-pressed={isSortPopoverOpen}
+                        type="button"
+                        ref={sortBtnRef}
+                    >
+                        <SortIcon />
+                        Sort
+                        {selectedSortField && (
+                            <button
+                                className="sort-clear-btn"
+                                onClick={handleSortClear}
+                                tabIndex={-1}
+                                type="button"
+                                aria-label="Clear sort"
+                            >
+                                ×
+                            </button>
+                        )}
+                    </button>
+                    <SortPopover
+                        isOpen={isSortPopoverOpen}
+                        onClose={() => setIsSortPopoverOpen(false)}
+                        selectedField={selectedSortField}
+                        onSelectField={handleSortField}
+                        sortDirection={sortDirection}
+                        onSelectDirection={handleSortDirection}
+                        onClear={handleSortClear}
+                        anchorRef={sortBtnRef}
+                    />
+                </div>
 
-   <div className='filter-container'>
-                <button
-                    className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
-                    onClick={handleFilterClick}
-                    aria-pressed={isFilterPopoverOpen}
-                    type="button"
-                    ref={filterBtnRef}
-                >
-                    <FilterIcon />
-                    Filter
-                </button>
-            
-                <FilterPopover
-                    isOpen={isFilterPopoverOpen}
-                    onClose={() => setIsFilterPopoverOpen(false)}
-                    onApplyFilters={handleApplyFilters}
-                    anchorRef={filterBtnRef}
-                    board={board}
-                />
+                <div className='filter-container'>
+                    <button
+                        className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
+                        onClick={handleFilterClick}
+                        aria-pressed={isFilterPopoverOpen}
+                        type="button"
+                        ref={filterBtnRef}
+                    >
+                        <FilterIcon />
+                        Filter
+                    </button>
 
-</div>
-            {/* <button
+                    <FilterPopover
+                        isOpen={isFilterPopoverOpen}
+                        onClose={() => setIsFilterPopoverOpen(false)}
+                        onApplyFilters={handleApplyFilters}
+                        anchorRef={filterBtnRef}
+                        board={board}
+                    />
+
+                </div>
+                {/* <button
                 className="btn-control collapse-btn"
                 onClick={onCollapseToggle}
                 type="button"
@@ -381,13 +382,14 @@ export function TableControls({
             >
                 <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
             </button> */}
+
+            </div>
+
             {currentView === 'kanban' && board && board.groups && (
-                <div style={{ marginLeft: 'auto', minWidth: 180, maxWidth: 320, flex: 'none', display: 'flex', alignItems: 'center' }}>
-                    <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)} />
+                <div style={{ marginLeft: 'auto', height:'24px', width: 140, flex: 'none', display: 'flex', alignItems: 'center' }}>
+                    <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)}  />
                 </div>
             )}
-
-            
-        </div>
+        </>
     )
 }
