@@ -14,19 +14,15 @@ import {TrashIcon} from "./svg/TrashIcon";
 import { useBoardState } from "../customHooks/useBoardState";
 import { Modal } from "./Modal";
 import "../assets/styles/cmps/DeleteConfirmationModal.scss";
-// import { userService } from '../services/user';
-// import { canDeleteDemoData } from '../services/permission.service';
 
 export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  // const [localBoards, setLocalBoards] = useState(boards || []);
   const addBoardBtnRef = useRef(null);
   const { handleRemoveBoard } = useBoardState();
   const [pendingDeleteBoard, setPendingDeleteBoard] = useState(null);
-  // const user = userService.getLoggedinUser();
 
   if (favoritesOpen) {
     return (
@@ -51,25 +47,38 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
     setIsDropdownOpen(true);
   };
 
-  const handleDropdownSelect = (type) => {
+  const handleDropdownSelect = (type, widgetId) => {
     setIsDropdownOpen(false);
     if (type === "board") {
       setIsCreateModalOpen(true);
+    } else if (type === "kanban") {
+      handleCreateBoardDirectly({ title: "New Kanban Board", description: "", type: "kanban" });
+    } else if (type === "dashboard") {
+      handleCreateBoardDirectly({ title: "New Dashboard", description: "", type: "dashboard", widgetId });
     }
-    // Handle other types (dashboard, kanban) here when implemented
   };
 
-  //change to work with service
+  const handleCreateBoardDirectly = async (boardData) => {
+    try {
+      const newBoard = await boardService.getDemoDataBoard();
+      const savedBoard = await addBoard({...newBoard, ...boardData});
+      showSuccessMsg(`Board "${savedBoard.title}" created successfully`);
+      if (boardData.widgetId) {
+        navigate(`/board/${savedBoard._id}?widget=${boardData.widgetId}`);
+      } else {
+        navigate(`/board/${savedBoard._id}`);
+      }
+    } catch (error) {
+      console.error("Failed to create board:", error);
+      showErrorMsg("Failed to create board");
+    }
+  };
+
   const handleCreateBoard = async ({title, description}) => {
     try {
-      // const newBoard = {
-      //   ...boardService.getEmptyBoard(),
-      //   ...boardData,
-      //   createdAt: Date.now(),
-      // };
+ 
       const newBoard = await boardService.getDemoDataBoard();
       const savedBoard = await addBoard({...newBoard, title, description});
-      // setLocalBoards((prevBoards) => [...prevBoards, savedBoard]);
       setIsCreateModalOpen(false);
       showSuccessMsg(`Board "${savedBoard.title}" created successfully`);
       navigate(`/board/${savedBoard._id}`);

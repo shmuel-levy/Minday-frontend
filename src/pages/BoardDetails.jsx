@@ -1,12 +1,12 @@
 import {useState, useEffect, useRef, useCallback} from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 import {showSuccessMsg, showErrorMsg} from "../services/event-bus.service";
 import {loadBoard, updateBoard} from "../store/board.actions";
 import {BoardHeader} from "../cmps/board-header/BoardHeader";
 import {BoardTable} from "../cmps/BoardTable";
-import {BoardDashboard} from "./BoardDashboard";
+import {Dashboard} from "./Dashboard";
 import {TaskDetailModal} from "../cmps/task-detail-modal/TaskDetailModal";
 import {AddWidgetModal} from "../cmps/dashboard/AddWidgetModal";
 import {KanbanBoard} from "../cmps/kanban/KanbanBoard";
@@ -16,8 +16,9 @@ import { recordRecentBoard, saveBoardViews, loadBoardViews } from '../services/b
 import { Loader } from '../cmps/Loader';
 
 export function BoardDetails({openTaskId, setOpenTaskId}) {
-
-  
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const initialWidget = query.get('widget');
 
   const {boardId} = useParams();
   const board = useSelector((storeState) => storeState.boardModule.board);
@@ -32,6 +33,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   const [views, setViews] = useState(initialViews);
   const [activeViewId, setActiveViewId] = useState(initialActiveViewId);
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
+  const [selectedWidget, setSelectedWidget] = useState(null);
   const [addWidgetButtonRef, setAddWidgetButtonRef] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [selectedPersonId, setSelectedPersonId] = useState(null);
@@ -52,6 +54,16 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
       setActiveViewId(loadedActiveViewId);
     }
   }, [boardId])
+
+  useEffect(() => {
+    if (board && board.selectedWidget !== undefined) {
+      setSelectedWidget(board.selectedWidget)
+    } else if (initialWidget) {
+      setSelectedWidget(initialWidget)
+    } else {
+      setSelectedWidget(null)
+    }
+  }, [initialWidget])
 
   async function _loadBoard() {
     try {
@@ -95,6 +107,12 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
     setViews(updatedViews);
     setActiveViewId(newView.id);
     saveBoardViews(boardId, updatedViews, newView.id);
+
+    if (viewType === "dashboard") {
+      const updatedBoard = { ...board, selectedWidget: null };
+      updateBoard(updatedBoard);
+      setSelectedWidget(null);
+    }
   }
 
   function handleUpdateView(viewId, newType) {
@@ -112,14 +130,27 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
   function handleSetActiveView(viewId) {
     setActiveViewId(viewId);
     saveBoardViews(boardId, views, viewId);
+
+    const view = views.find(v => v.id === viewId);
+    if (view && view.type === "dashboard" && !board.selectedWidget) {
+      setSelectedWidget(null);
+    }
   }
 
-  function handleOpenAddWidgetModal(buttonRef) {
-    setAddWidgetButtonRef(buttonRef);
+  function handleOpenWidgetModal() {
     setIsAddWidgetModalOpen(true);
   }
 
-  function handleSelectWidget(widget) {}
+  function handleCloseWidgetModal() {
+    setIsAddWidgetModalOpen(false);
+  }
+
+  function handleSelectWidget(widgetId) {
+    const updatedBoard = { ...board, selectedWidget: widgetId };
+    updateBoard(updatedBoard);
+    setSelectedWidget(widgetId);
+    setIsAddWidgetModalOpen(false);
+  }
 
   function handleUpdateViews(newViews) {
     setViews(newViews);
@@ -229,7 +260,7 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
         onAddView={handleAddView}
         onUpdateView={handleUpdateView}
         onSetActiveView={handleSetActiveView}
-        onAddWidget={handleOpenAddWidgetModal}
+        onAddWidget={handleOpenWidgetModal}
         addWidgetBtnRef={addWidgetBtnRef}
         onUpdateViews={handleUpdateViews}
         searchText={searchText}
@@ -277,10 +308,10 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
           </div>
         ) : (
           <div className="board-dashboard-container">
-            <BoardDashboard
+            <Dashboard
               board={board}
-              onUpdateBoard={handleUpdateBoard}
-              onAddWidget={() => handleOpenAddWidgetModal(addWidgetBtnRef)}
+              selectedWidget={selectedWidget}
+              onAddWidget={handleOpenWidgetModal}
             />
           </div>
         )}
@@ -293,12 +324,12 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
           onClose={() => setOpenTaskId(null)}
         />
       )}
-
       <AddWidgetModal
         isOpen={isAddWidgetModalOpen}
-        onClose={() => setIsAddWidgetModalOpen(false)}
+        onClose={handleCloseWidgetModal}
         onSelectWidget={handleSelectWidget}
-        buttonRef={addWidgetButtonRef}
+        anchorRef={addWidgetBtnRef}
+
       />
     </section>
   )

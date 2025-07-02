@@ -1,4 +1,3 @@
-// AddWidgetModal.scss - Monday.com widget selection modal
 
 .modal-backdrop {
   position: fixed;
@@ -12,7 +11,7 @@
 
 .ds-dialog-content-wrapper {
   outline: 0;
-  z-index: 1051;
+  z-index: 40;
   position: absolute; 
 }
 
@@ -74,7 +73,6 @@
   color: var(--primary-text-color);
 }
 
-// Monday.com widget store styling
 .overview-section-store {
   padding: 8px;
 }

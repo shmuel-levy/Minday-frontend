@@ -1,50 +1,36 @@
-import React, { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import { useEffect, useRef } from 'react'
 
-export function AddWidgetModal({ isOpen, onClose, onSelectWidget, buttonRef }) {
-  const modalRef = useRef();
+export function AddWidgetModal({ isOpen, onClose, onSelectWidget, anchorRef }) {
+  const modalRef = useRef()
 
   useEffect(() => {
-    if (isOpen && buttonRef?.current && modalRef.current) {
-        const buttonRect = buttonRef.current.getBoundingClientRect();
-        const modalRect = modalRef.current.getBoundingClientRect();
-        
-        let top = buttonRect.bottom + window.scrollY + 8;
-        let left = buttonRect.left + window.scrollX;
-
-        if (left + modalRect.width > window.innerWidth) {
-            left = window.innerWidth - modalRect.width - 8;
-        }
-
-        if (top + modalRect.height > window.innerHeight) {
-            top = buttonRect.top + window.scrollY - modalRect.height - 8;
-        }
-        
-        modalRef.current.style.top = `${top}px`;
-        modalRef.current.style.left = `${left}px`;
+    const handleOutsideClick = (e) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(e.target) &&
+        anchorRef?.current &&
+        !anchorRef.current.contains(e.target)
+      ) {
+        onClose()
+      }
     }
 
-    const handleInteraction = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target) && buttonRef.current && !buttonRef.current.contains(event.target)) {
-        onClose();
-      }
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleInteraction);
-      document.addEventListener('keydown', handleInteraction);
+      document.addEventListener('mousedown', handleOutsideClick)
+      document.addEventListener('keydown', handleKey)
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleInteraction);
-      document.removeEventListener('keydown', handleInteraction);
-    };
-  }, [isOpen, buttonRef, onClose]);
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [isOpen, onClose, anchorRef])
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const widgets = [
     {
@@ -77,87 +63,47 @@ export function AddWidgetModal({ isOpen, onClose, onSelectWidget, buttonRef }) {
       description: 'Manage and collaborate on your files with your team',
       image: 'https://cdn.monday.com/images/column-store/overview-sections/FilesGalleryOverviewSection-icon-small.png'
     }
-  ];
+  ]
 
   const handleWidgetClick = (widget) => {
-    onSelectWidget(widget);
-    onClose();
-  };
+    onSelectWidget(widget.id)
+    onClose()
+  }
 
-  return ReactDOM.createPortal(
+  return (
     <div 
-        ref={modalRef}
-        tabIndex="-1" 
-        className="ds-dialog-content-wrapper add-section-button" 
-        role="dialog" 
-        style={{ position: 'absolute' }}
+      ref={modalRef}
+      className="widget-modal"
+      style={{
+        position: 'absolute',
+        top: anchorRef?.current ? anchorRef.current.getBoundingClientRect().bottom + window.scrollY + 4 : '100px',
+        left: anchorRef?.current ? anchorRef.current.getBoundingClientRect().left + window.scrollX : '100px',
+        background: 'white',
+        border: '1px solid #ddd',
+        borderRadius: '8px',
+        padding: '1rem',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        zIndex: 1051
+      }}
     >
-        <div className="ds-dialog-content-component bottom edge-bottom opacity-and-slide-enter-done">
-            <div className="select-section-type-dialog">
-                <div className="overview-section-store">
-                    <div className="overview-section-type-menu-section">
-                        {widgets.map((widget) => (
-                            <div 
-                                key={widget.id}
-                                className="overview-section-item"
-                                onClick={() => handleWidgetClick(widget)}
-                            >
-                                <div className="preview">
-                                    <img 
-                                        className="overview-section-image" 
-                                        src={widget.image}
-                                        alt={widget.title}
-                                    />
-                                </div>
-                                <div className="title-wrapper">
-                                    <div className="title-and-icon-wrapper">
-                                        <div>
-                                            <span className="title">{widget.title}</span>
-                                        </div>
-                                    </div>
-                                    <div className="description">
-                                        <div className="multiline-ellipsis-component">
-                                            {widget.description}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-      
-                    <div className="overview-section-type-menu-section">
-                        <div className="overview-section-item">
-                            <div className="preview">
-                                <img 
-                                    className="overview-section-image" 
-                                    src="https://cdn.monday.com/images/column-store/overview-sections/OverviewSectionApps-icon_1-dark.png"
-                                    alt="Apps"
-                                />
-                            </div>
-                            <div className="title-wrapper">
-                                <div className="title-and-icon-wrapper">
-                                    <div>
-                                        <span className="title">Apps</span>
-                                    </div>
-                                </div>
-                                <div className="description">
-                                    <div className="multiline-ellipsis-component">
-                                        Enhance your dashboard with widgets built on the monday apps framework
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="overview-section-type-menu-section">
-                        <div className="overview-section-item more-widgets-menu-item" data-testid="more-widgets-menu-item">
-                            More widgets
-                        </div>
-                    </div>
-                </div>
+      <div className="widgets-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        {widgets.map((widget) => (
+          <div
+            key={widget.id}
+            className="widget-item"
+            onClick={() => handleWidgetClick(widget)}
+            style={{ display: 'flex', gap: '1rem', alignItems: 'center', cursor: 'pointer', padding: '0.5rem', borderRadius: '6px', transition: 'background 0.2s' }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+          >
+            <img src={widget.image} alt={widget.title} style={{ width: '40px', height: '40px' }} />
+            <div>
+              <div style={{ fontWeight: 'bold' }}>{widget.title}</div>
+              <div style={{ fontSize: '0.85rem', color: '#555' }}>{widget.description}</div>
             </div>
-        </div>
-    </div>,
-    document.body
-  );
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }

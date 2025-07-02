@@ -52,7 +52,7 @@ export function AddBoardDropdown({ onClose, onSelect, triggerRef }) {
                 <MainTableIcon />
                 <span>Table</span>
             </div>
-            <div className="dropdown-item" onClick={() => onSelect('dashboard')}>
+            <div className="dropdown-item" onClick={() => onSelect('dashboard', 'chart')}>
                 <ChartIcon />
                 <span>Chart</span>
             </div>

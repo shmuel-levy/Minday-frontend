@@ -8,6 +8,7 @@ import { login, signup } from '../store/user.actions'
 import { socketService } from '../services/socket.service'
 import mindayLogo from '../assets/img/minday-logo.png'
 import { ProfileIcon } from '../cmps/svg/ProfileIcon'
+import { UserAvatar } from '../cmps/UserAvatar'
 
 export function LoginSignup() {
     const [isSignup, setIsSignup] = useState(false)
@@ -153,7 +154,14 @@ export function LoginSignup() {
                                     {getImage() ? (
                                         <img src={getImage()} alt="User profile" />
                                     ) : (
-                                        <ProfileIcon style={{ width: 48, height: 48, color: '#b3d6f7' }} />
+                                        <UserAvatar 
+                                            user={{ 
+                                                fullname: credentials.fullName || '',
+                                                _id: 'temp-user-id'
+                                            }}
+                                            className="signup-avatar"
+                                            style={{ width: 48, height: 48, fontSize: '18px' }}
+                                        />
                                     )}
                                 </label>
 
