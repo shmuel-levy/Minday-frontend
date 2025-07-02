@@ -30,6 +30,13 @@
   gap: 16px;
 }
 
+.widget-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .text-content {
   display: flex;
   flex-direction: column;

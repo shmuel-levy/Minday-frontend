@@ -10,6 +10,7 @@ import { AdminIndex } from './pages/AdminIndex.jsx'
 
 import { BoardDetails } from './pages/BoardDetails'
 import { UserDetails } from './pages/UserDetails'
+import { Dashboard } from './pages/Dashboard'
 
 import { HomePage } from './pages/HomePage.jsx'
 import { AppHeader } from './cmps/AppHeader'
@@ -51,6 +52,7 @@ export function RootCmp() {
                                 <Routes>
                                     <Route path="board" element={<BoardIndex />} />
                                     <Route path="board/:boardId" element={<BoardDetails openTaskId={openTaskId} setOpenTaskId={setOpenTaskId} />} />
+                                    <Route path="dashboard" element={<Dashboard />} />
                                     <Route path="user/:id" element={<UserDetails />} />
                                     <Route path="chat" element={<ChatApp />} />
                                     <Route path="admin" element={

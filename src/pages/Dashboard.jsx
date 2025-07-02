@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { EmptyDashboard } from '../cmps/dashboard/EmptyDashboard';
 import { StatusChart } from '../cmps/dashboard/StatusChart';
 import { NumbersWidget } from '../cmps/dashboard/NumbersWidget';
 import { StatusBattery } from '../cmps/dashboard/BatteryWidget';
+
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -11,14 +12,13 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
   const [widgets, setWidgets] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [menuOpenId, setMenuOpenId] = useState(null);
+  const [currentSelectedWidget, setCurrentSelectedWidget] = useState(selectedWidget);
 
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (!e.target.closest('.widget-card')) setSelectedId(null);
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  // Update currentSelectedWidget when selectedWidget prop changes
+  React.useEffect(() => {
+    setCurrentSelectedWidget(selectedWidget);
+  }, [selectedWidget]);
+
 
   function addWidget(type) {
     const newWidget = {
@@ -42,14 +42,9 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
   }
 
   function handleDeleteWidget(widgetId) {
-    setWidgets((prevWidgets) => {
-      const updated = prevWidgets.filter(w => w.id !== widgetId);
-      if (updated.length === 0) {
-        setMenuOpenId(null);
-        setSelectedId(null);
-      }
-      return updated;
-    });
+    setWidgets((prevWidgets) => prevWidgets.filter(w => w.id !== widgetId));
+    setMenuOpenId(null);
+    if (selectedId === widgetId) setSelectedId(null);
   }
 
   function handleRenameWidget(widgetId) {
@@ -60,12 +55,23 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
     setMenuOpenId(null);
   }
 
-  if (widgets.length === 0 && !selectedWidget) {
-    return <EmptyDashboard onAddWidget={onAddWidget} />;
+  if (widgets.length === 0 && !currentSelectedWidget) {
+    return <EmptyDashboard onAddWidget={(type) => setCurrentSelectedWidget(type)} />;
   }
 
-  if (selectedWidget && !widgets.find(w => w.type === selectedWidget)) {
-    addWidget(selectedWidget);
+
+
+  if (currentSelectedWidget && !widgets.find(w => w.title === currentSelectedWidget)) {
+    console.log('Dashboard - currentSelectedWidget:', currentSelectedWidget);
+    // Convert title to type for widget creation
+    let widgetType = 'chart'; // default
+    if (currentSelectedWidget === 'Numbers') widgetType = 'numbers';
+    if (currentSelectedWidget === 'Battery') widgetType = 'battery';
+    if (currentSelectedWidget === 'Chart') widgetType = 'chart';
+    
+    console.log('Dashboard - adding widget with type:', widgetType);
+    addWidget(widgetType);
+    setCurrentSelectedWidget(null);
   }
 
   const totalTasks = board?.groups?.reduce((acc, group) => acc + (group.tasks?.length || 0), 0);
@@ -79,24 +85,11 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
         width={1200}
         onLayoutChange={onLayoutChange}
         draggableHandle=".drag-btn"
-        isResizable={true}
-        isBounded={true}
-        preventCollision={true}
       >
         {widgets.map(widget => (
           <div
             key={widget.id}
-            data-grid={{
-              i: widget.id,
-              x: widget.x,
-              y: widget.y,
-              w: widget.w,
-              h: widget.h,
-              minW: 3,
-              minH: 3,
-              maxW: 8,
-              maxH: 10,
-            }}
+            data-grid={{ i: widget.id, x: widget.x, y: widget.y, w: widget.w, h: widget.h }}
             className={selectedId === widget.id ? 'selected' : ''}
             onClick={e => {
               if (!e.target.closest('.drag-btn') && !e.target.closest('.menu-btn')) {
@@ -121,15 +114,17 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
                 )}
               </div>
               <div className="widget-card-divider"></div>
-              <div className="widget-content">
-                {widget.type === 'chart' && <StatusChart board={board} />}
-                {widget.type === 'numbers' && (<NumbersWidget title="Total Tasks" value={totalTasks} />)}
-                {widget.type === 'battery' && (<StatusBattery board={board} />)}
-              </div>
+                              <div className="widget-content">
+                  {widget.type === 'chart' && <StatusChart board={board} />}
+                  {widget.type === 'numbers' && <NumbersWidget title="Total Tasks" value={totalTasks} />}
+                  {widget.type === 'battery' && <StatusBattery board={board} />}
+                </div>
             </div>
           </div>
         ))}
       </ReactGridLayout>
+
+
     </div>
   );
 }

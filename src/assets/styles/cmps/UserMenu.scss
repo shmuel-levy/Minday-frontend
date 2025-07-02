@@ -1,12 +1,8 @@
 .user-menu-wrapper {
-  position: relative;
-
   .user-dropdown {
     position: absolute;
-    top: calc(100% + 10px); 
+    top: 40px; 
     right: 0; 
-    left: 50%;
-    transform: translateX(-50%);
     background-color: #fff;
     border: 1px solid #d0d4e4;
     border-radius: 12px;
@@ -14,16 +10,6 @@
     width: 260px;
     z-index: 1000;
     padding: 12px 0;
-
-    &::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    right: 16px; 
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent transparent #fff transparent;
-    }
 
     ul {
       list-style: none;

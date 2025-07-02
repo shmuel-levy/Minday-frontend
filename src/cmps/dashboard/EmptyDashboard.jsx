@@ -13,13 +13,7 @@ export function EmptyDashboard({ onAddWidget }) {
             <h3>Visualize your board data with multiple widgets</h3>
             <p>Use charts, timelines, and other widgets to get insights from this board</p>
           </div>
-          <button
-            type="button"
-            className="button-primary"
-            onClick={onAddWidget}
-          >
-            Add your first widget
-          </button>
+
         </div>
       </div>
     </div>

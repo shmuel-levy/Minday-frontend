@@ -16,6 +16,7 @@ import { ChartIcon } from '../svg/ChartIcon'
 import { KanbanIcon } from '../svg/KanbanIcon'
 import { DashboardIcon } from '../svg/DashboardIcon'
 import { StatusDistribution } from '../table/column-types/distributions/StatusDistribution'
+import { AddWidgetModal } from '../dashboard/AddWidgetModal'
 
 export function TableControls({
     onAddNewTask,
@@ -57,6 +58,8 @@ export function TableControls({
     const clearButtonClickedRef = useRef(false)
     const addViewBtnRef = useRef(null)
     const [activeFilters, setActiveFilters] = useState([]);
+    const [widgetModalPos, setWidgetModalPos] = useState(null);
+    const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
 
     const selectedPerson = members.find(m => m._id === selectedPersonId) || null;
 
@@ -160,6 +163,18 @@ export function TableControls({
         }
     }
 
+    const handleOpenWidgetModal = () => {
+        if (addWidgetBtnRef.current) {
+            const rect = addWidgetBtnRef.current.getBoundingClientRect();
+            setWidgetModalPos({
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+                width: rect.width
+            });
+            setIsWidgetModalOpen(true);
+        }
+    };
+
     return (
         <>
             <div className="table-controls" >
@@ -241,14 +256,22 @@ export function TableControls({
                     </div>
                 )}
                 {currentView === 'dashboard' && (
-                    <button
-                        ref={addWidgetBtnRef}
-                        className="btn-add-widget"
-                        onClick={() => onAddWidget(addWidgetBtnRef)}
-                    >
-                        <PlusWidget className="plus-icon" />
-                        Add Widget
-                    </button>
+                    <div className='filter-container'>
+                        <button
+                            ref={addWidgetBtnRef}
+                            className="btn-add-widget"
+                            onClick={handleOpenWidgetModal}
+                        >
+                            <PlusWidget className="plus-icon" />
+                            Add Widget
+                        </button>
+                        <AddWidgetModal
+                            isOpen={isWidgetModalOpen}
+                            onClose={() => setIsWidgetModalOpen(false)}
+                            onAddWidget={onAddWidget}
+                            anchorRef={addWidgetBtnRef}
+                        />
+                    </div>
                 )}
                 {!isSearchOpen && !searchText ? (
                     <button
