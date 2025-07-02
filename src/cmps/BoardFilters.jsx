@@ -22,19 +22,17 @@ export function BoardFilters({
           if (typeof member === 'string') return member === personId;
           return member._id === personId || member.id === personId;
         });
-        return isAssignee || isMember;
+        return isAssignee || isMember
       });
 
-      return { ...group, tasks: filteredTasks };
-    }).filter(group => group.tasks.length > 0);
-
-    return { ...board, groups: filteredGroups };
+      return { ...group, tasks: filteredTasks }
+    }).filter(group => group.tasks.length > 0)
+    return { ...board, groups: filteredGroups }
   }
 
   function filterBySearch(board, searchTerm) {
-    if (!searchTerm.trim()) return board;
-
-    const lowerSearch = searchTerm.toLowerCase();
+    if (!searchTerm.trim()) return board
+    const lowerSearch = searchTerm.toLowerCase()
 
     function clean(value) {
       if (!value) return '';

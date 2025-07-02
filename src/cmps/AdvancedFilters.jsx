@@ -94,7 +94,8 @@ function doesTaskPassAllFilters(task, filters, board) {
 const FIELD_FILTERS = {
   group: matchesGroupFilter,
   name: matchesNameFilter,
-  person: matchesPersonFilter,
+  person: matchesPersonOrPeopleFilter,
+  people: matchesPersonOrPeopleFilter,
   status: matchesStatusFilter,
   priority: matchesPriorityFilter,
   files: matchesFilesFilter,
@@ -142,19 +143,21 @@ function matchesNameFilter(task, condition, value) {
   }
 }
 
-function matchesPersonFilter(task, condition, value, board) {
+function matchesPersonOrPeopleFilter(task, condition, value, board) {
   const assigneeId = task.assignee;
+  const membersArr = Array.isArray(task.members) ? task.members : [];
+  const memberIds = membersArr.map(m => (typeof m === 'string' ? m : m._id));
   const hasAssignee = !!assigneeId;
-
+  const hasMember = memberIds.includes(value);
   switch (condition) {
     case 'is':
-      return assigneeId === value;
+      return assigneeId === value || hasMember;
     case 'is_not':
-      return assigneeId !== value;
+      return assigneeId !== value && !hasMember;
     case 'is_assigned':
-      return hasAssignee;
+      return hasAssignee || membersArr.length > 0;
     case 'is_not_assigned':
-      return !hasAssignee;
+      return !hasAssignee && membersArr.length === 0;
     default:
       return true;
   }

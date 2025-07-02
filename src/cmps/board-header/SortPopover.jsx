@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function SortPopover({
   isOpen,
@@ -11,7 +11,9 @@ export function SortPopover({
   anchorRef,
 }) {
   const popoverRef = useRef()
-  
+  const [localField, setLocalField] = useState(selectedField || '');
+  const [localDirection, setLocalDirection] = useState(sortDirection || 'asc');
+
   const SORT_FIELDS = [
     { key: 'title', label: 'Name' },
     { key: 'status', label: 'Status' },
@@ -27,6 +29,18 @@ export function SortPopover({
     { key: 'asc', label: 'Ascending' },
     { key: 'desc', label: 'Descending' },
   ];
+
+  useEffect(() => {
+    setLocalField(selectedField || '');
+    setLocalDirection(sortDirection || 'asc');
+  }, [selectedField, sortDirection, isOpen]);
+
+  useEffect(() => {
+    if (localField && localDirection) {
+      if (localField !== selectedField) onSelectField(localField);
+      if (localDirection !== sortDirection) onSelectDirection(localDirection);
+    }
+  }, [localField, localDirection]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -58,10 +72,8 @@ export function SortPopover({
         <div className="sort-popover-dropdown sort-popover-field-dropdown">
           <select
             className="sort-popover-select"
-            value={selectedField || ''}
-            onChange={e => {
-              onSelectField(e.target.value);
-            }}
+            value={localField}
+            onChange={e => setLocalField(e.target.value)}
           >
             <option value="">Choose column</option>
             {SORT_FIELDS.map(field => (
@@ -72,10 +84,8 @@ export function SortPopover({
         <div className="sort-popover-dropdown sort-popover-direction-dropdown">
           <select
             className="sort-popover-select"
-            value={sortDirection}
-            onChange={e => {
-              onSelectDirection(e.target.value);
-            }}
+            value={localDirection}
+            onChange={e => setLocalDirection(e.target.value)}
           >
             {SORT_DIRECTIONS.map(dir => (
               <option key={dir.key} value={dir.key}>{dir.label}</option>
@@ -85,5 +95,5 @@ export function SortPopover({
         <button className="sort-popover-clear" onClick={(e) => {onClear(e);}} title="Clear all" type="button">×</button>
       </div>
     </div>
-  );
+  )
 } 

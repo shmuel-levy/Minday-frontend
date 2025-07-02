@@ -214,8 +214,10 @@
       color: #323338;
     }
     &:active,
-    &.active {
-      background: #e6f0fb;
+    &.active,
+    &.selected {
+      background: #cce5ff;
+      color: #323338;
     }
     
     svg {
@@ -242,6 +244,12 @@
     }
 
     svg {
+      width: 16px;
+      height: 16px;
+      color: #676879;
+    }
+
+    .person-btn-avatar {
       width: 20px;
       height: 20px;
       color: #676879;
@@ -306,6 +314,8 @@
   .person-btn-avatar {
     border-radius: 50%;
     object-fit: cover;
+    padding: 2px;
+
   }
 
 

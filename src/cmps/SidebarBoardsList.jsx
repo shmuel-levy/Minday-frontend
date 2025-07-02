@@ -14,6 +14,8 @@ import {TrashIcon} from "./svg/TrashIcon";
 import { useBoardState } from "../customHooks/useBoardState";
 import { Modal } from "./Modal";
 import "../assets/styles/cmps/DeleteConfirmationModal.scss";
+// import { userService } from '../services/user';
+// import { canDeleteDemoData } from '../services/permission.service';
 
 export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const addBoardBtnRef = useRef(null);
   const { handleRemoveBoard } = useBoardState();
   const [pendingDeleteBoard, setPendingDeleteBoard] = useState(null);
+  // const user = userService.getLoggedinUser();
 
   if (favoritesOpen) {
     return (
@@ -117,7 +120,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
       </div>
 
       <div className="workspace-boards">
-        {boards.map((board) => (
+              {boards.map((board) => (
           <div
             key={board?._id}
             className={`board-item ${
@@ -136,6 +139,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
             </span>
           </div>
         ))}
+
       </div>
 
       <CreateBoardModal

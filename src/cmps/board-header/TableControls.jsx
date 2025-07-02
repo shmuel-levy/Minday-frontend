@@ -56,6 +56,7 @@ export function TableControls({
     const filterBtnRef = useRef(null)
     const clearButtonClickedRef = useRef(false)
     const addViewBtnRef = useRef(null)
+    const [activeFilters, setActiveFilters] = useState([]);
 
     const selectedPerson = members.find(m => m._id === selectedPersonId) || null;
 
@@ -106,7 +107,14 @@ export function TableControls({
     }
 
     const handleApplyFilters = (filters) => {
+        setActiveFilters(filters);
         onApplyFilters(filters);
+    }
+
+    const handleFilterClear = (e) => {
+        e.stopPropagation();
+        setActiveFilters([]);
+        onApplyFilters([]);
         setIsFilterPopoverOpen(false);
     }
 
@@ -152,6 +160,42 @@ export function TableControls({
                 return <MainTableIcon />
         }
     }
+
+    function getAllBoardPersons(board) {
+        const membersMap = new Map();
+        board?.members?.forEach(member => {
+            if (member._id) {
+                membersMap.set(member._id, {
+                    _id: member._id,
+                    fullname: member.fullname || member.firstName,
+                    imgUrl: member.imgUrl || member.profileImg,
+                });
+            }
+        });
+        board?.groups?.forEach(group => {
+            group.tasks?.forEach(task => {
+                if (task.assignee && !membersMap.has(task.assignee)) {
+                    membersMap.set(task.assignee, {
+                        _id: task.assignee,
+                        fullname: task.assignee,
+                    });
+                }
+                if (Array.isArray(task.members)) {
+                    task.members.forEach(m => {
+                        if (typeof m === 'string' && !membersMap.has(m)) {
+                            membersMap.set(m, { _id: m, fullname: m });
+                        } else if (m && m._id && !membersMap.has(m._id)) {
+                            membersMap.set(m._id, { _id: m._id, fullname: m.fullname || m.firstName || m._id, imgUrl: m.imgUrl || m.profileImg });
+                        }
+                    });
+                }
+            });
+        });
+        return Array.from(membersMap.values());
+    }
+
+    // במקום members מהפרופס, נשתמש בפונקציה
+    const allPersons = getAllBoardPersons(board);
 
     return (
         <div className="table-controls" >
@@ -242,15 +286,15 @@ export function TableControls({
                         Add Widget
                     </button>
                 )}
-                {!isSearchOpen ? (
+                {!isSearchOpen && !searchText ? (
                     <button
-                        className="btn-control search-btn"
+                        className={`btn-control search-btn${searchText ? ' selected' : ''}`}
                         onClick={() => setIsSearchOpen(true)}
                         type="button"
                     >
-                    <SearchIcon />
-                    Search
-                </button>
+                        <SearchIcon />
+                        Search
+                    </button>
                 ) : (
                     <div className="search-input-wrapper">
                         <SearchIcon />
@@ -311,7 +355,7 @@ export function TableControls({
                 <PersonFilterPopover
                     isOpen={isPersonPopoverOpen}
                     onClose={() => setIsPersonPopoverOpen(false)}
-                    members={members}
+                    members={allPersons}
                     selectedId={selectedPersonId}
                     onSelect={handleSelectPerson}
                     anchorRef={personBtnRef}
@@ -339,14 +383,14 @@ export function TableControls({
                             ×
                         </button>
                     )}
-                         </button>
+                </button>
                 <SortPopover
                     isOpen={isSortPopoverOpen}
                     onClose={() => setIsSortPopoverOpen(false)}
                     selectedField={selectedSortField}
-                    onSelectField={handleSortField}
+                    onSelectField={setSelectedSortField}
                     sortDirection={sortDirection}
-                    onSelectDirection={handleSortDirection}
+                    onSelectDirection={setSortDirection}
                     onClear={handleSortClear}
                     anchorRef={sortBtnRef}
                 />
@@ -354,7 +398,7 @@ export function TableControls({
 
    <div className='filter-container'>
                 <button
-                    className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
+                    className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}${activeFilters && activeFilters.length > 0 ? ' selected' : ''}`}
                     onClick={handleFilterClick}
                     aria-pressed={isFilterPopoverOpen}
                     type="button"
@@ -362,6 +406,17 @@ export function TableControls({
                 >
                     <FilterIcon />
                     Filter
+                    {activeFilters && activeFilters.length > 0 && (
+                        <button
+                            className="filter-clear-btn"
+                            onClick={handleFilterClear}
+                            tabIndex={-1}
+                            type="button"
+                            aria-label="Clear filter"
+                        >
+                            ×
+                        </button>
+                    )}
                 </button>
             
                 <FilterPopover
@@ -373,14 +428,7 @@ export function TableControls({
                 />
 
 </div>
-            {/* <button
-                className="btn-control collapse-btn"
-                onClick={onCollapseToggle}
-                type="button"
-                aria-label={isCollapsed ? "Expand header" : "Collapse header"}
-            >
-                <ArrowDownUpIcon direction={isCollapsed ? 'down' : 'up'} className="arrow-icon" />
-            </button> */}
+            
             {currentView === 'kanban' && board && board.groups && (
                 <div style={{ marginLeft: 'auto', minWidth: 180, maxWidth: 320, flex: 'none', display: 'flex', alignItems: 'center' }}>
                     <StatusDistribution tasks={board.groups.flatMap(g => g.tasks)} />

@@ -95,19 +95,26 @@ export function FilterPopover({
             });
           }
         });
-        
         board?.groups?.forEach(group => {
           group.tasks?.forEach(task => {
-            if (task.assignee) {
-              members.add({
+            if (task.assignee && !membersMap.has(task.assignee)) {
+              membersMap.set(task.assignee, {
                 key: task.assignee,
                 label: task.assignee
               });
             }
+            if (Array.isArray(task.members)) {
+              task.members.forEach(m => {
+                if (typeof m === 'string' && !membersMap.has(m)) {
+                  membersMap.set(m, { key: m, label: m });
+                } else if (m && m._id && !membersMap.has(m._id)) {
+                  membersMap.set(m._id, { key: m._id, label: m.fullname || m.firstName || m._id });
+                }
+              });
+            }
           });
         });
-        
-        return Array.from(members);
+        return Array.from(membersMap.values());
       }
     },
     status: {
@@ -203,11 +210,8 @@ export function FilterPopover({
         }
         return f;
       });
-      
-      // Apply filters immediately when user makes changes
-      const validFilters = newFilters.filter(f => f.field && f.condition);
+      const validFilters = newFilters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value));
       onApplyFilters(validFilters);
-      
       return newFilters;
     });
   }
@@ -220,11 +224,13 @@ export function FilterPopover({
       value: ''
     }]);
     onApplyFilters([]);
+    onClose();
   }
 
   function applyFilters() {
-    const validFilters = filters.filter(f => f.field && f.condition);
-    onApplyFilters(validFilters);
+    const validFilters = filters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value));
+    onApplyFilters(validFilters)
+    onClose()
   }
 
   function getValueOptions(field) {

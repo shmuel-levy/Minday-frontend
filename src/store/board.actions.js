@@ -1,3 +1,4 @@
+import { Import } from 'lucide-react'
 import { boardService } from '../services/board'
 import { store } from '../store/store.js'
 import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_BOARD_ACTIVITY } from './board.reducer.js'
@@ -5,7 +6,9 @@ import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_BOARD
 export async function loadBoards(filterBy) {
     try {
         const boards = await boardService.query(filterBy)
+        console.log('Boards loaded:', boards)
         store.dispatch(getCmdSetBoards(boards))
+        return boards
     } catch (err) {
         throw err
     }
