@@ -187,6 +187,15 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
                   profileImg: member.profileImg || member.imgUrl
                 });
               }
+              if (typeof member === 'string') {
+                allMembers.set(member, { _id: member, fullname: member });
+              }
+            });
+          }
+          if (task.assignee && !allMembers.has(task.assignee)) {
+            allMembers.set(task.assignee, {
+              _id: task.assignee,
+              fullname: task.assignee
             });
           }
         });

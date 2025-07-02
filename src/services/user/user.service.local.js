@@ -39,14 +39,16 @@ async function update({ _id, score }) {
 
 async function login(userCred) {
     const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
-
+    const user = users.find(user => user.username === userCred.username && user.password === userCred.password)
     if (user) return _saveLocalUser(user)
+    throw new Error('Invalid username or password')
 }
 
 async function signup(userCred) {
     userCred.score = 10000
-
+    const users = await storageService.query('user')
+    const exists = users.some(user => user.username === userCred.username || user.email === userCred.email)
+    if (exists) throw new Error('Username or email already exists')
     const user = await storageService.post('user', userCred)
     return _saveLocalUser(user)
 }

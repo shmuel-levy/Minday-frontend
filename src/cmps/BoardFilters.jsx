@@ -17,8 +17,12 @@ export function BoardFilters({
 
     const filteredGroups = board.groups.map(group => {
       const filteredTasks = group.tasks.filter(task => {
-        if (!task.members) return false;
-        return task.members.some(member => member._id === personId || member.id === personId);
+        const isAssignee = task.assignee === personId;
+        const isMember = Array.isArray(task.members) && task.members.some(member => {
+          if (typeof member === 'string') return member === personId;
+          return member._id === personId || member.id === personId;
+        });
+        return isAssignee || isMember;
       });
 
       return { ...group, tasks: filteredTasks };

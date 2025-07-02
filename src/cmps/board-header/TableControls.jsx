@@ -56,6 +56,7 @@ export function TableControls({
     const filterBtnRef = useRef(null)
     const clearButtonClickedRef = useRef(false)
     const addViewBtnRef = useRef(null)
+    const [activeFilters, setActiveFilters] = useState([]);
 
     const selectedPerson = members.find(m => m._id === selectedPersonId) || null;
 
@@ -106,7 +107,14 @@ export function TableControls({
     }
 
     const handleApplyFilters = (filters) => {
+        setActiveFilters(filters);
         onApplyFilters(filters);
+    }
+
+    const handleFilterClear = (e) => {
+        e.stopPropagation();
+        setActiveFilters([]);
+        onApplyFilters([]);
         setIsFilterPopoverOpen(false);
     }
 
@@ -152,6 +160,42 @@ export function TableControls({
                 return <MainTableIcon />
         }
     }
+
+    function getAllBoardPersons(board) {
+        const membersMap = new Map();
+        board?.members?.forEach(member => {
+            if (member._id) {
+                membersMap.set(member._id, {
+                    _id: member._id,
+                    fullname: member.fullname || member.firstName,
+                    imgUrl: member.imgUrl || member.profileImg,
+                });
+            }
+        });
+        board?.groups?.forEach(group => {
+            group.tasks?.forEach(task => {
+                if (task.assignee && !membersMap.has(task.assignee)) {
+                    membersMap.set(task.assignee, {
+                        _id: task.assignee,
+                        fullname: task.assignee,
+                    });
+                }
+                if (Array.isArray(task.members)) {
+                    task.members.forEach(m => {
+                        if (typeof m === 'string' && !membersMap.has(m)) {
+                            membersMap.set(m, { _id: m, fullname: m });
+                        } else if (m && m._id && !membersMap.has(m._id)) {
+                            membersMap.set(m._id, { _id: m._id, fullname: m.fullname || m.firstName || m._id, imgUrl: m.imgUrl || m.profileImg });
+                        }
+                    });
+                }
+            });
+        });
+        return Array.from(membersMap.values());
+    }
+
+    // במקום members מהפרופס, נשתמש בפונקציה
+    const allPersons = getAllBoardPersons(board);
 
     return (
         <>
@@ -243,12 +287,13 @@ export function TableControls({
                         Add Widget
                     </button>
                 )}
-                {!isSearchOpen ? (
+                {!isSearchOpen && !searchText ? (
                     <button
-                        className="btn-control search-btn"
+                        className={`btn-control search-btn${searchText ? ' selected' : ''}`}
                         onClick={() => setIsSearchOpen(true)}
                         type="button"
                     >
+                       
                         <SearchIcon />
                         Search
                     </button>
@@ -309,69 +354,80 @@ export function TableControls({
                         )}
                     </button>
 
-                    <PersonFilterPopover
-                        isOpen={isPersonPopoverOpen}
-                        onClose={() => setIsPersonPopoverOpen(false)}
-                        members={members}
-                        selectedId={selectedPersonId}
-                        onSelect={handleSelectPerson}
-                        anchorRef={personBtnRef}
-                    />
+                <PersonFilterPopover
+                    isOpen={isPersonPopoverOpen}
+                    onClose={() => setIsPersonPopoverOpen(false)}
+                    members={allPersons}
+                    selectedId={selectedPersonId}
+                    onSelect={handleSelectPerson}
+                    anchorRef={personBtnRef}
+                />
                 </div>
 
-                <div className='filter-container'>
-                    <button
-                        className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
-                        onClick={handleSortClick}
-                        aria-pressed={isSortPopoverOpen}
-                        type="button"
-                        ref={sortBtnRef}
-                    >
-                        <SortIcon />
-                        Sort
-                        {selectedSortField && (
-                            <button
-                                className="sort-clear-btn"
-                                onClick={handleSortClear}
-                                tabIndex={-1}
-                                type="button"
-                                aria-label="Clear sort"
-                            >
-                                ×
-                            </button>
-                        )}
-                    </button>
-                    <SortPopover
-                        isOpen={isSortPopoverOpen}
-                        onClose={() => setIsSortPopoverOpen(false)}
-                        selectedField={selectedSortField}
-                        onSelectField={handleSortField}
-                        sortDirection={sortDirection}
-                        onSelectDirection={handleSortDirection}
-                        onClear={handleSortClear}
-                        anchorRef={sortBtnRef}
-                    />
-                </div>
+            <div className='filter-container'>
+                <button
+                    className={`btn-control sort-btn${isSortPopoverOpen ? ' active' : ''}${selectedSortField ? ' selected' : ''}`}
+                    onClick={handleSortClick}
+                    aria-pressed={isSortPopoverOpen}
+                    type="button"
+                    ref={sortBtnRef}
+                >
+                    <SortIcon />
+                    Sort
+                    {selectedSortField && (
+                        <button
+                            className="sort-clear-btn"
+                            onClick={handleSortClear}
+                            tabIndex={-1}
+                            type="button"
+                            aria-label="Clear sort"
+                        >
+                            ×
+                        </button>
+                    )}
+                </button>
+                <SortPopover
+                    isOpen={isSortPopoverOpen}
+                    onClose={() => setIsSortPopoverOpen(false)}
+                    selectedField={selectedSortField}
+                    onSelectField={setSelectedSortField}
+                    sortDirection={sortDirection}
+                    onSelectDirection={setSortDirection}
+                    onClear={handleSortClear}
+                    anchorRef={sortBtnRef}
+                />
+            </div>
 
-                <div className='filter-container'>
-                    <button
-                        className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}`}
-                        onClick={handleFilterClick}
-                        aria-pressed={isFilterPopoverOpen}
-                        type="button"
-                        ref={filterBtnRef}
-                    >
-                        <FilterIcon />
-                        Filter
-                    </button>
-
-                    <FilterPopover
-                        isOpen={isFilterPopoverOpen}
-                        onClose={() => setIsFilterPopoverOpen(false)}
-                        onApplyFilters={handleApplyFilters}
-                        anchorRef={filterBtnRef}
-                        board={board}
-                    />
+   <div className='filter-container'>
+                <button
+                    className={`btn-control filter-btn${isFilterPopoverOpen ? ' active' : ''}${activeFilters && activeFilters.length > 0 ? ' selected' : ''}`}
+                    onClick={handleFilterClick}
+                    aria-pressed={isFilterPopoverOpen}
+                    type="button"
+                    ref={filterBtnRef}
+                >
+                    <FilterIcon />
+                    Filter
+                    {activeFilters && activeFilters.length > 0 && (
+                        <button
+                            className="filter-clear-btn"
+                            onClick={handleFilterClear}
+                            tabIndex={-1}
+                            type="button"
+                            aria-label="Clear filter"
+                        >
+                            ×
+                        </button>
+                    )}
+                </button>
+            
+                <FilterPopover
+                    isOpen={isFilterPopoverOpen}
+                    onClose={() => setIsFilterPopoverOpen(false)}
+                    onApplyFilters={handleApplyFilters}
+                    anchorRef={filterBtnRef}
+                    board={board}
+                />
 
                 </div>
                 {/* <button
