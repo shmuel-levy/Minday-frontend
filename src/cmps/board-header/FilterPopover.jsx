@@ -86,11 +86,10 @@ export function FilterPopover({
       label: 'Person',
       conditions: [...BASE_CONDITIONS, ...PERSON_SPECIAL_CONDITIONS],
       getValues: (board) => {
-        const members = new Set();
-        
+        const membersMap = new Map();
         board?.members?.forEach(member => {
           if (member._id) {
-            members.add({
+            membersMap.set(member._id, {
               key: member._id,
               label: member.fullname || member.firstName
             });
