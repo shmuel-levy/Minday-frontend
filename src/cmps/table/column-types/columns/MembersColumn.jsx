@@ -57,12 +57,18 @@ export function MembersColumn({ value = [], onUpdate }) {
             members = [...members, ...otherUsers]
         } else {
             const testUsers = [
-                { _id: 'test1', name: 'Avi Ron', color: '#0073ea' },
-                { _id: 'test2', name: 'Amit Hangel', color: '#ff9500' },
-                { _id: 'test3', name: 'Ruth Avor', color: '#00c875' },
-                { _id: 'test4', name: 'Benny Vdal', color: '#ff3333' },
-                { _id: 'test5', name: 'Eli Cupter', color: '#9333ea' },
-                { _id: 'test6', name: 'Leah Flitz', color: '#f59e0b' }
+                { _id: 'test1', name: 'Shoham Shtiler', color: '#0073ea', imgUrl: "https://res.cloudinary.com/dadlyemp7/image/upload/v1751437720/dwxc5c2zmthbj1xyi7md.jpg" }, 
+                { _id: 'test2', name: 'Agam Mor Levi', color: '#0073ea', imgUrl: "https://res.cloudinary.com/dadlyemp7/image/upload/v1751437271/q2xgh1sejmmydibxnriv.jpg" }, 
+                { _id: 'test3', name: 'Shmuel levy', color: '#0073ea', imgUrl: "https://res.cloudinary.com/dadlyemp7/image/upload/v1751436456/q9nkmgavt13efxux32fa.jpg" }, 
+
+                { _id: 'test4', name: 'Conor Oliver', color: '#0073ea', imgUrl: "https://i.pravatar.cc/40?img=60" }, 
+                { _id: 'test5', name: 'Libbie Eaton', color: '#ff9500', imgUrl: "https://i.pravatar.cc/40?img=30" },
+                { _id: 'test6', name: 'Alex Kim', color: '#00c875', imgUrl: "https://i.pravatar.cc/40?img=12" },
+                { _id: 'test7', name: 'Maya Singh', color: '#ff3333', imgUrl: "https://i.pravatar.cc/40?img=47" },
+                { _id: 'test8', name: 'Carlos Ortiz', color: '#9333ea', imgUrl: "https://i.pravatar.cc/150?img=61" },
+                { _id: 'test9', name: 'Ella Levy', color: '#f59e0b', imgUrl: "https://i.pravatar.cc/40?img=21" },
+                { _id: 'test10', name: 'Mark Brown', color: '#f59e0b', imgUrl: "https://i.pravatar.cc/40?img=64" },
+                { _id: 'test11', name: 'Rina Adler', color: '#f59e0b', imgUrl: "https://i.pravatar.cc/40?img=33" }
             ].filter(testUser => testUser._id !== currentUser?._id)
 
             members = [...members, ...testUsers]
@@ -173,7 +179,7 @@ export function MembersColumn({ value = [], onUpdate }) {
                                 <div key={member._id} className="member-row clickable"
                                     onClick={() => addMember(member)}>
                                     <div className="member-info">
-                                        <Avatar member={member} size="24px" />
+                                        <Avatar member={member} size="30px" />
                                         <span className="ds-text-component">{member.name}</span>
                                     </div>
                                 </div>

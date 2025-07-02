@@ -12,10 +12,10 @@ export function KanbanColumn({
   return (
     <div className={`kanban-column ${column.className || ''}`}>
       <div className="kanban-column-header">
-        <h3 className="kanban-column-title">
-          {column.title}
+        <div className="kanban-column-title">
+          <span className="title-column">{column.title}</span>
           <span className="kanban-column-count">{tasks.length}</span>
-        </h3>
+        </div>
       </div>
       
       <Droppable droppableId={column.id}>

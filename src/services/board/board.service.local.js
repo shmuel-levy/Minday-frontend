@@ -799,8 +799,8 @@ function getBoardsData() {
                                     createdAt: Date.now() - 6 * 60 * 60 * 1000,
                                     byMember: {
                                         _id: "u101",
-                                        fullname: "John Doe",
-                                        imgUrl: "https://i.pravatar.cc/40?img=15"
+                                        fullname: "Conor Oliver",
+                                        imgUrl: "https://i.pravatar.cc/40?img=60"
                                     }
                                 },
                                 {
@@ -1132,7 +1132,7 @@ function getBoardsData() {
     function generateUpdates(boardTitle) {
         // ─── 1. Demo users pool ────────────────────────────────────────────────
         const users = [
-            { _id: "u101", fullname: "John Doe", imgUrl: "https://i.pravatar.cc/40?img=60" },
+            { _id: "u101", fullname: "Conor Oliver", imgUrl: "https://i.pravatar.cc/40?img=60" },
             { _id: "u102", fullname: "Libbie Eaton", imgUrl: "https://i.pravatar.cc/40?img=30" },
             { _id: "u103", fullname: "Alex Kim", imgUrl: "https://i.pravatar.cc/40?img=12" },
             { _id: "u104", fullname: "Maya Singh", imgUrl: "https://i.pravatar.cc/40?img=47" },
@@ -1280,4 +1280,6 @@ export function loadBoardViews(boardId) {
     }
     return { views, activeViewId };
 }
+
+
 

@@ -19,6 +19,7 @@ import { UserMsg } from './cmps/UserMsg.jsx'
             
 import { TaskDetailModal } from './cmps/task-detail-modal/TaskDetailModal.jsx'
 import { LoginSignup } from './pages/LoginSignup.jsx'
+// import { AIBoardGenerator } from './pages/AIBoardGenerator'
 
 export function RootCmp() {
     const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false)
@@ -57,7 +58,7 @@ export function RootCmp() {
                                             <AdminIndex />
                                         </AuthGuard>
                                     } />
-                                   
+                                    {/* <Route path="ai/generator" element={<AIBoardGenerator />} /> */}
                                 </Routes>
                             </div>
                         </div>

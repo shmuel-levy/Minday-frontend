@@ -62,18 +62,18 @@
       }
 
       .view-selector-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    border: 1px solid #c3c6d4;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 40;
-    min-width: 200px;
-    overflow: hidden;
-    margin: 8px 0;
-    padding: 12px 20px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #c3c6d4;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 40;
+        min-width: 200px;
+        overflow: hidden;
+        margin: 8px 0;
+        padding: 12px 20px;
 
         .dropdown-item {
           display: flex;
@@ -100,14 +100,11 @@
             background: #f5f6f8;
           }
 
-          &.active {
+          &.active,
+          &.add-view-item {
             background-color: #cce5ff;
             font-weight: 500;
             border-radius: 4px;
-          }
-
-          &.add-view-item {
-            font-weight: 500;
           }
         }
 
@@ -128,16 +125,16 @@
       }
     }
     .add-view-dropdown {
-    position: absolute;
-    top: 52px;
-    left: 207px;
-    background: white;
-    border: 1px solid #c3c6d4;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 40;
-    min-width: 200px;
-    overflow: hidden;
+      position: absolute;
+      top: 52px;
+      left: 207px;
+      background: white;
+      border: 1px solid #c3c6d4;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 40;
+      min-width: 200px;
+      overflow: hidden;
 
       .dropdown-item {
         display: flex;
@@ -237,10 +234,19 @@
     min-width: 240px;
     transition: border-color 0.2s, box-shadow 0.2s;
 
-    &:focus-within {
+    &:focus-within,
+    &.selected {
       border-color: #0073ea;
       background-color: #cce5ff;
       box-shadow: 0 0 0 2px #e6f0fb;
+      
+      .search-input {
+        color: #323338;
+        background: transparent;
+      }
+      svg {
+        color: #323338;
+      }
     }
 
     svg {

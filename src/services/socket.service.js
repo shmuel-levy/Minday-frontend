@@ -15,8 +15,10 @@ const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
-
+const baseUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://minday-backend.onrender.com'  // your backend URL
+    : '//localhost:3030'
 export const socketService = createSocketService()
 
 window.socketService = socketService
