@@ -11,7 +11,13 @@ import { ProfileIcon } from '../cmps/svg/ProfileIcon'
 
 export function LoginSignup() {
     const [isSignup, setIsSignup] = useState(false)
-    const [credentials, setCredentials] = useState(userService.getEmptyUser())
+    const [credentials, setCredentials] = useState({
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        profileImg: ''
+    })
     const [errorMsg, setErrorMsg] = useState('')
     const navigate = useNavigate()
 
@@ -31,9 +37,9 @@ export function LoginSignup() {
 
     async function handleLogin(credentials) {
         try {
-            const user = await login(credentials)
+            const user = await login({ email: credentials.email, password: credentials.password })
             socketService.login(user._id)
-            showSuccessMsg(`Welcome back, ${user.fullName || user.email}`)
+            showSuccessMsg(`Welcome back, ${user.firstName || user.email}`)
             navigate('/board')
         } catch (err) {
             setErrorMsg(err.message || 'Could not login, try again later.')
@@ -43,8 +49,14 @@ export function LoginSignup() {
 
     async function handleSignup(credentials) {
         try {
-            const user = await signup(credentials)
-            showSuccessMsg(`Welcome, ${user.fullName || user.email}`)
+            const user = await signup({
+                email: credentials.email,
+                password: credentials.password,
+                firstName: credentials.firstName,
+                lastName: credentials.lastName,
+                profileImg: credentials.profileImg
+            })
+            showSuccessMsg(`Welcome, ${user.firstName || user.email}`)
             navigate('/board')
         } catch (err) {
             setErrorMsg(err.message || 'Could not sign-in, try again later.')
@@ -55,7 +67,7 @@ export function LoginSignup() {
     async function handleAddImage(ev) {
         try {
             const imgData = await uploadService.uploadImg(ev)
-            setCredentials(prevCreds => ({ ...prevCreds, imgUrl: imgData.url }))
+            setCredentials(prevCreds => ({ ...prevCreds, profileImg: imgData.url }))
         } catch (err) {
             console.log('Add profile image -> Has issues adding image', err)
             showErrorMsg('Could not upload your image')
@@ -63,7 +75,7 @@ export function LoginSignup() {
     }
 
     function getImage() {
-        return credentials?.imgUrl ? credentials.imgUrl : null
+        return credentials?.profileImg ? credentials.profileImg : null
     }
 
     return (
@@ -85,11 +97,11 @@ export function LoginSignup() {
 
                     <form onSubmit={handleSubmit} className="login-form flex column align-center">
                         <input
-                            type="text"
-                            name="username"
+                            type="email"
+                            name="email"
                             className="login-input"
-                            placeholder="Enter your username"
-                            value={credentials.username || ''}
+                            placeholder="Enter your email"
+                            value={credentials.email || ''}
                             onChange={handleChange}
                             required
                             autoFocus
@@ -97,16 +109,28 @@ export function LoginSignup() {
                         />
 
                         {isSignup && (
-                            <input
-                                type="text"
-                                name="fullName"
-                                className="login-input"
-                                placeholder="Enter your full name"
-                                value={credentials.fullName || ''}
-                                onChange={handleChange}
-                                required
-                                autoComplete="off"
-                            />
+                            <>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    className="login-input"
+                                    placeholder="Enter your first name"
+                                    value={credentials.firstName || ''}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="off"
+                                />
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    className="login-input"
+                                    placeholder="Enter your last name"
+                                    value={credentials.lastName || ''}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="off"
+                                />
+                            </>
                         )}
 
                         <input
@@ -119,31 +143,6 @@ export function LoginSignup() {
                             required
                             autoComplete="off"
                         />
-
-                        {isSignup && (
-                            <>
-                                <input
-                                    type="tel"
-                                    name="phoneNumber"
-                                    pattern="^05\d{8}$"
-                                    className="login-input"
-                                    placeholder="Enter your phone number (optional)"
-                                    value={credentials.phoneNumber || ''}
-                                    onChange={handleChange}
-                                    autoComplete="off"
-                                />
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="login-input"
-                                    placeholder="Enter your email address (optional)"
-                                    value={credentials.email || ''}
-                                    onChange={handleChange}
-                                    autoComplete="off"
-                                />
-                            </>
-                        )}
 
                         {isSignup && (
                             <div className="img-input-container flex align-center">
