@@ -137,7 +137,7 @@ export function TaskCard({
               </div>
             )}
 
-            {task.priority && (
+            {/* {task.priority && (
               <div className={`priorityCompactField--w32gf`} style={{position: 'relative'}}>
                 <div
                   className="priorityLabelIndication--DCHYN"
@@ -149,7 +149,7 @@ export function TaskCard({
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {task.dueDate && (
               <div className="kanban-date-display">
