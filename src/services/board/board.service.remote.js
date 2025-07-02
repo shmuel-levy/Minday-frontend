@@ -24,7 +24,8 @@ export const boardService = {
     getDemoDataBoard,
     createGroup,
     createTask,
-    getUsers
+    getUsers,
+    generateBoard
 }
 
 async function query(filterBy = { txt: '', maxMembers: 0 }) {
@@ -325,4 +326,10 @@ function createTask(title = 'New Task') {
         members: [],
         createdAt: Date.now()
     }
+}
+
+// AI Board Generator
+async function generateBoard(options) {
+    // options: { description, boardType, numGroups, numTasks, theme, language, colorPalette }
+    return httpService.post('ai/generateBoard', options);
 } 
