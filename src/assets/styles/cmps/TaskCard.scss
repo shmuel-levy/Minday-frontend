@@ -25,6 +25,12 @@
     align-items: flex-start;
     margin-bottom: 8px;
 
+    input {
+      outline: none;
+      border: 1px solid #323338;
+      border-radius: 4px;
+    }
+
     .task-title {
       font-family: 'Figtree';
       margin: 0;
@@ -32,8 +38,14 @@
       font-size: 14px;
       color: #323338;
       line-height: 1.4;
-      flex: 1;
       word-break: break-word;
+      border: 1px solid transparent;
+      padding: 0 2px 0 0;
+
+      &:hover {
+        border: 1px solid #d0d4e4;
+        border-radius: 4px;
+      }
     }
 
     .task-checked {
