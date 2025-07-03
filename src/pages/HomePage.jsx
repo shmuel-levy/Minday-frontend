@@ -18,6 +18,15 @@ import { TasksIcon } from '../cmps/svg/Homepage/TasksIcon'
 import { ProjectsIcon } from '../cmps/svg/Homepage/ProjectsIcon'
 import { SliderLeftIcon } from '../cmps/svg/Homepage/SliderLeftIcon'
 import { SliderRightIcon } from '../cmps/svg/Homepage/SliderRightIcon'
+import { AiVideoCard } from '../cmps/AiVideoCard'
+
+import aiPoster1 from '../assets/img/ai-poster-1.jpg';
+import aiPoster2 from '../assets/img/ai-poster-2.jpg';
+import aiPoster3 from '../assets/img/ai-poster-3.jpg';
+import footerLogo from '../assets/img/minday-logo-home.png';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export function HomePage() {
 
@@ -96,6 +105,29 @@ export function HomePage() {
         const rail = cardContainerRef.current;
         rail.scrollBy({ left: -600, behavior: 'smooth' });  // ⬅️ match here
     }
+
+    const aiAssets = [
+        {
+            poster: aiPoster1,
+            src: 'https://dapulse-res.cloudinary.com/video/upload/v1742978541/ai_AI_blocks.mp4',
+            title: 'AI Blocks',
+            blurb: 'Let AI run manual tasks in your workflows—so you can focus on what matters most.',
+        },
+        {
+            poster: aiPoster2,
+            src: 'https://dapulse-res.cloudinary.com/video/upload/v1742993669/ai_Digital_workforce_1.mp4',
+            title: 'Digital Workforce',
+            blurb: 'Hire an AI team of specialists to handle tasks, share insights, and keep work flowing.',
+            comingSoon: true,
+        },
+        {
+            poster: aiPoster3,
+            src: 'https://dapulse-res.cloudinary.com/video/upload/v1742819205/ai_Product_Power-ups_uiag0g.mp4',
+            title: 'Product Power-ups',
+            blurb: 'Harness AI features built to take on your team’s most complex challenges.',
+            comingSoon: true,
+        },
+    ];
 
     return (
         <>
@@ -365,7 +397,7 @@ export function HomePage() {
                             </div>
                         </div>
 
-                        
+
 
                     </div>
 
@@ -374,9 +406,57 @@ export function HomePage() {
                             <SliderRightIcon />
                         </button>
                     </div>
-
                 </div>
 
+                <div className="ai-header">
+                    <div className="ai-title">
+                        The power of AI<br />right where you work
+                    </div>
+                </div>
+
+                <div className="ai-videos-container">
+                    {aiAssets.map(card => (
+                        <div className="videos">
+                            <AiVideoCard key={card.title} {...card} />
+                        </div>
+                    ))}
+                </div>
+
+
+                <footer className="app-footer">
+                    <div className="footer-left">
+                        <img className="footer-logo" src={footerLogo} alt="Minday" />
+                        <p className="footer-desc">
+                            A collaborative project-management tool built with precision and purpose.
+                        </p>
+                    </div>
+
+                    <div className="footer-centre">
+                        <h4 className="footer-heading">Project Contributors</h4>
+
+                        <ul className="footer-team-list">
+                            <li>
+                                <a href="https://github.com/shoham-shtiler" target="_blank" rel="noreferrer">
+                                    Shoham Shtiler
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/AgamMorLevy" target="_blank" rel="noreferrer">
+                                    Agam Mor Levy
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/ShmuelLevy" target="_blank" rel="noreferrer">
+                                    Shmuel Levy
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className="footer-right">
+                        © {new Date().getFullYear()} Minday. All rights reserved.
+                    </div>
+                </footer>
             </main>
         </>
     )

@@ -14,6 +14,9 @@
     "dependencies": {
         "@codesandbox/sdk": "^2.0.0-rc.11",
         "@faker-js/faker": "^9.9.0",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/react-fontawesome": "^0.2.2",
         "@vibe/core": "^3.53.0",
         "@vibe/icons": "^1.8.0",
         "axios": "^1.5.0",
