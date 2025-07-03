@@ -5,11 +5,7 @@ export function FloatingChatIcon() {
 
     return (
         <div className="floating-chat-icon" onClick={() => navigate('/chat')}>
-            <img 
-                src="/src/assets/img/help.svg" 
-                alt="Chat" 
-                className="chat-icon"
-            />
+            <span className="help-text">Help</span>
         </div>
     )
 }

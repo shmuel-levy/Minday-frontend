@@ -36,10 +36,8 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 56px;
-    height: 56px;
     background: #0073ea;
-    border-radius: 50%;
+    border-radius: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,17 +45,21 @@
     box-shadow: 0 4px 16px rgba(0, 115, 234, 0.3);
     transition: all 0.3s ease;
     z-index: 1000;
+    padding: 12px 20px;
+    min-width: 80px;
 
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
         box-shadow: 0 6px 20px rgba(0, 115, 234, 0.4);
         background: #005bb5;
     }
 
-    .chat-icon {
-        width: 24px;
-        height: 24px;
-        filter: brightness(0) invert(1); // Makes SVG white
+    .help-text {
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 0.5px;
     }
 
     // Pulse animation
@@ -66,7 +68,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        border-radius: 28px;
         background: #0073ea;
         opacity: 0.3;
         animation: pulse 2s infinite;
