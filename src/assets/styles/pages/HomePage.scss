@@ -366,3 +366,199 @@
         }
     }
 }
+
+.title-wraper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Poppins';
+    padding-top: 64px;
+    padding-bottom: 32px;
+    max-width: 1440px;
+    margin: auto;
+
+    .main-title{ 
+    font-weight: 200;
+    font-size: 54px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: #333;
+    }
+
+    .secondary-title {
+    font-size: 18px;
+    line-height: 32px;
+    color: #333;
+    font-weight: 300;
+    }
+}
+
+.slick-slider{
+    position: relative;
+    display: block;
+    padding-bottom: 70px;
+
+
+    .prev {
+        height: 100%;
+        background: linear-gradient(270deg, rgba(255, 255, 255, 0.00) 0%, #FFF 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200px;
+        z-index: 1;
+
+        & button{
+            position: relative;
+            left: 60px;
+            top: 144px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0;
+            line-height: 0;          
+            transition: color .2s ease;
+        }
+
+        & button:hover {
+           color: white;
+        }
+
+    }
+
+    .slick-list {
+        display: flex;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        transform: translate3d(0, 0, 0);
+
+        &::before{
+            content: "";
+            display: table;
+        }
+
+        .slick-card {
+            height: 320px;
+            cursor: pointer;
+            min-width: 300px;
+            margin: 0 8px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            // background-color: #879AFF;
+
+            &.card-1{
+                 background-color: #879AFF;
+            }
+             &.card-2 {
+                background-color: #6161FF;
+            }
+            &.card-3 {
+                background-color: #24C4E6;
+            }
+             &.card-4 {
+                background-color: #FF596D;
+            }
+            &.card-5 {
+                background-color: #1F0F83;
+            }
+             &.card-6 {
+                background-color: #879AFF;
+            }
+             &.card-7 {
+                background-color: #00CA72;
+            }
+             &.card-8 {
+                background-color: #673971;
+            }
+        }
+
+        .card-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+            height: 100%;
+            justify-content: space-between;
+            padding: 30px;
+
+            picture img {
+                height: 40px;
+            }
+
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            
+            .card-title {
+                font-family: "Poppins";
+                font-size: 36px;
+                line-height: 42px;
+                font-weight: 200;
+                color: #ffffff;
+                text-align: start;
+            }
+
+            .card-subtitle {
+                margin-top: 12px;
+                color: #ffffff;
+                display: inline-block;
+                height: 16px;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                font-weight: 200;
+                line-height: 130%;
+                font-size: 16px;
+                text-align: start;
+
+                & img{ 
+                    width: auto;
+                    height: 16px;
+                    display: inline-block;
+                }
+
+            }
+        }
+
+        
+
+    }
+
+    
+
+    .next {
+        height: 100%;
+        background: linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0.00) 90.42%);
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        z-index: 1;
+
+        & button{
+            position: relative;
+            left: 60px;
+            top: 130px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0;
+            line-height: 0;          
+            transition: color .2s ease;
+        }
+
+        & button:hover {
+           color: white;
+        }
+    }
+}
