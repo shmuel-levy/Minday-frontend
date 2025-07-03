@@ -38,6 +38,7 @@ export function CreateBoardModal({isOpen, onClose, onCreateBoard}) {
         createdBy: userService.getLoggedinUser(),
         members: [userService.getLoggedinUser()],
         type: selectedType,
+        dashboardWidgets: [],
         // groups: selectedType === 'Tasks' ? [
         //     {
         //         id: makeId(),

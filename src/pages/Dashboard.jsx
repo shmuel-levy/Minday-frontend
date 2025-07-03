@@ -5,12 +5,19 @@ import { StatusChart } from '../cmps/dashboard/StatusChart';
 import { NumbersWidget } from '../cmps/dashboard/NumbersWidget';
 import { StatusBattery } from '../cmps/dashboard/BatteryWidget';
 import { FilesGalleryWidget } from '../cmps/dashboard/FilesGalleryWidget';
-
+import { useBoardState } from '../customHooks/useBoardState';
 
 const ReactGridLayout = WidthProvider(RGL);
 
 export function Dashboard({ board, selectedWidget, onAddWidget }) {
-  const [widgets, setWidgets] = useState([]);
+  const { 
+    dashboardWidgets, 
+    setDashboardWidgets, 
+    handleAddWidget, 
+    handleUpdateWidgets, 
+    handleRemoveWidget 
+  } = useBoardState(board);
+  
   const [selectedId, setSelectedId] = useState(null);
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [currentSelectedWidget, setCurrentSelectedWidget] = useState(selectedWidget);
@@ -20,47 +27,15 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
   }, [selectedWidget]);
 
   useEffect(() => {
-    if (currentSelectedWidget && !widgets.find(w => w.title === currentSelectedWidget)) {
-      let widgetType = 'chart'; 
-      let defaultWidth = 6;
-      let defaultHeight = 6;
-      
-      if (currentSelectedWidget === 'Numbers') {
-        widgetType = 'numbers';
-        defaultWidth = 8; // Larger for numbers widget
-        defaultHeight = 8;
-      } else if (currentSelectedWidget === 'Battery') {
-        widgetType = 'battery';
-        defaultWidth = 8; // Increased from 6 to 8
-        defaultHeight = 8; // Increased from 6 to 8
-      } else if (currentSelectedWidget === 'Chart') {
-        widgetType = 'chart';
-        defaultWidth = 8;
-        defaultHeight = 8;
-      } else if (currentSelectedWidget === 'Files Gallery') {
-        widgetType = 'files-gallery';
-        defaultWidth = 10; // Large widget for files gallery
-        defaultHeight = 10;
-      }
-      
-      const newWidget = {
-        id: 'w' + Date.now(),
-        type: widgetType,
-        title: currentSelectedWidget,
-        x: (widgets.length * 2) % 12,
-        y: Math.floor(widgets.length / 2) * 4,
-        w: defaultWidth,
-        h: defaultHeight,
-      };
-      
-      setWidgets(prevWidgets => [...prevWidgets, newWidget]);
+    if (currentSelectedWidget && !dashboardWidgets.find(w => w.title === currentSelectedWidget)) {
+      handleAddWidget(currentSelectedWidget);
       setCurrentSelectedWidget(null);
     }
-  }, [currentSelectedWidget, widgets]);
+  }, [currentSelectedWidget, dashboardWidgets, handleAddWidget]);
 
   function onLayoutChange(layout) {
     try {
-      const updatedWidgets = widgets.map(widget => {
+      const updatedWidgets = dashboardWidgets.map(widget => {
         const l = layout.find(item => item.i === widget.id);
         if (l) {
           // Ensure all values are valid numbers with strict validation
@@ -73,22 +48,23 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
         }
         return widget;
       });
-      setWidgets(updatedWidgets);
+      handleUpdateWidgets(updatedWidgets);
     } catch (error) {
       console.error('Error in onLayoutChange:', error);
       // If there's an error, reset to a safe state
-      setWidgets(prevWidgets => prevWidgets.map(widget => ({
+      const safeWidgets = dashboardWidgets.map(widget => ({
         ...widget,
         x: 0,
         y: 0,
         w: 4,
         h: 4
-      })));
+      }));
+      handleUpdateWidgets(safeWidgets);
     }
   }
 
   function handleDeleteWidget(widgetId) {
-    setWidgets((prevWidgets) => prevWidgets.filter(w => w.id !== widgetId));
+    handleRemoveWidget(widgetId);
     setMenuOpenId(null);
     if (selectedId === widgetId) setSelectedId(null);
   }
@@ -96,7 +72,7 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
   function handleRenameWidget(widgetId) {
     const newTitle = prompt('Enter new widget title:');
     if (newTitle) {
-      setWidgets(widgets.map(w => w.id === widgetId ? { ...w, title: newTitle } : w));
+      setDashboardWidgets(dashboardWidgets.map(w => w.id === widgetId ? { ...w, title: newTitle } : w));
     }
     setMenuOpenId(null);
   }
@@ -109,12 +85,12 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
     setSelectedId(widgetId);
   }
 
-  if (widgets.length === 0 && !currentSelectedWidget) {
+  if (dashboardWidgets.length === 0 && !currentSelectedWidget) {
     return <EmptyDashboard onAddWidget={(type) => setCurrentSelectedWidget(type)} />;
   }
 
   // Filter out any invalid widgets before rendering
-  const validWidgets = widgets.filter(widget => 
+  const validWidgets = dashboardWidgets.filter(widget => 
     widget && 
     widget.id && 
     Number.isFinite(widget.x) && 

@@ -64,7 +64,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
   const handleCreateBoardDirectly = async (boardData) => {
     try {
       const newBoard = await boardService.getDemoDataBoard();
-      const savedBoard = await addBoard({...newBoard, ...boardData});
+      const savedBoard = await addBoard({...newBoard, ...boardData, dashboardWidgets: []});
       showSuccessMsg(`Board "${savedBoard.title}" created successfully`);
       if (boardData.widgetId) {
         navigate(`/board/${savedBoard._id}?widget=${boardData.widgetId}`);
@@ -81,7 +81,7 @@ export function SidebarBoardsList({boards, favoritesOpen, onOpenBoardModal}) {
     try {
  
       const newBoard = await boardService.getDemoDataBoard();
-      const savedBoard = await addBoard({...newBoard, title, description});
+      const savedBoard = await addBoard({...newBoard, title, description, dashboardWidgets: []});
       setIsCreateModalOpen(false);
       showSuccessMsg(`Board "${savedBoard.title}" created successfully`);
       navigate(`/board/${savedBoard._id}`);
