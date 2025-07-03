@@ -308,7 +308,6 @@ export function BoardDetails({openTaskId, setOpenTaskId}) {
         ) : (
           <div className="board-dashboard-container">
             <Dashboard
-              ref={dashboardRef}
               board={board}
               selectedWidget={selectedWidget}
               onAddWidget={handleSelectWidget}
