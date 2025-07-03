@@ -4,25 +4,225 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 1rem;
-  text-align: center;
-  margin: 12px 0;
+  padding: 0.5rem;
+  gap: 0.5rem;
   width: 100%;
   box-sizing: border-box;
-  min-height: 80px;
+  overflow: auto;
+  min-height: 0;
+}
 
-  h2 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+.numbers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
+}
+
+.number-card {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e3eb;
+  transition: all 0.2s ease;
+  min-height: 50px;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-color: #0073ea;
   }
+}
 
+.number-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: white;
+  flex-shrink: 0;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  &.total {
+    background: linear-gradient(135deg, #0073ea, #0056b3);
+  }
+  
+  &.completed {
+    background: linear-gradient(135deg, #00c875, #00a870);
+  }
+  
+  &.progress {
+    background: linear-gradient(135deg, #fdba3b, #f59e0b);
+  }
+  
+  &.overdue {
+    background: linear-gradient(135deg, #e94f64, #dc2626);
+  }
+}
+
+.number-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.number-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #323338;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+  line-height: 1;
+}
+
+.number-label {
+  font-size: 0.6rem;
+  color: #676879;
+  font-weight: 500;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.completion-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  max-width: 280px;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e3eb;
+  flex-shrink: 0;
+}
+
+.rate-label {
+  font-size: 0.7rem;
+  color: #676879;
+  font-weight: 500;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+}
+
+.rate-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #323338;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+}
+
+.rate-bar {
+  width: 100%;
+  height: 4px;
+  background: #e0e3eb;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rate-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00c875, #00a870);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+// Responsive adjustments for different widget sizes
+.widget-card[data-grid*="w:6"] .numbers-widget,
+.widget-card[data-grid*="w:7"] .numbers-widget {
+  .numbers-grid {
+    max-width: 260px;
+    gap: 0.4rem;
+  }
+  
+  .number-card {
+    padding: 0.4rem;
+    min-height: 45px;
+  }
+  
+  .number-icon {
+    width: 24px;
+    height: 24px;
+    
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  
   .number-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+  }
+  
+  .number-label {
+    font-size: 0.55rem;
+  }
+  
+  .completion-rate {
+    max-width: 260px;
+    padding: 0.4rem;
+  }
+  
+  .rate-value {
+    font-size: 1.1rem;
+  }
+}
+
+.widget-card[data-grid*="w:8"] .numbers-widget,
+.widget-card[data-grid*="w:9"] .numbers-widget,
+.widget-card[data-grid*="w:10"] .numbers-widget,
+.widget-card[data-grid*="w:11"] .numbers-widget,
+.widget-card[data-grid*="w:12"] .numbers-widget {
+  padding: 1rem;
+  gap: 1rem;
+  
+  .numbers-grid {
+    max-width: 400px;
+    gap: 1rem;
+  }
+  
+  .number-card {
+    padding: 1rem;
+    min-height: 70px;
+  }
+  
+  .number-icon {
+    width: 40px;
+    height: 40px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .number-value {
+    font-size: 1.5rem;
+  }
+  
+  .number-label {
+    font-size: 0.8rem;
+  }
+  
+  .completion-rate {
+    max-width: 400px;
+    padding: 1rem;
+  }
+  
+  .rate-value {
+    font-size: 2rem;
   }
 } 

@@ -1,39 +1,159 @@
-.battery-widget {
+.battery-widget-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   padding: 1rem;
+  box-sizing: border-box;
+  overflow: auto;
+  min-height: 0;
+}
 
-  .battery-progress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 200px;
+.battery-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
 
-    .battery-bar {
-      width: 100%;
-      height: 20px;
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
+.battery-body {
+  width: 140px;
+  height: 45px;
+  background: #f0f0f0;
+  border: 3px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-      .battery-fill {
-        height: 100%;
-        border-radius: 10px;
-        transition: width 0.3s ease;
-      }
-    }
+.battery-progress-bars {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
 
-    .battery-label {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #333;
-      font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
-    }
+.progress-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+  
+  &.done {
+    background: #00c875;
+  }
+  
+  &.in-progress {
+    background: #fdba3b;
+  }
+  
+  &.stuck {
+    background: #e94f64;
+  }
+  
+  &.not-started {
+    background: #c4c4c4;
+  }
+}
+
+.battery-tip {
+  width: 8px;
+  height: 22px;
+  background: #ddd;
+  border-radius: 0 4px 4px 0;
+  position: absolute;
+  right: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.battery-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.status-battery-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.battery-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.battery-percentage-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #323338;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+}
+
+.battery-task-count {
+  font-size: 0.9rem;
+  color: #676879;
+  font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+}
+
+// Responsive adjustments for different widget sizes
+.widget-card[data-grid*="w:6"] .battery-widget-container,
+.widget-card[data-grid*="w:7"] .battery-widget-container {
+  .battery-body {
+    width: 120px;
+    height: 40px;
+  }
+  
+  .battery-percentage {
+    font-size: 11px;
+  }
+  
+  .battery-percentage-text {
+    font-size: 1.1rem;
+  }
+}
+
+.widget-card[data-grid*="w:8"] .battery-widget-container,
+.widget-card[data-grid*="w:9"] .battery-widget-container,
+.widget-card[data-grid*="w:10"] .battery-widget-container,
+.widget-card[data-grid*="w:11"] .battery-widget-container,
+.widget-card[data-grid*="w:12"] .battery-widget-container {
+  padding: 1.5rem;
+  
+  .battery-body {
+    width: 200px;
+    height: 60px;
+  }
+  
+  .battery-tip {
+    width: 10px;
+    height: 30px;
+    right: -13px;
+  }
+  
+  .battery-percentage {
+    font-size: 16px;
+  }
+  
+  .battery-percentage-text {
+    font-size: 1.6rem;
+  }
+  
+  .battery-task-count {
+    font-size: 1rem;
   }
 } 

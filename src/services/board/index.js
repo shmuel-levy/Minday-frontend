@@ -19,7 +19,8 @@ function getEmptyBoard() {
         groups: [],
         activities: [],
         type: 'Items',
-        cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"]
+        cmpsOrder: ["StatusPicker", "MemberPicker", "DatePicker"],
+        dashboardWidgets: []
     }
 }
 

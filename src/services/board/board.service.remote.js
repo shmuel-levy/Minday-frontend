@@ -25,7 +25,9 @@ export const boardService = {
     createGroup,
     createTask,
     getUsers,
-    generateBoard
+    generateBoard,
+    
+
 }
 
 async function query(filterBy = { txt: '', maxMembers: 0 }) {
@@ -170,6 +172,7 @@ function transformBoardToFrontend(board) {
     return {
         ...board,
         title: board.name || board.title, // Backend uses 'name', frontend expects 'title'
+        dashboardWidgets: board.dashboardWidgets || [],
         groups: board.groups?.map(group => ({
             ...group,
             title: group.name || group.title, // Backend uses 'name', frontend expects 'title'
@@ -191,6 +194,7 @@ function transformBoardToBackend(board) {
     const backendBoard = {
         ...board,
         name: board.title || board.name, // Frontend uses 'title', backend uses 'name'
+        dashboardWidgets: board.dashboardWidgets || [],
         groups: board.groups?.map(group => ({
             ...group,
             name: group.title || group.name // Frontend uses 'title', backend uses 'name'
@@ -254,6 +258,7 @@ function getDemoDataBoard({ title = 'New Board', type = 'Tasks', description = '
         style: {},
         labels: [],
         cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
+        dashboardWidgets: [],
         columns: [
             {
                 id: 'col-item',
@@ -332,4 +337,20 @@ function createTask(title = 'New Task') {
 async function generateBoard(options) {
     // options: { description, boardType, numGroups, numTasks, theme, language, colorPalette }
     return httpService.post('ai/generateBoard', options);
-} 
+}
+
+async function saveDashboardWidgets(boardId, widgets) {
+    const board = await getById(boardId);
+    if (!board) throw new Error('Board not found');
+    board.dashboardWidgets = widgets;
+    await save(board);
+    return board;
+}
+
+async function loadDashboardWidgets(boardId) {
+    const board = await getById(boardId);
+    if (!board) return [];
+    return board.dashboardWidgets || [];
+}
+
+ 

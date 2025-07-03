@@ -1,19 +1,38 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getRandomColor } from "../services/util.service";
 import { loadBoard, updateBoard, removeBoard as removeBoardAction } from "../store/board.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 import { boardService } from "../services/board";
 
-
 export function useBoardState(board, onAddNewTask) {
   const currentBoard =
     board || useSelector((storeState) => storeState.boardModule.board);
 
-  
-
   const [taskDrafts, setTaskDrafts] = useState({});
   const [focusTaskId, setFocusTaskId] = useState(null);
+  const [dashboardWidgets, setDashboardWidgets] = useState([]);
+
+  useEffect(() => {
+    if (currentBoard?._id) {
+      const savedWidgets = currentBoard.dashboardWidgets || [];
+      setDashboardWidgets(savedWidgets);
+    }
+  }, [currentBoard?._id, currentBoard?.dashboardWidgets]);
+
+  useEffect(() => {
+    if (!currentBoard?._id || dashboardWidgets.length === 0) return;
+    
+    const timeoutId = setTimeout(async () => {
+      try {
+        await boardService.saveDashboardWidgets(currentBoard._id, dashboardWidgets);
+      } catch (error) {
+        console.error('Error saving dashboard widgets:', error);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [dashboardWidgets, currentBoard?._id]);
 
   function handleAddNewTask() {
     let updatedBoard = { ...board };
@@ -231,6 +250,49 @@ export function useBoardState(board, onAddNewTask) {
     }
   }
 
+  function handleAddWidget(widgetType) {
+    let widgetTypeKey = 'chart'; 
+    let defaultWidth = 8;
+    let defaultHeight = 8;
+    
+    if (widgetType === 'Numbers') {
+      widgetTypeKey = 'numbers';
+      defaultWidth = 8;
+      defaultHeight = 8;
+    } else if (widgetType === 'Battery') {
+      widgetTypeKey = 'battery';
+      defaultWidth = 8;
+      defaultHeight = 8;
+    } else if (widgetType === 'Chart') {
+      widgetTypeKey = 'chart';
+      defaultWidth = 8;
+      defaultHeight = 8;
+    } else if (widgetType === 'Files Gallery') {
+      widgetTypeKey = 'files-gallery';
+      defaultWidth = 10;
+      defaultHeight = 10;
+    }
+    
+    const newWidget = {
+      id: 'w' + Date.now(),
+      type: widgetTypeKey,
+      title: widgetType,
+      x: (dashboardWidgets.length * 2) % 12,
+      y: Math.floor(dashboardWidgets.length / 2) * 4,
+      w: defaultWidth,
+      h: defaultHeight,
+    };
+    setDashboardWidgets(prev => [...prev, newWidget]);
+  }
+
+  function handleUpdateWidgets(widgets) {
+    setDashboardWidgets(widgets);
+  }
+
+  function handleRemoveWidget(widgetId) {
+    setDashboardWidgets(prev => prev.filter(w => w.id !== widgetId));
+  }
+
   return {
     board,
     updateBoard,
@@ -238,6 +300,8 @@ export function useBoardState(board, onAddNewTask) {
     setTaskDrafts,
     focusTaskId,
     setFocusTaskId,
+    dashboardWidgets,
+    setDashboardWidgets,
     handleAddNewTask,
     handleAdd,
     handleUpdateTask,
@@ -248,5 +312,8 @@ export function useBoardState(board, onAddNewTask) {
     handleDragEnd,
     handleKanbanDragEnd,
     handleRemoveBoard,
+    handleAddWidget,
+    handleUpdateWidgets,
+    handleRemoveWidget,
   };
 }

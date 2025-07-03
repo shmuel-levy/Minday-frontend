@@ -160,7 +160,9 @@ export function BoardIndex() {
                   ))
               ) : (
                 <div className="empty-state">
-                  <div className="empty-icon">📋</div>
+                  <div className="empty-icon">
+                    <BoardIcon />
+                  </div>
                   <h3>No boards yet</h3>
                   <p>Create your first board to get started</p>
                 </div>
