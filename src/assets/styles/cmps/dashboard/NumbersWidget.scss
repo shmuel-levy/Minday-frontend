@@ -186,43 +186,88 @@
 .widget-card[data-grid*="w:10"] .numbers-widget,
 .widget-card[data-grid*="w:11"] .numbers-widget,
 .widget-card[data-grid*="w:12"] .numbers-widget {
-  padding: 1rem;
-  gap: 1rem;
+  padding: 1.5rem;
+  gap: 1.5rem;
   
   .numbers-grid {
-    max-width: 400px;
-    gap: 1rem;
+    max-width: 500px;
+    gap: 1.5rem;
   }
   
   .number-card {
-    padding: 1rem;
-    min-height: 70px;
+    padding: 1.5rem;
+    min-height: 90px;
   }
   
   .number-icon {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     
     svg {
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
     }
   }
   
   .number-value {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   
   .number-label {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   
   .completion-rate {
-    max-width: 400px;
-    padding: 1rem;
+    max-width: 500px;
+    padding: 1.5rem;
   }
   
   .rate-value {
-    font-size: 2rem;
+    font-size: 2.5rem;
+  }
+}
+
+// Extra large sizes for the biggest widgets
+.widget-card[data-grid*="w:10"] .numbers-widget,
+.widget-card[data-grid*="w:11"] .numbers-widget,
+.widget-card[data-grid*="w:12"] .numbers-widget {
+  padding: 2rem;
+  gap: 2rem;
+  
+  .numbers-grid {
+    max-width: 600px;
+    gap: 2rem;
+  }
+  
+  .number-card {
+    padding: 2rem;
+    min-height: 110px;
+  }
+  
+  .number-icon {
+    width: 60px;
+    height: 60px;
+    
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  
+  .number-value {
+    font-size: 2.2rem;
+  }
+  
+  .number-label {
+    font-size: 1rem;
+  }
+  
+  .completion-rate {
+    max-width: 600px;
+    padding: 2rem;
+  }
+  
+  .rate-value {
+    font-size: 3rem;
   }
 } 

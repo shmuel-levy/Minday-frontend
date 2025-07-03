@@ -18,8 +18,8 @@
 }
 
 .battery-body {
-  width: 140px;
-  height: 45px;
+  width: 180px;
+  height: 55px;
   background: #f0f0f0;
   border: 3px solid #ddd;
   border-radius: 8px;
@@ -57,12 +57,12 @@
 }
 
 .battery-tip {
-  width: 8px;
-  height: 22px;
+  width: 10px;
+  height: 28px;
   background: #ddd;
   border-radius: 0 4px 4px 0;
   position: absolute;
-  right: -11px;
+  right: -13px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -72,13 +72,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
   z-index: 2;
   background: rgba(255, 255, 255, 0.9);
-  padding: 2px 4px;
-  border-radius: 3px;
+  padding: 3px 6px;
+  border-radius: 4px;
 }
 
 .status-battery-container {
@@ -132,28 +132,58 @@
 .widget-card[data-grid*="w:10"] .battery-widget-container,
 .widget-card[data-grid*="w:11"] .battery-widget-container,
 .widget-card[data-grid*="w:12"] .battery-widget-container {
-  padding: 1.5rem;
+  padding: 2rem;
   
   .battery-body {
-    width: 200px;
-    height: 60px;
+    width: 300px;
+    height: 90px;
   }
   
   .battery-tip {
-    width: 10px;
-    height: 30px;
-    right: -13px;
+    width: 14px;
+    height: 45px;
+    right: -17px;
   }
   
   .battery-percentage {
-    font-size: 16px;
+    font-size: 20px;
   }
   
   .battery-percentage-text {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
   
   .battery-task-count {
-    font-size: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+// Extra large sizes for the biggest widgets
+.widget-card[data-grid*="w:10"] .battery-widget-container,
+.widget-card[data-grid*="w:11"] .battery-widget-container,
+.widget-card[data-grid*="w:12"] .battery-widget-container {
+  padding: 2.5rem;
+  
+  .battery-body {
+    width: 350px;
+    height: 105px;
+  }
+  
+  .battery-tip {
+    width: 16px;
+    height: 52px;
+    right: -19px;
+  }
+  
+  .battery-percentage {
+    font-size: 22px;
+  }
+  
+  .battery-percentage-text {
+    font-size: 2rem;
+  }
+  
+  .battery-task-count {
+    font-size: 1.2rem;
   }
 } 
