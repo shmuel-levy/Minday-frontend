@@ -2,7 +2,9 @@
 .board-dropdown {
   position: absolute;
   z-index: 2000;
-  margin-top: 4px;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
   width: 422px;
   background: #ffffff;
   border-radius: 8px;
@@ -14,7 +16,7 @@
 }
 
 .board-dropdown-content {
-  padding: 16px 16px 4px 16px;
+  padding: 16px 16px 8px 16px;
 }
 
 .board-dropdown .board-header {
@@ -38,11 +40,13 @@
   outline: none;
   padding: 4px;
   border-radius: 4px;
+  background: transparent;
 }
 
 .board-dropdown .title-input:focus {
   border: 1px solid #0073ea;
   padding: 3px;
+  background: #ffffff;
 }
 
 .board-dropdown .star-btn {
@@ -52,6 +56,8 @@
   color: #d0d4e4;
   cursor: pointer;
   padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s ease;
 }
 
 .board-dropdown .star-btn:hover,
@@ -67,6 +73,7 @@
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
+  transition: background-color 0.15s ease;
 }
 
 .board-dropdown .description:hover {
@@ -105,17 +112,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
+  font-size: 14px;
 }
 
 .board-dropdown .board-info .label {
-  color: #333333;
+  color: #676879;
+  font-weight: 400;
 }
 
 .board-dropdown .board-info .value {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #333333;
+  color: #323338;
+  font-weight: 500;
 }
 
 .board-dropdown .board-info .avatar {
@@ -144,10 +154,14 @@
   border-radius: 4px;
   color: #676879;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s ease;
 }
 
 .board-dropdown .btn-cancel:hover {
   background: #f5f6f8;
+  border-color: #c3c6d4;
 }
 
 .board-dropdown .btn-save {
@@ -157,6 +171,9 @@
   border-radius: 4px;
   color: #ffffff;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
 }
 
 .board-dropdown .btn-save:hover {

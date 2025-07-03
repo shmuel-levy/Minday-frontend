@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { MainTableIcon } from '../svg/MainTableIcon'
 import { NotificationIcon } from '../svg/NotificationIcon'
+import { StarIcon } from '../svg/StarIcon'
 import { UserAvatar } from '../UserAvatar'
 
 export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anchorEl }) {
@@ -80,9 +81,13 @@ export function BoardTitleDropdown({ isOpen, onClose, board, onUpdateBoard, anch
                             maxLength={100}
                             onClick={(e) => e.stopPropagation()}
                         />
-                        <button className={`star-btn ${isFavorited ? 'starred' : ''}`} onClick={toggleFavorite}>
-                            {isFavorited ? '\u2605' : '\u2606'}
-                        </button>
+                        <StarIcon 
+                            isStarred={isFavorited} 
+                            onClick={toggleFavorite}
+                            width={18}
+                            height={18}
+                            className="star-btn"
+                        />
                     </div>
                     
                     {isEditingDescription ? (

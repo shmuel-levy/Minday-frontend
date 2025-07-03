@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router'
-import{UserAvatar } from './UserAvatar.jsx'
+import { UserAvatar } from './UserAvatar.jsx'
 import { Link } from 'react-router-dom'
+import { ProfileIcon } from './svg/ProfileIcon'
+import { SwitchAccountIcon } from './svg/SwitchAccountIcon'
+import { TrashIcon } from './svg/TrashIcon'
+import { LogoutIcon } from './svg/LogoutIcon'
 
 export function UserMenu({ user, onLogout }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,21 +37,45 @@ export function UserMenu({ user, onLogout }) {
 
       {isOpen && (
         <section className="user-dropdown">
+          <div className="dropdown-header">
+            <img 
+              className="account-logo" 
+              src="https://cdn.monday.com/images/logos/monday_logo_icon.png" 
+              alt="Logo"
+            />
+            <span className="user-name">{user?.fullname || 'Guest'}</span>
+          </div>
+          <div className="dropdown-divider"></div>
           <ul>
             <li>
-              <Link to={`/user/${user?._id || 'guest'}`}>👤 My Profile</Link>
+              <Link to={`/user/${user?._id || 'guest'}`} className="dropdown-item">
+                <ProfileIcon />
+                <span>My Profile</span>
+              </Link>
             </li>
             <li>
-              <button className="link-like-btn">🔄 Switch Account</button>
+              <button className="dropdown-item">
+                <SwitchAccountIcon />
+                <span>Switch Account</span>
+              </button>
             </li>
             <li>
-              <button className="link-like-btn">🗑️ Trash</button>
+              <button className="dropdown-item">
+                <TrashIcon />
+                <span>Trash</span>
+              </button>
             </li>
             <li>
               {user ? (
-                <button className="link-like-btn logout" onClick={onLogout}>🚪 Logout</button>
+                <button className="dropdown-item logout" onClick={onLogout}>
+                  <LogoutIcon />
+                  <span>Logout</span>
+                </button>
               ) : (
-                <Link to="/login" className="link-like-btn">🔐 Login</Link>
+                <Link to="/login" className="dropdown-item">
+                  <ProfileIcon />
+                  <span>Login</span>
+                </Link>
               )}
             </li>
           </ul>

@@ -18,18 +18,18 @@ export function AddBoardDropdown({ onClose, onSelect, triggerRef }) {
         function positionDropdown() {
             if (dropdownRef.current && triggerRef.current) {
                 const triggerRect = triggerRef.current.getBoundingClientRect();
-                const popoverWidth = dropdownRef.current.offsetWidth || 320;
+                const popoverWidth = dropdownRef.current.offsetWidth || 140;
                 setDropdownStyles({
                     position: 'fixed',
                     top: triggerRect.top + window.scrollY,
                     left: triggerRect.right + 8 + window.scrollX, 
                     zIndex: 2000,
-                    minWidth: 320,
+                    minWidth: 140,
                     background: '#fff',
-                    border: '1.5px solid #e0e1e3',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
-                    padding: '18px 20px 16px 20px',
+                    border: '1px solid #e0e1e3',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                    padding: '6px 0',
                 })
             }
         }
