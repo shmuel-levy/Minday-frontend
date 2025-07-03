@@ -69,6 +69,14 @@
 @import "cmps/HeaderActions.scss";
 @import "cmps/UserMenu.scss";
 
+// Dashboard Components
+@import "cmps/dashboard/Dashboard";
+@import "cmps/dashboard/EmptyDashboard";
+@import "cmps/dashboard/NumbersWidget";
+@import "cmps/dashboard/BatteryWidget";
+@import "cmps/dashboard/AddWidgetModal";
+@import "cmps/dashboard/StatusChart";
+
 // Kanban Components
 @import "cmps/KanbanBoard";
 @import "cmps/KanbanColumn";

@@ -14,7 +14,7 @@
     "dependencies": {
         "@codesandbox/sdk": "^2.0.0-rc.11",
         "@faker-js/faker": "^9.9.0",
-        "@vibe/core": "^3.52.1",
+        "@vibe/core": "^3.53.0",
         "@vibe/icons": "^1.8.0",
         "axios": "^1.5.0",
         "chart.js": "^4.5.0",

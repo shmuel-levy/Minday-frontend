@@ -1,0 +1,62 @@
+.dashboard-empty-state {
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  height: 80vh;
+  width: 100%;
+  position: relative;
+  
+  .empty-state-content {
+    flex-direction: column;
+    gap: var(--spacing-large, 24px);
+    padding: var(--spacing-large, 24px) 43px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    max-width: 500px;
+
+    img {
+      max-width: 200px;
+      height: auto;
+    }
+  }
+
+  .text-and-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .text-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+
+    h3 {
+      font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 700;
+      color: #323338;
+      margin: 0;
+    }
+
+    p {
+      font-family: Figtree, Roboto, "Noto Sans Hebrew", "Noto Kufi Arabic", "Noto Sans JP", sans-serif;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      color: #676879;
+      margin: 0;
+    }
+  }
+} 

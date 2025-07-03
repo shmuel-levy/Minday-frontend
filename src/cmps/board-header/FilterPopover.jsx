@@ -12,7 +12,9 @@ export function FilterPopover({
     id: Date.now(),
     field: '',
     condition: '',
-    value: ''
+    value: '',
+    startDate: '',
+    endDate: ''
   }]);
 
   const BASE_CONDITIONS = [
@@ -178,7 +180,9 @@ export function FilterPopover({
         id: Date.now(),
         field: '',
         condition: '',
-        value: ''
+        value: '',
+        startDate: '',
+        endDate: ''
       }]);
     }
   }, [isOpen, filters.length]);
@@ -188,7 +192,9 @@ export function FilterPopover({
       id: Date.now(),
       field: '',
       condition: '',
-      value: ''
+      value: '',
+      startDate: '',
+      endDate: ''
     }]);
   }
   
@@ -201,16 +207,16 @@ export function FilterPopover({
       const newFilters = prev.map(f => {
         if (f.id === filterId) {
           if (field === 'field') {
-            return { ...f, field: value, condition: '', value: '' };
+            return { ...f, field: value, condition: '', value: '', startDate: '', endDate: '' };
           } else if (field === 'condition') {
-            return { ...f, condition: value, value: '' };
+            return { ...f, condition: value, value: '', startDate: '', endDate: '' };
           } else {
             return { ...f, [field]: value };
           }
         }
         return f;
       });
-      const validFilters = newFilters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value));
+      const validFilters = newFilters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value || isTimelineFilter(f)));
       onApplyFilters(validFilters);
       return newFilters;
     });
@@ -221,14 +227,16 @@ export function FilterPopover({
       id: Date.now(),
       field: '',
       condition: '',
-      value: ''
+      value: '',
+      startDate: '',
+      endDate: ''
     }]);
     onApplyFilters([]);
     onClose();
   }
 
   function applyFilters() {
-    const validFilters = filters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value));
+    const validFilters = filters.filter(f => f.field && f.condition && (isValueDisabled(f.field, f.condition) || f.value || isTimelineFilter(f)));
     onApplyFilters(validFilters)
     onClose()
   }
@@ -255,17 +263,31 @@ export function FilterPopover({
     return !conditionOption?.requiresValue;
   }
 
+  function isTimelineFilter(filter) {
+    if (filter.field !== 'timeline') return false;
+    
+    // All timeline conditions use the value field (relative dates)
+    return filter.value && filter.value.trim() !== '';
+  }
+
   function renderFilterRow(filter) {
     const fieldConfig = FIELD_CONFIGS[filter.field];
     const conditions = fieldConfig?.conditions || [];
+    
+    // Check if this is a timeline filter with start/end conditions
+    const endConditions = ['ends_on', 'ends_after', 'ends_on_or_after', 'ends_before', 'ends_on_or_before'];
+    const startConditions = ['starts_on', 'starts_after', 'starts_on_or_after', 'starts_before'];
+    const isEndCondition = endConditions.includes(filter.condition);
+    const isStartCondition = startConditions.includes(filter.condition);
+    const isTimelineField = filter.field === 'timeline';
 
     return (
       <div key={filter.id} className="filter-row-container">
-          <div className="filter-where-label">
-      {filters[0].id === filter.id && (
-      <span>Where</span>
-      )}
-      </div>
+        <div className="filter-where-label">
+          {filters[0].id === filter.id && (
+            <span>Where</span>
+          )}
+        </div>
         <div className="filter-row">
           <div className="filter-field-selector">
             <select
@@ -298,6 +320,7 @@ export function FilterPopover({
             </select>
           </div>
           
+          {/* Show regular select for all conditions */}
           <div className="filter-value-selector">
             <select
               value={filter.value}
@@ -335,7 +358,7 @@ export function FilterPopover({
       <div className="filter-popover-header">
         <div className="filter-popover-title-container">
           <span className='title'>Advanced filters</span>
-          <span className='subTitle'>Showing all of 7 items</span>
+          <span className='subTitle'>Showing all of {board?.groups?.reduce((acc, group) => acc + (group.tasks?.length || 0), 0) || 0} items</span>
         </div>
         <div className="filter-popover-actions">
           <button 

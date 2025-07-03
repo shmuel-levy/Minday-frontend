@@ -92,15 +92,15 @@ function doesTaskPassAllFilters(task, filters, board) {
 }
 
 const FIELD_FILTERS = {
-  group: matchesGroupFilter,
-  name: matchesNameFilter,
-  person: matchesPersonOrPeopleFilter,
-  people: matchesPersonOrPeopleFilter,
-  status: matchesStatusFilter,
-  priority: matchesPriorityFilter,
-  files: matchesFilesFilter,
+  group: (task, condition, value, startDate, endDate, board) => matchesGroupFilter(task, condition, value, board),
+  name: (task, condition, value, startDate, endDate, board) => matchesNameFilter(task, condition, value),
+  person: (task, condition, value, startDate, endDate, board) => matchesPersonOrPeopleFilter(task, condition, value, board),
+  people: (task, condition, value, startDate, endDate, board) => matchesPersonOrPeopleFilter(task, condition, value, board),
+  status: (task, condition, value, startDate, endDate, board) => matchesStatusFilter(task, condition, value),
+  priority: (task, condition, value, startDate, endDate, board) => matchesPriorityFilter(task, condition, value),
+  files: (task, condition, value, startDate, endDate, board) => matchesFilesFilter(task, condition),
   timeline: matchesTimelineFilter,
-  date: matchesDateFilter,
+  date: (task, condition, value, startDate, endDate, board) => matchesDateFilter(task, condition, value),
 };
 
 function matchesFilter(task, filter, board) {
@@ -109,7 +109,7 @@ function matchesFilter(task, filter, board) {
     console.log('No filter function found for field:', filter.field);
     return true;
   }
-  return fn(task, filter.condition, filter.value, board);
+  return fn(task, filter.condition, filter.value, filter.startDate, filter.endDate, board);
 }
 
 function matchesGroupFilter(task, condition, value, board) {
@@ -210,46 +210,50 @@ function matchesFilesFilter(task, condition) {
   }
 }
 
-function matchesTimelineFilter(task, condition, value) {
-  const startDate = task.timeline?.startDate || '';
-  const endDate = task.timeline?.endDate || '';
+function matchesTimelineFilter(task, condition, value, startDate, endDate, board) {
+  const taskStartDate = task.timeline?.startDate || '';
+  const taskEndDate = task.timeline?.endDate || '';
+  
+  // All timeline conditions use the value field (relative dates)
+  if (!value) return true;
+  
   const actualValue = convertRelativeDateToActualDate(value);
-
+  
   switch (condition) {
     case 'is':
-      return startDate === actualValue || endDate === actualValue;
+      return taskStartDate === actualValue || taskEndDate === actualValue;
     case 'is_not':
-      return startDate !== actualValue && endDate !== actualValue;
+      return taskStartDate !== actualValue && taskEndDate !== actualValue;
     case 'is_empty':
-      return !startDate && !endDate;
+      return !taskStartDate && !taskEndDate;
     case 'is_not_empty':
-      return !!startDate || !!endDate;
+      return !!taskStartDate || !!taskEndDate;
     case 'starts_on':
-      return startDate === actualValue;
+      return taskStartDate === actualValue;
     case 'starts_after':
-      return startDate > actualValue;
+      return taskStartDate > actualValue;
     case 'starts_on_or_after':
-      return startDate >= actualValue;
+      return taskStartDate >= actualValue;
     case 'starts_before':
-      return startDate < actualValue;
+      return taskStartDate < actualValue;
     case 'ends_on':
-      return endDate === actualValue;
+      return taskEndDate === actualValue;
     case 'ends_after':
-      return endDate > actualValue;
+      return taskEndDate > actualValue;
     case 'ends_on_or_after':
-      return endDate >= actualValue;
+      return taskEndDate >= actualValue;
     case 'ends_before':
-      return endDate < actualValue;
+      return taskEndDate < actualValue;
     case 'ends_on_or_before':
-      return endDate <= actualValue;
+      return taskEndDate <= actualValue;
     case 'is_before':
-      return startDate < actualValue;
+      return taskStartDate < actualValue;
     case 'is_after':
-      return startDate > actualValue;
+      return taskStartDate > actualValue;
     case 'is_on_or_before':
-      return startDate <= actualValue;
+      return taskStartDate <= actualValue;
     case 'is_on_or_after':
-      return startDate >= actualValue;
+      return taskStartDate >= actualValue;
     default:
       return true;
   }

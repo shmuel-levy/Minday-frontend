@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { EmptyDashboard } from '../cmps/dashboard/EmptyDashboard';
 import { StatusChart } from '../cmps/dashboard/StatusChart';
@@ -14,24 +14,35 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [currentSelectedWidget, setCurrentSelectedWidget] = useState(selectedWidget);
 
-  // Update currentSelectedWidget when selectedWidget prop changes
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentSelectedWidget(selectedWidget);
   }, [selectedWidget]);
 
+  useEffect(() => {
+    if (currentSelectedWidget && !widgets.find(w => w.title === currentSelectedWidget)) {
+      console.log('Dashboard - currentSelectedWidget:', currentSelectedWidget);
 
-  function addWidget(type) {
-    const newWidget = {
-      id: 'w' + Date.now(),
-      type,
-      title: type.charAt(0).toUpperCase() + type.slice(1),
-      x: (widgets.length * 2) % 12,
-      y: Infinity,
-      w: 4,
-      h: 4,
-    };
-    setWidgets([...widgets, newWidget]);
-  }
+      let widgetType = 'chart'; 
+      if (currentSelectedWidget === 'Numbers') widgetType = 'numbers';
+      if (currentSelectedWidget === 'Battery') widgetType = 'battery';
+      if (currentSelectedWidget === 'Chart') widgetType = 'chart';
+      
+      console.log('Dashboard - adding widget with type:', widgetType);
+      
+      const newWidget = {
+        id: 'w' + Date.now(),
+        type: widgetType,
+        title: currentSelectedWidget,
+        x: (widgets.length * 2) % 12,
+        y: Infinity,
+        w: 4,
+        h: 4,
+      };
+      
+      setWidgets(prevWidgets => [...prevWidgets, newWidget]);
+      setCurrentSelectedWidget(null);
+    }
+  }, [currentSelectedWidget]);
 
   function onLayoutChange(layout) {
     const updatedWidgets = widgets.map(widget => {
@@ -57,21 +68,6 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
 
   if (widgets.length === 0 && !currentSelectedWidget) {
     return <EmptyDashboard onAddWidget={(type) => setCurrentSelectedWidget(type)} />;
-  }
-
-
-
-  if (currentSelectedWidget && !widgets.find(w => w.title === currentSelectedWidget)) {
-    console.log('Dashboard - currentSelectedWidget:', currentSelectedWidget);
-    // Convert title to type for widget creation
-    let widgetType = 'chart'; // default
-    if (currentSelectedWidget === 'Numbers') widgetType = 'numbers';
-    if (currentSelectedWidget === 'Battery') widgetType = 'battery';
-    if (currentSelectedWidget === 'Chart') widgetType = 'chart';
-    
-    console.log('Dashboard - adding widget with type:', widgetType);
-    addWidget(widgetType);
-    setCurrentSelectedWidget(null);
   }
 
   const totalTasks = board?.groups?.reduce((acc, group) => acc + (group.tasks?.length || 0), 0);
@@ -114,17 +110,15 @@ export function Dashboard({ board, selectedWidget, onAddWidget }) {
                 )}
               </div>
               <div className="widget-card-divider"></div>
-                              <div className="widget-content">
-                  {widget.type === 'chart' && <StatusChart board={board} />}
-                  {widget.type === 'numbers' && <NumbersWidget title="Total Tasks" value={totalTasks} />}
-                  {widget.type === 'battery' && <StatusBattery board={board} />}
-                </div>
+              <div className="widget-content">
+                {widget.type === 'chart' && <StatusChart board={board} />}
+                {widget.type === 'numbers' && <NumbersWidget title="Total Tasks" value={totalTasks} />}
+                {widget.type === 'battery' && <StatusBattery board={board} />}
+              </div>
             </div>
           </div>
         ))}
       </ReactGridLayout>
-
-
     </div>
   );
 }

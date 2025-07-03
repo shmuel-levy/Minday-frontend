@@ -1,0 +1,28 @@
+.numbers-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  margin: 12px 0;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 80px;
+
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+  }
+
+  .number-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    font-family: 'Poppins', 'Roboto', 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
+  }
+} 
