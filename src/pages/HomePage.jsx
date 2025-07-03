@@ -16,6 +16,8 @@ import { DesignIcon } from '../cmps/svg/Homepage/DesignIcon'
 import { MarketingIcon } from '../cmps/svg/Homepage/MarketingIcon'
 import { TasksIcon } from '../cmps/svg/Homepage/TasksIcon'
 import { ProjectsIcon } from '../cmps/svg/Homepage/ProjectsIcon'
+import { SliderLeftIcon } from '../cmps/svg/Homepage/SliderLeftIcon'
+import { SliderRightIcon } from '../cmps/svg/Homepage/SliderRightIcon'
 
 export function HomePage() {
 
@@ -81,6 +83,18 @@ export function HomePage() {
             }
             navigate('/board')
         }, 1000)
+    }
+
+    const cardContainerRef = useRef();
+
+    function scrollRight() {
+        const rail = cardContainerRef.current;
+        rail.scrollBy({ left: 600, behavior: 'smooth' });   // ⬅️ change this
+    }
+
+    function scrollLeft() {
+        const rail = cardContainerRef.current;
+        rail.scrollBy({ left: -600, behavior: 'smooth' });  // ⬅️ match here
     }
 
     return (
@@ -219,6 +233,148 @@ export function HomePage() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="title-wraper">
+                    <div className="main-title">Your work, elevated</div>
+                    <div className="secondary-title">One platform built for every team—what will you run?</div>
+                </div>
+
+                <div className="slick-slider">
+
+                    <div className="prev">
+                        <button onClick={scrollLeft}>
+                            <SliderLeftIcon />
+
+                        </button>
+                    </div>
+
+                    <div className="slick-list" ref={cardContainerRef} >
+
+                        <div className="slick-card card-1">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Marketing<br />& Brand</div>
+                                    <div className="card-subtitle">Launch imapctful,<br /> campaigns  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+
+
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-2" >
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Projects<br />& Tasks</div>
+                                    <div className="card-subtitle">Deliver on time,<br /> every time  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-3">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">CRM<br />& Sales</div>
+                                    <div className="card-subtitle">Focus on the most,<br /> promising deals  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/CRM-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-4">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">IT<br />& Support</div>
+                                    <div className="card-subtitle">Resolove tickets,<br /> 10 times faster  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/Service-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-5">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Operations<br />& Finance</div>
+                                    <div className="card-subtitle">Scale operations,<br /> seamlessly  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-6">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Creative<br />& Design</div>
+                                    <div className="card-subtitle">Creative work,<br /> perfectly harmonized  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-7">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Product<br />& Software</div>
+                                    <div className="card-subtitle">Amplify sprint velocity <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/DEV-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-8">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">HR<br />& Recruiting</div>
+                                    <div className="card-subtitle">Secure top talent, <br /> effortlessly <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/DEV-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-1">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Marketing<br />& Brand</div>
+                                    <div className="card-subtitle">Launch imapctful,<br /> campaigns  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+
+
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-2" >
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">Projects<br />& Tasks</div>
+                                    <div className="card-subtitle">Deliver on time,<br /> every time  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/wm-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        <div className="slick-card card-3">
+                            <div className="card-details">
+                                <div className="text-content">
+                                    <div className="card-title">CRM<br />& Sales</div>
+                                    <div className="card-subtitle">Focus on the most,<br /> promising deals  <img src=' https://dapulse-res.cloudinary.com/image/upload/v1741871808/aistars.png' /></div>
+                                </div>
+                                <picture> <img src='https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/Generator_featured%20images/Homepage%20-%202024/Products-%20logos/CRM-outline.png' /></picture>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+
+                    <div className="next">
+                        <button className="right-arrow" onClick={scrollRight}>
+                            <SliderRightIcon />
+                        </button>
+                    </div>
+
                 </div>
 
             </main>
