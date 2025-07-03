@@ -54,41 +54,56 @@ export function StatusChart({board}) {
         data: getStatusCounts(),
         backgroundColor: colors,
         borderRadius: 8,
-        barThickness: 48,
+        barThickness: 'flex',
+        maxBarThickness: 100,
       },
     ],
   };
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: { 
+        enabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: '#ddd',
+        borderWidth: 1,
+      },
     },
     scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: '#eee' }, beginAtZero: true, ticks: { stepSize: 1 } },
+      x: { 
+        grid: { display: false },
+        ticks: {
+          font: {
+            size: 12,
+            family: 'Poppins, Roboto, sans-serif'
+          },
+          color: '#676879'
+        }
+      },
+      y: { 
+        grid: { color: '#eee' }, 
+        beginAtZero: true, 
+        ticks: { 
+          stepSize: 1,
+          font: {
+            size: 12,
+            family: 'Poppins, Roboto, sans-serif'
+          },
+          color: '#676879'
+        } 
+      },
     },
   };
 
   return (
-    <section
-      className="status-chart-container"
-      style={{
-        margin: 'auto',
-        position: 'relative',
-        height: '100%',
-        width: '100%',
-        minHeight: 0,
-        minWidth: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 0,
-      }}
-    >
-      <div style={{ width: '100%', height: '100%' }}>
-        <Bar options={options} data={data} style={{ width: '100%', height: '100%' }} />
+    <section className="status-chart-container">
+      <div className="chart-wrapper">
+        <Bar options={options} data={data} />
       </div>
     </section>
   );
