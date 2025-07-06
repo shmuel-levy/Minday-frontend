@@ -16,29 +16,27 @@ Minday is a sophisticated work management platform inspired by Monday.com and As
 ## 📸 Screenshots
 
 ### 🏠 Homepage
-![Homepage]<img width="947" alt="homepage png" src="https://github.com/user-attachments/assets/55fd7c21-66e7-436f-9b9f-db038f6942f4" />
+<img width="947" alt="homepage png" src="https://github.com/user-attachments/assets/55fd7c21-66e7-436f-9b9f-db038f6942f4" />
+<img width="949" alt="homepage-recentboards png" src="https://github.com/user-attachments/assets/9ca864b9-e3f2-4e9f-a2a0-a612573f21e6" />
+
 *Landing page with feature showcase and AI-powered demonstrations*
 
 
 ### 📊 Table View
-![Table View](screenshots/table-view.png)
+<img width="956" alt="table-view png" src="https://github.com/user-attachments/assets/cea6556a-cdc0-484f-adf9-12cbe17c5518" />
+
 *Spreadsheet-like interface with drag-and-drop functionality and advanced filtering*
 
 ### 🎯 Kanban Board
-![Kanban View](screenshots/kanban-view.png)
+<img width="952" alt="kanban-view png" src="https://github.com/user-attachments/assets/e8b54ede-13ce-4463-8942-d42d4405c057" />
+
 *Visual board with customizable columns and status tracking*
 
 ### 📈 Dashboard Analytics
-![Dashboard](screenshots/dashboard.png)
+<img width="943" alt="dashboard png" src="https://github.com/user-attachments/assets/b1446cea-76f4-485a-8b22-bef30ca4f33c" />
+
 *Customizable widgets with real-time analytics and data visualization*
 
-### 💬 Real-time Chat
-![Chat Interface](screenshots/chat.png)
-*Team communication with topic-based channels and automated responses*
-
-### 📱 Responsive Design
-![Mobile View](screenshots/mobile-view.png)
-*Mobile-friendly interface with touch-optimized interactions*
 
 ## ✨ Key Features
 
