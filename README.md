@@ -11,7 +11,7 @@ A comprehensive, production-ready work management application built with React, 
 
 ## 🎯 Overview
 
-Minday is a sophisticated work management platform inspired by Monday.com and Asana, designed to streamline team collaboration and project management. Built with modern React patterns and real-time capabilities, it provides a comprehensive solution for teams to organize, track, and visualize their work.
+Minday is a sophisticated work management platform inspired by Monday.com, designed to streamline team collaboration and project management. Built with modern React patterns and real-time capabilities, it provides a comprehensive solution for teams to organize, track, and visualize their work.
 
 ## 📸 Screenshots
 
