@@ -218,11 +218,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Advanced automation workflows
 - [ ] Enhanced security features
 
-## 📞 Contact
-
-- **Portfolio**: [Your Portfolio URL]
-- **LinkedIn**: [Your LinkedIn]
-- **Email**: [Your Email]
 
 ---
 
