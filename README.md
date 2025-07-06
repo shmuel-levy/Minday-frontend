@@ -16,8 +16,9 @@ Minday is a sophisticated work management platform inspired by Monday.com and As
 ## 📸 Screenshots
 
 ### 🏠 Homepage
-![Homepage](screenshots/homepage.png)
+![Homepage]<img width="947" alt="homepage png" src="https://github.com/user-attachments/assets/55fd7c21-66e7-436f-9b9f-db038f6942f4" />
 *Landing page with feature showcase and AI-powered demonstrations*
+
 
 ### 📊 Table View
 ![Table View](screenshots/table-view.png)
