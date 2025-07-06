@@ -252,7 +252,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Built with ❤️ using React, Redux, and modern web technologies**
 
 *This project demonstrates advanced React development skills, modern UI/UX design principles, and comprehensive feature implementation suitable for enterprise-level applications.*
-
----
-
-© 2025 Created by Shmuel Levy, Agam Mor Levi, Shoham Shtiler
