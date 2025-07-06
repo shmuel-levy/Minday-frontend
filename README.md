@@ -1,5 +1,7 @@
 # 🚀 Minday - Modern Work Management Platform
 
+[🌐 Live Website](https://minday.onrender.com/)
+
 A comprehensive, production-ready work management application built with React, featuring real-time collaboration, multiple view types, and advanced task management capabilities.
 
 ![Minday Platform](https://img.shields.io/badge/React-18.2.0-blue?style=for-the-badge&logo=react)
@@ -10,6 +12,32 @@ A comprehensive, production-ready work management application built with React, 
 ## 🎯 Overview
 
 Minday is a sophisticated work management platform inspired by Monday.com and Asana, designed to streamline team collaboration and project management. Built with modern React patterns and real-time capabilities, it provides a comprehensive solution for teams to organize, track, and visualize their work.
+
+## 📸 Screenshots
+
+### 🏠 Homepage
+![Homepage](screenshots/homepage.png)
+*Landing page with feature showcase and AI-powered demonstrations*
+
+### 📊 Table View
+![Table View](screenshots/table-view.png)
+*Spreadsheet-like interface with drag-and-drop functionality and advanced filtering*
+
+### 🎯 Kanban Board
+![Kanban View](screenshots/kanban-view.png)
+*Visual board with customizable columns and status tracking*
+
+### 📈 Dashboard Analytics
+![Dashboard](screenshots/dashboard.png)
+*Customizable widgets with real-time analytics and data visualization*
+
+### 💬 Real-time Chat
+![Chat Interface](screenshots/chat.png)
+*Team communication with topic-based channels and automated responses*
+
+### 📱 Responsive Design
+![Mobile View](screenshots/mobile-view.png)
+*Mobile-friendly interface with touch-optimized interactions*
 
 ## ✨ Key Features
 
@@ -224,3 +252,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Built with ❤️ using React, Redux, and modern web technologies**
 
 *This project demonstrates advanced React development skills, modern UI/UX design principles, and comprehensive feature implementation suitable for enterprise-level applications.*
+
+---
+
+© 2024 Created by Shmuel Levy, Agam Mor Levi, Shoham Shtiler
