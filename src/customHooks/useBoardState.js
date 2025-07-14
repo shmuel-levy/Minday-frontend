@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { getRandomColor } from "../services/util.service";
-import { loadBoard, updateBoard, removeBoard as removeBoardAction } from "../store/board.actions";
+import { loadBoard, updateBoard, removeBoard as removeBoardAction, saveDashboardWidgets } from "../store/board.actions";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
 import { boardService } from "../services/board";
 
@@ -12,27 +12,47 @@ export function useBoardState(board, onAddNewTask) {
   const [taskDrafts, setTaskDrafts] = useState({});
   const [focusTaskId, setFocusTaskId] = useState(null);
   const [dashboardWidgets, setDashboardWidgets] = useState([]);
+  const isSavingRef = useRef(false);
 
   useEffect(() => {
-    if (currentBoard?._id) {
+    if (currentBoard?._id && !isSavingRef.current) {
       const savedWidgets = currentBoard.dashboardWidgets || [];
-      setDashboardWidgets(savedWidgets);
+      // Only update if the widgets are actually different
+      const currentWidgetsString = JSON.stringify(dashboardWidgets);
+      const savedWidgetsString = JSON.stringify(savedWidgets);
+      if (currentWidgetsString !== savedWidgetsString) {
+        console.log('Loading widgets from board:', savedWidgets);
+        setDashboardWidgets(savedWidgets);
+      }
     }
   }, [currentBoard?._id, currentBoard?.dashboardWidgets]);
 
   useEffect(() => {
     if (!currentBoard?._id || dashboardWidgets.length === 0) return;
     
+    // Don't save if the widgets are the same as what's already in the board
+    const currentBoardWidgets = currentBoard?.dashboardWidgets || [];
+    const currentWidgetsString = JSON.stringify(dashboardWidgets);
+    const boardWidgetsString = JSON.stringify(currentBoardWidgets);
+    if (currentWidgetsString === boardWidgetsString) {
+      return;
+    }
+    
     const timeoutId = setTimeout(async () => {
       try {
-        await boardService.saveDashboardWidgets(currentBoard._id, dashboardWidgets);
+        console.log('Saving dashboard widgets:', dashboardWidgets);
+        isSavingRef.current = true;
+        await saveDashboardWidgets(currentBoard._id, dashboardWidgets);
+        console.log('Successfully saved dashboard widgets');
       } catch (error) {
         console.error('Error saving dashboard widgets:', error);
+      } finally {
+        isSavingRef.current = false;
       }
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [dashboardWidgets, currentBoard?._id]);
+  }, [dashboardWidgets, currentBoard?._id, currentBoard?.dashboardWidgets]);
 
   function handleAddNewTask() {
     let updatedBoard = { ...board };
@@ -251,6 +271,7 @@ export function useBoardState(board, onAddNewTask) {
   }
 
   function handleAddWidget(widgetType) {
+    console.log('handleAddWidget called with:', widgetType);
     let widgetTypeKey = 'chart'; 
     let defaultWidth = 8;
     let defaultHeight = 8;
@@ -282,6 +303,7 @@ export function useBoardState(board, onAddNewTask) {
       w: defaultWidth,
       h: defaultHeight,
     };
+    console.log('Adding new widget:', newWidget);
     setDashboardWidgets(prev => [...prev, newWidget]);
   }
 
