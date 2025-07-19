@@ -38,6 +38,9 @@ export const boardService = {
     verifyKanbanPersistence,
     saveBoardViews,
     loadBoardViews,
+    // Dashboard Widgets
+    saveDashboardWidgets,
+    loadDashboardWidgets,
 }
 
 const gBoards = getBoardsData()
@@ -1279,6 +1282,32 @@ export function loadBoardViews(boardId) {
         }
     }
     return { views, activeViewId };
+}
+
+// Dashboard Widgets functions for local service
+async function saveDashboardWidgets(boardId, dashboardWidgets) {
+    try {
+        const board = await getById(boardId);
+        if (!board) throw new Error('Board not found');
+        
+        const updatedBoard = { ...board, dashboardWidgets };
+        const savedBoard = await save(updatedBoard);
+        return savedBoard;
+    } catch (error) {
+        console.error('Error saving dashboard widgets:', error);
+        throw error;
+    }
+}
+
+async function loadDashboardWidgets(boardId) {
+    try {
+        const board = await getById(boardId);
+        if (!board) return [];
+        return board.dashboardWidgets || [];
+    } catch (error) {
+        console.error('Error loading dashboard widgets:', error);
+        return [];
+    }
 }
 
 
