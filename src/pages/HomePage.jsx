@@ -436,17 +436,17 @@ export function HomePage() {
 
                         <ul className="footer-team-list">
                             <li>
-                                <a href="https://github.com/shoham-shtiler" target="_blank" rel="noreferrer">
+                                <a href="https://github.com/ShohamShtiler" target="_blank" rel="noreferrer">
                                     Shoham Shtiler
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/AgamMorLevy" target="_blank" rel="noreferrer">
+                                <a href="https://github.com/AgamMorLevi" target="_blank" rel="noreferrer">
                                     Agam Mor Levy
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/ShmuelLevy" target="_blank" rel="noreferrer">
+                                <a href="https://github.com/shmuel-levy" target="_blank" rel="noreferrer">
                                     Shmuel Levy
                                 </a>
                             </li>
