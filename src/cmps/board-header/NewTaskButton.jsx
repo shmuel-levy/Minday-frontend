@@ -78,7 +78,7 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                 {getButtonLabel()}
             </button>
             
-            {/* Dropdown Arrow Button */}
+         
             <button 
                 className="btn-new-task-dropdown"
                 onClick={handleDropdownToggle}
@@ -86,7 +86,7 @@ export function NewTaskButton({ onAddTask, onAddNewGroup, boardType = 'Items' })
                 <DropdownArrowIcon />
             </button>
 
-            {/* Dropdown Menu */}
+           
             {showDropdown && (
                 <div 
                     className="new-task-dropdown" 

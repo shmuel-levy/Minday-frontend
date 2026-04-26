@@ -27,7 +27,9 @@ export const boardService = {
     getUsers,
     generateBoard,
     
-
+    // Dashboard Widgets
+    saveDashboardWidgets,
+    loadDashboardWidgets,
 }
 
 async function query(filterBy = { txt: '', maxMembers: 0 }) {
@@ -339,12 +341,14 @@ async function generateBoard(options) {
     return httpService.post('ai/generateBoard', options);
 }
 
-async function saveDashboardWidgets(boardId, widgets) {
-    const board = await getById(boardId);
-    if (!board) throw new Error('Board not found');
-    board.dashboardWidgets = widgets;
-    await save(board);
-    return board;
+async function saveDashboardWidgets(boardId, dashboardWidgets) {
+    try {
+        const response = await httpService.put(`board/${boardId}/dashboard-widgets`, { dashboardWidgets })
+        return response.data
+    } catch (error) {
+        console.error('Error saving dashboard widgets:', error)
+        throw error
+    }
 }
 
 async function loadDashboardWidgets(boardId) {

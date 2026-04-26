@@ -228,3 +228,15 @@ export async function getTaskActivities(boardId, taskId) {
         throw err
     }
 }
+
+export async function saveDashboardWidgets(boardId, dashboardWidgets) {
+    try {
+        const updatedBoard = await boardService.saveDashboardWidgets(boardId, dashboardWidgets)
+        // Don't update the store immediately to prevent infinite loop
+        // The board will be updated when the user navigates or refreshes
+        return updatedBoard
+    } catch (error) {
+        console.error('Failed to save dashboard widgets:', error)
+        throw error
+    }
+}
