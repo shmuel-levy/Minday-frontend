@@ -107,7 +107,7 @@ Minday is a sophisticated work management platform inspired by Monday.com, desig
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/minday-frontend.git
+   git clone https://github.com/shmuel-levy/Minday-frontend.git
    cd minday-frontend
    ```
 
